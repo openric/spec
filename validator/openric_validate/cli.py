@@ -125,6 +125,9 @@ _SCHEMA_BY_TYPE = {
     "Family":        "agent.schema.json",
     "Place":         "place.schema.json",
     "Instantiation": "instantiation.schema.json",
+    "Production":    "activity.schema.json",
+    "Accumulation":  "activity.schema.json",
+    "Activity":      "activity.schema.json",
 }
 
 
@@ -241,17 +244,24 @@ def _severity_from_block(block: str) -> Severity:
 
 
 def _split_pyshacl_results(text: str) -> list[str]:
-    """Split pyshacl's human-readable report into per-violation blocks."""
-    if "Constraint Violation" not in text:
+    """Split pyshacl's human-readable report into per-finding blocks.
+
+    pyshacl uses either 'Constraint Violation in ...' or 'Validation Result in ...'
+    as the start-of-finding marker. Blocks without a 'Severity:' line are
+    dropped — they are report preambles ('Validation Report', 'Conforms: X',
+    'Results (N):'), not findings.
+    """
+    markers = ("Constraint Violation ", "Validation Result ")
+    if not any(m in text for m in markers):
         return [text]
-    blocks = []
+    blocks: list[str] = []
     current: list[str] = []
     for line in text.splitlines():
-        if line.startswith("Constraint Violation") and current:
+        if any(line.startswith(m) for m in markers) and current:
             blocks.append("\n".join(current))
             current = [line]
         else:
             current.append(line)
     if current:
         blocks.append("\n".join(current))
-    return blocks
+    return [b for b in blocks if "Severity:" in b]

@@ -176,15 +176,17 @@
     sh:targetClass rico:Production ;
     sh:name "Production Activity Validation" ;
 
+    # rico:resultsOrResultedIn is recommended but not required at v0.1 —
+    # many implementations emit the back-link from the Record instead, or
+    # leave cross-entity links to full-graph validation (see full-graph.shacl.ttl).
     sh:property [
         sh:path rico:resultsOrResultedIn ;
-        sh:minCount 1 ;
-        sh:message "Production must result in at least one record"
+        sh:severity sh:Warning ;
+        sh:message "Production should result in at least one record"
     ] ;
 
     sh:property [
         sh:path rico:hasOrHadParticipant ;
-        sh:minCount 1 ;
         sh:severity sh:Warning ;
         sh:message "Production should have at least one participant (creator)"
     ] ;
@@ -202,8 +204,8 @@
 
     sh:property [
         sh:path rico:resultsOrResultedIn ;
-        sh:minCount 1 ;
-        sh:message "Accumulation must result in at least one record"
+        sh:severity sh:Warning ;
+        sh:message "Accumulation should result in at least one record"
     ] .
 
 

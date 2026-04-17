@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openric.org/schemas/v0.1.0/activity.schema.json",
+  "title": "OpenRiC Activity response",
+  "description": "Validates a single /activities/{id} response. Covers rico:Production, rico:Accumulation, and rico:Activity (the generic superclass, used when type_id does not fit the more specific subclasses).",
+
+  "type": "object",
+  "required": ["@id", "@type"],
+
+  "properties": {
+    "@context": {
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+
+    "@id": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "@type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(rico:(Production|Accumulation|Activity)|https://www\\.ica\\.org/standards/RiC/ontology#(Production|Accumulation|Activity))$"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(rico:(Production|Accumulation|Activity)|https://www\\.ica\\.org/standards/RiC/ontology#(Production|Accumulation|Activity))$"
+          },
+          "minItems": 1
+        }
+      ]
+    },
+
+    "rico:name":          { "$ref": "#/$defs/langString" },
+    "rico:description":   { "$ref": "#/$defs/langString" },
+    "openric:localType":  { "type": "string" },
+
+    "rico:isOrWasAssociatedWithDate": {
+      "oneOf": [
+        { "$ref": "#/$defs/dateRange" },
+        { "type": "array", "items": { "$ref": "#/$defs/dateRange" } }
+      ]
+    },
+
+    "rico:hasOrHadLocation": {
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "object",
+          "properties": {
+            "@id":       { "type": "string", "format": "uri" },
+            "@type":     { "type": "string" },
+            "rico:name": { "$ref": "#/$defs/langString" }
+          }
+        }
+      ]
+    },
+
+    "rico:hasOrHadParticipant": { "type": ["array", "object"] },
+    "rico:resultsOrResultedIn": { "type": ["array", "object", "string"] },
+    "rico:hasActivityType":     { "type": "string" }
+  },
+
+  "additionalProperties": true,
+
+  "$defs": {
+    "langString": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["@value"],
+          "properties": {
+            "@value":    { "type": "string" },
+            "@language": { "type": "string" }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["@value"],
+                "properties": {
+                  "@value":    { "type": "string" },
+                  "@language": { "type": "string" }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "@type":                 { "type": "string" },
+        "rico:beginningDate":    { "type": ["string", "object"] },
+        "rico:endDate":          { "type": ["string", "object"] },
+        "rico:startDate":        { "type": ["string", "object"] },
+        "rico:expressedDate":    { "type": ["string", "object"] },
+        "rico:normalizedDate":   { "type": "string" }
+      }
+    }
+  }
+}
