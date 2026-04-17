@@ -1,7 +1,6 @@
 title: OpenRiC
 description: An open specification for Records in Contexts — mapping, viewing API, and graph primitives.
 url: https://openric.org
-theme: jekyll-theme-minimal
 markdown: kramdown
 highlighter: rouge
 
