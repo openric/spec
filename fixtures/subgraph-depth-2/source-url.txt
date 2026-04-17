@@ -1,0 +1,1 @@
+https://heratio.theahg.co.za/api/ric/v1/graph?uri=https://heratio.theahg.co.za/informationobject/egyptian-boat&depth=2

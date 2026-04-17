@@ -132,6 +132,7 @@ _SCHEMA_BY_TYPE = {
     "Rule":          "rule.schema.json",
     "Mandate":       "rule.schema.json",
     "Subgraph":      "subgraph.schema.json",
+    "Vocabulary":    "vocabulary.schema.json",
 }
 
 

@@ -1,0 +1,26 @@
+{
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "https://heratio.theahg.co.za/instantiation/910871",
+  "@type": "rico:Instantiation",
+  "rico:identifier": "marble_statue_ultra_high_res.tiff",
+  "rico:title": "marble_statue_ultra_high_res.tiff",
+  "rico:description": "MIME: image/tiff | Size: 73735.3 KB",
+  "rico:hasMimeType": "image/tiff",
+  "rico:hasCarrierType": "digital",
+  "rico:hasExtent": {
+    "@type": "rico:Extent",
+    "rico:quantity": 75504986,
+    "rico:extentType": "bytes"
+  },
+  "rico:technicalCharacteristics": "Checksum (sha256): b4156fc402504b621b0579635162f887ddd131045ee6eaa67c7c4b4a2d4e890f",
+  "rico:isInstantiationOf": {
+    "@id": "https://heratio.theahg.co.za/informationobject/title-of-object",
+    "@type": "rico:Record",
+    "rico:title": "Title of object"
+  }
+}

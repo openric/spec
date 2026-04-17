@@ -1,0 +1,19 @@
+{
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "https://heratio.theahg.co.za/activity/910441",
+  "@type": "rico:Accumulation",
+  "rico:name": "Accumulation",
+  "openric:localType": "accumulation",
+  "rico:isOrWasAssociatedWithDate": {
+    "@type": "rico:DateRange",
+    "rico:beginningDate": {
+      "@value": "1995-01-01",
+      "@type": "xsd:date"
+    }
+  }
+}

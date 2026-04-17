@@ -1,0 +1,84 @@
+{
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@type": "ric:Vocabulary",
+  "classes": [
+    {
+      "@id": "rico:Agent",
+      "rdfs:label": "Agent"
+    },
+    {
+      "@id": "rico:Person",
+      "rdfs:label": "Person"
+    },
+    {
+      "@id": "rico:CorporateBody",
+      "rdfs:label": "Corporate Body"
+    },
+    {
+      "@id": "rico:Family",
+      "rdfs:label": "Family"
+    },
+    {
+      "@id": "rico:Function",
+      "rdfs:label": "Function"
+    },
+    {
+      "@id": "rico:Record",
+      "rdfs:label": "Record"
+    },
+    {
+      "@id": "rico:RecordSet",
+      "rdfs:label": "Record Set"
+    },
+    {
+      "@id": "rico:RecordPart",
+      "rdfs:label": "Record Part"
+    },
+    {
+      "@id": "rico:Instantiation",
+      "rdfs:label": "Instantiation"
+    },
+    {
+      "@id": "rico:Place",
+      "rdfs:label": "Place"
+    },
+    {
+      "@id": "rico:Activity",
+      "rdfs:label": "Activity"
+    }
+  ],
+  "properties": [
+    {
+      "@id": "rico:name",
+      "rdfs:label": "Name"
+    },
+    {
+      "@id": "rico:identifier",
+      "rdfs:label": "Identifier"
+    },
+    {
+      "@id": "rico:hasDateRangeSet",
+      "rdfs:label": "Has Date Range Set"
+    },
+    {
+      "@id": "rico:hasCreator",
+      "rdfs:label": "Has Creator"
+    },
+    {
+      "@id": "rico:heldBy",
+      "rdfs:label": "Held By"
+    },
+    {
+      "@id": "rico:hasInstantiation",
+      "rdfs:label": "Has Instantiation"
+    },
+    {
+      "@id": "rico:hasSubject",
+      "rdfs:label": "Has Subject"
+    }
+  ]
+}
