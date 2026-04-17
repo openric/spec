@@ -15,17 +15,18 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 
 ## Where we are
 
-**Current release: v0.2.0** &middot; **Status: draft, open for review** &middot; Last update: 2026-04-17
+**Current release: v0.1.0** &middot; **Status: draft, open for review** &middot; Last update: 2026-04-17
 
 | Component | Status |
 |---|---|
-| Four specification documents (mapping, viewing API, graph primitives, conformance) | ✓ Drafts published |
-| JSON Schemas (`record`, `agent`) | ✓ Live, validate real responses |
-| SHACL shape file (`openric.shacl.ttl`) | ✓ Core RiC-O shapes |
-| Validator CLI (`openric-validate`) | ✓ Alpha — schema + SHACL checks working |
-| Conformance fixture pack | 1 of 20 published |
-| Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ First endpoint fully green: `/agents/{slug}` |
-| Frozen v0.1.0 release | ⏳ Pending fixture pack + CI |
+| Four specification documents (mapping, viewing API, graph primitives, conformance) | ✓ Published |
+| JSON Schemas (12) | ✓ All entity responses + list + error + service-description |
+| SHACL shape files (core + full-graph) | ✓ 254 + 31 triples |
+| Validator CLI (`openric-validate`) | ✓ Schema + SHACL + graph-invariant checks |
+| Conformance fixture pack | ✓ 20 canonical fixtures |
+| Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ 8 endpoint types live-validate |
+| CI — unit tests, schema well-formedness, SHACL parse, Markdown links | ✓ GitHub Actions green |
+| **Frozen v0.1.0 release** | **✓ Tagged** — see [CHANGELOG](https://github.com/ArchiveHeritageGroup/openric-spec/blob/main/CHANGELOG.md) |
 
 ---
 
