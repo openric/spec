@@ -12,11 +12,11 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 <div class="demo-controls">
   <label for="demo-example">Try:</label>
   <select id="demo-example">
-    <option value="https://heratio.theahg.co.za/informationobject/egyptian-boat">Egyptian Boat (RecordSet)</option>
-    <option value="https://heratio.theahg.co.za/informationobject/kc4x-45tz-em84">Demo fonds with children</option>
-    <option value="https://heratio.theahg.co.za/actor/d6mh-ktzy-h6qz">An Agent</option>
-    <option value="https://heratio.theahg.co.za/place/912150">A Place (Egypt, country)</option>
-    <option value="https://heratio.theahg.co.za/actor/south-african-heritage-foundation">A Corporate Body</option>
+    <option value="https://heratio.theahg.co.za/informationobject/egyptian-boat">Egyptian Boat — RecordSet w/ subjects</option>
+    <option value="https://heratio.theahg.co.za/informationobject/cat-in-arms">Cat in Arms — multilingual Record</option>
+    <option value="https://heratio.theahg.co.za/actor/binneman-family">Binneman Family — Agent w/ creator events</option>
+    <option value="https://heratio.theahg.co.za/actor/mobrey-family">Mobrey Family — Agent</option>
+    <option value="https://heratio.theahg.co.za/place/912150">Egypt — Place</option>
   </select>
 
   <input id="demo-uri" type="text" placeholder="Or paste any Heratio entity URI…" />
