@@ -13,6 +13,42 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 
 ---
 
+## Where we are
+
+**Current release: v0.2.0** &middot; **Status: draft, open for review** &middot; Last update: 2026-04-17
+
+| Component | Status |
+|---|---|
+| Four specification documents (mapping, viewing API, graph primitives, conformance) | ✓ Drafts published |
+| JSON Schemas (`record`, `agent`) | ✓ Live, validate real responses |
+| SHACL shape file (`openric.shacl.ttl`) | ✓ Core RiC-O shapes |
+| Validator CLI (`openric-validate`) | ✓ Alpha — schema + SHACL checks working |
+| Conformance fixture pack | 1 of 20 published |
+| Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ First endpoint fully green: `/agents/{slug}` |
+| Frozen v0.1.0 release | ⏳ Pending fixture pack + CI |
+
+---
+
+## Condensed roadmap
+
+### Phase 1 — Frozen v0.1.0 *(in progress)*
+Close out the spec's machine-verifiable half: remaining 9 JSON Schemas, 19 fixtures, endpoint walker in the validator, CI pipeline, then tag **v0.1.0**. Target: **~3 weeks**.
+
+### Phase 2 — Beyond the reference
+Extract **`@openric/viewer`** as a standalone npm package so any OpenRiC-conformant server can drive the 2D/3D graph UI. Demonstrate against a non-Heratio backend. Target: **~1 month after Phase 1**.
+
+### Phase 3 — Governance & external review
+Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freeze **v1.0** when at least one non-reference implementation passes conformance. Target: **6+ months**.
+
+### Beyond v1.0
+- OpenRiC-Rights (ODRL-backed rights enforcement)
+- OpenRiC-Preservation (PREMIS-equivalent event vocabulary)
+- Jurisdictional extensions (POPIA, GDPR, CDPA, GRAP 103, etc.) — decoupled from the core
+
+*Detailed plans: [`ric-phase1-closeout-plan.md`](https://github.com/ArchiveHeritageGroup/heratio/blob/main/docs/ric-phase1-closeout-plan.md) and [`ric-status-and-plan.md`](https://github.com/ArchiveHeritageGroup/heratio/blob/main/docs/ric-status-and-plan.md) in the Heratio repository.*
+
+---
+
 ## The four specification documents
 
 | Document | Purpose |
