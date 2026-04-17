@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openric.org/schemas/v0.1.0/repository.schema.json",
+  "title": "OpenRiC Repository response",
+  "description": "Validates a single /repositories/{id} response. A repository is emitted as rico:CorporateBody per ISDIAH; OpenRiC optionally annotates it with openric:role = \"repository\" for viewer convenience.",
+
+  "type": "object",
+  "required": ["@id", "@type"],
+
+  "properties": {
+    "@context": {
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+
+    "@id": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "@type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(rico:CorporateBody|https://www\\.ica\\.org/standards/RiC/ontology#CorporateBody)$"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(rico:CorporateBody|https://www\\.ica\\.org/standards/RiC/ontology#CorporateBody)$"
+          },
+          "minItems": 1
+        }
+      ]
+    },
+
+    "openric:role": {
+      "type": "string",
+      "const": "repository"
+    },
+
+    "rico:name":                 { "$ref": "#/$defs/langString" },
+    "rico:alternativeForm":      { "$ref": "#/$defs/langString" },
+    "rico:otherName":            { "$ref": "#/$defs/langString" },
+
+    "rico:hasAgentName": {
+      "oneOf": [
+        { "$ref": "#/$defs/agentName" },
+        { "type": "array", "items": { "$ref": "#/$defs/agentName" } }
+      ]
+    },
+
+    "rico:history":              { "$ref": "#/$defs/langString" },
+    "rico:generalContext":       { "$ref": "#/$defs/langString" },
+
+    "rico:hasPlace": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array", "items": { "type": "object" } }
+      ]
+    },
+
+    "rico:hasMandate":           { "type": "array" },
+    "rico:hasOrHadPolicy":       { "type": "array" },
+    "rico:hasInternalStructure": { "$ref": "#/$defs/langString" },
+
+    "rico:hasHolding":           { "type": "array" },
+    "rico:hasFindingAid":        { "type": "array" },
+
+    "rico:contact":              { "type": "object" },
+    "rico:conditionsOfAccess":   { "type": "string" }
+  },
+
+  "additionalProperties": true,
+
+  "$defs": {
+    "langString": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["@value"],
+          "properties": {
+            "@value":    { "type": "string" },
+            "@language": { "type": "string" }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["@value"],
+                "properties": {
+                  "@value":    { "type": "string" },
+                  "@language": { "type": "string" }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    "agentName": {
+      "type": "object",
+      "required": ["rico:textualValue"],
+      "properties": {
+        "@type":             { "type": "string" },
+        "rico:textualValue": { "$ref": "#/$defs/langString" }
+      }
+    }
+  }
+}

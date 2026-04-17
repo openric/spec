@@ -1,3 +1,14 @@
+# Copyright (C) 2026 Johan Pieterse
+# Plain Sailing Information Systems
+# Email: johan@plansailingisystems.co.za
+#
+# This file is part of OpenRiC.
+#
+# OpenRiC is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
 """Command-line entry point for openric-validate.
 
 Exit codes:
@@ -115,8 +126,15 @@ _SCHEMA_BY_TYPE = {
 }
 
 
-def _resolve_schema(response: dict, schemas_dir: Path) -> tuple[str | None, Path | None]:
-    """Pick the right schema file based on the response's @type.
+def _resolve_schema(
+    response: dict,
+    schemas_dir: Path,
+    url: str = "",
+) -> tuple[str | None, Path | None]:
+    """Pick the right schema file based on URL path + response @type.
+
+    Repository is disambiguated from plain CorporateBody by URL path
+    (`/repositories/...`) or by the presence of `openric:role: "repository"`.
 
     Returns (short_type, path) or (None, None) if unrecognised.
     """
@@ -124,6 +142,12 @@ def _resolve_schema(response: dict, schemas_dir: Path) -> tuple[str | None, Path
     if isinstance(t, list):
         t = t[0] if t else ""
     short = t.rsplit("#", 1)[-1].rsplit("/", 1)[-1].split(":")[-1]
+
+    if short == "CorporateBody" and (
+        "/repositories/" in url or response.get("openric:role") == "repository"
+    ):
+        return "Repository", schemas_dir / "repository.schema.json"
+
     filename = _SCHEMA_BY_TYPE.get(short)
     if not filename:
         return None, None
@@ -140,7 +164,7 @@ def _run_record_check(url: str, schemas_dir: Path, report: Report) -> None:
         target=url,
     ))
 
-    short_type, schema_path = _resolve_schema(response, schemas_dir)
+    short_type, schema_path = _resolve_schema(response, schemas_dir, url)
     if not schema_path:
         report.add(Finding(
             check="schema-resolve",
