@@ -167,12 +167,24 @@
   /**
    * Initialise a 3D ForceGraph3D in the given container.
    */
-  function init3D(container, graphData) {
+  function init3D(container, graphData, options) {
     graphData = fromSubgraph(graphData);
-    if (!graphData.nodes.length || typeof ForceGraph3D === 'undefined') return null;
+    options = options || {};
+    if (typeof ForceGraph3D === 'undefined') {
+      console.error('[OpenricViewer] 3D library (ForceGraph3D) not loaded — check that https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js is reachable.');
+      return null;
+    }
+    if (!graphData.nodes.length) return null;
 
     var nodes = graphData.nodes.map(function (n) {
-      return { id: n.id, name: n.label || 'Unknown', color: getColor(n.type), val: 1, type: n.type };
+      return {
+        id: n.id,
+        name: n.label || 'Unknown',
+        color: getColor(n.type),
+        val: 1,
+        type: n.type,
+        atomUrl: n.atomUrl || null
+      };
     });
     var links = graphData.edges.map(function (e) {
       return { source: e.source, target: e.target, label: e.label || '' };
@@ -182,7 +194,7 @@
       var w = container.clientWidth || 800;
       var h = container.clientHeight || 500;
 
-      return ForceGraph3D()(container)
+      var g = ForceGraph3D()(container)
         .graphData({ nodes: nodes, links: links })
         .nodeColor('color')
         .nodeVal('val')
@@ -203,6 +215,24 @@
         .backgroundColor('#111827')
         .width(w)
         .height(h);
+
+      if (typeof options.onNodeClick === 'function') {
+        g.onNodeClick(function (node) {
+          options.onNodeClick(node);
+          // Nice-to-have: orbit camera to the clicked node.
+          var distance = 120;
+          var dist = Math.hypot(node.x || 0, node.y || 0, node.z || 0) || 1;
+          g.cameraPosition(
+            { x: (node.x || 0) * (distance + dist) / dist,
+              y: (node.y || 0) * (distance + dist) / dist,
+              z: (node.z || 0) * (distance + dist) / dist },
+            node,
+            800
+          );
+        });
+      }
+
+      return g;
     } catch (e) {
       console.error('[OpenricViewer] 3D init error:', e);
       return null;

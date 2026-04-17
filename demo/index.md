@@ -113,21 +113,41 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
     currentGraph = null;
   }
 
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function onNodeClick(data) {
+    // data may come from cytoscape (flat) or from ForceGraph3D (node object).
+    // Cytoscape wraps in .data.*; 3D library gives us the raw node.
+    var label = data.label || data.name || 'Unknown';
+    var id = data.id || '';
+    var type = data.type || '—';
+    var html = '<div><strong>' + escapeHtml(label) + '</strong></div>' +
+               '<div style="color:#6b7280; font-size:0.85em; margin:0.3rem 0;">' +
+               'type: <code>' + escapeHtml(type) + '</code></div>' +
+               '<div style="word-break:break-all; font-size:0.85em;">' +
+               '<a href="' + escapeHtml(id) + '" target="_blank">' + escapeHtml(id) + '</a></div>';
+    nodeInfoEl.innerHTML = html;
+  }
+
   function render(payload) {
     clearGraph();
-    var onNodeClick = function (data) {
-      var html = '<div><strong>' + (data.label || 'Unknown') + '</strong></div>' +
-                 '<div style="color:#6b7280; font-size:0.85em; margin:0.3rem 0;">' +
-                 'type: <code>' + (data.type || '—') + '</code></div>' +
-                 '<div style="word-break:break-all; font-size:0.85em;">' +
-                 '<a href="' + data.id + '" target="_blank">' + data.id + '</a></div>';
-      nodeInfoEl.innerHTML = html;
-    };
 
     if (currentMode === '3d') {
-      currentGraph = OpenricViewer.init3D(graphEl, payload);
+      currentGraph = OpenricViewer.init3D(graphEl, payload, { onNodeClick: onNodeClick });
+      if (!currentGraph) {
+        setStatus('✗ 3D viewer failed to initialise (see browser console)', 'err');
+        return;
+      }
     } else {
       currentGraph = OpenricViewer.init2D(graphEl, payload, { onNodeClick: onNodeClick });
+      if (!currentGraph) {
+        setStatus('✗ 2D viewer failed to initialise (see browser console)', 'err');
+        return;
+      }
     }
 
     var nodeCount = (payload['openric:nodes'] || payload.nodes || []).length;
