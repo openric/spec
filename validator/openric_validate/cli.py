@@ -104,8 +104,34 @@ def main(argv: list[str] | None = None) -> int:
     return report.exit_code()
 
 
+_SCHEMA_BY_TYPE = {
+    "Record":        "record.schema.json",
+    "RecordSet":     "record.schema.json",
+    "RecordPart":    "record.schema.json",
+    "Agent":         "agent.schema.json",
+    "Person":        "agent.schema.json",
+    "CorporateBody": "agent.schema.json",
+    "Family":        "agent.schema.json",
+}
+
+
+def _resolve_schema(response: dict, schemas_dir: Path) -> tuple[str | None, Path | None]:
+    """Pick the right schema file based on the response's @type.
+
+    Returns (short_type, path) or (None, None) if unrecognised.
+    """
+    t = response.get("@type", "")
+    if isinstance(t, list):
+        t = t[0] if t else ""
+    short = t.rsplit("#", 1)[-1].rsplit("/", 1)[-1].split(":")[-1]
+    filename = _SCHEMA_BY_TYPE.get(short)
+    if not filename:
+        return None, None
+    return short, schemas_dir / filename
+
+
 def _run_record_check(url: str, schemas_dir: Path, report: Report) -> None:
-    """Fetch one /records/{id} URL and validate against record.schema.json + SHACL."""
+    """Fetch one entity URL and validate against the matching schema + SHACL."""
     response = fetch_json(url)
     report.add(Finding(
         check="http-fetch",
@@ -114,8 +140,15 @@ def _run_record_check(url: str, schemas_dir: Path, report: Report) -> None:
         target=url,
     ))
 
-    schema_path = schemas_dir / "record.schema.json"
-    if not schema_path.exists():
+    short_type, schema_path = _resolve_schema(response, schemas_dir)
+    if not schema_path:
+        report.add(Finding(
+            check="schema-resolve",
+            severity=Severity.WARNING,
+            message=f"No schema registered for @type {response.get('@type')!r}; skipping schema check",
+            target=url,
+        ))
+    elif not schema_path.exists():
         report.add(Finding(
             check="schema-load",
             severity=Severity.VIOLATION,
@@ -123,47 +156,48 @@ def _run_record_check(url: str, schemas_dir: Path, report: Report) -> None:
             target=str(schema_path),
         ))
         return
-
-    schema = json.loads(schema_path.read_text())
-    try:
-        validate_against_schema(response, schema)
-        report.add(Finding(
-            check="record-schema",
-            severity=Severity.PASS,
-            message="Response conforms to record.schema.json",
-            target=url,
-        ))
-    except SchemaCheckError as e:
-        for err in e.errors:
+    else:
+        schema = json.loads(schema_path.read_text())
+        check_name = f"{short_type.lower()}-schema"
+        try:
+            validate_against_schema(response, schema)
             report.add(Finding(
-                check="record-schema",
-                severity=Severity.VIOLATION,
-                message=err.message,
-                target=err.json_path,
+                check=check_name,
+                severity=Severity.PASS,
+                message=f"Response conforms to {schema_path.name}",
+                target=url,
             ))
+        except SchemaCheckError as e:
+            for err in e.errors:
+                report.add(Finding(
+                    check=check_name,
+                    severity=Severity.VIOLATION,
+                    message=err.message,
+                    target=err.json_path,
+                ))
 
     # SHACL validation against RiC-O shapes
+    shacl_check = f"{(short_type or 'entity').lower()}-shacl"
     if SHAPES_PATH.exists():
         conforms, results_text = validate_against_shapes(response, SHAPES_PATH)
         if conforms:
             report.add(Finding(
-                check="record-shacl",
+                check=shacl_check,
                 severity=Severity.PASS,
                 message="Response conforms to openric.shacl.ttl",
                 target=url,
             ))
         else:
-            # Split pyshacl's multi-line text into one Finding per violation
             for block in _split_pyshacl_results(results_text):
                 report.add(Finding(
-                    check="record-shacl",
+                    check=shacl_check,
                     severity=Severity.VIOLATION,
                     message=block.strip()[:500],
                     target=url,
                 ))
     else:
         report.add(Finding(
-            check="record-shacl",
+            check=shacl_check,
             severity=Severity.WARNING,
             message=f"SHACL shapes not found at {SHAPES_PATH}; skipping shape check",
             target=str(SHAPES_PATH),

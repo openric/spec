@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openric.org/schemas/v0.1.0/agent.schema.json",
+  "title": "OpenRiC Agent response",
+  "description": "Validates a single /agents/{id} response. Covers rico:Agent, rico:Person, rico:CorporateBody, and rico:Family.",
+
+  "type": "object",
+  "required": ["@id", "@type"],
+
+  "properties": {
+    "@context": {
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "type": "object" },
+        { "type": "array" }
+      ]
+    },
+
+    "@id": {
+      "type": "string",
+      "format": "uri"
+    },
+
+    "@type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(rico:(Agent|Person|CorporateBody|Family)|https://www\\.ica\\.org/standards/RiC/ontology#(Agent|Person|CorporateBody|Family))$"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(rico:(Agent|Person|CorporateBody|Family)|https://www\\.ica\\.org/standards/RiC/ontology#(Agent|Person|CorporateBody|Family))$"
+          },
+          "minItems": 1
+        }
+      ]
+    },
+
+    "rico:name":                 { "$ref": "#/$defs/langString" },
+    "rico:normalizedForm":       { "$ref": "#/$defs/langString" },
+    "rico:alternativeForm":      { "$ref": "#/$defs/langString" },
+    "rico:otherName":            { "$ref": "#/$defs/langString" },
+
+    "rico:hasAgentName": {
+      "oneOf": [
+        { "$ref": "#/$defs/agentName" },
+        { "type": "array", "items": { "$ref": "#/$defs/agentName" } }
+      ]
+    },
+
+    "rico:hasDateRangeSet": {
+      "oneOf": [
+        { "$ref": "#/$defs/dateRange" },
+        { "type": "array", "items": { "$ref": "#/$defs/dateRange" } }
+      ]
+    },
+
+    "rico:dateOfEstablishment":  { "type": "string" },
+    "rico:dateOfTermination":    { "type": "string" },
+    "rico:history":              { "$ref": "#/$defs/langString" },
+    "rico:generalContext":       { "$ref": "#/$defs/langString" },
+    "rico:legalStatus":          { "$ref": "#/$defs/langString" },
+
+    "rico:hasPlace":             { "type": "array" },
+    "rico:hasMandate":           { "type": "array" },
+    "rico:performs":             { "type": "array" },
+    "rico:hasOccupation":        { "$ref": "#/$defs/langString" },
+
+    "rico:contact":              { "type": "object" },
+
+    "rico:isOrWasSubordinateTo":      { "type": ["string","array","object"] },
+    "rico:hasOrHadSubordinate":       { "type": ["array","object"] },
+    "rico:isOrWasMemberOf":           { "type": ["string","array","object"] },
+    "rico:succeeds":                  { "type": ["string","array","object"] },
+    "rico:precedes":                  { "type": ["string","array","object"] },
+    "rico:isRelatedTo":               { "type": ["string","array","object"] }
+  },
+
+  "additionalProperties": true,
+
+  "$defs": {
+    "langString": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["@value"],
+          "properties": {
+            "@value":    { "type": "string" },
+            "@language": { "type": "string" }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["@value"],
+                "properties": {
+                  "@value":    { "type": "string" },
+                  "@language": { "type": "string" }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    "agentName": {
+      "type": "object",
+      "required": ["rico:textualValue"],
+      "properties": {
+        "@type":             { "type": "string" },
+        "rico:textualValue": { "$ref": "#/$defs/langString" },
+        "rico:hasDateRangeSet": { "$ref": "#/$defs/dateRange" }
+      }
+    },
+
+    "dateRange": {
+      "type": "object",
+      "anyOf": [
+        { "required": ["rico:startDate"] },
+        { "required": ["rico:endDate"] },
+        { "required": ["rico:normalizedDate"] },
+        { "required": ["rico:beginningDate"] },
+        { "required": ["rico:expressedDate"] }
+      ],
+      "properties": {
+        "@type":                 { "type": "string" },
+        "rico:startDate":        { "type": ["string","object"] },
+        "rico:endDate":          { "type": ["string","object"] },
+        "rico:beginningDate":    { "type": ["string","object"] },
+        "rico:expressedDate":    { "type": ["string","object"] },
+        "rico:normalizedDate":   { "type": "string" },
+        "rico:dateType":         { "type": "string" }
+      }
+    }
+  }
+}

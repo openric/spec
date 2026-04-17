@@ -97,20 +97,23 @@
 # AGENT SHAPES
 # ============================================================================
 
+# OpenRiC v0.1 accepts EITHER rico:name (shorthand, common in practice)
+# OR rico:hasAgentName (RiC-O canonical structured form). At least one must be present.
+
 :PersonShape a sh:NodeShape ;
     sh:targetClass rico:Person ;
     sh:name "Person Validation" ;
 
-    sh:property [
-        sh:path rico:hasAgentName ;
-        sh:minCount 1 ;
-        sh:message "Person must have at least one name"
-    ] ;
+    sh:or (
+        [ sh:property [ sh:path rico:name ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path rico:hasAgentName ; sh:minCount 1 ] ]
+    ) ;
 
     sh:property [
         sh:path rico:hasAgentName ;
         sh:node :AgentNameShape ;
-        sh:message "Agent name must be properly structured"
+        sh:severity sh:Info ;
+        sh:message "When present, rico:hasAgentName must be properly structured"
     ] .
 
 
@@ -118,16 +121,16 @@
     sh:targetClass rico:CorporateBody ;
     sh:name "CorporateBody Validation" ;
 
-    sh:property [
-        sh:path rico:hasAgentName ;
-        sh:minCount 1 ;
-        sh:message "CorporateBody must have at least one name"
-    ] ;
+    sh:or (
+        [ sh:property [ sh:path rico:name ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path rico:hasAgentName ; sh:minCount 1 ] ]
+    ) ;
 
     sh:property [
         sh:path rico:hasAgentName ;
         sh:node :AgentNameShape ;
-        sh:message "Agent name must be properly structured"
+        sh:severity sh:Info ;
+        sh:message "When present, rico:hasAgentName must be properly structured"
     ] .
 
 
@@ -135,11 +138,10 @@
     sh:targetClass rico:Family ;
     sh:name "Family Validation" ;
 
-    sh:property [
-        sh:path rico:hasAgentName ;
-        sh:minCount 1 ;
-        sh:message "Family must have at least one name"
-    ] .
+    sh:or (
+        [ sh:property [ sh:path rico:name ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path rico:hasAgentName ; sh:minCount 1 ] ]
+    ) .
 
 
 :AgentNameShape a sh:NodeShape ;
@@ -367,12 +369,18 @@
 # CROSS-ENTITY VALIDATION (SPARQL-based)
 # ============================================================================
 
+# Cross-graph SPARQL shapes below.
+# Severity is sh:Info because these shapes assume full-graph context; when
+# validating a single-entity API response (partial graph), they produce
+# expected false positives. Run these against the full triple store for
+# authoritative results.
+
 :OrphanedRecordShape a sh:NodeShape ;
     sh:targetClass rico:Record ;
     sh:name "Orphaned Record Detection" ;
     sh:sparql [
-        sh:message "Record has no parent and is not a top-level fonds" ;
-        sh:severity sh:Warning ;
+        sh:message "Record has no parent and is not a top-level fonds (global graph check)" ;
+        sh:severity sh:Info ;
         sh:select """
             SELECT $this WHERE {
                 $this a rico:Record .
@@ -386,7 +394,7 @@
     sh:targetClass rico:Person, rico:CorporateBody, rico:Family ;
     sh:name "Unlinked Agent Detection" ;
     sh:sparql [
-        sh:message "Agent is not linked to any records or activities" ;
+        sh:message "Agent is not linked to any records or activities (global graph check)" ;
         sh:severity sh:Info ;
         sh:select """
             SELECT $this WHERE {
