@@ -1,0 +1,26 @@
+{
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "rdf":  "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd":  "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id":   "https://openric.example.org/informationobject/or-test-0001",
+  "@type": "rico:RecordSet",
+  "rico:type": "RecordSet",
+  "rico:identifier": "OR-TEST-0001",
+  "rico:title": {
+    "@value": "Test Fonds (OpenRiC fixture: fonds-minimal)",
+    "@language": "en"
+  },
+  "rico:hasCreator": [
+    {
+      "@id": "https://openric.example.org/actor/test-creator",
+      "@type": "rico:Person",
+      "rico:name": {
+        "@value": "Test, Creator",
+        "@language": "en"
+      }
+    }
+  ]
+}

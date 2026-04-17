@@ -8,3 +8,13 @@ Gemfile.lock
 *.swp
 *.swo
 *~
+
+# Python validator
+validator/.venv/
+validator/**/__pycache__/
+validator/**/*.egg-info/
+validator/.pytest_cache/
+validator/.ruff_cache/
+validator/build/
+validator/dist/
+*.pyc

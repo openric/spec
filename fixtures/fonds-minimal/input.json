@@ -1,0 +1,43 @@
+{
+  "_comment": "AtoM-shape input for the fonds-minimal conformance fixture. See notes.md for what this case exercises.",
+
+  "informationObject": {
+    "id": 1001,
+    "identifier": "OR-TEST-0001",
+    "slug": "or-test-0001",
+    "level_of_description": "fonds",
+    "i18n": {
+      "en": {
+        "culture": "en",
+        "title": "Test Fonds (OpenRiC fixture: fonds-minimal)",
+        "scope_and_content": null
+      }
+    },
+    "repository_id": null,
+    "children": []
+  },
+
+  "creators": [
+    {
+      "actor_id": 2001,
+      "slug": "test-creator",
+      "actor_type": "person",
+      "i18n": {
+        "en": {
+          "culture": "en",
+          "authorized_form_of_name": "Test, Creator"
+        }
+      }
+    }
+  ],
+
+  "events": [
+    {
+      "actor_id": 2001,
+      "type": "creation",
+      "object_id": 1001,
+      "start_date": null,
+      "end_date": null
+    }
+  ]
+}
