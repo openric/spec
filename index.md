@@ -15,7 +15,7 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 
 ## Where we are
 
-**Current release: v0.1.0** &middot; **Status: draft, open for review** &middot; Last update: 2026-04-17
+**Current release: v0.1.0** &middot; **Status: draft, open for review** &middot; Last update: 2026-04-18
 
 | Component | Status |
 |---|---|
@@ -26,6 +26,7 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 | Conformance fixture pack | ✓ 20 canonical fixtures |
 | Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ 8 endpoint types live-validate |
 | [Live demo](demo/) — browser-side viewer calling the reference implementation | ✓ 2D + 3D graph, interactive drill-down |
+| Standalone viewer package [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer) | ✓ v0.1.0 published on npm — demo at [viewer.openric.org](https://viewer.openric.org) |
 | CI — unit tests, schema well-formedness, SHACL parse, Markdown links | ✓ GitHub Actions green |
 | **Frozen v0.1.0 release** | **✓ Tagged** — see [CHANGELOG](https://github.com/openric/spec/blob/main/CHANGELOG.md) |
 
@@ -36,8 +37,8 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 ### Phase 1 — Frozen v0.1.0 *(in progress)*
 Close out the spec's machine-verifiable half: remaining 9 JSON Schemas, 19 fixtures, endpoint walker in the validator, CI pipeline, then tag **v0.1.0**. Target: **~3 weeks**.
 
-### Phase 2 — Beyond the reference
-Extract **`@openric/viewer`** as a standalone npm package so any OpenRiC-conformant server can drive the 2D/3D graph UI. Demonstrate against a non-Heratio backend. Target: **~1 month after Phase 1**.
+### Phase 2 — Beyond the reference *(in progress)*
+**`@openric/viewer`** is extracted and published to npm — this spec site's own live demo now consumes it from CDN, not from local source. Remaining: demonstrate the viewer against a non-Heratio backend (portability proof) to complete the decoupling story. Target: **~1 month after Phase 1**.
 
 ### Phase 3 — Governance & external review
 Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freeze **v1.0** when at least one non-reference implementation passes conformance. Target: **6+ months**.

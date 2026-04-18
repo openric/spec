@@ -62,13 +62,15 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
 ---
 
-<!-- Third-party libs. Pinned to the same versions Heratio uses. -->
-<script src="js/cytoscape.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
+<!-- Peer deps (the @openric/viewer npm package declares these as peerDeps). -->
+<script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+<script src="https://unpkg.com/three@0.160.1/build/three.min.js"></script>
+<script src="https://unpkg.com/three-spritetext@1.8.1/dist/three-spritetext.min.js"></script>
 <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
 
-<script src="js/openric-viewer.js"></script>
+<!-- The viewer itself, loaded from the published npm package via CDN.
+     This is the decoupling proof: openric.org no longer ships a viewer of its own. -->
+<script src="https://unpkg.com/@openric/viewer@0.1/dist/openric-viewer.umd.js"></script>
 
 <script>
 (function () {
@@ -101,7 +103,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
                  'Place', 'Production', 'Accumulation', 'Instantiation', 'Rule', 'Thing'];
     legendEl.innerHTML = types.map(function (t) {
       return '<span><span class="swatch" style="background:' +
-             OpenricViewer.getColor(t) + '"></span>' + t + '</span>';
+             OpenricViewer.getColour(t) + '"></span>' + t + '</span>';
     }).join('');
   }
 
