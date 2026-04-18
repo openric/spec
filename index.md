@@ -25,7 +25,7 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 | Validator CLI (`openric-validate`) | ✓ Schema + SHACL + graph-invariant checks |
 | Conformance fixture pack | ✓ 20 canonical fixtures |
 | Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ 8 endpoint types live-validate; full CRUD API (read + write) for every RiC-native entity type; 12 of 13 internal admin routes now consume `/api/ric/v1/*` rather than in-process services |
-| Capture workspace — [`heratio.theahg.co.za/ric-capture`](https://heratio.theahg.co.za/ric-capture) | ✓ Focused data-entry UI on the reference implementation. Creates Places, Rules, Activities, Instantiations, and relations; every write goes through `/api/ric/v1/*` and is immediately visible to external API consumers. |
+| Standalone capture app ([`@openric/capture`](https://github.com/openric/capture)) | ⚙ In progress — pure-browser data-entry app consuming the public OpenRiC API, deploying to [capture.openric.org](https://capture.openric.org). Same decoupling story as the viewer: any OpenRiC-conformant server is a valid backend. |
 | [Live demo](demo/) — browser-side viewer calling the reference implementation | ✓ 2D + 3D graph, interactive drill-down, subjects/terms now expand to tagged records |
 | Standalone viewer package [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer) | ✓ v0.1.0 published on npm — consumed by [openric.org/demo](demo/) and [viewer.openric.org](https://viewer.openric.org) |
 | **Portability proof** — same viewer, two backends | ✓ [viewer.openric.org](https://viewer.openric.org) runs the npm-published viewer against Heratio **and** a non-Heratio static-fixture backend (service-worker-intercepted, served from the OpenRiC conformance fixture pack). Picking "Static fixtures" in the demo dropdown proves the viewer doesn't depend on Heratio-specific behaviour. |
@@ -70,8 +70,6 @@ Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freez
 ## Reference implementation
 
 [**Heratio**](https://github.com/ArchiveHeritageGroup/heratio) is the first reference implementation of OpenRiC. The 2D and 3D graph viewer is published separately as [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer), usable against any OpenRiC-conformant server. For transparency, Heratio today runs the OpenRiC API as an internal module — RiC data lives in its own tables (clean data boundary) and all admin routes already speak the API over HTTP, but the full separate-service split is still on the roadmap.
-
-A focused capture workspace lives at [**heratio.theahg.co.za/ric-capture**](https://heratio.theahg.co.za/ric-capture) — it's the simplest way to see data entry against an OpenRiC-conformant server end-to-end. Everything captured there is served back through the public API and can be explored in the [viewer demo](https://viewer.openric.org) within seconds.
 
 ---
 
