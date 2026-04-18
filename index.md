@@ -60,7 +60,7 @@ Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freez
 | [Graph Primitives](spec/graph-primitives.html) | Abstract concepts — node, edge, cluster, drill, layout hints |
 | [Conformance](spec/conformance.html) | JSON Schemas, fixtures, and a validator CLI |
 
-*All four are drafts. Comment issues are welcome on the [GitHub repository](https://github.com/ArchiveHeritageGroup/openric-spec).*
+*All four are drafts. Open-ended feedback and proposals → [GitHub Discussions](https://github.com/ArchiveHeritageGroup/openric-spec/discussions). Concrete bugs or spec typos → [Issues](https://github.com/ArchiveHeritageGroup/openric-spec/issues).*
 
 ---
 
