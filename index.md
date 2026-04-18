@@ -24,9 +24,10 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 | SHACL shape files (core + full-graph) | ✓ 254 + 31 triples |
 | Validator CLI (`openric-validate`) | ✓ Schema + SHACL + graph-invariant checks |
 | Conformance fixture pack | ✓ 20 canonical fixtures |
-| Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ 8 endpoint types live-validate |
-| [Live demo](demo/) — browser-side viewer calling the reference implementation | ✓ 2D + 3D graph, interactive drill-down |
-| Standalone viewer package [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer) | ✓ v0.1.0 published on npm — demo at [viewer.openric.org](https://viewer.openric.org) |
+| Reference implementation ([Heratio](https://github.com/ArchiveHeritageGroup/heratio)) | ✓ 8 endpoint types live-validate; full CRUD API (read + write) for every RiC-native entity type; 12 of 13 internal admin routes now consume `/api/ric/v1/*` rather than in-process services |
+| [Live demo](demo/) — browser-side viewer calling the reference implementation | ✓ 2D + 3D graph, interactive drill-down, subjects/terms now expand to tagged records |
+| Standalone viewer package [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer) | ✓ v0.1.0 published on npm — consumed by [openric.org/demo](demo/) and [viewer.openric.org](https://viewer.openric.org) |
+| **Portability proof** — same viewer, two backends | ✓ [viewer.openric.org](https://viewer.openric.org) runs the npm-published viewer against Heratio **and** a non-Heratio static-fixture backend (service-worker-intercepted, served from the OpenRiC conformance fixture pack). Picking "Static fixtures" in the demo dropdown proves the viewer doesn't depend on Heratio-specific behaviour. |
 | CI — unit tests, schema well-formedness, SHACL parse, Markdown links | ✓ GitHub Actions green |
 | **Frozen v0.1.0 release** | **✓ Tagged** — see [CHANGELOG](https://github.com/openric/spec/blob/main/CHANGELOG.md) |
 
@@ -37,11 +38,11 @@ OpenRiC is not a product. It is a specification. Any system — AtoM, Heratio, A
 ### Phase 1 — Frozen v0.1.0 *(in progress)*
 Close out the spec's machine-verifiable half: remaining 9 JSON Schemas, 19 fixtures, endpoint walker in the validator, CI pipeline, then tag **v0.1.0**. Target: **~3 weeks**.
 
-### Phase 2 — Beyond the reference *(in progress)*
-**`@openric/viewer`** is extracted and published to npm — this spec site's own live demo now consumes it from CDN, not from local source. Remaining: demonstrate the viewer against a non-Heratio backend (portability proof) to complete the decoupling story. Target: **~1 month after Phase 1**.
+### Phase 2 — Beyond the reference *(substantially complete)*
+**`@openric/viewer`** extracted, published to npm, and deployed at [viewer.openric.org](https://viewer.openric.org). **Portability proof delivered:** the same npm-published viewer drives two independent backends in the live demo — the Heratio reference server AND an in-browser static-fixture server (service-worker intercept, fixtures drawn from the spec's own 20-case conformance pack). Remaining Phase 2 work is a native-not-reference implementation someone else has to build — which brings us into Phase 3.
 
-### Phase 3 — Governance & external review
-Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freeze **v1.0** when at least one non-reference implementation passes conformance. Target: **6+ months**.
+### Phase 3 — Governance & external review *(starting)*
+Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freeze **v1.0** when at least one non-reference implementation passes conformance. Three seed Discussions open for [announcements](https://github.com/openric/spec/discussions/1), [second-implementer feedback](https://github.com/openric/spec/discussions/2), and [mapping sanity-check](https://github.com/openric/spec/discussions/3). Target: **6+ months**.
 
 ### Beyond v1.0
 - OpenRiC-Rights (ODRL-backed rights enforcement)
@@ -67,7 +68,7 @@ Invite spec editors from outside AHG. Engage with EGAD-adjacent reviewers. Freez
 
 ## Reference implementation
 
-[**Heratio**](https://github.com/ArchiveHeritageGroup/heratio) is the first reference implementation of OpenRiC. The 2D and 3D graph viewer will be published separately as `@openric/viewer`, usable against any OpenRiC-conformant server.
+[**Heratio**](https://github.com/ArchiveHeritageGroup/heratio) is the first reference implementation of OpenRiC. The 2D and 3D graph viewer is published separately as [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer), usable against any OpenRiC-conformant server. For transparency, Heratio today runs the OpenRiC API as an internal module — RiC data lives in its own tables (clean data boundary) and all admin routes already speak the API over HTTP, but the full separate-service split is still on the roadmap.
 
 ---
 
