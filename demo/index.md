@@ -9,6 +9,8 @@ title: OpenRiC — Live Demo
 
 This page runs **inside your browser** and fetches live RiC-O data from the reference implementation at `heratio.theahg.co.za` over the OpenRiC Viewing API. Nothing on `openric.org` proxies or caches — the spec site and the implementation site are genuinely independent. That is the point.
 
+> **About the reference implementation.** Heratio currently runs the OpenRiC API as an *internal module*, not as a separate service the rest of Heratio consumes over HTTP. RiC data is already stored in its own dedicated tables (`ric_place`, `ric_rule`, `ric_activity`, `ric_instantiation`, `ric_relation_meta`), so the *data boundary* is clean — full client-server split of Heratio into "RiC API service" + "Heratio GLAM client" is on the roadmap. The API surface exercised by this demo is the same one an external client would use.
+
 <div class="demo-controls">
   <label for="demo-example">Try:</label>
   <select id="demo-example">
