@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "id": 960042,
+      "subject_id": 905261,
+      "object_id": 912150,
+      "subject_class": "RicActivity",
+      "object_class": "RicPlace",
+      "rico_predicate": "rico:tookPlaceAt",
+      "inverse_predicate": "rico:isLocationOf",
+      "dropdown_code": "took_place_at",
+      "domain_class": "Activity",
+      "range_class": "Place",
+      "start_date": "1902-11-15",
+      "end_date": "1903-06-02",
+      "certainty": "probable",
+      "evidence": "Field season report, Abu Sir 1902–1903, p.14."
+    },
+    {
+      "id": 960028,
+      "subject_id": 905228,
+      "object_id": 912150,
+      "subject_class": "QubitInformationObject",
+      "object_class": "RicPlace",
+      "rico_predicate": "rico:hasSubject",
+      "inverse_predicate": "rico:isSubjectOf",
+      "dropdown_code": "has_subject",
+      "domain_class": null,
+      "range_class": null,
+      "start_date": null,
+      "end_date": null,
+      "certainty": null,
+      "evidence": null
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "per_page": 2,
+    "total": 681,
+    "last_page": 341
+  }
+}

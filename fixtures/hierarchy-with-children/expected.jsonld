@@ -1,0 +1,20 @@
+{
+  "entity_id": 912150,
+  "class": "RicPlace",
+  "parent": {
+    "id": 912148,
+    "name": "Africa",
+    "slug": "africa",
+    "type_id": "continent"
+  },
+  "children": [
+    { "id": 912210, "name": "Cairo",        "slug": "cairo",        "type_id": "city" },
+    { "id": 912215, "name": "Alexandria",   "slug": "alexandria",   "type_id": "city" },
+    { "id": 912221, "name": "Luxor",        "slug": "luxor",        "type_id": "city" },
+    { "id": 912228, "name": "Abu Sir",      "slug": "abu-sir",      "type_id": "archaeological-site" }
+  ],
+  "siblings": [
+    { "id": 912151, "name": "Libya",   "slug": "libya",   "type_id": "country" },
+    { "id": 912158, "name": "Sudan",   "slug": "sudan",   "type_id": "country" }
+  ]
+}

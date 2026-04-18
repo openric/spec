@@ -1,0 +1,53 @@
+{
+  "entity_id": 912150,
+  "total": 3,
+  "outgoing": [
+    {
+      "id": 960001,
+      "direction": "outgoing",
+      "target_id": 912328,
+      "target_name": "Egypt (archaeological region)",
+      "target_type": "Place",
+      "rico_predicate": "rico:hasBroaderGeographicalContext",
+      "inverse_predicate": "rico:hasNarrowerGeographicalContext",
+      "dropdown_code": "broader_place",
+      "relation_label": "broader place",
+      "start_date": null,
+      "end_date": null,
+      "certainty": "certain",
+      "evidence": null
+    }
+  ],
+  "incoming": [
+    {
+      "id": 960028,
+      "direction": "incoming",
+      "target_id": 905228,
+      "target_name": "Egyptian Boat",
+      "target_type": "Record",
+      "rico_predicate": "rico:hasSubject",
+      "inverse_predicate": "rico:isSubjectOf",
+      "dropdown_code": "has_subject",
+      "relation_label": "has subject",
+      "start_date": null,
+      "end_date": null,
+      "certainty": null,
+      "evidence": null
+    },
+    {
+      "id": 960042,
+      "direction": "incoming",
+      "target_id": 905261,
+      "target_name": "Excavation at Abu Sir",
+      "target_type": "Activity",
+      "rico_predicate": "rico:tookPlaceAt",
+      "inverse_predicate": "rico:isLocationOf",
+      "dropdown_code": "took_place_at",
+      "relation_label": "took place at",
+      "start_date": "1902-11-15",
+      "end_date": "1903-06-02",
+      "certainty": "probable",
+      "evidence": "Field season report, Abu Sir 1902–1903, p.14."
+    }
+  ]
+}

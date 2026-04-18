@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openric.org/schemas/entity-write.schema.json",
+  "title": "OpenRiC entity write request",
+  "description": "Request body for POST /api/ric/v1/{type} and PATCH /api/ric/v1/{type}/{id}. Fields vary by entity type; this is the per-type union. Unknown properties accepted (forward-compatible).",
+  "oneOf": [
+    { "$ref": "#/$defs/place" },
+    { "$ref": "#/$defs/rule" },
+    { "$ref": "#/$defs/activity" },
+    { "$ref": "#/$defs/instantiation" },
+    { "$ref": "#/$defs/relation" }
+  ],
+  "$defs": {
+    "place": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name":          { "type": "string", "maxLength": 1024 },
+        "type_id":       { "type": ["string", "null"] },
+        "parent_id":     { "type": ["integer", "null"] },
+        "latitude":      { "type": ["number", "null"] },
+        "longitude":     { "type": ["number", "null"] },
+        "authority_uri": { "type": ["string", "null"], "format": "uri" },
+        "address":       { "type": ["string", "null"] },
+        "description":   { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "rule": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title":         { "type": "string", "maxLength": 1024 },
+        "type_id":       { "type": ["string", "null"] },
+        "jurisdiction":  { "type": ["string", "null"] },
+        "start_date":    { "type": ["string", "null"] },
+        "end_date":      { "type": ["string", "null"] },
+        "authority_uri": { "type": ["string", "null"], "format": "uri" },
+        "description":   { "type": ["string", "null"] },
+        "legislation":   { "type": ["string", "null"] },
+        "sources":       { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "activity": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name":         { "type": "string", "maxLength": 1024 },
+        "type_id":      { "type": ["string", "null"] },
+        "place_id":     { "type": ["integer", "null"] },
+        "start_date":   { "type": ["string", "null"] },
+        "end_date":     { "type": ["string", "null"] },
+        "date_display": { "type": ["string", "null"] },
+        "description":  { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "instantiation": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title":                    { "type": "string", "maxLength": 1024 },
+        "carrier_type":             { "type": ["string", "null"] },
+        "mime_type":                { "type": ["string", "null"] },
+        "extent_value":             { "type": ["number", "null"] },
+        "extent_unit":              { "type": ["string", "null"] },
+        "record_id":                { "type": ["integer", "null"] },
+        "digital_object_id":        { "type": ["integer", "null"] },
+        "description":              { "type": ["string", "null"] },
+        "technical_characteristics": { "type": ["string", "null"] },
+        "production_technical_characteristics": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "relation": {
+      "type": "object",
+      "required": ["subject_id", "object_id", "relation_type"],
+      "properties": {
+        "subject_id":     { "type": "integer" },
+        "object_id":      { "type": "integer" },
+        "relation_type":  { "type": "string", "description": "Code from ric_relation_type vocabulary." },
+        "start_date":     { "type": ["string", "null"] },
+        "end_date":       { "type": ["string", "null"] },
+        "certainty":      { "type": ["string", "null"] },
+        "evidence":       { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    }
+  }
+}

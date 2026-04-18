@@ -72,6 +72,18 @@ Every endpoint response MUST validate against its JSON Schema. Schemas are JSON 
 | `error.schema.json` | Any error response |
 | `validation-report.schema.json` | `POST /validate` |
 
+**Added post-v0.1.0 (pending v0.2.0 freeze):**
+
+| Schema | Validates |
+|---|---|
+| `autocomplete.schema.json` | `GET /autocomplete` |
+| `relations-for.schema.json` | `GET /relations-for/{id}` |
+| `relation-list.schema.json` | `GET /relations` |
+| `hierarchy.schema.json` | `GET /hierarchy/{id}` |
+| `entity-info.schema.json` | `GET /entities/{id}/info` |
+| `entity-write.schema.json` | Request body for `POST /{type}` and `PATCH /{type}/{id}`; also `POST /relations`, `PATCH /relations/{id}` |
+| `write-response.schema.json` | Any `201 Created` or `200 OK` write response (both shapes via `oneOf`) |
+
 ### 3.3 Fixture pack — `fixtures/`
 
 The fixture pack is a directory of ~20 cases. Each case is a folder containing:
@@ -106,6 +118,16 @@ Initial fixture set covers:
 18. `subgraph-depth-2` — graph endpoint, two-hop BFS
 19. `subgraph-filtered-by-type` — graph endpoint with `types=rico:Person`
 20. `validation-failure` — deliberately broken input, expected SHACL failures
+
+**Added post-v0.1.0 (pending v0.2.0 freeze):**
+
+21. `autocomplete-egypt` — cross-entity search result shape
+22. `relations-for-place` — outgoing + incoming split on a Place
+23. `hierarchy-with-children` — parent + children + siblings on a hierarchical Place
+24. `entity-info-place` — minimal info card shape
+25. `relation-list` — paginated global relation browse
+26. `entity-write-place` — request + response for `POST /places`
+27. `write-response-create` — canonical 201-Created shape across every POST endpoint
 
 ## 4. Graph equality
 
