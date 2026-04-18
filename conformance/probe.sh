@@ -149,7 +149,10 @@ else
   printf '%s%-5s%s  GET  %-49s  [--]\n' "$Y" "SKIP" "$Z" "/graph (no seed URI available)"
   SKIP=$((SKIP+1))
 fi
-probe "sparql"       optional GET "/sparql?query=SELECT%20*%20WHERE%20{%20?s%20?p%20?o%20}%20LIMIT%201" '.'
+# SPARQL is marked EXPERIMENTAL in the spec — the reference implementation
+# currently returns a stub. Probe it as informational only; a stub OR a
+# proper response OR a 404 all "pass" here since it's not required.
+probe "sparql (experimental)" optional GET "/sparql?query=SELECT%20*%20WHERE%20{%20?s%20?p%20?o%20}%20LIMIT%201" '.'
 
 # ---- §5 OAI-PMH ------------------------------------------------
 
@@ -188,6 +191,26 @@ if [[ -n "$KEY" ]]; then
   REC_ID=$(curl -s -X POST "${BASE}/records" -H "X-API-Key: $KEY" \
     -H 'Content-Type: application/json' -d '{"title":"Probe Record 2"}' | jq -r '.id // empty')
   [[ -n "$REC_ID" ]] && probe "delete-record-probe" required DELETE "/records/${REC_ID}" '.success == true'
+
+  # ---- §7 scope enforcement -------------------------------------
+  # If READ_KEY is set, verify that a read-only-scoped key gets 403 on write
+  # routes. Catches regressions in the auth middleware scope gate.
+  if [[ -n "${READ_KEY:-}" ]]; then
+    code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 \
+      -X POST "${BASE}/places" \
+      -H "X-API-Key: $READ_KEY" -H 'Content-Type: application/json' \
+      -d '{"name":"Should be rejected — read-only key"}')
+    if [[ "$code" == "403" ]]; then
+      printf '%s%-5s%s  POST %-49s  [%s]\n' "$G" "PASS" "$Z" "/places (read-only key → 403)" "$code"
+      PASS=$((PASS+1))
+    else
+      printf '%s%-5s%s  POST %-49s  [%s]\n' "$R" "FAIL" "$Z" "/places (read-only key should have been 403)" "$code"
+      FAIL=$((FAIL+1))
+    fi
+  else
+    printf '%s%-5s%s  POST %-49s  [--]\n' "$Y" "SKIP" "$Z" "/places scope enforcement (READ_KEY not set)"
+    SKIP=$((SKIP+1))
+  fi
 fi
 
 # ---- summary ---------------------------------------------------

@@ -31,6 +31,14 @@ Probe including write + delete (creates and cleans up throwaway entities —
 KEY=your-api-key-with-write-and-delete-scope ./probe.sh
 ```
 
+Probe scope enforcement (optional): set `READ_KEY` to a *read-only-scoped*
+key in addition to the regular write `KEY`. The probe asserts that `POST
+/places` is rejected with HTTP 403 when called with the read-only key.
+
+```bash
+KEY=write-key READ_KEY=read-only-key ./probe.sh
+```
+
 Verbose (prints first 200 bytes of each failing response body):
 
 ```bash

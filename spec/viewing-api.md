@@ -179,14 +179,18 @@ Parameters:
 | `direction` | `in`, `out`, `both` | `both` | — |
 | `types` | Comma-separated filter of node RiC types | — | — |
 
-### 4.8 SPARQL (optional — L2-query)
+### 4.8 SPARQL (⚠ **experimental** — optional — L2-query)
+
+> **Status as of v0.2.0:** This endpoint is **experimental**. The reference implementation returns a stub response; a proper triplestore-backed SPARQL query layer is deferred until there is concrete adopter demand. Consumers MUST NOT treat `/sparql` as part of the required conformance surface. A non-conformant server (including the reference) may omit this endpoint, return an empty result set, or implement only a narrow subset. Do not build critical paths on top of it yet.
 
 ```
 GET /api/ric/v1/sparql?query={urlencoded-SPARQL}
 POST /api/ric/v1/sparql
 ```
 
-Passes the query to the server's underlying triple store. Servers MAY impose query complexity limits. Results in standard SPARQL 1.1 Results JSON format.
+When implemented, passes the query to the server's underlying triple store. Servers MAY impose query complexity limits. Results in standard SPARQL 1.1 Results JSON format.
+
+For simple traversals use `/graph?uri=…&depth=N` instead — it's stable across every conformant server.
 
 ### 4.9 Validate (optional — L2-query)
 
