@@ -7,9 +7,9 @@ title: OpenRiC — Live Demo
 
 # Live Demo
 
-This page runs **inside your browser** and fetches live RiC-O data from the reference implementation at `heratio.theahg.co.za` over the OpenRiC Viewing API. Nothing on `openric.org` proxies or caches — the spec site and the implementation site are genuinely independent. That is the point.
+This page runs **inside your browser** and fetches live RiC-O data from the reference API at [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/api/ric/v1/health) over the OpenRiC Viewing API. Nothing on `openric.org` proxies or caches — the spec site and the API are genuinely independent. That is the point.
 
-> **About the reference implementation.** Heratio currently runs the OpenRiC API as an *internal module*, not as a separate service the rest of Heratio consumes over HTTP. RiC data is already stored in its own dedicated tables (`ric_place`, `ric_rule`, `ric_activity`, `ric_instantiation`, `ric_relation_meta`), so the *data boundary* is clean — full client-server split of Heratio into "RiC API service" + "Heratio GLAM client" is on the roadmap. The API surface exercised by this demo is the same one an external client would use.
+> **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. Heratio itself is a consumer of this API — every mutating admin action calls `/api/ric/v1/*` with an `X-API-Key`, same surface you're using here. No privileged shortcut.
 
 <div class="demo-controls">
   <label for="demo-example">Try:</label>
@@ -58,7 +58,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
 ### What the demo proves
 
-- The **spec** (served by openric.org) and the **reference implementation** (served by heratio.theahg.co.za) live on separate infrastructure.
+- The **spec** (served by openric.org) and the **reference API** (served by ric.theahg.co.za) live on separate infrastructure.
 - The viewer is ported straight from Heratio's UI and re-used here with a one-line adapter from `openric:Subgraph` → viewer's `{nodes, edges}`. Any other server implementing the OpenRiC Viewing API can swap in — same viewer, different backend.
 - Every edge carries a canonical `rico:*` predicate as per [Graph Primitives §3.3](../spec/graph-primitives.html#33-edge).
 
@@ -78,7 +78,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 (function () {
   'use strict';
 
-  var API_BASE = 'https://heratio.theahg.co.za/api/ric/v1';
+  var API_BASE = 'https://ric.theahg.co.za/api/ric/v1';
 
   var exampleSelect = document.getElementById('demo-example');
   var uriInput      = document.getElementById('demo-uri');
@@ -128,7 +128,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
     var id = data.id || '';
     var atomUrl = data.atomUrl || '';
     var type = data.type || '';
-    var heratio = 'https://heratio.theahg.co.za/api/ric/v1';
+    var apiBase = 'https://ric.theahg.co.za/api/ric/v1';
 
     // Slug-based endpoints — pull slug from atomUrl.
     var slug = atomUrl ? atomUrl.replace(/^\/+/, '').split('/').pop() : '';
@@ -138,17 +138,17 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
     switch (type) {
       case 'RecordSet': case 'Record': case 'RecordPart':
-        return slug ? heratio + '/records/' + slug : null;
+        return slug ? apiBase + '/records/' + slug : null;
       case 'Person': case 'CorporateBody': case 'Family': case 'Agent':
-        return slug ? heratio + '/agents/' + slug : null;
+        return slug ? apiBase + '/agents/' + slug : null;
       case 'Place':
-        return /^\d+$/.test(tailId) ? heratio + '/places/' + tailId : null;
+        return /^\d+$/.test(tailId) ? apiBase + '/places/' + tailId : null;
       case 'Production': case 'Accumulation': case 'Activity':
-        return /^\d+$/.test(tailId) ? heratio + '/activities/' + tailId : null;
+        return /^\d+$/.test(tailId) ? apiBase + '/activities/' + tailId : null;
       case 'Rule':
-        return /^\d+$/.test(tailId) ? heratio + '/rules/' + tailId : null;
+        return /^\d+$/.test(tailId) ? apiBase + '/rules/' + tailId : null;
       case 'Instantiation':
-        return /^\d+$/.test(tailId) ? heratio + '/instantiations/' + tailId : null;
+        return /^\d+$/.test(tailId) ? apiBase + '/instantiations/' + tailId : null;
       default:
         return null;
     }
