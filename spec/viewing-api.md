@@ -221,6 +221,124 @@ GET /api/ric/v1/health
 
 Returns `{ "status": "ok" }` with HTTP 200 when the server is reachable and its backing store is healthy. Non-authenticated. Intended for monitoring.
 
+### 4.11 RiC-native entities — Places, Rules, Activities, Instantiations
+
+These four entity types are first-class RiC-O resources that exist independently of records. Each gets a list, a show, and (for Places) a flat-name-and-id endpoint suitable for parent pickers.
+
+```
+GET /api/ric/v1/places
+GET /api/ric/v1/places/{id}
+GET /api/ric/v1/places/flat?exclude_id={id}
+
+GET /api/ric/v1/rules
+GET /api/ric/v1/rules/{id}
+
+GET /api/ric/v1/activities
+GET /api/ric/v1/activities/{id}
+
+GET /api/ric/v1/instantiations
+GET /api/ric/v1/instantiations/{id}
+```
+
+List endpoints accept `page`, `per_page`, and OPTIONAL type filters matching the taxonomy (e.g. `?type_id=country`). Show endpoints return full `rico:Place` / `rico:Rule` / `rico:ProductionActivity` / `rico:Instantiation` serialisations with any `owl:sameAs` authority links.
+
+`/places/flat` returns `{items: [{id, name}], count}` — small-payload parent-picker companion. Unpaginated; bounded by server-side policy.
+
+### 4.12 Relations
+
+```
+GET /api/ric/v1/relations?q={query}&page={p}&per_page={n}
+GET /api/ric/v1/relations-for/{entity-id}
+GET /api/ric/v1/relation-types?domain={class}&range={class}
+```
+
+- `/relations` is the paginated global list. `q` matches against `rico:predicate`, `dropdown_code`, and evidence text.
+- `/relations-for/{id}` returns `{outgoing: [...], incoming: [...], total, entity_id}` grouped by direction. Use this on entity show-pages.
+- `/relation-types` returns the catalog of allowed relation predicates, optionally filtered by domain/range class.
+
+### 4.13 Hierarchy walk
+
+```
+GET /api/ric/v1/hierarchy/{entity-id}?include=parent,children,siblings
+```
+
+For Places, returns parent + children + siblings from `ric_place.parent_id`. For other entity types, walks `ric_relation_meta.dropdown_code IN (has_part, includes, is_superior_of, is_part_of, is_included_in)`. Use `include` to restrict the walk.
+
+### 4.14 Autocomplete
+
+```
+GET /api/ric/v1/autocomplete?q={query}&types={types}&limit={n}
+```
+
+Cross-entity name/title search. `types` is a comma-delimited subset of `place,rule,activity,instantiation,actor,io,repository,digital_object` — omit for all. Returns `[{id, label, type}]`, capped at `limit` (default 20, max 200).
+
+### 4.15 Vocabulary (single-taxonomy)
+
+```
+GET /api/ric/v1/vocabulary/{taxonomy}
+```
+
+Returns `{taxonomy, items: [{code, label, color, icon, is_default, metadata}], count}`. `{taxonomy}` is a dropdown name like `ric_place_type`, `ric_rule_type`, `ric_activity_type`, `ric_carrier_type`, `ric_relation_type`, `certainty_level`. 404 when the taxonomy isn't defined.
+
+### 4.16 Records — linked RiC entities
+
+```
+GET /api/ric/v1/records/{id}/entities?types={types}
+```
+
+Aggregates every RiC-native entity linked to a given record (via the `relation` table) into `{places: [...], rules: [...], activities: [...], instantiations: [...]}`. `types` is the same comma-delimited filter as `/autocomplete`.
+
+### 4.17 Entity info card
+
+```
+GET /api/ric/v1/entities/{id}/info
+```
+
+Minimal JSON-LD entity card: `{id, class, slug, name, type, description}`. For popovers / hover tooltips / autocomplete result expansion. Cheap to fetch.
+
+### 4.18 Write operations *(added post-v0.1.0; L3 conformance)*
+
+All write operations require `X-API-Key` with a scope matching the operation. See §6 (Authentication) for details.
+
+#### 4.18.1 Create / update / delete RiC-native entities
+
+```
+POST   /api/ric/v1/{type}              scope: write
+PATCH  /api/ric/v1/{type}/{id}         scope: write
+PUT    /api/ric/v1/{type}/{id}         scope: write  (alias of PATCH)
+DELETE /api/ric/v1/{type}/{id}         scope: delete
+```
+
+`{type}` ∈ `places | rules | activities | instantiations`. Body keys match the DB schema for the entity (e.g. for Place: `name`, `type_id`, `latitude`, `longitude`, `authority_uri`, `parent_id`, `address`, `description`). Type picker values come from `/vocabulary/{taxonomy}`.
+
+Success responses:
+
+| Operation | Status | Body |
+|---|---|---|
+| POST | 201 Created | `{id, slug, type, href}` |
+| PATCH/PUT | 200 OK | `{success: true, id}` |
+| DELETE | 200 OK | `{success: true, id}` |
+
+#### 4.18.2 Create / update / delete relations
+
+```
+POST   /api/ric/v1/relations                scope: write
+PATCH  /api/ric/v1/relations/{id}           scope: write
+DELETE /api/ric/v1/relations/{id}           scope: delete
+```
+
+POST body: `{subject_id, object_id, relation_type}` plus optional `{start_date, end_date, certainty, evidence}`. `relation_type` is a code from `ric_relation_type` vocabulary.
+
+If the underlying `ric_relation_meta` marks the relation as symmetric, the server MUST create a mirror inverse-direction relation at the same time (same `id` space, linked via `ric_relation_meta.inverse_predicate`). Both sides are visible in `/relations-for/{id}` output.
+
+#### 4.18.3 Delete by id (type-agnostic)
+
+```
+DELETE /api/ric/v1/entities/{id}            scope: delete
+```
+
+Convenience endpoint for UIs that hold a numeric entity id but not its type. Server looks up `object.class_name` and dispatches to the appropriate delete handler. Returns 422 for entities that aren't one of the four RiC-native types.
+
 ## 5. Request and response formats
 
 ### 5.1 Content negotiation
@@ -246,15 +364,35 @@ All GET endpoints MUST send:
 Access-Control-Allow-Origin: *
 ```
 
-This enables browser-based viewers hosted on other domains. POST endpoints (validate, sparql) MAY restrict origins.
+This enables browser-based viewers hosted on other domains.
+
+Write endpoints (POST, PATCH, PUT, DELETE) SHOULD also return `Access-Control-Allow-Origin: *` and handle the CORS preflight (`OPTIONS`) with:
+
+```
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+Access-Control-Allow-Headers: Content-Type, X-API-Key, X-REST-API-Key, Authorization, Accept
+Access-Control-Max-Age: 86400
+```
+
+Without this, browser-based capture clients (like [capture.openric.org](https://capture.openric.org)) can't write to the server.
 
 ## 6. Authentication
 
-Out of scope for v0.1. Servers are free to apply any authentication scheme they wish, but:
+**Reads** — public by default. `/health`, `/`, `/vocabulary*`, and the read-side entity + relation + graph endpoints SHOULD be reachable without credentials. An ODRL-based rights-enforcement layer (OpenRiC-Rights, forthcoming) will define how to expose per-record access controls for per-record private reads.
 
-- Health and service-description endpoints SHOULD be public.
-- Public read endpoints (records, agents, repositories) SHOULD be public unless a rights policy says otherwise.
-- An ODRL-based rights-enforcement layer (OpenRiC-Rights, forthcoming) will define how to expose per-record access controls.
+**Writes** — authenticated via `X-API-Key` header. Alternative header names that SHOULD be accepted: `X-REST-API-Key`, `Authorization: Bearer <key>`.
+
+API keys carry a list of **scopes**. The required scope per operation:
+
+| Operation | Required scope |
+|---|---|
+| `POST /{type}`, `POST /relations` | `write` |
+| `PATCH /{type}/{id}`, `PATCH /relations/{id}` | `write` |
+| `DELETE /{type}/{id}`, `DELETE /relations/{id}`, `DELETE /entities/{id}` | `delete` |
+
+Missing key → `401 Unauthorized`. Key present but missing scope → `403 Forbidden`. Both responses MUST be JSON: `{error: "unauthorized", message: "…"}`.
+
+Key issuance is operator-defined — the spec doesn't mandate a particular UI or workflow. The reference implementation issues SHA-256-hashed keys with per-key scope lists and optional expiry. See the reference [`ahg-api`](https://github.com/ArchiveHeritageGroup/heratio/tree/main/packages/ahg-api) package for a model.
 
 ## 7. Pagination
 

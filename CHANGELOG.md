@@ -1,5 +1,58 @@
 # OpenRiC Specification — Changelog
 
+## Unreleased — progress since v0.1.0
+
+Everything below is on live infrastructure; a `v0.2.0` tag is planned once the changes settle and a second implementation is in sight.
+
+### New public surfaces
+
+- **[capture.openric.org](https://capture.openric.org)** — pure-browser data-entry client (`github.com/openric/capture`, AGPL-3.0). Paste a server URL + API key, create Places, Rules, Activities, Instantiations, and relations against any OpenRiC-conformant backend. Mirror of the viewer's decoupling story on the capture side.
+- **[ric.theahg.co.za/api/ric/v1](https://ric.theahg.co.za/api/ric/v1/health)** — the reference API moved to its own deployment. Heratio stopped serving `/api/ric/v1/*` and is now a client of this endpoint over HTTP, same surface any third-party client uses. No privileged shortcut.
+
+### Specification additions (pending a `v0.2.0` freeze)
+
+The following endpoints were added to the Viewing API document (`§4.11–4.18`). They are live on the reference deployment but not yet part of a frozen tag:
+
+**Read-side (no new auth required):**
+- `GET /places`, `/places/{id}`, `/places/flat?exclude_id=` — RiC-native Places with list + show + picker helper.
+- `GET /rules`, `/rules/{id}` — RiC-native Rules.
+- `GET /activities`, `/activities/{id}` — RiC-native Activities.
+- `GET /instantiations`, `/instantiations/{id}` — RiC-native Instantiations.
+- `GET /relations` — paginated global list; `GET /relations-for/{id}` — relations for one entity grouped by direction; `GET /relation-types` — filtered relation predicate catalog.
+- `GET /hierarchy/{entity-id}?include=parent,children,siblings` — hierarchy walk.
+- `GET /autocomplete?q=&types=&limit=` — cross-entity label search.
+- `GET /vocabulary/{taxonomy}` — single-taxonomy detail (complements the all-taxonomies catalog at `/vocabulary`).
+- `GET /records/{id}/entities?types=` — linked RiC entities aggregate for one record.
+- `GET /entities/{id}/info` — minimal info card for popovers.
+
+**Write-side (new — requires `X-API-Key` + `write` / `delete` scopes):**
+- `POST /{type}`, `PATCH /{type}/{id}`, `DELETE /{type}/{id}` for `{type} ∈ places|rules|activities|instantiations`.
+- `POST /relations`, `PATCH /relations/{id}`, `DELETE /relations/{id}`.
+- `DELETE /entities/{id}` — type-agnostic delete-by-id for UIs that hold an id without a type.
+
+### Graph endpoint additions
+
+- `/graph?uri=/default/term/{id}` and `/default/thing/{id}`, `/default/concept/{id}`, `/default/subject/{id}` — the subgraph root dispatcher now recognises Term/Thing/Concept/Subject entity URIs, so clicking a subject node in the viewer drills into the records tagged with it. `rico:hasBroaderConcept` + `rico:hasSubject` edges.
+
+### Auth
+
+§6 of the Viewing API spec is revised. Reads stay public by default; writes require an API key with an appropriate scope. Three scopes defined: `write`, `delete`, and implicit `read`. `401` on missing key, `403` on missing scope.
+
+### CORS
+
+§5.3 extended: write endpoints MUST handle the `OPTIONS` preflight and return the standard CORS headers. Without this, browser-based capture clients can't write.
+
+### Tooling
+
+- `@openric/viewer@0.1.1` — fixes `fetchSubgraph` to accept relative server bases. Adds rich hover tooltip (RiC-O type, full URI, per-node extras). Published on npm.
+- Reference deployment runbook ([`ric-split-runbook.md`](https://github.com/ArchiveHeritageGroup/heratio/blob/main/docs/ric-split-runbook.md)) + collapse plan ([`ric-split-collapse-plan.md`](https://github.com/ArchiveHeritageGroup/heratio/blob/main/docs/ric-split-collapse-plan.md)) published in the Heratio repository. They're the implementation playbook for anyone wanting to reproduce the "reference impl is a consumer of its own API" topology.
+
+### Fixtures / validator
+
+No changes yet — the 20-case fixture pack and the validator CLI still target v0.1.0 endpoint shapes. Adding fixtures for the new read endpoints + the write surface is the blocker for a `v0.2.0` tag.
+
+---
+
 ## v0.1.0 — 2026-04-17 *(first frozen draft)*
 
 First frozen release of OpenRiC. The specification is **draft-stable**: implementations can now claim conformance against a specific version. Breaking changes are allowed in v0.2.x in response to external review, but any such change will bump the minor version.
