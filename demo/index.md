@@ -182,11 +182,91 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
             '<span style="word-break:break-all; font-family:monospace;">' + escapeHtml(id) + '</span></div>';
 
     nodeInfoEl.innerHTML = html;
+
+    // Drill into this node's subgraph — re-root the graph at the clicked entity.
+    if (id) {
+      uriInput.value = id;
+      load(id);
+    }
+  }
+
+  // Hover tooltip (v0.2.0 style — the demo predates the viewer package's own
+  // tooltip support; this is a drop-in that works with whatever viewer version
+  // unpkg currently resolves to).
+  var tooltipEl = null;
+  function ensureTooltip() {
+    if (tooltipEl) return tooltipEl;
+    tooltipEl = document.createElement('div');
+    tooltipEl.setAttribute('role', 'tooltip');
+    tooltipEl.style.cssText =
+      'position:fixed; pointer-events:none; z-index:10000;' +
+      'background:rgba(15,23,42,0.97); color:#e5e7eb;' +
+      'border:1px solid #334155; border-radius:6px;' +
+      'padding:0.55rem 0.75rem; font-size:0.82rem; line-height:1.4;' +
+      'max-width:360px; box-shadow:0 4px 12px rgba(0,0,0,0.35);' +
+      'font-family:system-ui,sans-serif; display:none;';
+    document.body.appendChild(tooltipEl);
+    return tooltipEl;
+  }
+  function renderTooltipHtml(node) {
+    if (!node) return '';
+    var shortType = node.type || 'Unknown';
+    var ricoType = /^rico:|:\/\//.test(shortType) ? shortType : ('rico:' + shortType);
+    var colour = OpenricViewer.getColour(node.type);
+    var known = { id:1, label:1, name:1, type:1, color:1, colour:1, val:1, x:1, y:1, z:1, vx:1, vy:1, vz:1, fx:1, fy:1, fz:1, index:1, __indexColor:1, __threeObj:1, __lineObj:1 };
+    var extras = '';
+    Object.keys(node).forEach(function (k) {
+      if (known[k]) return;
+      var v = node[k]; if (v == null || v === '' || typeof v === 'object') return;
+      extras += '<dt>' + escapeHtml(k) + '</dt><dd>' + escapeHtml(v) + '</dd>';
+    });
+    return '<div style="font-weight:600;font-size:0.92rem;margin-bottom:0.25rem;word-break:break-word;">' + escapeHtml(node.label || node.name || 'Unknown') + '</div>' +
+      '<span style="display:inline-block;padding:0.05rem 0.45rem;border-radius:999px;font-size:0.7rem;margin-bottom:0.4rem;color:#fff;background:' + colour + ';">' + escapeHtml(shortType) + '</span>' +
+      '<dl style="margin:0.3rem 0 0;display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;">' +
+      '<dt style="color:#9ca3af;font-size:0.72rem;">RiC-O type</dt><dd style="margin:0;font-family:monospace;font-size:0.72rem;">' + escapeHtml(ricoType) + '</dd>' +
+      '<dt style="color:#9ca3af;font-size:0.72rem;">id</dt><dd style="margin:0;font-family:monospace;font-size:0.72rem;word-break:break-all;">' + escapeHtml(node.id) + '</dd>' +
+      (extras ? extras : '') +
+      '</dl>' +
+      '<div style="margin-top:0.45rem;color:#9ca3af;font-size:0.72rem;font-style:italic;">Click to drill into this node\'s subgraph</div>';
+  }
+  var lastMouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+  window.addEventListener('mousemove', function (e) { lastMouse = { x: e.clientX, y: e.clientY }; });
+  function showTooltip(node) {
+    var el = ensureTooltip();
+    el.innerHTML = renderTooltipHtml(node);
+    el.style.display = 'block';
+    var pad = 14, w = el.offsetWidth, h = el.offsetHeight;
+    var x = lastMouse.x + pad, y = lastMouse.y + pad;
+    if (x + w > window.innerWidth  - 10) x = lastMouse.x - w - pad;
+    if (y + h > window.innerHeight - 10) y = lastMouse.y - h - pad;
+    el.style.left = Math.max(4, x) + 'px';
+    el.style.top  = Math.max(4, y) + 'px';
+  }
+  function hideTooltip() { if (tooltipEl) tooltipEl.style.display = 'none'; }
+
+  function attachHover(instance, payload) {
+    if (!instance) return;
+    var nodeById = {};
+    (payload['openric:nodes'] || payload.nodes || []).forEach(function (n) { nodeById[n.id] = n; });
+    if (instance.on && typeof instance.on === 'function') {
+      // cytoscape (2D)
+      instance.on('mouseover', 'node', function (evt) {
+        var id = evt.target.data('id');
+        showTooltip(nodeById[id] || evt.target.data());
+      });
+      instance.on('mouseout', 'node', hideTooltip);
+    } else if (typeof instance.onNodeHover === 'function') {
+      // ForceGraph3D (3D)
+      instance.onNodeHover(function (node) {
+        if (node) showTooltip(nodeById[node.id] || node); else hideTooltip();
+      });
+    }
   }
 
   function render(payload) {
     clearGraph();
 
+    hideTooltip();
     if (currentMode === '3d') {
       currentGraph = OpenricViewer.init3D(graphEl, payload, { onNodeClick: onNodeClick });
       if (!currentGraph) {
@@ -200,6 +280,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
         return;
       }
     }
+    attachHover(currentGraph, payload);
 
     var nodeCount = (payload['openric:nodes'] || payload.nodes || []).length;
     var edgeCount = (payload['openric:edges'] || payload.edges || []).length;
