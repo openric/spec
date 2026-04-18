@@ -9,6 +9,8 @@ title: OpenRiC — Live Demo
 
 This page runs **inside your browser** and fetches live RiC-O data from the reference API at [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/api/ric/v1/health) over the OpenRiC Viewing API. Nothing on `openric.org` proxies or caches — the spec site and the API are genuinely independent. That is the point.
 
+> **Prefer a catalogue view?** [/demo/browse/](browse/) renders the same data as a responsive card grid with per-type filters — useful for evaluating the shape of a dataset before drilling into the graph.
+
 > **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. Heratio itself is a consumer of this API — every mutating admin action calls `/api/ric/v1/*` with an `X-API-Key`, same surface you're using here. No privileged shortcut.
 
 <div class="demo-controls">

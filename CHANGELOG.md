@@ -2,7 +2,17 @@
 
 ## Unreleased
 
-<!-- New entries go here. Keep this section at the top; promote on tag cut. -->
+### Browse demo
+
+- **[openric.org/demo/browse/](demo/browse/)** — responsive card-grid browse over any OpenRiC-conformant server. Per-type filter tabs (Records / Agents / Places / Rules / Activities / Instantiations / Repositories / Functions), pagination, click-through to the 2D/3D viewer, `openric-demo` callouts when a seeded fonds is present. Pure browser, no build step.
+
+### Reference-server additions post-v0.2.0
+
+- **Repository + Function write endpoints.** Full CRUD on all eight RiC entity classes now. 46 paths in `openapi.json`.
+- **`openric:rebuild-nested-set`** Artisan command with `--verify` and `--dry-run` — rebuilds information_object MPTT `lft/rgt` after bulk imports.
+- **`openric:seed-demo`** Artisan command — creates a coherent mini-fonds (Repository + Agent + Place + Activity + Rule + Function + 3 Records + Instantiation + 11 relations) so the browse demo has a curated narrative. Idempotent; `--drop` removes.
+- **SPARQL marked experimental** in §4.8 of the Viewing API spec. The endpoint remains a stub; clients should use `/graph?uri=…&depth=N` for traversal.
+- **Conformance probe** now supports `READ_KEY=` for scope-enforcement checks (asserts a read-only key gets 403 on write routes).
 
 ## v0.2.0 — 2026-04-18
 

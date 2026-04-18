@@ -1,0 +1,339 @@
+<!--
+  Copyright (C) 2026 Johan Pieterse / Plain Sailing Information Systems
+  Email: johan@plainsailingisystems.co.za
+  SPDX-License-Identifier: AGPL-3.0-or-later
+
+  OpenRiC browse demo — a responsive catalogue view of whatever a given
+  OpenRiC server exposes. Pure browser, no build step, no server-side
+  rendering on openric.org. Points at any OpenRiC-conformant server via
+  the base-URL input.
+
+  Served from openric.org/demo/browse/ via GitHub Pages.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenRiC — Browse demo</title>
+  <meta name="description" content="Browse a live OpenRiC dataset — records, agents, places, rules, activities, instantiations, repositories, functions." />
+  <link rel="canonical" href="https://openric.org/demo/browse/" />
+  <style>
+    :root {
+      --fg: #111827; --muted: #6b7280; --bg: #ffffff; --panel: #f9fafb;
+      --panel-alt: #f3f4f6; --border: #e5e7eb; --accent: #3b82f6; --accent-hover: #2563eb;
+      /* Per-type colours — match the viewer's getColour for consistency */
+      --c-record: #3b82f6; --c-agent: #10b981; --c-place: #f59e0b;
+      --c-rule: #8b5cf6;   --c-activity: #ef4444; --c-instantiation: #06b6d4;
+      --c-repository: #db2777; --c-function: #64748b;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; color: var(--fg); background: var(--bg); line-height: 1.5; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header { background: #0f172a; color: #e5e7eb; padding: 0.7rem 1.2rem;
+             display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+    header h1 { margin: 0; font-size: 1rem; font-weight: 600; }
+    header h1 small { color: #9ca3af; font-weight: 400; margin-left: 0.5rem; font-size: 0.8rem; }
+    header a { color: #60a5fa; font-size: 0.85rem; }
+    header .right { margin-left: auto; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .controls { background: var(--panel); border-bottom: 1px solid var(--border); padding: 0.9rem 1.5rem;
+                display: grid; grid-template-columns: 1fr auto; gap: 0.8rem; align-items: end; }
+    .controls label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.25rem; }
+    .controls input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 0.45rem 0.6rem;
+      border-radius: 4px; font-size: 0.88rem; font-family: monospace;
+    }
+    .controls button {
+      padding: 0.5rem 1rem; background: var(--accent); color: #fff; border: 1px solid var(--accent);
+      border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.88rem;
+    }
+    .controls button:hover { background: var(--accent-hover); }
+    .controls .status { grid-column: 1 / -1; font-size: 0.82rem; color: var(--muted); }
+    .controls .status.err { color: #dc2626; }
+    .controls .status.ok  { color: #059669; }
+
+    .tabs { background: var(--panel); border-bottom: 1px solid var(--border); padding: 0 1.5rem;
+            display: flex; gap: 0.2rem; overflow-x: auto; }
+    .tabs button {
+      background: transparent; border: none; border-bottom: 2px solid transparent; padding: 0.8rem 1rem;
+      font-size: 0.9rem; color: var(--muted); cursor: pointer; white-space: nowrap;
+      font-family: inherit;
+    }
+    .tabs button:hover { color: var(--fg); }
+    .tabs button.active { color: var(--fg); border-bottom-color: var(--accent); font-weight: 600; }
+    .tabs .count { margin-left: 0.4rem; color: var(--muted); font-size: 0.78rem; }
+
+    main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+    .intro { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.2rem; }
+    .intro strong { color: var(--fg); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.9rem; }
+    .card {
+      border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem;
+      background: var(--bg); cursor: pointer; transition: border-color 0.15s, transform 0.15s;
+      text-decoration: none; color: inherit; display: flex; flex-direction: column; min-height: 140px;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+    .card .type-badge {
+      display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px;
+      font-size: 0.7rem; font-weight: 600; color: #fff; text-transform: lowercase;
+      letter-spacing: 0.02em; margin-bottom: 0.6rem; align-self: flex-start;
+    }
+    .card .type-badge.record        { background: var(--c-record); }
+    .card .type-badge.agent         { background: var(--c-agent); }
+    .card .type-badge.place         { background: var(--c-place); }
+    .card .type-badge.rule          { background: var(--c-rule); }
+    .card .type-badge.activity      { background: var(--c-activity); }
+    .card .type-badge.instantiation { background: var(--c-instantiation); }
+    .card .type-badge.repository    { background: var(--c-repository); }
+    .card .type-badge.function      { background: var(--c-function); }
+    .card h3 { margin: 0 0 0.35rem; font-size: 1.03rem; font-weight: 600; line-height: 1.3; }
+    .card .sub { color: var(--muted); font-size: 0.82rem; word-break: break-word; }
+    .card .actions { margin-top: auto; padding-top: 0.6rem; display: flex; gap: 0.6rem; font-size: 0.78rem; }
+    .card .actions a { color: var(--accent); }
+
+    .pagination { display: flex; gap: 0.5rem; margin-top: 1.5rem; justify-content: center; align-items: center; }
+    .pagination button {
+      padding: 0.4rem 0.9rem; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-family: inherit;
+    }
+    .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .pagination button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .pagination .info { color: var(--muted); font-size: 0.85rem; }
+
+    .empty, .loading {
+      text-align: center; color: var(--muted); font-size: 0.9rem;
+      padding: 3rem 1rem; border: 2px dashed var(--border); border-radius: 8px;
+    }
+
+    footer {
+      margin-top: 3rem; padding: 1.5rem; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.82rem; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/" style="color:#e5e7eb;">OpenRiC</a> — Browse demo
+      <small>live catalogue over any OpenRiC-conformant server</small></h1>
+    <div class="right">
+      <a href="/" target="_self">Spec ↗</a>
+      <a href="/demo/" target="_self">Graph demo ↗</a>
+      <a href="/api-explorer/" target="_self">API Explorer ↗</a>
+      <a href="https://viewer.openric.org" target="_blank" rel="noopener">Viewer ↗</a>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div>
+      <label for="server">Server base URL (path to <code>/api/ric/v1</code>)</label>
+      <input id="server" value="https://ric.theahg.co.za/api/ric/v1" />
+    </div>
+    <div>
+      <button id="reload" type="button">Reload</button>
+    </div>
+    <div class="status" id="status">Ready. Pick a tab below to browse.</div>
+  </div>
+
+  <nav class="tabs" id="tabs"></nav>
+
+  <main>
+    <p class="intro">
+      This catalogue is rendered <strong>entirely in your browser</strong> from whichever OpenRiC server you point at above — no server-side rendering on <code>openric.org</code>. Click any card to open its graph neighbourhood in the <a href="https://viewer.openric.org">viewer</a>, or its source record on the backing platform.
+    </p>
+    <p class="intro" id="seeded-hint" style="display:none;">
+      <strong>Curated demo fonds available:</strong> Look for cards prefixed <code>OpenRiC demo</code> — they form a coherent mini-fonds about botanical illustrator Johanna le Roux. See the whole set:
+      <a href="https://viewer.openric.org" target="_blank" rel="noopener">open the fonds in the viewer ↗</a>.
+    </p>
+    <div id="content">
+      <div class="loading">Loading…</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      <a href="https://github.com/openric/spec">spec/</a>
+      · <a href="https://github.com/openric/viewer">viewer/</a>
+      · <a href="https://github.com/openric/capture">capture/</a>
+      · AGPL-3.0 (code) / CC-BY 4.0 (spec)
+    </p>
+  </footer>
+
+  <script>
+    // Entity-type definitions — ordering drives the tab order.
+    const TYPES = [
+      { id: 'record',        plural: 'records',        label: 'Records',         labelKey: 'rico:title' },
+      { id: 'agent',         plural: 'agents',         label: 'Agents',          labelKey: 'rico:name'  },
+      { id: 'place',         plural: 'places',         label: 'Places',          labelKey: 'rico:name'  },
+      { id: 'rule',          plural: 'rules',          label: 'Rules',           labelKey: 'rico:title' },
+      { id: 'activity',      plural: 'activities',     label: 'Activities',      labelKey: 'rico:name'  },
+      { id: 'instantiation', plural: 'instantiations', label: 'Instantiations',  labelKey: 'rico:title' },
+      { id: 'repository',    plural: 'repositories',   label: 'Repositories',    labelKey: 'rico:name'  },
+      { id: 'function',      plural: 'functions',      label: 'Functions',       labelKey: 'rico:name'  },
+    ];
+    const PAGE_SIZE = 24;
+
+    const serverInput = document.getElementById('server');
+    const reloadBtn   = document.getElementById('reload');
+    const statusEl    = document.getElementById('status');
+    const tabsEl      = document.getElementById('tabs');
+    const contentEl   = document.getElementById('content');
+    const seededHint  = document.getElementById('seeded-hint');
+
+    let currentTypeId = TYPES[0].id;
+    let currentPage   = 1;
+    let totalsCache   = {};  // type → total
+    let lastSeededFlag = false;
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function setStatus(cls, msg) {
+      statusEl.className = 'status ' + (cls || '');
+      statusEl.innerHTML = msg;
+    }
+
+    function currentServer() {
+      return (serverInput.value || '').trim().replace(/\/$/, '');
+    }
+
+    function renderTabs() {
+      tabsEl.innerHTML = TYPES.map(t => {
+        const count = totalsCache[t.id] != null ? `<span class="count">(${totalsCache[t.id]})</span>` : '';
+        const active = t.id === currentTypeId ? 'active' : '';
+        return `<button data-type="${t.id}" class="${active}">${t.label}${count}</button>`;
+      }).join('');
+      tabsEl.querySelectorAll('button').forEach(b => {
+        b.addEventListener('click', () => { currentTypeId = b.dataset.type; currentPage = 1; loadList(); });
+      });
+    }
+
+    async function fetchTotals() {
+      const base = currentServer();
+      const results = await Promise.allSettled(TYPES.map(t =>
+        fetch(`${base}/${t.plural}?limit=1`).then(r => r.json()).then(j => ({
+          id: t.id,
+          total: j['openric:total'] ?? j['ric:total'] ?? (Array.isArray(j['openric:items'] || j['ric:items']) ? (j['openric:items'] || j['ric:items']).length : 0),
+        }))
+      ));
+      const next = {};
+      for (const r of results) {
+        if (r.status === 'fulfilled') next[r.value.id] = r.value.total;
+      }
+      totalsCache = next;
+      renderTabs();
+    }
+
+    async function loadList() {
+      renderTabs();
+      const type = TYPES.find(t => t.id === currentTypeId);
+      if (!type) return;
+      const base = currentServer();
+      if (!base) { setStatus('err', 'Server URL is required.'); return; }
+
+      contentEl.innerHTML = `<div class="loading">Loading ${type.label.toLowerCase()}…</div>`;
+      try {
+        const url = `${base}/${type.plural}?limit=${PAGE_SIZE}&page=${currentPage}`;
+        const resp = await fetch(url, { headers: { 'Accept': 'application/ld+json, application/json' } });
+        if (!resp.ok) { setStatus('err', `List request failed: ${resp.status}`); return; }
+        const json = await resp.json();
+
+        const items = json['openric:items'] || json['ric:items'] || json.items || [];
+        const total = json['openric:total'] ?? json['ric:total'] ?? items.length;
+        totalsCache[type.id] = total;
+
+        if (!items.length) {
+          contentEl.innerHTML = `<div class="empty">No ${type.label.toLowerCase()} on this server.</div>`;
+          setStatus('ok', `0 ${type.label.toLowerCase()}.`);
+          renderTabs();
+          return;
+        }
+
+        const seededAny = items.some(i => {
+          const label = i[type.labelKey] || i.title || i.name || '';
+          return /OpenRiC demo|openric-demo/i.test(label) || /openric-demo/i.test(i['@id'] || '');
+        });
+        if (seededAny && !lastSeededFlag) { seededHint.style.display = ''; lastSeededFlag = true; }
+
+        contentEl.innerHTML = `
+          <div class="grid">
+            ${items.map(it => renderCard(it, type)).join('')}
+          </div>
+          ${renderPagination(total)}
+        `;
+        setStatus('ok', `${items.length} of ${total} ${type.label.toLowerCase()} · page ${currentPage}.`);
+        renderTabs();
+
+        contentEl.querySelectorAll('[data-paginate]').forEach(b => {
+          b.addEventListener('click', () => { currentPage = parseInt(b.dataset.paginate, 10); loadList(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        });
+      } catch (e) {
+        contentEl.innerHTML = `<div class="empty">Could not load: ${escapeHtml(e.message || e)}</div>`;
+        setStatus('err', `Error: ${e.message}`);
+      }
+    }
+
+    function renderCard(item, type) {
+      const atId = item['@id'] || '';
+      const label = item[type.labelKey] || item['rico:title'] || item['rico:name'] || item.title || item.name || `(untitled ${type.label.toLowerCase()})`;
+      // Extra facts — identifier, localType, level, etc.
+      const extras = [];
+      for (const k of ['rico:identifier', 'openric:localType', 'rico:date', 'rico:dateSet', 'level', 'rico:mimeType']) {
+        if (item[k]) extras.push(`${k.split(':').pop()}: ${item[k]}`);
+      }
+      const viewerHref = `https://viewer.openric.org/?start=${encodeURIComponent(pathOf(atId))}`;
+      const sourceHref = atId ? escapeHtml(atId) : '#';
+      return `
+        <a class="card" href="${viewerHref}" target="_blank" rel="noopener">
+          <span class="type-badge ${type.id}">${type.label.replace(/s$/, '')}</span>
+          <h3>${escapeHtml(label)}</h3>
+          <div class="sub">${escapeHtml(extras.join(' · '))}</div>
+          <div class="sub" style="margin-top:0.4rem; font-family: monospace; font-size: 0.74rem;">${escapeHtml(pathOf(atId) || '')}</div>
+          <div class="actions">
+            <span>Open in viewer →</span>
+            <a href="${sourceHref}" target="_blank" rel="noopener" onclick="event.stopPropagation()">source ↗</a>
+          </div>
+        </a>
+      `;
+    }
+
+    function pathOf(uri) {
+      if (!uri) return '';
+      try { return new URL(uri).pathname; } catch { return uri; }
+    }
+
+    function renderPagination(total) {
+      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      if (pages <= 1) return '';
+      const prev = Math.max(1, currentPage - 1);
+      const next = Math.min(pages, currentPage + 1);
+      return `
+        <div class="pagination">
+          <button data-paginate="1"        ${currentPage === 1 ? 'disabled' : ''}>« first</button>
+          <button data-paginate="${prev}"  ${currentPage === 1 ? 'disabled' : ''}>‹ prev</button>
+          <span class="info">page ${currentPage} of ${pages}</span>
+          <button data-paginate="${next}"  ${currentPage === pages ? 'disabled' : ''}>next ›</button>
+          <button data-paginate="${pages}" ${currentPage === pages ? 'disabled' : ''}>last »</button>
+        </div>
+      `;
+    }
+
+    reloadBtn.addEventListener('click', () => { currentPage = 1; lastSeededFlag = false; seededHint.style.display = 'none'; init(); });
+    serverInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') reloadBtn.click(); });
+
+    async function init() {
+      renderTabs();
+      await fetchTotals();
+      await loadList();
+    }
+    init();
+  </script>
+</body>
+</html>

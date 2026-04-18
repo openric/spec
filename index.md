@@ -58,6 +58,12 @@ title: OpenRiC
     <div class="url">openric.org/conformance</div>
     <p>Black-box probe: point at any server, get a pass/fail report across every documented endpoint. Pure bash + jq.</p>
   </a>
+  <a class="surface-card" href="demo/browse/">
+    <span class="surface-icon">📇</span>
+    <h3>Browse demo <span class="status-pill live">live</span></h3>
+    <div class="url">openric.org/demo/browse</div>
+    <p>Live catalogue view — cards, per-type filters, pagination. Points at any OpenRiC server; click-through to the graph viewer.</p>
+  </a>
 </div>
 
 <div class="callout">
