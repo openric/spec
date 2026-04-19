@@ -165,6 +165,12 @@ title: OpenRiC
     <div class="url">openric.org/demo/browse</div>
     <p>Live catalogue view — cards, per-type filters, pagination. Points at any OpenRiC server; click-through to the graph viewer.</p>
   </a>
+  <a class="surface-card" href="proof.html">
+    <span class="surface-icon">🧾</span>
+    <h3>Proof of implementation <span class="status-pill live">live</span></h3>
+    <div class="url">openric.org/proof</div>
+    <p>Real numbers, end-to-end walkthrough, ISAD(G)&nbsp;→&nbsp;RiC-O mapping, one live example per RiC-O type. The evidence the contract works.</p>
+  </a>
 </div>
 
 ## Condensed roadmap

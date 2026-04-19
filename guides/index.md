@@ -38,6 +38,8 @@ title: OpenRiC — Guides
 
 If you haven't yet, the two-page orientation pieces are [**Home**](../) (what OpenRiC is + live status) and [**Architecture**](../architecture.html) (where the four public surfaces fit and how they talk to each other). Read those first if you're new.
 
+For evidence that the contract actually works in production — live numbers, a real end-to-end use case, and one example of every RiC-O type — see [**Proof of implementation**](../proof.html).
+
 ## Reference material, not step-by-step
 
 These guides assume you want to *do something*. Reference material for each endpoint or primitive lives in the [Spec](../spec/):
