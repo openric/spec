@@ -171,6 +171,12 @@ title: OpenRiC
     <div class="url">openric.org/proof</div>
     <p>Real numbers, end-to-end walkthrough, ISAD(G)&nbsp;→&nbsp;RiC-O mapping, one live example per RiC-O type. The evidence the contract works.</p>
   </a>
+  <a class="surface-card" href="profiles.html">
+    <span class="surface-icon">🧩</span>
+    <h3>Profiles <span class="status-pill live">v0.3-draft</span></h3>
+    <div class="url">openric.org/profiles</div>
+    <p>Named, bounded conformance targets. Implement the subset you can support — Core Discovery is the minimum. Five more profiles planned.</p>
+  </a>
 </div>
 
 ## Condensed roadmap
