@@ -48,8 +48,8 @@ A server claiming Core Discovery conformance MUST implement all ten endpoints be
 
 All endpoints are unauthenticated reads. Rate limiting is allowed but MUST return RFC 6585 `429 Too Many Requests` with a `Retry-After` header when applied.
 
-<!-- TK Q3: confirm /autocomplete stays in Core Discovery. Discovery without search is navigation-only, which is a weaker position than IIIF Level 0. Lean: yes. -->
-<!-- TK Q4: repositories in Core Discovery vs Authority & Context. Lean: keep in Core because `rico:heldBy` is emitted inline on records. -->
+<!-- Q3: Resolved — /autocomplete stays in Core Discovery. See §10 Q3. -->
+<!-- Q4: Resolved — repositories first-class in Core Discovery. See §10 Q4. -->
 
 ### 2.2 Forbidden endpoints (without additional profile claims)
 
@@ -135,7 +135,7 @@ Pagination envelope:
 - Each item MUST include at minimum `@id`, `@type`, and a name-like field (`rico:title` for records, `rico:name` or `rico:hasAgentName` for agents and repositories).
 - Servers MUST emit RFC 5988 `Link` headers with `rel="next"` and `rel="prev"` when applicable.
 
-<!-- TK Q5: confirm mandatory pagination. Lean: yes, unbounded responses are a client footgun. -->
+<!-- Q5: Resolved — pagination mandatory; default page 50, max 200. See §10 Q5. -->
 
 ### 3.4 Single-entity responses
 
@@ -254,7 +254,7 @@ This file is a strict subset of the main `shapes/openric.shacl.ttl` containing o
 
 Shapes are **open** — unknown predicates do not cause failure. Implementations MAY emit private metadata.
 
-<!-- TK Q7: confirm open shapes (implementer-friendly) vs closed shapes (strict). Lean: open; closed shapes punish implementations for harmless additions. -->
+<!-- Q7: Resolved — open shapes (tolerant of unknown predicates). See §10 Q7. -->
 
 ## 6. Conformance testing
 
@@ -324,17 +324,75 @@ Servers using the Heratio-style `{"success":false, "error":"..."}` error envelop
 
 ## 10. Open design questions
 
-These questions are open for reviewer comment before the v0.3.0 freeze. Marked inline with `<!-- TK QN: -->` comments throughout this document:
+Seven questions were flagged during drafting. Six now carry draft resolutions with rationale; external review is welcome to challenge any of them. Q6 remains explicitly open — it is a design coin-flip with real consequences for v0.2 clients, so it awaits community input before the v0.3.0 freeze.
 
-- **Q1** — Is "Core Discovery" the right name, or should we follow IIIF's Level 0/1/2 numbering?
-- **Q3** — Should `/autocomplete` stay in Core Discovery or move to its own Search profile?
-- **Q4** — Repositories as first-class in Core Discovery, or behind an Authority & Context claim?
-- **Q5** — Pagination mandatory on list endpoints?
-- **Q6** — Mandate RFC 7807 error envelope in v0.3, or keep both shapes as accepted?
-- **Q7** — SHACL shapes open (tolerant of unknown predicates) or closed (strict)?
-- **Q8** — Profile versions track spec versions, or have their own lifecycle?
+**A note on numbering**: Q2 was retired during early drafting; the remaining questions keep their original IDs (Q1, Q3–Q8) so cross-document references stay stable. Any resolution below can be re-opened via a GitHub discussion citing the question ID.
 
-Comments welcome at <https://github.com/ArchiveHeritageGroup/openric-spec/discussions>.
+### Q1 — "Core Discovery" name vs IIIF Level 0/1/2 numbering
+
+**Question**: Should profiles follow IIIF's numeric Level 0/1/2 convention, or keep named profiles?
+
+**Draft resolution**: **Keep named profiles.** "Core Discovery", "Authority & Context", etc.
+
+**Rationale**: IIIF's numeric levels assume nested supersets — Level 1 contains Level 0. OpenRiC profiles are *bounded capability axes* that are largely orthogonal, not layered. A server might claim Core Discovery + Digital Object Linkage without ever implementing Round-Trip Editing, and numeric levels would falsely imply a ladder. Names preserve semantic flavour and avoid misrepresenting the design.
+
+*External review welcome on*: whether one profile should nonetheless be declared the "floor" in governance.
+
+### Q3 — `/autocomplete` in Core Discovery or a separate Search profile?
+
+**Question**: Is `/autocomplete` discovery, or is it search?
+
+**Draft resolution**: **Stays in Core Discovery.**
+
+**Rationale**: A discovery profile without type-ahead reads as navigation-only, which is a weaker position than IIIF Image API Level 0 (which at least delivers full images). Users evaluating whether to adopt OpenRiC will expect `/autocomplete` at the first step; carving it into a separate profile would make the default conformance target look incomplete. A richer Search profile can still add faceting, filters, and relevance tuning on top.
+
+### Q4 — Repositories as first-class in Core Discovery, or behind Authority & Context?
+
+**Question**: Should `GET /repositories/{key}` and repository inclusion in lists require an A&C profile claim?
+
+**Draft resolution**: **First-class in Core.**
+
+**Rationale**: `rico:heldBy` is emitted inline on every record in the list and detail shapes already. If repositories were A&C-only, every Core-only implementation would have to either strip the `heldBy` triple (losing material context) or leak a class the profile doesn't cover (breaking conformance). First-classing repositories matches what real archival discovery always needs — "who holds this?" is a first-order discovery question, not an authority-control detail.
+
+### Q5 — Pagination mandatory on list endpoints?
+
+**Question**: Must `GET /records`, `/agents`, `/repositories` paginate, or is unbounded allowed?
+
+**Draft resolution**: **Mandatory pagination.** Default page size 50, max 200.
+
+**Rationale**: Unbounded list responses are a client footgun: a `/records` endpoint with 100,000 rows tanks page loads, wastes bandwidth, and exposes every client to a memory-pressure bug nobody signed up for. Every known conformant implementation paginates anyway; codifying it avoids a failure mode where one impl ships unbounded and clients hand-written against it break against everyone else.
+
+*External review welcome on*: the specific default (50) and max (200) page sizes.
+
+### Q6 — Error envelope shift to RFC 7807 in v0.3? *(open)*
+
+**Question**: Mandate `application/problem+json` in v0.3 and deprecate the existing `{success: false, error: …}` envelope, or accept both?
+
+**Status**: **Open.** The reference API currently emits `{success: false, error: …}` (the shape v0.2 clients were built against). RFC 7807 is the IETF standard and is what most modern clients expect. Mandating it in v0.3 is a breaking change for every existing v0.2 client; accepting both indefinitely is ugly. A third option — mandate RFC 7807 in v0.3 but provide a migration window where the reference server emits *both* on 4xx/5xx — is under consideration.
+
+*This question is explicitly deferred for external review.* Seeking input on whether RiC-CM reviewers (and any shadow implementers starting in v0.3) can absorb the breakage.
+
+### Q7 — SHACL shapes open or closed?
+
+**Question**: Should Core Discovery SHACL shapes use `sh:closed true` (reject unknown predicates) or leave shapes open?
+
+**Draft resolution**: **Open shapes.**
+
+**Rationale**: Closed shapes punish harmless additions — a reference server adding `rico:someInternalMarker` for operational reasons while still satisfying every Core Discovery requirement would fail validation under closed shapes. That turns every future spec extension into a coordinated flag day for every implementation. Open shapes let the ecosystem extend forward-compatibly: new predicates don't break old validators, and closed-shape validation can still be offered as a stricter optional profile for implementers who want it.
+
+### Q8 — Profile lifecycle: tracks spec versions, or independent?
+
+**Question**: Does Core Discovery v0.3 have to move to v0.4 when the spec does?
+
+**Draft resolution**: **Independent lifecycle.**
+
+**Rationale**: Spec version describes the HTTP contract (paths, response shapes, auth). Profile version describes a conformance-claim scope. An implementation might sit at Core Discovery v0.3 while the spec as a whole is at v0.4; the reverse is unlikely but permitted. Independent lifecycles mean we can revise Core Discovery without forcing a spec-wide freeze, and freezing the spec doesn't rush unpolished profiles out. Matches IIIF's multi-API approach — Image API and Presentation API ship on separate cadences.
+
+*External review welcome on*: whether profile versions should declare a *minimum* spec version they require (likely yes) and a *maximum* (likely no — forward-compatible).
+
+---
+
+Comments on any of these — including arguments to reverse a draft resolution — are welcome at <https://github.com/ArchiveHeritageGroup/openric-spec/discussions>.
 
 ---
 

@@ -219,7 +219,7 @@ These live inside the specification site itself — interactive tools, reference
   <div class="phase-card">
     <div class="phase-num">Phase 5</div>
     <h4>v0.3.0 freeze <span class="status-pill draft">planned</span></h4>
-    <p>Close the 8 open design questions in Core Discovery. Add profile-scoped SHACL, OpenAPI tags, fixture manifest, probe <code>--profile</code> flag, conformance badge. Reference API declares <code>openric_conformance.profiles</code>.</p>
+    <p>Close the 7 open design questions in Core Discovery (6 have draft resolutions; Q6 error-envelope shift awaits external review). Add profile-scoped SHACL, OpenAPI tags, fixture manifest, probe <code>--profile</code> flag, conformance badge. Reference API declares <code>openric_conformance.profiles</code>.</p>
   </div>
   <div class="phase-card">
     <div class="phase-num">Phase 6+</div>
