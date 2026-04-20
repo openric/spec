@@ -158,6 +158,12 @@ Once your implementation serves `/api/ric/v1/*`:
 
 ---
 
+## Related
+
+- **[Data management & deployment topologies](data-management.html)** — where RiC data lives in the backing store, and three concrete topologies (green-field, AtoM retrofit, consumer-with-own-UI) covering every realistic deployment shape. Read this if you're evaluating how OpenRiC fits alongside an existing system.
+
+---
+
 ## Licence
 
 - **Spec** — CC-BY 4.0

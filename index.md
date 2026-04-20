@@ -244,6 +244,10 @@ These live inside the specification site itself — interactive tools, reference
     <strong>Architecture</strong>
     <span>How the four public deployments fit together and talk to each other.</span>
   </a>
+  <a class="spec-doc" href="data-management.html">
+    <strong>Data management</strong>
+    <span>Where RiC data lives in the backing store. Green-field, AtoM retrofit, consumer-with-own-UI — three topologies, one contract.</span>
+  </a>
   <a class="spec-doc" href="guides/">
     <strong>Guides</strong>
     <span>How to embed the viewer, use the capture client, and call the API from code.</span>
