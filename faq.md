@@ -12,27 +12,99 @@ description: Short, concrete answers to the questions that come up most often. C
   </div>
 </div>
 
-<nav class="faq-toc" aria-label="On this page">
-  <strong>Jump to:</strong>
-  <a href="#orientation">Orientation</a> ·
-  <a href="#adoption">Adoption</a> ·
-  <a href="#data">Data &amp; architecture</a> ·
-  <a href="#conformance">Conformance &amp; profiles</a> ·
-  <a href="#licensing">Licensing &amp; ownership</a> ·
-  <a href="#contributing">Contributing</a>
-</nav>
+<details class="faq-index" open>
+  <summary><strong>Index — 23 questions across 6 sections</strong></summary>
+
+  <div class="faq-index-grid">
+    <div>
+      <h4><a href="#orientation">Orientation</a></h4>
+      <ol>
+        <li><a href="#what-is-openric">What is OpenRiC?</a></li>
+        <li><a href="#openric-vs-rico">How is OpenRiC different from RiC-O?</a></li>
+        <li><a href="#is-it-a-product">Is OpenRiC a product?</a></li>
+        <li><a href="#state">What state is OpenRiC in today?</a></li>
+        <li><a href="#navtool-equivalent">NavTool → OpenRiC — where are the equivalent pages?</a></li>
+      </ol>
+    </div>
+
+    <div>
+      <h4><a href="#adoption">Adoption</a></h4>
+      <ol start="6">
+        <li><a href="#replace-existing">Do I have to replace my existing system?</a></li>
+        <li><a href="#alongside-atom">How does OpenRiC work alongside AtoM?</a></li>
+        <li><a href="#archivesspace">What about ArchivesSpace / Access / custom platforms?</a></li>
+        <li><a href="#read-only">Can I just use it for read-only federated discovery?</a></li>
+      </ol>
+    </div>
+
+    <div>
+      <h4><a href="#data">Data &amp; architecture</a></h4>
+      <ol start="10">
+        <li><a href="#where-data-lives">Where does RiC data live?</a></li>
+        <li><a href="#need-triplestore">Do I need to run a triplestore?</a></li>
+        <li><a href="#postgres-instead">Can I use PostgreSQL instead of MySQL / Fuseki?</a></li>
+        <li><a href="#fuseki-down">What happens if Fuseki goes down?</a></li>
+      </ol>
+    </div>
+
+    <div>
+      <h4><a href="#conformance">Conformance &amp; profiles</a></h4>
+      <ol start="14">
+        <li><a href="#what-is-profile">What's a conformance profile?</a></li>
+        <li><a href="#all-profiles">Do I have to implement all six profiles?</a></li>
+        <li><a href="#claim-profile">How do I claim a profile on my server?</a></li>
+        <li><a href="#conformance-badge">What does the conformance badge mean?</a></li>
+      </ol>
+    </div>
+
+    <div>
+      <h4><a href="#licensing">Licensing &amp; ownership</a></h4>
+      <ol start="18">
+        <li><a href="#why-two-licences">Why CC BY 4.0 for the spec but AGPL for the implementations?</a></li>
+        <li><a href="#commercial">Can I build a commercial product on OpenRiC?</a></li>
+        <li><a href="#federation-ownership">Who owns the data in a federated deployment?</a></li>
+      </ol>
+    </div>
+
+    <div>
+      <h4><a href="#contributing">Contributing</a></h4>
+      <ol start="21">
+        <li><a href="#propose-spec-change">How do I propose a spec change?</a></li>
+        <li><a href="#design-questions">Where do open design questions live?</a></li>
+        <li><a href="#second-implementation">I want to write a second implementation — where do I start?</a></li>
+      </ol>
+    </div>
+  </div>
+</details>
 
 <style>
-  .faq-toc { background: var(--surface); padding: 0.75rem 1rem; border-radius: var(--radius); border: 1px solid var(--border); margin: 1rem 0 2rem; font-size: 0.92rem; }
-  .faq-toc a { color: var(--accent-2); }
+  .faq-index { background: var(--surface); padding: 0.85rem 1.1rem; border-radius: var(--radius); border: 1px solid var(--border); margin: 1rem 0 2rem; font-size: 0.92rem; }
+  .faq-index > summary { cursor: pointer; padding: 0.1rem 0; list-style: none; color: var(--fg); }
+  .faq-index > summary::-webkit-details-marker { display: none; }
+  .faq-index > summary::before { content: "▼"; display: inline-block; width: 1.1em; color: var(--muted); font-size: 0.7em; vertical-align: middle; transition: transform 0.12s ease-in-out; }
+  .faq-index:not([open]) > summary::before { transform: rotate(-90deg); }
+  .faq-index > summary:hover { color: var(--accent); }
+  .faq-index-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.8rem 1.6rem; margin-top: 0.75rem; }
+  .faq-index-grid h4 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.35rem; font-weight: 700; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+  .faq-index-grid h4 a { color: inherit; text-decoration: none; }
+  .faq-index-grid h4 a:hover { color: var(--accent); }
+  .faq-index-grid ol { margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.45; }
+  .faq-index-grid li { margin-bottom: 0.2rem; font-size: 0.9rem; }
+  .faq-index-grid li a { color: var(--accent-2); }
+
   .faq-q { font-size: 1.05rem; font-weight: 600; color: var(--fg); margin-top: 1.5rem; }
   .faq-q::before { content: "Q. "; color: var(--accent-2); font-weight: 700; }
   .faq-a::before { content: "A. "; color: var(--muted); font-weight: 600; margin-right: 0.15rem; }
+
   .table-wrap { overflow-x: auto; margin: 1rem 0; }
   .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
   .table-wrap th { text-align: left; padding: 0.5rem 0.75rem; background: var(--surface-2); border-bottom: 1px solid var(--border); font-weight: 600; }
   .table-wrap td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   .table-wrap tr:last-child td { border-bottom: none; }
+
+  .back-to-index { font-size: 0.82rem; color: var(--muted); margin: 1.5rem 0 0; }
+  .back-to-index a { color: var(--muted-2); text-decoration: none; }
+  .back-to-index a:hover { color: var(--accent); text-decoration: underline; }
 </style>
 
 ## Orientation {#orientation}
