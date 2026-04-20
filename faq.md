@@ -28,6 +28,11 @@ description: Short, concrete answers to the questions that come up most often. C
   .faq-q { font-size: 1.05rem; font-weight: 600; color: var(--fg); margin-top: 1.5rem; }
   .faq-q::before { content: "Q. "; color: var(--accent-2); font-weight: 700; }
   .faq-a::before { content: "A. "; color: var(--muted); font-weight: 600; margin-right: 0.15rem; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap th { text-align: left; padding: 0.5rem 0.75rem; background: var(--surface-2); border-bottom: 1px solid var(--border); font-weight: 600; }
+  .table-wrap td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .table-wrap tr:last-child td { border-bottom: none; }
 </style>
 
 ## Orientation {#orientation}
@@ -43,6 +48,57 @@ description: Short, concrete answers to the questions that come up most often. C
 
 <p class="faq-q" id="state">What state is OpenRiC in today?</p>
 <p class="faq-a">Specification at <strong>v0.2.0 frozen</strong> (April 2026); reference API at <strong>v0.8+</strong> with 46 endpoints and full 8-entity CRUD. Six conformance profiles are defined, each with probe coverage, SHACL shapes, and fixtures. A Core Discovery Profile <strong>v0.3-draft</strong> is open for review. See <a href="/proof.html">proof of implementation</a> for the evidence version.</p>
+
+<p class="faq-q" id="navtool-equivalent">I've been using DLIB Ionian University's RiC-CM NavTool. Where's the equivalent in OpenRiC?</p>
+<p class="faq-a"><a href="https://dlib-ionian-university.github.io/ric-cm-nav/">NavTool</a> by Matthew Damigos is an independent Vue SPA that browses a curated JSON export of RiC-CM 1.0 — it was a useful reference point during OpenRiC's reference-browser design. OpenRiC ships its own <strong>live</strong> RiC-CM reference browser at <a href="https://ric.theahg.co.za/reference/ric-cm/">ric.theahg.co.za/reference/ric-cm/</a>, backed by SPARQL queries against the authoritative RiC-O v1.1 ontology (CC BY 4.0, <a href="https://github.com/ICA-EGAD/RiC-O">ICA EGAD</a>) rather than a static export. URL-by-URL mapping:</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>NavTool (hash-routed SPA)</th><th>OpenRiC (versioned, live)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Home — hierarchy + counts</td>
+        <td><a href="https://ric.theahg.co.za/reference/ric-cm/">/reference/ric-cm/</a></td>
+      </tr>
+      <tr>
+        <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/entities">#/entities</a></td>
+        <td><a href="https://ric.theahg.co.za/reference/ric-cm/1.0/entities">/reference/ric-cm/1.0/entities</a> (19)</td>
+      </tr>
+      <tr>
+        <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/entitycard">#/entitycard</a> for a given entity</td>
+        <td><a href="https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E04">/reference/ric-cm/1.0/entities/RiC-E04</a> <em>(or any <code>RiC-E##</code> id)</em></td>
+      </tr>
+      <tr>
+        <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/attributes">#/attributes</a></td>
+        <td><a href="https://ric.theahg.co.za/reference/ric-cm/1.0/attributes">/reference/ric-cm/1.0/attributes</a> (42)</td>
+      </tr>
+      <tr>
+        <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/relations">#/relations</a></td>
+        <td><a href="https://ric.theahg.co.za/reference/ric-cm/1.0/relations">/reference/ric-cm/1.0/relations</a> (151)</td>
+      </tr>
+      <tr>
+        <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/relation-attributes">#/relation-attributes</a></td>
+        <td><a href="https://ric.theahg.co.za/reference/ric-cm/1.0/relation-attributes">/reference/ric-cm/1.0/relation-attributes</a> (6)</td>
+      </tr>
+      <tr>
+        <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/modeling-playground">#/modeling-playground</a> (interactive graph)</td>
+        <td><em>Not yet</em> — graph visualisation is roadmapped for a later release, sharing the Cytoscape.js layer with the <a href="https://viewer.openric.org">holdings viewer</a>.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p class="faq-a">OpenRiC's differences worth knowing about:</p>
+<ul>
+  <li><strong>Live SPARQL</strong> against the loaded RiC-O OWL, not a static JSON export. When ICA EGAD releases a new RiC-O version, OpenRiC reflects the change after a single reload.</li>
+  <li><strong>Declared vs. inherited separation</strong> on every entity, attribute, and relation page (CIDOC-CRM style). A relation with domain <em>Agent</em> is shown as <em>Agent</em> — never flattened into <em>Agent + Person + Group + Mechanism + Family</em>. Inherited members carry provenance tags back to the ancestor class where they were declared.</li>
+  <li><strong>Versioned URLs</strong> — <code>/reference/ric-cm/1.0/…</code> is citation-stable. Unversioned URLs redirect to the current latest, so bookmarks don't rot when RiC-CM 2.x ships.</li>
+  <li><strong>No modeling playground yet</strong> — NavTool's interactive graph is the one thing OpenRiC hasn't matched. Planned alongside the holdings graph viewer.</li>
+</ul>
+
+<p class="faq-a">Attribution: OpenRiC bundles and queries <strong>RiC-O v1.1</strong>, published by the <a href="https://www.ica.org/ica-network/expert-groups/egad/">International Council on Archives, Expert Group on Archival Description (ICA EGAD)</a> under CC BY 4.0. Every reference-browser page renders the credit per the licence.</p>
 
 ---
 
