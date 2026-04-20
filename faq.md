@@ -12,69 +12,63 @@ description: Short, concrete answers to the questions that come up most often. C
   </div>
 </div>
 
-<details class="faq-index" open>
-  <summary><strong>Index — 23 questions across 6 sections</strong></summary>
-
-  <div class="faq-index-grid">
-    <div>
-      <h4><a href="#orientation">Orientation</a></h4>
-      <ol>
-        <li><a href="#what-is-openric">What is OpenRiC?</a></li>
-        <li><a href="#openric-vs-rico">How is OpenRiC different from RiC-O?</a></li>
-        <li><a href="#is-it-a-product">Is OpenRiC a product?</a></li>
-        <li><a href="#state">What state is OpenRiC in today?</a></li>
-        <li><a href="#navtool-equivalent">NavTool → OpenRiC — where are the equivalent pages?</a></li>
-      </ol>
-    </div>
-
-    <div>
-      <h4><a href="#adoption">Adoption</a></h4>
-      <ol start="6">
-        <li><a href="#replace-existing">Do I have to replace my existing system?</a></li>
-        <li><a href="#alongside-atom">How does OpenRiC work alongside AtoM?</a></li>
-        <li><a href="#archivesspace">What about ArchivesSpace / Access / custom platforms?</a></li>
-        <li><a href="#read-only">Can I just use it for read-only federated discovery?</a></li>
-      </ol>
-    </div>
-
-    <div>
-      <h4><a href="#data">Data &amp; architecture</a></h4>
-      <ol start="10">
-        <li><a href="#where-data-lives">Where does RiC data live?</a></li>
-        <li><a href="#need-triplestore">Do I need to run a triplestore?</a></li>
-        <li><a href="#postgres-instead">Can I use PostgreSQL instead of MySQL / Fuseki?</a></li>
-        <li><a href="#fuseki-down">What happens if Fuseki goes down?</a></li>
-      </ol>
-    </div>
-
-    <div>
-      <h4><a href="#conformance">Conformance &amp; profiles</a></h4>
-      <ol start="14">
-        <li><a href="#what-is-profile">What's a conformance profile?</a></li>
-        <li><a href="#all-profiles">Do I have to implement all six profiles?</a></li>
-        <li><a href="#claim-profile">How do I claim a profile on my server?</a></li>
-        <li><a href="#conformance-badge">What does the conformance badge mean?</a></li>
-      </ol>
-    </div>
-
-    <div>
-      <h4><a href="#licensing">Licensing &amp; ownership</a></h4>
-      <ol start="18">
-        <li><a href="#why-two-licences">Why CC BY 4.0 for the spec but AGPL for the implementations?</a></li>
-        <li><a href="#commercial">Can I build a commercial product on OpenRiC?</a></li>
-        <li><a href="#federation-ownership">Who owns the data in a federated deployment?</a></li>
-      </ol>
-    </div>
-
-    <div>
-      <h4><a href="#contributing">Contributing</a></h4>
-      <ol start="21">
-        <li><a href="#propose-spec-change">How do I propose a spec change?</a></li>
-        <li><a href="#design-questions">Where do open design questions live?</a></li>
-        <li><a href="#second-implementation">I want to write a second implementation — where do I start?</a></li>
-      </ol>
-    </div>
-  </div>
+<details class="faq-index" open markdown="0">
+<summary><strong>Index — 23 questions across 6 sections</strong></summary>
+<div class="faq-index-grid">
+<div class="faq-index-col">
+<h4><a href="#orientation">Orientation</a></h4>
+<ol>
+<li><a href="#what-is-openric">What is OpenRiC?</a></li>
+<li><a href="#openric-vs-rico">How is OpenRiC different from RiC-O?</a></li>
+<li><a href="#is-it-a-product">Is OpenRiC a product?</a></li>
+<li><a href="#state">What state is OpenRiC in today?</a></li>
+<li><a href="#browse-ric-cm">Can I browse the RiC-CM model in OpenRiC?</a></li>
+</ol>
+</div>
+<div class="faq-index-col">
+<h4><a href="#adoption">Adoption</a></h4>
+<ol start="6">
+<li><a href="#replace-existing">Do I have to replace my existing system?</a></li>
+<li><a href="#alongside-atom">How does OpenRiC work alongside AtoM?</a></li>
+<li><a href="#archivesspace">What about ArchivesSpace / Access / custom platforms?</a></li>
+<li><a href="#read-only">Can I just use it for read-only federated discovery?</a></li>
+</ol>
+</div>
+<div class="faq-index-col">
+<h4><a href="#data">Data &amp; architecture</a></h4>
+<ol start="10">
+<li><a href="#where-data-lives">Where does RiC data live?</a></li>
+<li><a href="#need-triplestore">Do I need to run a triplestore?</a></li>
+<li><a href="#postgres-instead">Can I use PostgreSQL instead of MySQL / Fuseki?</a></li>
+<li><a href="#fuseki-down">What happens if Fuseki goes down?</a></li>
+</ol>
+</div>
+<div class="faq-index-col">
+<h4><a href="#conformance">Conformance &amp; profiles</a></h4>
+<ol start="14">
+<li><a href="#what-is-profile">What's a conformance profile?</a></li>
+<li><a href="#all-profiles">Do I have to implement all six profiles?</a></li>
+<li><a href="#claim-profile">How do I claim a profile on my server?</a></li>
+<li><a href="#conformance-badge">What does the conformance badge mean?</a></li>
+</ol>
+</div>
+<div class="faq-index-col">
+<h4><a href="#licensing">Licensing &amp; ownership</a></h4>
+<ol start="18">
+<li><a href="#why-two-licences">Why CC BY 4.0 for the spec but AGPL for the implementations?</a></li>
+<li><a href="#commercial">Can I build a commercial product on OpenRiC?</a></li>
+<li><a href="#federation-ownership">Who owns the data in a federated deployment?</a></li>
+</ol>
+</div>
+<div class="faq-index-col">
+<h4><a href="#contributing">Contributing</a></h4>
+<ol start="21">
+<li><a href="#propose-spec-change">How do I propose a spec change?</a></li>
+<li><a href="#design-questions">Where do open design questions live?</a></li>
+<li><a href="#second-implementation">I want to write a second implementation — where do I start?</a></li>
+</ol>
+</div>
+</div>
 </details>
 
 <style>
@@ -84,13 +78,17 @@ description: Short, concrete answers to the questions that come up most often. C
   .faq-index > summary::before { content: "▼"; display: inline-block; width: 1.1em; color: var(--muted); font-size: 0.7em; vertical-align: middle; transition: transform 0.12s ease-in-out; }
   .faq-index:not([open]) > summary::before { transform: rotate(-90deg); }
   .faq-index > summary:hover { color: var(--accent); }
-  .faq-index-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.8rem 1.6rem; margin-top: 0.75rem; }
-  .faq-index-grid h4 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.35rem; font-weight: 700; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
-  .faq-index-grid h4 a { color: inherit; text-decoration: none; }
-  .faq-index-grid h4 a:hover { color: var(--accent); }
-  .faq-index-grid ol { margin: 0.35rem 0 0 1.1rem; padding: 0; line-height: 1.45; }
-  .faq-index-grid li { margin-bottom: 0.2rem; font-size: 0.9rem; }
-  .faq-index-grid li a { color: var(--accent-2); }
+  .faq-index-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 1.8rem; margin-top: 0.75rem; }
+  @media (max-width: 900px) { .faq-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .faq-index-grid { grid-template-columns: 1fr; } }
+  .faq-index-col { min-width: 0; }
+  .faq-index-col h4 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.4rem; font-weight: 700; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; }
+  .faq-index-col h4 a { color: inherit; text-decoration: none; }
+  .faq-index-col h4 a:hover { color: var(--accent); }
+  .faq-index-col ol { margin: 0.35rem 0 0 1.25rem; padding: 0; line-height: 1.5; }
+  .faq-index-col li { margin-bottom: 0.25rem; font-size: 0.9rem; }
+  .faq-index-col li a { color: var(--accent-2); }
+  .faq-index-col li a:hover { color: var(--accent); }
 
   .faq-q { font-size: 1.05rem; font-weight: 600; color: var(--fg); margin-top: 1.5rem; }
   .faq-q::before { content: "Q. "; color: var(--accent-2); font-weight: 700; }
@@ -121,13 +119,24 @@ description: Short, concrete answers to the questions that come up most often. C
 <p class="faq-q" id="state">What state is OpenRiC in today?</p>
 <p class="faq-a">Specification at <strong>v0.2.0 frozen</strong> (April 2026); reference API at <strong>v0.8+</strong> with 46 endpoints and full 8-entity CRUD. Six conformance profiles are defined, each with probe coverage, SHACL shapes, and fixtures. A Core Discovery Profile <strong>v0.3-draft</strong> is open for review. See <a href="/proof.html">proof of implementation</a> for the evidence version.</p>
 
-<p class="faq-q" id="navtool-equivalent">I've been using DLIB Ionian University's RiC-CM NavTool. Where's the equivalent in OpenRiC?</p>
-<p class="faq-a"><a href="https://dlib-ionian-university.github.io/ric-cm-nav/">NavTool</a> by Matthew Damigos is an independent Vue SPA that browses a curated JSON export of RiC-CM 1.0 — it was a useful reference point during OpenRiC's reference-browser design. OpenRiC ships its own <strong>live</strong> RiC-CM reference browser at <a href="https://ric.theahg.co.za/reference/ric-cm/">ric.theahg.co.za/reference/ric-cm/</a>, backed by SPARQL queries against the authoritative RiC-O v1.1 ontology (CC BY 4.0, <a href="https://github.com/ICA-EGAD/RiC-O">ICA EGAD</a>) rather than a static export. URL-by-URL mapping:</p>
+<p class="faq-q" id="browse-ric-cm">Can I browse the RiC-CM model in OpenRiC?</p>
+<p class="faq-a">Yes — the RiC-CM reference browser is at <a href="https://ric.theahg.co.za/reference/ric-cm/">ric.theahg.co.za/reference/ric-cm/</a>. It's a live, SPARQL-backed view of RiC-CM 1.0's 19 entities, 42 attributes, 151 relations, and 6 relation-attributes, served directly from the authoritative <strong>RiC-O v1.1 OWL</strong> (<a href="https://github.com/ICA-EGAD/RiC-O">ICA EGAD, CC BY 4.0</a>). Distinguishing features:</p>
+<ul>
+  <li><strong>Live SPARQL</strong> — the browser reflects whatever RiC-O revision is loaded. When ICA EGAD releases a new version, a single reload brings it in; no static JSON export to drift out of date.</li>
+  <li><strong>Declared vs. inherited separation</strong> on every page, CIDOC-CRM style. A relation whose declared domain is <em>Agent</em> is rendered as <em>Agent</em> — never flattened into <em>Agent + Person + Group + Mechanism + Family</em>. Members inherited from ancestor classes carry a provenance tag linking back to where they were declared.</li>
+  <li><strong>Versioned URLs</strong> — <code>/reference/ric-cm/1.0/…</code> is citation-stable; unversioned URLs redirect to the current latest, so bookmarks survive when RiC-CM 2.x ships.</li>
+  <li><strong>Public, unauthenticated, no setup.</strong> Click and browse.</li>
+</ul>
+
+<p class="faq-a">Similar, independent efforts in this space that are worth knowing about:</p>
+<ul>
+  <li><a href="https://dlib-ionian-university.github.io/ric-cm-nav/">RiC-CM NavTool</a> — a Vue SPA by Matthew Damigos (DLIB, Ionian University) that browses a curated static JSON export of RiC-CM, with an interactive modeling playground. If you're arriving from NavTool, the URL patterns of the two browsers map as below — different backings, similar coverage. OpenRiC's modeling-playground equivalent is on the roadmap but not yet shipped.</li>
+</ul>
 
 <div class="table-wrap">
   <table>
     <thead>
-      <tr><th>NavTool (hash-routed SPA)</th><th>OpenRiC (versioned, live)</th></tr>
+      <tr><th>NavTool (static JSON, hash routes)</th><th>OpenRiC RiC-CM browser (live SPARQL, versioned)</th></tr>
     </thead>
     <tbody>
       <tr>
@@ -156,21 +165,13 @@ description: Short, concrete answers to the questions that come up most often. C
       </tr>
       <tr>
         <td><a href="https://dlib-ionian-university.github.io/ric-cm-nav/#/modeling-playground">#/modeling-playground</a> (interactive graph)</td>
-        <td><em>Not yet</em> — graph visualisation is roadmapped for a later release, sharing the Cytoscape.js layer with the <a href="https://viewer.openric.org">holdings viewer</a>.</td>
+        <td><em>Roadmapped.</em> Will share the Cytoscape.js layer with the <a href="https://viewer.openric.org">holdings viewer</a> when it lands.</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<p class="faq-a">OpenRiC's differences worth knowing about:</p>
-<ul>
-  <li><strong>Live SPARQL</strong> against the loaded RiC-O OWL, not a static JSON export. When ICA EGAD releases a new RiC-O version, OpenRiC reflects the change after a single reload.</li>
-  <li><strong>Declared vs. inherited separation</strong> on every entity, attribute, and relation page (CIDOC-CRM style). A relation with domain <em>Agent</em> is shown as <em>Agent</em> — never flattened into <em>Agent + Person + Group + Mechanism + Family</em>. Inherited members carry provenance tags back to the ancestor class where they were declared.</li>
-  <li><strong>Versioned URLs</strong> — <code>/reference/ric-cm/1.0/…</code> is citation-stable. Unversioned URLs redirect to the current latest, so bookmarks don't rot when RiC-CM 2.x ships.</li>
-  <li><strong>No modeling playground yet</strong> — NavTool's interactive graph is the one thing OpenRiC hasn't matched. Planned alongside the holdings graph viewer.</li>
-</ul>
-
-<p class="faq-a">Attribution: OpenRiC bundles and queries <strong>RiC-O v1.1</strong>, published by the <a href="https://www.ica.org/ica-network/expert-groups/egad/">International Council on Archives, Expert Group on Archival Description (ICA EGAD)</a> under CC BY 4.0. Every reference-browser page renders the credit per the licence.</p>
+<p class="faq-a">Attribution: OpenRiC's browser bundles and queries <strong>RiC-O v1.1</strong>, published by the <a href="https://www.ica.org/ica-network/expert-groups/egad/">International Council on Archives, Expert Group on Archival Description (ICA EGAD)</a> under CC BY 4.0. Every page renders the credit per the licence.</p>
 
 ---
 
