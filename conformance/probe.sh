@@ -9,20 +9,53 @@
 # which fail, and which are missing entirely.
 #
 # Usage:
-#   ./probe.sh                              # against ric.theahg.co.za
+#   ./probe.sh                                              # full surface
 #   BASE=https://your.server/api/ric/v1 ./probe.sh
-#   KEY=xxxx BASE=... ./probe.sh            # include write + delete probes
+#   KEY=xxxx BASE=... ./probe.sh                            # + write/delete
+#   ./probe.sh --profile=core-discovery                     # just that profile
+#   PROFILE=core-discovery,graph-traversal ./probe.sh       # multiple
+#
+# When --profile=PROFILE is set the probe:
+#   * runs only probes tagged for the named profile(s) (plus the always-on
+#     service-description + health checks);
+#   * verifies that `GET /` declares the named profile in
+#     `openric_conformance.profiles[].id`;
+#   * still counts unlabelled, always-on checks.
+#
+# Known profile ids:  core-discovery  graph-traversal  authority-context
+#                     provenance-event  digital-object-linkage
+#                     round-trip-editing  export-only
 #
 # Exit codes:
 #   0 — all required endpoints conformant
 #   1 — one or more required endpoints failed
-#   2 — misconfigured (missing dependencies, unreachable base)
+#   2 — misconfigured (missing dependencies, unreachable base, bad args)
 
 set -u
 
 BASE="${BASE:-https://ric.theahg.co.za/api/ric/v1}"
 KEY="${KEY:-}"
 VERBOSE="${VERBOSE:-0}"
+PROFILE="${PROFILE:-}"
+
+# --- argv parsing -----------------------------------------------
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --profile=*) PROFILE="${1#*=}" ;;
+    --profile)   shift; PROFILE="${1:-}" ;;
+    -v|--verbose) VERBOSE=1 ;;
+    -h|--help)
+      sed -n '7,32p' "$0"
+      exit 0
+      ;;
+    *)
+      echo "probe.sh: unknown argument: $1" >&2
+      echo "Try --help" >&2
+      exit 2
+      ;;
+  esac
+  shift
+done
 
 PASS=0 FAIL=0 SKIP=0
 RESULTS=()
@@ -38,6 +71,65 @@ else
 fi
 
 # ---- helpers ----------------------------------------------------
+
+# in_profile <name>
+# True if:
+#   - no --profile filter is set (run everything), OR
+#   - the filter includes <name>.
+# Probe blocks gate themselves on this so a single script can serve both
+# full-surface and profile-scoped runs without duplicating logic.
+in_profile() {
+  local p="$1"
+  [[ -z "$PROFILE" ]] && return 0
+  local IFS=','
+  for entry in $PROFILE; do
+    [[ "$entry" == "$p" ]] && return 0
+  done
+  return 1
+}
+
+# probe_profile_declared <profile-id>
+# Pulls GET / and asserts the named profile appears in
+# `openric_conformance.profiles[].id`. Used only when --profile is set.
+probe_profile_declared() {
+  local expected="$1"
+  local tmp; tmp=$(mktemp)
+  local code
+  code=$(curl -s -o "$tmp" -w '%{http_code}' --max-time 15 \
+    -H 'Accept: application/json' "${BASE}/" 2>/dev/null)
+
+  local status="FAIL" colour="$R" label="/ declares profile '${expected}'"
+  if [[ "$code" == "200" ]] \
+     && jq -e --arg p "$expected" '.openric_conformance.profiles[]?.id | select(. == $p)' \
+            <"$tmp" >/dev/null 2>&1; then
+    status="PASS"; colour="$G"; PASS=$((PASS+1))
+  else
+    FAIL=$((FAIL+1))
+    [[ "$VERBOSE" == 1 ]] && { echo "  ↳ $(head -c 300 "$tmp")"; echo; }
+  fi
+  printf '%s%-5s%s  GET  %-50s  [%s]\n' "$colour" "$status" "$Z" "$label" "$code"
+  RESULTS+=("$status|GET / declares $expected|$code")
+  rm -f "$tmp"
+}
+
+# probe_show_first <label> <list-path> <detail-path-prefix>
+# Fetches the first item from a list endpoint and probes its detail URL.
+# Used for `GET /records/{key}`, `/agents/{key}`, `/repositories/{key}` where
+# we don't know a key ahead of time.
+probe_show_first() {
+  local label="$1" list_path="$2" prefix="$3"
+  local first_id
+  first_id=$(curl -s --max-time 10 "${BASE}${list_path}?limit=1" \
+    | jq -r '(."openric:items" // ."ric:items" // .items // [])[0]["@id"] // empty' 2>/dev/null \
+    | sed 's|.*/||')
+  if [[ -n "$first_id" ]]; then
+    probe "$label" required GET "${prefix}/${first_id}" '.["@id"] != null'
+  else
+    printf '%s%-5s%s  GET  %-50s  [--]\n' "$Y" "SKIP" "$Z" "${prefix}/{key} (list empty; no key to probe)"
+    SKIP=$((SKIP+1))
+    RESULTS+=("SKIP|GET ${prefix}/{key}|empty-list")
+  fi
+}
 
 # probe <label> <required|optional> <method> <path> [jq-check] [body]
 probe() {
@@ -103,68 +195,99 @@ probe_oai() {
 # ---- header ----------------------------------------------------
 
 echo "${B}OpenRiC conformance probe${Z}"
-echo "base: $BASE"
-echo "key:  $([[ -n "$KEY" ]] && echo 'yes (write+delete probes enabled)' || echo 'no  (read-only probes only)')"
+echo "base:    $BASE"
+echo "key:     $([[ -n "$KEY" ]] && echo 'yes (write+delete probes enabled)' || echo 'no  (read-only probes only)')"
+echo "profile: $([[ -n "$PROFILE" ]] && echo "$PROFILE" || echo '(all — full-surface probe)')"
 echo
 echo "----------------------------------------------------------------"
 
-# ---- §1 discovery + health -------------------------------------
+# ---- §0 always-on: service description + health ----------------
+#      These run regardless of profile — they're the bare minimum
+#      for any conformance claim.
 
 probe "api-info" required GET "/"               '.name'
 probe "health"   required GET "/health"         '.status == "ok"'
 
-# ---- §2 read endpoints — core classes --------------------------
-# Note: the spec currently allows either `ric:items` or `openric:items` as
-# the list key. The probe accepts either. Issue #1 on the spec tracker.
+# If a profile was requested, verify the server declares it.
+if [[ -n "$PROFILE" ]]; then
+  IFS=',' read -ra REQUESTED_PROFILES <<< "$PROFILE"
+  for rp in "${REQUESTED_PROFILES[@]}"; do
+    probe_profile_declared "$rp"
+  done
+fi
+
+# ---- §1 Core Discovery — records, agents, repositories, vocab, autocomplete ----
+# Maps to core-discovery.md §2.1 (ten endpoints).
 
 LIST_SHAPE='(."@type" | test("List$")) and ((."ric:items" // ."openric:items") | type == "array")'
 
-probe "list-agents"         required GET "/agents"        "$LIST_SHAPE"
-probe "list-records"        required GET "/records"       "$LIST_SHAPE"
-probe "list-places"         required GET "/places"        "$LIST_SHAPE"
-probe "list-rules"          required GET "/rules"         "$LIST_SHAPE"
-probe "list-activities"     required GET "/activities"    "$LIST_SHAPE"
-probe "list-instantiations" required GET "/instantiations" "$LIST_SHAPE"
-probe "list-repositories"   required GET "/repositories"  "$LIST_SHAPE"
-probe "list-functions"      optional GET "/functions"     "$LIST_SHAPE"
+if in_profile "core-discovery"; then
+  probe "vocabulary"   required GET "/vocabulary"              '."@type" == "ric:Vocabulary"'
+  probe "autocomplete" required GET "/autocomplete?q=a&limit=1" '(type == "array") or (.results | type == "array")'
 
-# Discover a seed URI for the graph probe. Uses the first place returned.
-SEED_URI=$(curl -s --max-time 10 "${BASE}/places?limit=1" | \
-  jq -r '(."openric:items" // ."ric:items" // .items // [])[0]["@id"] // empty' 2>/dev/null || true)
+  probe "list-records"      required GET "/records"      "$LIST_SHAPE"
+  probe_show_first "show-record" "/records" "/records"
 
-# ---- §3 utility endpoints --------------------------------------
+  probe "list-agents"       required GET "/agents"       "$LIST_SHAPE"
+  probe_show_first "show-agent" "/agents" "/agents"
 
-probe "vocabulary"      required GET "/vocabulary"                  '."@type" == "ric:Vocabulary"'
-probe "relation-types"  required GET "/relation-types"              '.items | type == "array"'
-# /autocomplete currently returns a bare array; spec allows either shape.
-probe "autocomplete"    required GET "/autocomplete?q=a&limit=1"    '(type == "array") or (.results | type == "array")'
-probe "places-flat"     optional GET "/places/flat"                 '.items | type == "array"'
-
-# ---- §4 graph + SPARQL -----------------------------------------
-
-if [[ -n "$SEED_URI" ]]; then
-  SEED_ENC=$(printf '%s' "$SEED_URI" | jq -sRr @uri)
-  probe "graph-seed"   required GET "/graph?uri=${SEED_ENC}&depth=1" '."@type" == "openric:Subgraph"'
-else
-  printf '%s%-5s%s  GET  %-49s  [--]\n' "$Y" "SKIP" "$Z" "/graph (no seed URI available)"
-  SKIP=$((SKIP+1))
+  probe "list-repositories" required GET "/repositories" "$LIST_SHAPE"
+  probe_show_first "show-repository" "/repositories" "/repositories"
 fi
-# SPARQL is marked EXPERIMENTAL in the spec — the reference implementation
-# currently returns a stub. Probe it as informational only; a stub OR a
-# proper response OR a 404 all "pass" here since it's not required.
-probe "sparql (experimental)" optional GET "/sparql?query=SELECT%20*%20WHERE%20{%20?s%20?p%20?o%20}%20LIMIT%201" '.'
 
-# ---- §5 OAI-PMH ------------------------------------------------
+# ---- §2 Authority & Context — places, rules, activities ----
+if in_profile "authority-context"; then
+  probe "list-places"     required GET "/places"     "$LIST_SHAPE"
+  probe "list-rules"      required GET "/rules"      "$LIST_SHAPE"
+  probe "list-activities" required GET "/activities" "$LIST_SHAPE"
+  probe "places-flat"     optional GET "/places/flat" '.items | type == "array"'
+fi
 
-probe_oai "Identify"
-probe_oai "ListMetadataFormats"
-probe_oai "ListSets"
-probe_oai "ListIdentifiers" "&metadataPrefix=oai_dc"
-probe_oai "ListRecords"     "&metadataPrefix=oai_dc"
+# ---- §3 Digital Object Linkage — instantiations, functions ----
+if in_profile "digital-object-linkage"; then
+  probe "list-instantiations" required GET "/instantiations" "$LIST_SHAPE"
+  probe "list-functions"      optional GET "/functions"      "$LIST_SHAPE"
+fi
 
-# ---- §6 write surface (needs KEY) ------------------------------
+# ---- §4 Graph Traversal — graph, relation-types, sparql ----
+if in_profile "graph-traversal"; then
+  probe "relation-types" required GET "/relation-types" '.items | type == "array"'
 
-if [[ -n "$KEY" ]]; then
+  # Discover a seed URI for the graph probe. Uses the first place returned
+  # (requires Authority & Context on the server to produce a seed; falls back
+  # to records if places aren't available).
+  SEED_URI=$(curl -s --max-time 10 "${BASE}/places?limit=1" | \
+    jq -r '(."openric:items" // ."ric:items" // .items // [])[0]["@id"] // empty' 2>/dev/null || true)
+  if [[ -z "$SEED_URI" ]]; then
+    SEED_URI=$(curl -s --max-time 10 "${BASE}/records?limit=1" | \
+      jq -r '(."openric:items" // ."ric:items" // .items // [])[0]["@id"] // empty' 2>/dev/null || true)
+  fi
+
+  if [[ -n "$SEED_URI" ]]; then
+    SEED_ENC=$(printf '%s' "$SEED_URI" | jq -sRr @uri)
+    probe "graph-seed" required GET "/graph?uri=${SEED_ENC}&depth=1" '."@type" == "openric:Subgraph"'
+  else
+    printf '%s%-5s%s  GET  %-50s  [--]\n' "$Y" "SKIP" "$Z" "/graph (no seed URI available)"
+    SKIP=$((SKIP+1))
+    RESULTS+=("SKIP|GET /graph|no-seed")
+  fi
+
+  probe "sparql (experimental)" optional GET "/sparql?query=SELECT%20*%20WHERE%20{%20?s%20?p%20?o%20}%20LIMIT%201" '.'
+fi
+
+# ---- §5 Export-Only (OAI-PMH) ----
+if in_profile "export-only"; then
+  probe_oai "Identify"
+  probe_oai "ListMetadataFormats"
+  probe_oai "ListSets"
+  probe_oai "ListIdentifiers" "&metadataPrefix=oai_dc"
+  probe_oai "ListRecords"     "&metadataPrefix=oai_dc"
+fi
+
+# ---- §6 Round-Trip Editing — write surface (needs KEY) ----
+# Write probes only run when KEY is set AND round-trip-editing is in-profile.
+
+if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
   # Create a throwaway Place, read it back, update it, delete it.
   CREATED=$(curl -s -X POST "${BASE}/places" -H "X-API-Key: $KEY" \
     -H 'Content-Type: application/json' \

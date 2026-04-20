@@ -45,16 +45,34 @@ Verbose (prints first 200 bytes of each failing response body):
 VERBOSE=1 ./probe.sh
 ```
 
+Scope the probe to a single **conformance profile**:
+
+```bash
+./probe.sh --profile=core-discovery
+PROFILE=core-discovery,graph-traversal ./probe.sh       # multiple
+```
+
+When a profile is requested, the probe **additionally verifies** that
+`GET /` declares the profile in `openric_conformance.profiles[].id`. A
+server that claims a profile implicitly (by having the endpoints) but
+doesn't declare it is a conformance failure — the declaration is how
+clients know what surface to expect.
+
 ## What it checks
 
-| Category | Endpoints |
+Each probe is tagged with the profile it belongs to. Full-surface runs
+(no `--profile` flag) include every tag; profile-scoped runs include only
+the matching tags plus the always-on service-description + health checks.
+
+| Profile id | Endpoints |
 |---|---|
-| Discovery + health | `/`, `/health` |
-| Core classes | `/agents`, `/records`, `/places`, `/rules`, `/activities`, `/instantiations`, `/repositories`, `/functions` |
-| Utilities | `/vocabulary`, `/relation-types`, `/autocomplete`, `/places/flat` |
-| Graph + SPARQL | `/graph`, `/sparql` |
-| OAI-PMH | `Identify`, `ListMetadataFormats`, `ListSets`, `ListIdentifiers`, `ListRecords` |
-| Write + delete (with key) | `/places` + `/agents` + `/records` round-trip |
+| _always-on_ | `/`, `/health` |
+| `core-discovery` | `/vocabulary`, `/autocomplete`, `/records` + `/records/{key}`, `/agents` + `/agents/{key}`, `/repositories` + `/repositories/{key}` |
+| `authority-context` | `/places`, `/rules`, `/activities`, `/places/flat` |
+| `digital-object-linkage` | `/instantiations`, `/functions` |
+| `graph-traversal` | `/relation-types`, `/graph`, `/sparql` (experimental) |
+| `export-only` | OAI-PMH — `Identify`, `ListMetadataFormats`, `ListSets`, `ListIdentifiers`, `ListRecords` |
+| `round-trip-editing` (needs `KEY`) | `/places` + `/agents` + `/records` create/update/delete round-trip; scope enforcement via `READ_KEY` |
 
 Each probe checks **both** the HTTP status code **and** the JSON shape
 (via a `jq` expression). A 200 with the wrong shape still fails.
