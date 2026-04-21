@@ -74,18 +74,19 @@ Servers declare supported profiles in the service description at `GET /`:
 
 Consumers MUST read this field before issuing any requests that depend on a specific profile's endpoints.
 
-## 6. The six profiles
+## 6. The seven profiles
 
 | Profile | Status | Scope |
 |---|---|---|
 | [**Core Discovery**](core-discovery.html) | **v0.3.0 normative** | Read-only Records, Agents, Repositories, vocabulary, autocomplete. The minimum "I can be queried" claim. |
 | [**Authority & Context**](authority-context.html) | **v0.4.0 normative** | Places, Rules, Activities as first-class entities with reconciliation-friendly identifiers. |
+| [**Graph Traversal**](graph-traversal.html) | **v0.5.0 normative** | `/graph`, `/relations`, `/hierarchy` — cross-entity walks plus full-graph SHACL hygiene shapes. |
 | **Provenance & Event** | planned | Activity subclasses (Production, Accumulation, etc.) with the full event model. Depends on Authority & Context. |
 | **Digital Object Linkage** | planned | Instantiation entities with checksum, MIME, IIIF manifest pointers. |
 | **Export-Only** | planned | OAI-PMH harvest plus one-shot JSON-LD dumps. Independent of all other profiles. |
 | **Round-Trip Editing** | planned | Full write surface with provenance-aware write-back rules. Depends on Core Discovery + Authority & Context. |
 
-**Core Discovery** and **Authority & Context** are both normative as of v0.4.0. The remaining four profiles will be defined as demand emerges from implementers; Provenance & Event is the likely next cycle, because its dependency on Authority & Context is now satisfied.
+**Core Discovery**, **Authority & Context**, and **Graph Traversal** are normative as of v0.5.0. The remaining four profiles will be defined as demand emerges from implementers; Provenance & Event is the likely next cycle, because its dependency on Authority & Context is now satisfied.
 
 <!-- TK Q1: confirm "profile" vs "level" naming. Profile chosen because our six axes are orthogonal, not a strict progression. -->
 

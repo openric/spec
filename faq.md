@@ -47,7 +47,7 @@ description: Short, concrete answers to the questions that come up most often. C
 <h4><a href="#conformance">Conformance &amp; profiles</a></h4>
 <ol start="14">
 <li><a href="#what-is-profile">What's a conformance profile?</a></li>
-<li><a href="#all-profiles">Do I have to implement all six profiles?</a></li>
+<li><a href="#all-profiles">Do I have to implement all seven profiles?</a></li>
 <li><a href="#claim-profile">How do I claim a profile on my server?</a></li>
 <li><a href="#conformance-badge">What does the conformance badge mean?</a></li>
 </ol>
@@ -212,7 +212,7 @@ description: Short, concrete answers to the questions that come up most often. C
 <p class="faq-q" id="what-is-profile">What's a conformance profile?</p>
 <p class="faq-a">A named, bounded subset of OpenRiC's endpoint surface. A server claiming <code>core-discovery</code> promises to serve those ten read endpoints correctly; claiming <code>round-trip-editing</code> additionally promises full CRUD. Profiles let implementers commit to what they can actually deliver without pretending to cover the whole spec. See <a href="/profiles.html">profiles</a>.</p>
 
-<p class="faq-q" id="all-profiles">Do I have to implement all six profiles?</p>
+<p class="faq-q" id="all-profiles">Do I have to implement all seven profiles?</p>
 <p class="faq-a">No. Implement the subset that matches your server's actual capabilities. The minimum useful claim is <code>core-discovery</code>; you add profiles (Authority &amp; Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Export-Only) as you implement their endpoint surfaces. A conformance probe run against your server with <code>--profile=&lt;id&gt;</code> verifies you deliver what you claim.</p>
 
 <p class="faq-q" id="claim-profile">How do I claim a profile on my server?</p>

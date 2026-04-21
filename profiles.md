@@ -65,6 +65,12 @@ This is the pattern that turned IIIF from aspirational spec to eight-hundred-ins
     <div class="url">POST · PATCH · DELETE with provenance</div>
     <p>Full write surface with provenance-aware write-back rules. The hardest profile. Depends on Core Discovery + Authority &amp; Context.</p>
   </div>
+  <a class="surface-card" href="{{ '/spec/profiles/graph-traversal.html' | relative_url }}">
+    <span class="surface-icon">🕸</span>
+    <h3>Graph Traversal <span class="status-pill live">v0.5.0 normative</span></h3>
+    <div class="url">/graph · /relations · /hierarchy</div>
+    <p>Cross-entity walks keyed to a root URI + depth. Plus full-graph SHACL shapes for hygiene: orphaned records, unlinked agents, duplicate identifiers, typed-link mismatches.</p>
+  </a>
 </div>
 
 ## How profiles compose
@@ -100,6 +106,6 @@ See [Conformance](spec/conformance.html) for the full testing model.
 
 ## What's next
 
-Only **Core Discovery** is defined in the v0.3.0-draft release. The remaining five profiles will be defined one at a time as implementation demand surfaces them, starting with Authority & Context in the v0.4.0 cycle. This is intentional — defining six profiles up front and having most go unimplemented is exactly how standards lose credibility. Each profile will be drafted, reviewed, and frozen only when at least one independent implementer is ready to target it.
+**Core Discovery**, **Authority & Context**, and **Graph Traversal** are normative as of v0.5.0. The remaining four profiles will be defined one at a time as implementation demand surfaces them. This is intentional — defining seven profiles up front and having most go unimplemented is exactly how standards lose credibility. Each profile is drafted, reviewed, and frozen only when at least one independent implementer is ready to target it (or the reference implementation already exercises the full shape, as was the case for the three landed to date).
 
 Comments on the profile framework or the Core Discovery draft are welcome at the [GitHub Discussions](https://github.com/ArchiveHeritageGroup/openric-spec/discussions).

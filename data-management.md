@@ -205,7 +205,7 @@ OpenRiC doesn't prescribe:
   </a>
   <a class="spec-doc" href="profiles.html">
     <strong>Profiles</strong>
-    <span>The six conformance profiles that scope what a given server claims to implement. Data management is orthogonal to profile.</span>
+    <span>The seven conformance profiles that scope what a given server claims to implement. Data management is orthogonal to profile.</span>
   </a>
   <a class="spec-doc" href="spec/">
     <strong>Specification</strong>

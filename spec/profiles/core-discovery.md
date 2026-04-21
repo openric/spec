@@ -361,8 +361,8 @@ Servers currently claiming `L2-core` conformance per the pre-v0.3 [Viewing API Â
 | v0.2 claim | v0.3 equivalent |
 |---|---|
 | `L2-core` | `{"id":"core-discovery", "version":"0.3.0", "level":"L2"}` |
-| `L2-graph` | `[{"id":"core-discovery"}, {"id":"graph-traversal"}]` (Graph Traversal not yet defined; claim becomes pending until v0.4) |
-| `L2-full` | All six profiles once defined |
+| `L2-graph` | `[{"id":"core-discovery", "version":"0.3.0"}, {"id":"graph-traversal", "version":"0.5.0"}]` |
+| `L2-full` | All seven profiles once defined |
 
 Servers using the Heratio-style `{"success":false, "error":"..."}` error envelope will need to switch to RFC 7807 to claim Core Discovery. This is the one breaking change in the v0.2 â†’ v0.3 transition.
 
