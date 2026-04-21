@@ -7,9 +7,9 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 # Core Discovery Profile
 
 **Profile id:** `core-discovery`
-**Profile version:** 0.3.0-draft
+**Profile version:** 0.3.0
 **Spec version:** 0.3.0
-**Status:** Draft — open for comment
+**Status:** Normative
 **Dependencies:** None
 **Last updated:** 2026-04-21
 
@@ -199,9 +199,37 @@ Pagination envelope:
 | Field | Cardinality | Notes |
 |---|---|---|
 | `rico:history` | 0..1 | |
-| Contact point (single object) | 0..1 | Shape TBD; see TK below |
+| `rico:contact` | 0..1 | Single `rico:ContactPoint` object; shape in §3.4.1 |
 
-<!-- TK: contact-point shape pending SHACL alignment. Likely schema:ContactPoint or rico:ContactName. -->
+#### 3.4.1 `rico:ContactPoint` shape
+
+The contact point is a single embedded object under `rico:contact`, typed `rico:ContactPoint`. Consistent with `spec/mapping.md` §5.2.2 (ISDIAH 5.2.2 → `rico:contact → rico:ContactPoint`). All subfields are OPTIONAL — emit only what you have; omit nulls. Implementations MUST NOT invent alternative property names.
+
+```json
+{
+  "rico:contact": {
+    "@type": "rico:ContactPoint",
+    "rico:streetAddress": "Private Bag X236",
+    "rico:postalCode": "0001",
+    "rico:city": "Pretoria",
+    "rico:country": "ZA",
+    "rico:telephone": "+27 12 323 5300",
+    "rico:email": "info@example.org"
+  }
+}
+```
+
+| Field | Cardinality | Notes |
+|---|---|---|
+| `@type` | 1 | MUST be `rico:ContactPoint` |
+| `rico:streetAddress` | 0..1 | Free-form single-line address |
+| `rico:postalCode` | 0..1 | |
+| `rico:city` | 0..1 | |
+| `rico:country` | 0..1 | ISO 3166-1 alpha-2 RECOMMENDED |
+| `rico:telephone` | 0..1 | E.164 RECOMMENDED |
+| `rico:email` | 0..1 | |
+
+**Rationale for `rico:ContactPoint` over `schema:ContactPoint`.** The Core Discovery profile is RiC-native and avoids cross-vocabulary dependencies in its normative surface. `schema.org/ContactPoint` is a valid alternative shape in a non-normative `@context` alias; implementations that want schema.org interop MAY emit the same object under `schema:contactPoint` in addition, but a Core-Discovery-conformant response MUST emit the `rico:contact → rico:ContactPoint` form.
 
 ### 3.5 Autocomplete — `GET /autocomplete?q=&types=&limit=`
 
@@ -338,9 +366,9 @@ Servers currently claiming `L2-core` conformance per the pre-v0.3 [Viewing API �
 
 Servers using the Heratio-style `{"success":false, "error":"..."}` error envelope will need to switch to RFC 7807 to claim Core Discovery. This is the one breaking change in the v0.2 → v0.3 transition.
 
-## 10. Open design questions
+## 10. Design decisions
 
-Seven questions were flagged during drafting. All seven now carry draft resolutions with rationale; external review is welcome to challenge any of them.
+Seven questions were flagged during drafting. All seven are resolved in the normative v0.3.0 profile. Rationale is retained below for the record; any resolution can be re-opened via a GitHub discussion citing the question ID.
 
 **A note on numbering**: Q2 was retired during early drafting; the remaining questions keep their original IDs (Q1, Q3–Q8) so cross-document references stay stable. Any resolution below can be re-opened via a GitHub discussion citing the question ID.
 
@@ -348,7 +376,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Should profiles follow IIIF's numeric Level 0/1/2 convention, or keep named profiles?
 
-**Draft resolution**: **Keep named profiles.** "Core Discovery", "Authority & Context", etc.
+**Resolution**: **Keep named profiles.** "Core Discovery", "Authority & Context", etc.
 
 **Rationale**: IIIF's numeric levels assume nested supersets — Level 1 contains Level 0. OpenRiC profiles are *bounded capability axes* that are largely orthogonal, not layered. A server might claim Core Discovery + Digital Object Linkage without ever implementing Round-Trip Editing, and numeric levels would falsely imply a ladder. Names preserve semantic flavour and avoid misrepresenting the design.
 
@@ -358,7 +386,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Is `/autocomplete` discovery, or is it search?
 
-**Draft resolution**: **Stays in Core Discovery.**
+**Resolution**: **Stays in Core Discovery.**
 
 **Rationale**: A discovery profile without type-ahead reads as navigation-only, which is a weaker position than IIIF Image API Level 0 (which at least delivers full images). Users evaluating whether to adopt OpenRiC will expect `/autocomplete` at the first step; carving it into a separate profile would make the default conformance target look incomplete. A richer Search profile can still add faceting, filters, and relevance tuning on top.
 
@@ -366,7 +394,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Should `GET /repositories/{key}` and repository inclusion in lists require an A&C profile claim?
 
-**Draft resolution**: **First-class in Core.**
+**Resolution**: **First-class in Core.**
 
 **Rationale**: `rico:heldBy` is emitted inline on every record in the list and detail shapes already. If repositories were A&C-only, every Core-only implementation would have to either strip the `heldBy` triple (losing material context) or leak a class the profile doesn't cover (breaking conformance). First-classing repositories matches what real archival discovery always needs — "who holds this?" is a first-order discovery question, not an authority-control detail.
 
@@ -374,7 +402,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Must `GET /records`, `/agents`, `/repositories` paginate, or is unbounded allowed?
 
-**Draft resolution**: **Mandatory pagination.** Default page size 50, max 200.
+**Resolution**: **Mandatory pagination.** Default page size 50, max 200.
 
 **Rationale**: Unbounded list responses are a client footgun: a `/records` endpoint with 100,000 rows tanks page loads, wastes bandwidth, and exposes every client to a memory-pressure bug nobody signed up for. Every known conformant implementation paginates anyway; codifying it avoids a failure mode where one impl ships unbounded and clients hand-written against it break against everyone else.
 
@@ -384,7 +412,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Mandate `application/problem+json` in v0.3 and deprecate the existing `{success: false, error: …}` envelope, or accept both?
 
-**Draft resolution**: **Mandate RFC 7807 in v0.3. No migration window.**
+**Resolution**: **Mandate RFC 7807 in v0.3. No migration window.**
 
 **Rationale**: There are no external v0.2 clients to accommodate — only the reference server itself was emitting the old envelope, and the migration landed in the reference implementation at the same time as this resolution (OpenRiC service v0.8.11, `packages/ahg-ric/src/Support/ProblemDetails.php`). Accepting both shapes indefinitely would lock every future implementer into emitting two error formats on every 4xx/5xx, which is strictly worse than a single IETF-standard shape. A migration window buys nothing when the only affected client is the one doing the migration. The nine registered error-type URIs are in §4.1; they cover the full surface the reference implementation currently returns. Implementations MAY mint additional types under a prefix they control, as §4.1 states.
 
@@ -392,7 +420,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Should Core Discovery SHACL shapes use `sh:closed true` (reject unknown predicates) or leave shapes open?
 
-**Draft resolution**: **Open shapes.**
+**Resolution**: **Open shapes.**
 
 **Rationale**: Closed shapes punish harmless additions — a reference server adding `rico:someInternalMarker` for operational reasons while still satisfying every Core Discovery requirement would fail validation under closed shapes. That turns every future spec extension into a coordinated flag day for every implementation. Open shapes let the ecosystem extend forward-compatibly: new predicates don't break old validators, and closed-shape validation can still be offered as a stricter optional profile for implementers who want it.
 
@@ -400,7 +428,7 @@ Seven questions were flagged during drafting. All seven now carry draft resoluti
 
 **Question**: Does Core Discovery v0.3 have to move to v0.4 when the spec does?
 
-**Draft resolution**: **Independent lifecycle.**
+**Resolution**: **Independent lifecycle.**
 
 **Rationale**: Spec version describes the HTTP contract (paths, response shapes, auth). Profile version describes a conformance-claim scope. An implementation might sit at Core Discovery v0.3 while the spec as a whole is at v0.4; the reverse is unlikely but permitted. Independent lifecycles mean we can revise Core Discovery without forcing a spec-wide freeze, and freezing the spec doesn't rush unpolished profiles out. Matches IIIF's multi-API approach — Image API and Presentation API ship on separate cadences.
 

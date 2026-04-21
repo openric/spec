@@ -78,7 +78,7 @@ Consumers MUST read this field before issuing any requests that depend on a spec
 
 | Profile | Status | Scope |
 |---|---|---|
-| [**Core Discovery**](core-discovery.html) | **v0.3.0-draft** | Read-only Records, Agents, Repositories, vocabulary, autocomplete. The minimum "I can be queried" claim. |
+| [**Core Discovery**](core-discovery.html) | **v0.3.0 normative** | Read-only Records, Agents, Repositories, vocabulary, autocomplete. The minimum "I can be queried" claim. |
 | **Authority & Context** | planned | Places, Rules, Activities as first-class entities with reconciliation-friendly identifiers. |
 | **Provenance & Event** | planned | Activity subclasses (Production, Accumulation, etc.) with the full event model. Depends on Authority & Context. |
 | **Digital Object Linkage** | planned | Instantiation entities with checksum, MIME, IIIF manifest pointers. |

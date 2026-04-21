@@ -22,6 +22,7 @@
 
 @prefix sh:   <http://www.w3.org/ns/shacl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rico: <https://www.ica.org/standards/RiC/ontology#> .
 @prefix :     <https://openric.org/shapes#> .
 
@@ -188,4 +189,69 @@
         sh:path rico:isOrWasLocatedAt ;
         sh:severity sh:Info ;
         sh:message "Repository should link to at least one Place"
+    ] ;
+
+    sh:property [
+        sh:path rico:contact ;
+        sh:maxCount 1 ;
+        sh:node :ContactPointShape ;
+        sh:message "Repository MAY carry at most one rico:contact, typed rico:ContactPoint; see §3.4.1"
+    ] .
+
+
+# ----------------------------------------------------------------------------
+# ContactPoint shape (§3.4.1)
+# ----------------------------------------------------------------------------
+# All subfields OPTIONAL — emit only what you have. Implementations MUST NOT
+# invent alternative property names. schema:ContactPoint interop is allowed
+# outside the normative surface but is not checked here.
+
+:ContactPointShape a sh:NodeShape ;
+    sh:name "Contact Point" ;
+    sh:description "Single embedded contact object under rico:contact — postal + telephone + email fields, all optional" ;
+
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue rico:ContactPoint ;
+        sh:message "rico:contact value MUST be typed rico:ContactPoint"
+    ] ;
+
+    sh:property [
+        sh:path rico:streetAddress ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+
+    sh:property [
+        sh:path rico:postalCode ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+
+    sh:property [
+        sh:path rico:city ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+
+    sh:property [
+        sh:path rico:country ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Info ;
+        sh:message "Country RECOMMENDED as ISO 3166-1 alpha-2"
+    ] ;
+
+    sh:property [
+        sh:path rico:telephone ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Info ;
+        sh:message "Telephone RECOMMENDED in E.164 format"
+    ] ;
+
+    sh:property [
+        sh:path rico:email ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
     ] .

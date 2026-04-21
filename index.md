@@ -216,10 +216,10 @@ These live inside the specification site itself — interactive tools, reference
     <h4>Governance &amp; review <span class="status-pill pending">current</span></h4>
     <p>Invite external spec editors. Engage EGAD-adjacent reviewers on the Core Discovery draft's open questions. Ratify profile framework. Attract a second, non-reference implementation.</p>
   </div>
-  <div class="phase-card">
+  <div class="phase-card done">
     <div class="phase-num">Phase 5</div>
-    <h4>v0.3.0 freeze <span class="status-pill draft">planned</span></h4>
-    <p>Close the 7 open design questions in Core Discovery (6 have draft resolutions; Q6 error-envelope shift awaits external review). Add profile-scoped SHACL, OpenAPI tags, fixture manifest, probe <code>--profile</code> flag, conformance badge. Reference API declares <code>openric_conformance.profiles</code>.</p>
+    <h4>v0.3.0 freeze <span class="status-pill live">done</span></h4>
+    <p>All 7 Core Discovery design questions resolved (Q6 RFC 7807 mandated and migrated in reference impl; ContactPoint shape pinned to <code>rico:ContactPoint</code>). Profile-scoped SHACL includes <code>:ContactPointShape</code>. Core Discovery Profile flipped from Draft to <strong>Normative</strong>. Tagged 2026-04-21.</p>
   </div>
   <div class="phase-card">
     <div class="phase-num">Phase 6+</div>
