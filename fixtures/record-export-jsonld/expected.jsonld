@@ -1,0 +1,38 @@
+{
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "openric": "https://openric.org/ns/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "https://example.org/informationobject/mobrey-family-archive",
+      "@type": "rico:RecordSet",
+      "rico:title": "Mobrey Family Archive",
+      "rico:identifier": "mob001",
+      "rico:hasDateRangeSet": {
+        "@type": "rico:DateRangeSet",
+        "rico:hasDateRange": [
+          {
+            "@type": "rico:DateRange",
+            "rico:beginningDate": { "@value": "1890-01-01", "@type": "xsd:date" },
+            "rico:endDate":       { "@value": "1965-12-31", "@type": "xsd:date" }
+          }
+        ]
+      },
+      "rico:hasCreator": {
+        "@id": "https://example.org/actor/715",
+        "@type": "rico:Family",
+        "rico:name": "Mobrey family"
+      }
+    },
+    {
+      "@id": "https://example.org/actor/715",
+      "@type": "rico:Family",
+      "rico:name": "Mobrey family",
+      "rico:history": "Farming family active in the Eastern Cape, 1870s–1960s."
+    }
+  ]
+}

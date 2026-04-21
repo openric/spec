@@ -244,12 +244,17 @@ These live inside the specification site itself — interactive tools, reference
   <div class="phase-card done">
     <div class="phase-num">Phase 10</div>
     <h4>v0.35.0 — Provenance &amp; Event <span class="status-pill live">done</span></h4>
-    <p>Sixth normative profile. <a href="spec/profiles/provenance-event.html">Provenance &amp; Event</a> tightens Authority &amp; Context's Activity shapes: <code>rico:Production</code> MUST carry results + participants + dates (Violation, not Warning); cross-entity link targets MUST be the correct RiC-O class. New SHACL file <code>shapes/profiles/provenance-event.shacl.ttl</code> (5 shapes); two new fixtures (<code>activity-production-full</code>, <code>activity-custody</code>) shipped. First profile where the reference implementation explicitly does NOT yet conform — Q5 in the profile doc names the gap (the serializer emits activities without <code>rico:resultsOrResultedIn</code> / <code>rico:hasOrHadParticipant</code>, queued for a future service release). Tagged 2026-04-21.</p>
+    <p>Sixth normative profile. <a href="spec/profiles/provenance-event.html">Provenance &amp; Event</a> tightens Authority &amp; Context's Activity shapes: <code>rico:Production</code> MUST carry results + participants + dates (Violation, not Warning); cross-entity link targets MUST be the correct RiC-O class. New SHACL file <code>shapes/profiles/provenance-event.shacl.ttl</code> (5 shapes); two new fixtures (<code>activity-production-full</code>, <code>activity-custody</code>) shipped. Reference serializer gap closed in service v0.8.13; data backfill still pending before the reference claims this profile. Tagged 2026-04-21.</p>
+  </div>
+  <div class="phase-card done">
+    <div class="phase-num">Phase 11</div>
+    <h4>v0.36.0 — Export-Only <span class="status-pill live">done</span></h4>
+    <p>Seventh normative profile — <strong>profile matrix complete</strong>. <a href="spec/profiles/export-only.html">Export-Only</a> mandates OAI-PMH v2.0 at <code>/oai</code> (six verbs; <code>oai_dc</code> + <code>rico_ld</code> prefixes, the latter carrying CDATA-wrapped RiC-O JSON-LD for full-semantics harvest) plus content-negotiated per-record dumps at <code>/records/{slug}/export</code> (JSON-LD default, Turtle and RDF-XML alternatives — lossless triple-set parity MUST hold across the three). New SHACL file (thin — OAI-PMH responses are XML and validate against the OAI-PMH XSD, not SHACL); three new fixtures (<code>oai-identify</code>, <code>oai-list-metadata-formats</code>, <code>record-export-jsonld</code>). All five design questions resolved on-page. Tagged 2026-04-21.</p>
   </div>
   <div class="phase-card">
-    <div class="phase-num">Phase 11+</div>
-    <h4>Export-Only &amp; v1.0 <span class="status-pill draft">planned</span></h4>
-    <p>Last remaining profile: Export-Only (OAI-PMH harvest + JSON-LD dumps; greenfield on shapes + fixtures). Plus: close the Provenance &amp; Event gap in the reference implementation so at least one server claims all seven profiles. Freeze <strong>v1.0</strong> when a second implementation passes conformance on any profile.</p>
+    <div class="phase-num">Phase 12+</div>
+    <h4>v1.0 freeze <span class="status-pill draft">planned</span></h4>
+    <p>The profile matrix is complete. Remaining path to <strong>v1.0</strong> is governance-bound per <a href="governance.html">governance §117, §125–129</a>: a second independent implementation passing conformance on any profile; at least one external institution committing to deploy; 2–3 active non-maintainer contributors. Plus the data-side close of the Provenance &amp; Event backfill so the reference server claims all seven profiles rather than six.</p>
   </div>
   <div class="phase-card">
     <div class="phase-num">Beyond v1.0</div>

@@ -84,9 +84,9 @@ Consumers MUST read this field before issuing any requests that depend on a spec
 | [**Digital Object Linkage**](digital-object-linkage.html) | **v0.33.0 normative** | Instantiation carriers (MIME, checksums, extent, record-backlinks) plus ISDF Functions. Optional `POST /upload` + thumbnail derivative. |
 | [**Round-Trip Editing**](round-trip-editing.html) | **v0.34.0 normative** | Full write surface — POST/PATCH/DELETE on every entity + relations, gated by API-key scopes, with a public audit trail via `/{type}/{id}/revisions`. |
 | [**Provenance & Event**](provenance-event.html) | **v0.35.0 normative** | Tightened Activity shapes — Production/Accumulation/Activity with required results, participants, dates. Depends on Authority & Context. |
-| **Export-Only** | planned | OAI-PMH harvest plus one-shot JSON-LD dumps. Independent of all other profiles. |
+| [**Export-Only**](export-only.html) | **v0.36.0 normative** | OAI-PMH v2.0 harvest (`oai_dc` + `rico_ld`) plus content-negotiated per-record JSON-LD / Turtle / RDF-XML dumps. |
 
-Six of seven profiles normative as of v0.35.0 — **Core Discovery**, **Authority & Context**, **Graph Traversal**, **Digital Object Linkage**, **Round-Trip Editing**, and **Provenance & Event**. Only **Export-Only** remains greenfield.
+**All seven profiles normative as of v0.36.0.** Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. The profile matrix is complete; v1.0 freeze now depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors), not on more profiles.
 
 <!-- TK Q1: confirm "profile" vs "level" naming. Profile chosen because our six axes are orthogonal, not a strict progression. -->
 

@@ -332,6 +332,30 @@
       ],
       "status": "planned",
       "purpose": "Deliberately broken input \u2192 expected SHACL failures"
+    },
+    {
+      "name": "oai-identify",
+      "profiles": [
+        "export-only"
+      ],
+      "status": "done",
+      "purpose": "OAI-PMH Identify verb \u2014 repository metadata"
+    },
+    {
+      "name": "oai-list-metadata-formats",
+      "profiles": [
+        "export-only"
+      ],
+      "status": "done",
+      "purpose": "OAI-PMH ListMetadataFormats \u2014 oai_dc + rico_ld advertised"
+    },
+    {
+      "name": "record-export-jsonld",
+      "profiles": [
+        "export-only"
+      ],
+      "status": "done",
+      "purpose": "Per-record JSON-LD dump envelope with @graph wrapper"
     }
   ]
 }
