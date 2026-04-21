@@ -1,5 +1,12 @@
 # OpenRiC Specification — Changelog
 
+## v0.36.1 — 2026-04-21
+
+### SPARQL positioned; triplestore-choice guide added
+
+- `spec/viewing-api.md` §4.8 reframed from "experimental — deferred" to **"non-normative — outside the OpenRiC contract, by design"**. Implementations MAY expose a SPARQL endpoint at any implementation-specific path; the OpenRiC contract does not test it, clients should not assume its presence, and no profile can be satisfied by exposing only a SPARQL endpoint. Door is left open for a future `sparql-query` profile if concrete demand surfaces. For the common graph-walk case `/graph?uri=…&depth=N` remains the stable, SHACL-validated, bounded alternative.
+- New guide: [`guides/triplestore-choice.md`](guides/triplestore-choice.html). Walks implementers through backing-store options — Apache Jena Fuseki (the reference choice), Oxigraph, GraphDB, Virtuoso Open Source, QLever, Blazegraph (now effectively unmaintained), Amazon Neptune. Scale bands (triple-count vs store), performance notes, when Fuseki gets slow and what to migrate to, dump/load migration recipe, and the reference deployment's actual numbers. Also listed on `guides/index.md`.
+
 ## v0.36.0 — 2026-04-21
 
 ### Export-Only profile — **profile matrix complete (7/7 normative)**

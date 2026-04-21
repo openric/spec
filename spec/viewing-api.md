@@ -179,18 +179,20 @@ Parameters:
 | `direction` | `in`, `out`, `both` | `both` | — |
 | `types` | Comma-separated filter of node RiC types | — | — |
 
-### 4.8 SPARQL (⚠ **experimental** — optional — L2-query)
+### 4.8 SPARQL (non-normative — outside the OpenRiC contract)
 
-> **Status as of v0.2.0:** This endpoint is **experimental**. The reference implementation returns a stub response; a proper triplestore-backed SPARQL query layer is deferred until there is concrete adopter demand. Consumers MUST NOT treat `/sparql` as part of the required conformance surface. A non-conformant server (including the reference) may omit this endpoint, return an empty result set, or implement only a narrow subset. Do not build critical paths on top of it yet.
+> **Status as of v0.36.0:** SPARQL is **not part of the OpenRiC conformance contract**, by design. OpenRiC is a purpose-built API for working archives (like IIIF for images); exposing SPARQL directly duplicates `/graph?uri=…&depth=N` for the common case, opens a DoS surface that's expensive to harden, and competes with the backing triplestore's own SPARQL endpoint for no net gain to an OpenRiC client. Clients that need SPARQL have better tools: run queries against the Turtle dump from `/export?format=ttl` in an offline processor, or talk directly to the implementation's triplestore if it exposes one.
 
-```
-GET /api/ric/v1/sparql?query={urlencoded-SPARQL}
-POST /api/ric/v1/sparql
-```
+Implementations **MAY** expose a SPARQL endpoint at an implementation-specific path (for example `/sparql-direct`, `/admin/sparql`, or directly at their Fuseki / GraphDB / Oxigraph host). This is entirely out of scope for OpenRiC:
 
-When implemented, passes the query to the server's underlying triple store. Servers MAY impose query complexity limits. Results in standard SPARQL 1.1 Results JSON format.
+- The path, format negotiation, auth model, and rate-limiting of such an endpoint are implementation choices.
+- The OpenRiC conformance probe will not test it.
+- No OpenRiC client should assume its presence.
+- No OpenRiC profile can be satisfied by exposing only a SPARQL endpoint.
 
-For simple traversals use `/graph?uri=…&depth=N` instead — it's stable across every conformant server.
+The reference implementation historically carried `/api/ric/v1/sparql` as a stub; that route is retained for backwards compatibility with any consumer that wired to it, but it is not and will not become part of the normative surface unless a future `sparql-query` profile is defined in response to concrete implementer demand. See [`guides/triplestore-choice.md`](../guides/triplestore-choice.html) for a comparison of backing stores implementers may choose.
+
+**For the common graph-walk case, use `/graph?uri=…&depth=N`** — it's stable across every conformant server, SHACL-validated under Graph Traversal, and never degrades into an unbounded query.
 
 ### 4.9 Validate (optional — L2-query)
 

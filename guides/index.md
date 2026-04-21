@@ -32,6 +32,11 @@ title: OpenRiC — Guides
     <h3>API client guide</h3>
     <p>How to call <code>/api/ric/v1/*</code> from <code>curl</code>, Python, JavaScript, or any HTTP-speaking tool. Auth, pagination, errors.</p>
   </a>
+  <a class="surface-card" href="triplestore-choice.html">
+    <span class="surface-icon">🗄</span>
+    <h3>Choosing a triplestore</h3>
+    <p>Fuseki (the reference), Oxigraph, GraphDB, Virtuoso, QLever, and friends. Scale bands, performance notes, when to migrate. OpenRiC is triplestore-agnostic.</p>
+  </a>
 </div>
 
 ## Before you dive in

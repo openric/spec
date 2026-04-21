@@ -10,7 +10,7 @@
 
 ## Current version
 
-**v0.36.0** — 2026-04-21. All 7 profiles normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. See [`CHANGELOG.md`](CHANGELOG.md).
+**v0.36.1** — 2026-04-21. All 7 profiles normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. SPARQL explicitly positioned as non-normative (implementers MAY expose one at any path; it's not an OpenRiC contract). New implementer guide on triplestore choice. See [`CHANGELOG.md`](CHANGELOG.md).
 
 ## The OpenRiC ecosystem
 
