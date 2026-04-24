@@ -23,6 +23,19 @@ title: OpenRiC
   <p><strong>In plain language:</strong> OpenRiC lets different archival systems publish, exchange, validate, and explore RiC-based archival data in a consistent way. It's a shared contract — like IIIF for images, but for archival description. Any system that implements it can be read, written to, and graph-walked the same way.</p>
 </div>
 
+<div class="see-it">
+  <div class="see-it-inner">
+    <div class="see-it-copy">
+      <h2>See it in action</h2>
+      <p>Open the live 2D/3D viewer against a real archival dataset — no install, no signup. The viewer talks to <code>ric.theahg.co.za/api/ric/v1</code>, the public reference implementation. Click <em>Browse</em> for curated seed entities, or paste any path.</p>
+    </div>
+    <div class="see-it-cta">
+      <a class="btn-primary" href="https://viewer.openric.org/">See it in action ↗</a>
+      <a class="btn-ghost" href="api-explorer/">Try the API ↗</a>
+    </div>
+  </div>
+</div>
+
 ## How the pieces fit together
 
 <div class="boundary-grid">
