@@ -90,6 +90,67 @@ A production GLAM platform (AGPL-3.0) that consumes the OpenRiC reference API fo
 
 ---
 
+## Sparna — Garance build team and RiC-O Converter maintainers
+
+**Project URL:** [`sparna.fr`](https://www.sparna.fr/) · [`github.com/sparna-git`](https://github.com/sparna-git)
+
+Sparna built [Garance](#garance--archives-nationales-de-france) for the Archives nationales de France and maintains the canonical [RiC-O Converter](#rico-converter-eadeac-cpf--rico) (v3.0, March 2025). They are deeply embedded in the EGAD-adjacent community and are the natural partner for any RiC-O 1.1 publication-architecture conversation.
+
+OpenRiC tracks Sparna as a **modelling-pattern reference** (the Eleventy + JSON-LD framing + PageFind + QLever pattern) and a **second-implementation candidate** for the [`sparql-access` Draft profile](spec/profiles/sparql-access.html).
+
+---
+
+## Sparnatural — visual SPARQL query builder
+
+**Project URL:** [`sparnatural.eu`](https://sparnatural.eu/)
+
+A visual SPARQL query builder. [Garance](#garance--archives-nationales-de-france) plans to integrate Sparnatural before end of 2026.
+
+OpenRiC tracks Sparnatural as a **complementary client surface** to the OpenRiC viewer. The viewer renders graphs; Sparnatural builds queries. An institution running both could front-end its OpenRiC server with the viewer for exploration and Sparnatural for ad-hoc query construction. Optional embedding inside the OpenRiC viewer, or a standalone OpenRiC-Sparnatural bridge, is a discussion thread for v1.0+ — open via [openric/spec discussions](https://github.com/openric/spec/discussions) if interested.
+
+---
+
+## RiC-O Converter (EAD/EAC-CPF → RiC-O)
+
+**Project URL:** [`github.com/ArchivesNationalesFR/rico-converter`](https://github.com/ArchivesNationalesFR/rico-converter)
+**Lead:** Sparna + AnF Lab. **Latest:** v3.0 (March 2025).
+
+The canonical EAD 2002 / EAC-CPF → RiC-O 1.1 converter. OpenRiC's [mapping spec](spec/mapping.html) documents the same direction at a higher level (ISAD(G) / ISAAR(CPF) / ISDIAH / ISDF source schemas → RiC-O / openricx output). The OpenRiC mapping is **consistent with RiC-O Converter v3.0 conventions** as of spec v0.38.0; institutions migrating existing EAD finding aids can use the Converter to bootstrap their corpus and an OpenRiC server to expose it over HTTP.
+
+---
+
+## Damigos / Ionian University — RiC-CM Nav and the Corfu archives
+
+**Project URLs:**
+- [RiC-CM NavTool](https://dlib-ionian-university.github.io/ric-cm-nav/) (2026)
+- [Corfu Criminal Court Archives RiC-CM application](https://dlib-ionian-university.github.io/) (2025-09)
+- [RiC-CM ↔ CIDOC-CRM mapping paper](https://link.springer.com/) (Damigos et al., ICADL 2023)
+
+**Lead:** Matthew Damigos and the Laboratory on Digital Libraries and Electronic Publishing, Ionian University. Listed in the official ICA RiC ResourceList.
+
+OpenRiC's own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://ric.theahg.co.za/reference/ric-cm/) parallels the Ionian RiC-CM Nav. The relationship between the two is **currently undeclared** — see [drift-log](drift-log.html) for the open reconciliation question.
+
+The Damigos group's 2023 ICADL paper on RiC-CM ↔ CIDOC-CRM mapping is the basis for the planned `OpenRiC-CIDOC-Bridge` extension (post-v1.0; see [`docs/extensions/openric-cidoc-bridge.md`](https://github.com/openric/spec/blob/main/docs/extensions/openric-cidoc-bridge.md)).
+
+OpenRiC tracks this group as a **second-implementation candidate** — the Corfu Criminal Court Archives application is the closest production deployment to a second OpenRiC implementation that the project has identified.
+
+---
+
+## Other tracked deployments and resources
+
+These are listed for visibility — OpenRiC tracks them as potential second-implementation candidates, modelling references, or community resources.
+
+| Project | Lead | What |
+|---|---|---|
+| [ResearchSpace](https://researchspace.org/) deployment for [SAPA Foundation](https://sapa.swiss/) | Baptiste de Coulon | Knowledge-graph platform (Metaphacts / British Museum). Potential second-implementation candidate for `core-discovery`. |
+| [Holocaust Archival Material Knowledge Graph](https://www.ushmm.org/) | Garcia-Gonzalez & Bryant (2023-10) | Live RiC-O knowledge graph; conformance-probe candidate. |
+| RiC-O for art records search | Min-ji Kim (2024-12) | Domain-specific extension parallel to ICIP/Spectrum. |
+| Description-logic analysis of archival ontologies | Arian Rajh (2024-11) | Theoretical/critical work; useful for academic citing. |
+| [draw.io shape library](https://github.com/) for RiC-O | Richard Williamson (2024-03/04) | Visual modelling tool. |
+| ["Learn About RiC" webinar series](https://www.ica.org/) | EGAD (2025-03) | Official EGAD onboarding; cross-referenced from openric.org's "for archivists" track. |
+
+---
+
 ## Reciprocal listings welcome
 
 If you maintain a public RiC-O / SKOS / archival-linked-data project and would like OpenRiC to track it as a related implementation, open a pull request against [openric/spec](https://github.com/openric/spec) adding a section to this page. The minimum bar is: public URL, lead institution, what it demonstrates, and a clear statement of how OpenRiC users may interact with it (link target, fixture source, architectural reference, etc.).

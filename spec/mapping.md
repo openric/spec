@@ -29,6 +29,17 @@ Given a conforming input description, exactly one conforming RiC graph SHALL res
 
 A reference implementation exists in the [Heratio](https://github.com/ArchiveHeritageGroup/heratio) `ahg-ric` package (AGPL-3.0) and is the empirical source of this specification.
 
+### 1.1 Alignment with RiC-O Converter v3.0
+
+This mapping is **consistent with the conventions of [RiC-O Converter v3.0](https://github.com/ArchivesNationalesFR/rico-converter)** (Sparna + AnF Lab, March 2025) — the canonical EAD 2002 / EAC-CPF → RiC-O converter. Where this spec and the Converter make different decisions, the differences are documented:
+
+- **Source standards**: OpenRiC mapping covers ISAD(G), ISAAR(CPF), ISDIAH, ISDF (the AtoM/Heratio source set). RiC-O Converter covers EAD 2002 and EAC-CPF (the international XML formats). The two source sets overlap on ISAD(G) ↔ EAD and ISAAR(CPF) ↔ EAC-CPF; the Converter does NOT cover ISDIAH or ISDF source data, OpenRiC does.
+- **Output RiC-O version**: both target RiC-O 1.1.
+- **Property choices**: where both standards model the same concept, this spec emits the same `rico:*` property the Converter emits (verified for `rico:hasOrHadInstantiation`, `rico:hasOrHadHolder`, `rico:hasOrHadAgentName`, `rico:hasOrHadLanguage`, the date-property family, the inclusion-relation family, and others — see the [audit document](../audit/ric-o-1.1-audit.html) for the per-term decisions).
+- **Extension namespace**: where neither the Converter nor RiC-O 1.1 covers a needed concept, OpenRiC mints terms in `openricx:` (see [`/ns/ext/v1.html`](../ns/ext/v1.html)). The Converter does not currently use an extension namespace; OpenRiC adopters that also use the Converter can ignore the openricx terms and stay strict-RiC-O.
+
+Institutions migrating existing EAD finding aids can reasonably use the Converter to bootstrap their corpus and an OpenRiC-conformant server (any conformant implementation, not just the reference) to expose the result over HTTP.
+
 ## 2. Terminology & conformance
 
 The keywords **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY** in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).

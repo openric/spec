@@ -1,0 +1,115 @@
+# Copyright (C) 2026 Johan Pieterse / Plain Sailing Information Systems
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# OpenRiC SHACL shapes — profile: sparql-access (Draft, v0.1.0)
+# =============================================================
+# Validates the two structured response surfaces of the optional
+# SPARQL Access profile (see spec/profiles/sparql-access.md):
+#   1. /sparql/info   — void:Dataset description of the SPARQL endpoint
+#   2. /sparql        — when CONSTRUCT/DESCRIBE results are returned as
+#                       JSON-LD, the response @context MUST bind rico
+#                       and openricx
+#
+# These shapes do NOT validate SPARQL query syntax (that's the engine's
+# job) or raw SPARQL Results JSON (that's a W3C-standard JSON Schema
+# obligation, not a SHACL one). They validate the OpenRiC-specific
+# wrappers around the otherwise standard SPARQL 1.1 surface.
+#
+# Status: Draft. Promotion to Normative requires (per sparql-access.md
+# §9 Q5) at least one non-reference implementation passing the conformance
+# probe with --profile=sparql-access against these shapes.
+
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix rico:     <https://www.ica.org/standards/RiC/ontology#> .
+@prefix openricx: <https://openric.org/ns/ext/v1#> .
+@prefix void:     <http://rdfs.org/ns/void#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix :         <https://openric.org/shapes#> .
+
+
+# ----------------------------------------------------------------------------
+# :SparqlInfoShape — /sparql/info response
+# ----------------------------------------------------------------------------
+# A conforming /sparql/info MUST emit a void:Dataset with a sparqlEndpoint
+# pointer back at the live SPARQL endpoint, a triple count, and at minimum
+# the rico vocabulary in its declared vocabulary list. License is
+# strongly recommended (downstream consumers need it for redistribution).
+
+:SparqlInfoShape a sh:NodeShape ;
+    sh:targetClass void:Dataset ;
+    sh:name        "SPARQL endpoint info" ;
+    sh:description "Validates the /sparql/info void:Dataset description per sparql-access.md §4.3." ;
+
+    sh:property [
+        sh:path        void:sparqlEndpoint ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:nodeKind    sh:IRI ;
+        sh:message     "void:Dataset MUST declare exactly one void:sparqlEndpoint pointing at the live SPARQL endpoint URL."
+    ] ;
+
+    sh:property [
+        sh:path        void:triples ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:datatype    xsd:integer ;
+        sh:minInclusive 0 ;
+        sh:message     "void:Dataset MUST declare void:triples (xsd:integer ≥ 0). Use 0 for an empty store; do not omit."
+    ] ;
+
+    sh:property [
+        sh:path        void:vocabulary ;
+        sh:minCount    1 ;
+        sh:hasValue    rico: ;
+        sh:message     "void:Dataset MUST declare at least void:vocabulary <https://www.ica.org/standards/RiC/ontology#>. Servers SHOULD additionally declare openricx, skos, dcterms, owl as relevant."
+    ] ;
+
+    sh:property [
+        sh:path        dcterms:license ;
+        sh:maxCount    1 ;
+        sh:nodeKind    sh:IRI ;
+        sh:severity    sh:Warning ;
+        sh:message     "void:Dataset SHOULD declare dcterms:license — downstream consumers need it for any redistribution decision."
+    ] ;
+
+    sh:property [
+        sh:path        dcterms:title ;
+        sh:maxCount    1 ;
+        sh:severity    sh:Info ;
+        sh:message     "void:Dataset SHOULD declare a dcterms:title for human readability."
+    ] .
+
+
+# ----------------------------------------------------------------------------
+# :SparqlConstructShape — JSON-LD CONSTRUCT/DESCRIBE result @context
+# ----------------------------------------------------------------------------
+# When a /sparql endpoint returns CONSTRUCT or DESCRIBE results with
+# Accept: application/ld+json, the response @context MUST bind at least
+# the rico and openricx prefixes (so that any rico:* / openricx:* CURIEs
+# in the result body resolve correctly). Skipping this binding produces
+# CURIEs that look correct on the wire but fail expansion in any standard
+# JSON-LD processor.
+
+:SparqlConstructShape a sh:NodeShape ;
+    sh:name        "SPARQL CONSTRUCT/DESCRIBE JSON-LD result" ;
+    sh:description "Validates that the @context on a JSON-LD-formatted CONSTRUCT/DESCRIBE result binds the OpenRiC namespaces. Targets blank-node JSON-LD documents that have an @context property — implementations may need to wrap their root response in a typed shape if the SHACL engine cannot target arbitrary JSON-LD documents." ;
+
+    # Targeting note: SHACL's standard targeting works on RDF, not on
+    # the raw JSON-LD document. For implementations that want to
+    # validate the @context structure ahead of expansion, use this
+    # shape's sh:property constraint as a documentation reference
+    # and apply it via JSON Schema (schemas/sparql-construct.schema.json,
+    # planned v0.7) at the JSON-LD-document layer.
+    #
+    # When the response is processed as RDF (post-expansion), the
+    # @context disappears — so this shape is primarily a documentation
+    # contract. The conformance probe checks it via JSON Schema, not SHACL.
+
+    sh:targetSubjectsOf openricx:hasSparqlContextBinding ;
+    sh:property [
+        sh:path     openricx:hasSparqlContextBinding ;
+        sh:minCount 1 ;
+        sh:in       ( "rico+openricx" "rico+openricx+skos" "rico+openricx+skos+dcterms" "full" ) ;
+        sh:message  "JSON-LD CONSTRUCT/DESCRIBE @context MUST bind at least rico and openricx. Recommended bindings: rico, openricx, skos, dcterms, owl."
+    ] .

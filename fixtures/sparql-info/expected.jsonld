@@ -1,0 +1,28 @@
+{
+  "@context": {
+    "void":     "http://rdfs.org/ns/void#",
+    "dcterms":  "http://purl.org/dc/terms/",
+    "rico":     "https://www.ica.org/standards/RiC/ontology#",
+    "openricx": "https://openric.org/ns/ext/v1#",
+    "skos":     "http://www.w3.org/2004/02/skos/core#",
+    "owl":      "http://www.w3.org/2002/07/owl#",
+    "xsd":      "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id":   "https://archives.example.org/api/ric/v1/sparql",
+  "@type": "void:Dataset",
+  "dcterms:title":   "Example Archives RiC-O dataset",
+  "dcterms:license": { "@id": "https://creativecommons.org/licenses/by/4.0/" },
+  "void:sparqlEndpoint": { "@id": "https://archives.example.org/api/ric/v1/sparql" },
+  "void:triples":   { "@value": 1234567, "@type": "xsd:integer" },
+  "void:vocabulary": [
+    { "@id": "https://www.ica.org/standards/RiC/ontology#" },
+    { "@id": "https://openric.org/ns/ext/v1#" },
+    { "@id": "http://www.w3.org/2004/02/skos/core#" },
+    { "@id": "http://purl.org/dc/terms/" },
+    { "@id": "http://www.w3.org/2002/07/owl#" }
+  ],
+  "openricx:accessPolicy":     "public-read",
+  "openricx:rateLimit":        "60/minute/IP",
+  "openricx:maxQueryTimeSeconds": 30,
+  "openricx:exampleQueriesUrl":  "https://archives.example.org/api/ric/v1/sparql/examples"
+}

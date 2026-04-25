@@ -61,6 +61,26 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 |---|---|---|
 | Live homepage shows historical version pills (v0.1.0, v0.2.0) in the phase-cards section | These are accurate historical labels but reviewers may misread | Add a clearer "phase history" header above the cards |
 
+### RiC-CM navigator reconciliation
+
+| Item | Issue | Plan |
+|---|---|---|
+| Two RiC-CM navigators exist with overlapping purposes | OpenRiC ships its own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://ric.theahg.co.za/reference/ric-cm/) (SPARQL-backed, declared-vs-inherited separation, versioned URLs). The Damigos / Ionian University group ships [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) (SPA, listed in the official ICA RiC ResourceList). Currently both exist and the relationship is undeclared. | Decide one of: (a) deprecate the OpenRiC navigator and link out to the Ionian one; (b) contribute to the Ionian project; (c) articulate what the OpenRiC navigator does that the Ionian one doesn't (and vice versa) on the [Related Implementations page](related-implementations.html). Targeted resolution: post-v0.38, before any v1.0 freeze. |
+
+### External-extension watch (RiC-O 1.1 ecosystem)
+
+| Item | Issue | Plan |
+|---|---|---|
+| AnF RiC-O extension landing ~June 2026 | Archives nationales de France is publishing a small RiC-O 1.1 ontology extension at [`github.com/ArchivesNationalesFR/ontology`](https://github.com/ArchivesNationalesFR/ontology) (v1.0 expected mid-June 2026). Likely to overlap with `openricx:` for agent description, address, place modelling. | When it lands: audit `openricx:` against the AnF extension. Where overlap exists, propose alignment or cross-reference rather than parallel definitions. Track per [external-signals memory](https://github.com/openric/spec). |
+| OpenRiC vocabularies (`/vocab/activity-type/`, `/vocab/rule-type/`) need SKOS-publishing maturity | Currently published as static Turtle + HTML. Per the v2 review, the broader SKOS-publication pattern (HTML / JSON-LD / Turtle / RDF/XML / CSV per vocabulary, with `/vocabularies` index endpoint exposing each as a `skos:ConceptScheme`) is a Garance-style maturity step. | Phase H — once a non-reference implementation expresses a need. |
+| `openricx:` extension namespace remains under-publicised | The Turtle ontology stub at [`/ns/ext/v1.html`](/ns/ext/v1.html) and 48 declared terms should be communicated to the EGAD-adjacent community. | Outreach drafts in [`docs/outreach/`](https://github.com/openric/spec/tree/main/docs/outreach) — Sparna and Damigos targets identified. |
+
+### Phase numbering reconciliation
+
+| Item | Issue | Plan |
+|---|---|---|
+| Two phase systems exist | The internal project context document tracks "Phases 1-7" by feature area (skeleton, lenses, graph, audit, discovery, export, workflow). The public roadmap tracks "Phases 1-12+" keyed to spec versions (v0.1, v0.2, v0.30 → v0.36, v1.0). These do not align. | The public spec-version roadmap is authoritative. Internal documents that still refer to the feature-area phase numbering should be updated to match. The internal-context-doc update is tracked in the project memory file `project_current_state.md` (post-2026-04-25 note: "Phases 1-7 by feature area is OUT OF DATE relative to public site"). |
+
 ---
 
 ## Closed (recent)

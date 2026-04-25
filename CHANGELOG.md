@@ -1,5 +1,51 @@
 # OpenRiC Specification — Changelog
 
+## v0.38.0 — 2026-04-25
+
+### Wave B — outreach prep + SPARQL Access maturity step + extension proposals
+
+Triggered by the v2 outstanding-work review (`openric_outstanding_deep_review_v2.md`) which flagged: zero progress on the v1.0 governance gates (second implementation, external institution commitment, non-maintainer contributors), the SPARQL Access Draft profile lacking SHACL + fixtures, and three concrete upstream-proposal candidates ready to file at ICA-EGAD/RiC-O.
+
+**SPARQL Access (Draft) — promotion-blocker artifacts shipped**
+
+- New `shapes/profiles/sparql-access.shacl.ttl` — `:SparqlInfoShape` (validates `void:Dataset` description per profile §4.3) + `:SparqlConstructShape` (documents the JSON-LD `@context`-binding contract for CONSTRUCT/DESCRIBE results). Closes 1 of 5 conditions for promoting `sparql-access` from Draft to Normative (see `spec/profiles/sparql-access.md` §9 Q5).
+- New fixture `fixtures/sparql-info/expected.jsonld` + `notes.md` — minimum-viable `void:Dataset` description with required `void:sparqlEndpoint`, `void:triples`, `void:vocabulary` (binding `rico:`), recommended `dcterms:license`, plus implementation hints (`openricx:accessPolicy`, `openricx:rateLimit`, `openricx:maxQueryTimeSeconds`, `openricx:exampleQueriesUrl`).
+- New fixture `fixtures/sparql-construct/expected.jsonld` + `notes.md` — pins the JSON-LD shape for `Accept: application/ld+json` CONSTRUCT/DESCRIBE results, with `@context` binding `rico` + `openricx` + `skos` + `dcterms` + `owl` + `xsd`, and an `@graph` array of two interlinked subjects (Person + RecordSet). Closes 1 of 5 conditions per the same Q5 list.
+
+**Related Implementations expanded**
+
+- New sections in `related-implementations.md`: Sparna (Garance build team, RiC-O Converter maintainers), Sparnatural (visual SPARQL query builder), RiC-O Converter v3.0 (canonical EAD/EAC-CPF → RiC-O converter, alignment statement), Damigos / Ionian University (RiC-CM Nav + Corfu Criminal Court Archives + 2023 ICADL CIDOC-CRM mapping).
+- Watch-list table for ResearchSpace (Baptiste de Coulon / SAPA), Holocaust Archival KG, Min-ji Kim (art records), Arian Rajh (description-logic critical work), Richard Williamson (draw.io shapes), EGAD's "Learn About RiC" webinar series.
+
+**Drift log additions**
+
+- New entry: **RiC-CM navigator reconciliation** — OpenRiC's RiC-CM browser at `ric.theahg.co.za/reference/ric-cm/` parallels Damigos's RiC-CM Nav. Three resolution options laid out (deprecate ours / contribute to theirs / articulate distinct purposes); resolution gate is post-v0.38, before v1.0 freeze.
+- New entry: **External-extension watch (RiC-O 1.1 ecosystem)** — track AnF's RiC-O extension publication at `github.com/ArchivesNationalesFR/ontology` (v1.0 due ~June 2026); audit `openricx:` against it on landing.
+- New entry: **Phase numbering reconciliation** — internal "Phases 1-7 by feature area" framing is OUT OF DATE relative to the public spec-version roadmap. Internal docs being updated.
+
+**Upstream-proposal templates** — three paste-ready GitHub-issue bodies in new `docs/upstream-proposals/` directory, ready for the maintainer to file against `ICA-EGAD/RiC-O`:
+
+- `hasAppraisalInformation.md` — datatype property on `RecordResource` for ISAD(G) 3.3.2 appraisal/destruction/scheduling.
+- `containsPersonalData.md` — `xsd:boolean` privacy-compliance flag on `RecordResource`.
+- `ContactPoint.md` — `rico:ContactPoint` class + 6 address/contact properties for ISDIAH repository contacts.
+
+Each draft includes rationale, suggested IRI, suggested domain/range, alternatives considered, cross-walks to source standards, and OpenRiC's interim placement.
+
+**Outreach drafts** — two paste-ready email/discussion bodies in new `docs/outreach/` directory:
+
+- `sparna-second-implementation.md` — Sparna sanity-check on SPARQL Access profile + open the door to Garance v2 being a second implementation. Pre-send checklist included; gated on this v0.38.0 release going to origin.
+- `damigos-second-implementation.md` — Damigos / Ionian University on (a) Corfu Criminal Court Archives running our conformance probe, (b) reconciling the two RiC-CM navigators, (c) co-authorship on `OpenRiC-CIDOC-Bridge` extension.
+
+**Extension proposals (post-v1.0)** — new `docs/extensions/` directory with strawman drafts:
+
+- `openric-cidoc-bridge.md` — express RiC-O graphs in CIDOC-CRM-equivalent form for museum interoperability. Built explicitly on Damigos's 2023 ICADL paper. Co-authorship with the Ionian group is a question the outreach asks. Five open questions documented (co-authorship, endpoint pattern, SHACL coverage, bidirectionality, Linked.Art alignment). Post-v1.0, alongside OpenRiC-Rights and OpenRiC-Preservation.
+
+**Mapping spec — RiC-O Converter alignment**
+
+- `spec/mapping.md` §1.1 (new) — OpenRiC mapping is **consistent with RiC-O Converter v3.0 conventions**. Differences documented: source-standard coverage (Converter does EAD/EAC-CPF, OpenRiC does ISAD(G)/ISAAR(CPF)/ISDIAH/ISDF), output RiC-O version (both 1.1), property-choice consistency for the overlap subset, OpenRiC's `openricx:` extension namespace where neither the Converter nor RiC-O 1.1 covers a needed concept.
+
+**No spec-semantics changes.** No `rico:*` term renames, no SHACL constraint changes, no fixture rewrites of existing fixtures. v0.38.0 is purely additive — new artifacts, new docs, no breaking changes to v0.37.1 conformance.
+
 ## v0.37.1 — 2026-04-25
 
 ### Public consistency patch

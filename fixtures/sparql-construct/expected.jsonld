@@ -1,0 +1,38 @@
+{
+  "@context": {
+    "rico":     "https://www.ica.org/standards/RiC/ontology#",
+    "openricx": "https://openric.org/ns/ext/v1#",
+    "skos":     "http://www.w3.org/2004/02/skos/core#",
+    "dcterms":  "http://purl.org/dc/terms/",
+    "owl":      "http://www.w3.org/2002/07/owl#",
+    "xsd":      "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id":   "https://archives.example.org/agent/smuts-jc",
+      "@type": "rico:Person",
+      "rico:name":      "Smuts, Jan Christian",
+      "rico:hasBeginningDate": { "@value": "1870-05-24", "@type": "xsd:date" },
+      "rico:hasEndDate":       { "@value": "1950-09-11", "@type": "xsd:date" },
+      "rico:isOrWasHolderOf": { "@id": "https://archives.example.org/recordset/AHG-A001" },
+      "owl:sameAs":     { "@id": "https://www.wikidata.org/wiki/Q156591" }
+    },
+    {
+      "@id":   "https://archives.example.org/recordset/AHG-A001",
+      "@type": "rico:RecordSet",
+      "rico:title":      "Papers of Jan Christian Smuts",
+      "rico:identifier": "AHG-A001",
+      "openricx:description": "Personal papers, correspondence, and political writings of J.C. Smuts (1870-1950).",
+      "openricx:hasDateRangeSet": {
+        "@type": "openricx:DateRange",
+        "rico:hasBeginningDate": { "@value": "1893", "@type": "xsd:gYear" },
+        "rico:hasEndDate":       { "@value": "1950", "@type": "xsd:gYear" }
+      },
+      "rico:hasOrHadHolder": {
+        "@id":   "https://archives.example.org/corporatebody/national-archives-zaf",
+        "@type": "rico:CorporateBody",
+        "rico:name": "National Archives of South Africa"
+      }
+    }
+  ]
+}
