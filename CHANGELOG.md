@@ -1,5 +1,21 @@
 # OpenRiC Specification — Changelog
 
+## v0.38.1 — 2026-05-25
+
+### Doc-only patch: RiC-AG cross-reference + RiC-CM Nav declaration
+
+Two `drift-log.md` open items resolved; both are pure-documentation changes — no normative property mapping or profile claim changes.
+
+**RiC-AG (Application Guidelines) — cross-referenced**
+- `spec/mapping.md` §1.2 (new) declares RiC-AG v0.1 (ICA-EGAD, October 2025) as the **upstream authoritative reference** for the legacy-ICA-standards-to-RiC-CM crosswalk. OpenRiC defers to RiC-AG where the two agree; intentional divergences (the `openricx:` extension namespace minted where neither RiC-O 1.1 nor RiC-AG covers a concept) are documented and tracked as upstream-proposal candidates. The forthcoming EAC-CPF → RiC-O 1.1 mapping (announced under RiC-AG) is flagged for cross-reference from §6.2 (Actor) when it lands.
+- `related-implementations.md` promotes RiC-AG from a passing-mention under the ICA-EGAD section to a **first-class section** of its own (sibling to Garance, RiC-O Converter, etc.), with explicit "why OpenRiC tracks it" / "how OpenRiC uses it" / "what OpenRiC does NOT do" structure consistent with the other entries.
+- `drift-log.md` records the promotion as a Closed item.
+
+**RiC-CM navigator reconciliation — declared (option C)**
+- The open question of how OpenRiC's `/reference/ric-cm/` browser relates to the Damigos / Ionian [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) is resolved by **articulating the distinction**, not deprecating either.
+- OpenRiC's navigator: versioned, SPARQL-backed, declared-vs-inherited separation, tied to spec releases — a *spec-reference browser*. Ionian RiC-CM Nav: standalone single-page graph navigator for conceptual exploration. The two address different reader needs and are formally declared as **complementary, not competing** on `related-implementations.md`.
+- `drift-log.md` moves the item from "Open" to "Closed (recent)".
+
 ## v0.38.0 — 2026-04-25
 
 ### Wave B — outreach prep + SPARQL Access maturity step + extension proposals

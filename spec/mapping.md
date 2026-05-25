@@ -5,9 +5,9 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Version:** 0.37.0
-**Status:** Active — RiC-O 1.1 namespace remediation complete
-**Last updated:** 2026-04-25
+**Version:** 0.38.1
+**Status:** Active — cross-referenced with RiC-AG (Application Guidelines) v0.1
+**Last updated:** 2026-05-25
 
 ---
 
@@ -39,6 +39,18 @@ This mapping is **consistent with the conventions of [RiC-O Converter v3.0](http
 - **Extension namespace**: where neither the Converter nor RiC-O 1.1 covers a needed concept, OpenRiC mints terms in `openricx:` (see [`/ns/ext/v1.html`](../ns/ext/v1.html)). The Converter does not currently use an extension namespace; OpenRiC adopters that also use the Converter can ignore the openricx terms and stay strict-RiC-O.
 
 Institutions migrating existing EAD finding aids can reasonably use the Converter to bootstrap their corpus and an OpenRiC-conformant server (any conformant implementation, not just the reference) to expose the result over HTTP.
+
+### 1.2 Cross-reference with RiC-AG (Application Guidelines)
+
+This mapping is **cross-referenced with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/)** (ICA-EGAD Application Guidelines, October 2025). RiC-AG ships a [crosswalk from the four legacy ICA standards](https://ica-egad.github.io/RiC-AG/mappings.html) — ISAD(G), ISAAR(CPF), ISDF, ISDIAH — to RiC-CM, which is exactly the source-standard set this mapping spec covers.
+
+OpenRiC treats RiC-AG as the **upstream authoritative reference** for that crosswalk. Where this spec and RiC-AG agree on a class or property mapping, RiC-AG is canonical and OpenRiC defers. Where they diverge — intentionally or as drift — the divergence is documented:
+
+- **Intentional divergences:** OpenRiC mints `openricx:` terms where neither RiC-O 1.1 nor RiC-AG covers a needed concept (e.g. `openricx:containsPersonalData`, `openricx:hasMimeType`, the `openricx:hasDateRangeSet` wrapper for the multi-event date pattern). These are documented in [`/ns/ext/v1.html`](../ns/ext/v1.html) and tracked as [upstream-proposal candidates](https://github.com/openric/spec/tree/main/docs/upstream-proposals) for eventual contribution back to RiC-O via EGAD.
+- **Source-set extension:** OpenRiC covers ISDF and ISDIAH at the same level of detail as ISAD(G) and ISAAR(CPF). RiC-AG v0.1 covers all four; OpenRiC's per-standard tables in §6 are intended to be consistent with RiC-AG's crosswalk tables, not parallel definitions.
+- **Forthcoming EAC-CPF → RiC-O 1.1 mapping:** announced under RiC-AG as "planned to be released as soon as possible." When it lands, this spec will cross-reference it from §6.2 (Actor) alongside the existing [RiC-O Converter](#11-alignment-with-ric-o-converter-v30) alignment. Tracked in [drift-log](../drift-log.html).
+
+Implementations of OpenRiC profiles SHOULD treat RiC-AG as the application-pattern reference and this spec as the deployable-API contract. The two are designed to be coherent: RiC-AG answers *what* to model; OpenRiC answers *how* to expose it over HTTP.
 
 ## 2. Terminology & conformance
 
@@ -490,6 +502,8 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) — treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
+| 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A–E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `ahg-ric` reference implementation. |
 
 ---

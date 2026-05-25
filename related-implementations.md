@@ -75,9 +75,30 @@ The AnF [Referentiels repository](https://github.com/ArchivesNationalesFR/Refere
 
 The canonical Records-in-Contexts ontology that OpenRiC implements. OpenRiC tracks RiC-O 1.1 (released 2025-05-22) as the authoritative source for `rico:*` terms; the OpenRiC [extension namespace](/ns/ext/v1.html) covers terms not defined in canonical 1.1. The [audit document](/audit/ric-o-1.1-audit.html) records every disposition decision.
 
-ICA-EGAD also maintains:
-- **[RiC-AG (Application Guidelines)](https://ica-egad.github.io/RiC-AG/)** — practical guidance on applying RiC-CM / RiC-O, including an EAD 2002 → RiC-O 1.1 mapping. OpenRiC's Phase F upstream-proposal candidates draw from RiC-AG patterns.
-- **[RiC-O Converter](https://github.com/ArchivesNationalesFR/rico-converter)** — open-source tool converting EAD 2002 / EAC-CPF to RiC-O. Useful for institutions migrating existing finding aids.
+ICA-EGAD also maintains the [RiC-O Converter](https://github.com/ArchivesNationalesFR/rico-converter) (EAD 2002 / EAC-CPF → RiC-O) and the [RiC-AG Application Guidelines](#ric-ag--ica-egad-application-guidelines) (see below).
+
+---
+
+## RiC-AG — ICA-EGAD Application Guidelines
+
+**Documentation:** [`ica-egad.github.io/RiC-AG/`](https://ica-egad.github.io/RiC-AG/)
+**Mappings:** [`ica-egad.github.io/RiC-AG/mappings.html`](https://ica-egad.github.io/RiC-AG/mappings.html)
+**Maintainer:** ICA-EGAD (October 2025, v0.1).
+
+RiC-AG is the EGAD-authored practical guide to applying RiC-CM and RiC-O. v0.1 ships a crosswalk from the four legacy ICA standards — **ISAD(G), ISAAR(CPF), ISDF, ISDIAH** — to RiC-CM, with an **EAC-CPF → RiC-O 1.1 mapping** announced as "planned to be released as soon as possible."
+
+### Why OpenRiC tracks RiC-AG
+
+The four ICA-standard crosswalks in RiC-AG are exactly the same source-standard set OpenRiC's [mapping specification](spec/mapping.html) covers (ISAD(G), ISAAR(CPF), ISDF, ISDIAH). RiC-AG is the **authoritative reference** for that crosswalk; OpenRiC's mapping spec now [cross-references RiC-AG §1.2](spec/mapping.html) and treats RiC-AG as the upstream-of-truth where the two agree. Differences (intentional or accidental) will be tracked in [drift-log](drift-log.html) and proposed back to EGAD where appropriate.
+
+### How OpenRiC uses RiC-AG
+
+- **As a check on the mapping spec.** Each property mapping in `spec/mapping.md` is verified against RiC-AG's mappings page. Where OpenRiC and RiC-AG disagree on the canonical predicate, OpenRiC documents the divergence.
+- **As an upstream channel.** The three OpenRiC upstream-proposal candidates (`hasAppraisalInformation`, `containsPersonalData`, `ContactPoint`, drafted at [`docs/upstream-proposals/`](https://github.com/openric/spec/tree/main/docs/upstream-proposals)) are framed against RiC-AG patterns and will be filed against `ICA-EGAD/RiC-O` once a second implementation passes conformance.
+
+### What OpenRiC does NOT do with RiC-AG
+
+OpenRiC does **not** fork or republish RiC-AG content. The Application Guidelines are EGAD's authoritative text; this spec defers to them on application-pattern questions and adds only what's needed for a deployable HTTP API surface (URI scheme, content negotiation, conformance profiles, write API, SPARQL access, etc.).
 
 ---
 
@@ -128,7 +149,7 @@ The canonical EAD 2002 / EAC-CPF → RiC-O 1.1 converter. OpenRiC's [mapping spe
 
 **Lead:** Matthew Damigos and the Laboratory on Digital Libraries and Electronic Publishing, Ionian University. Listed in the official ICA RiC ResourceList.
 
-OpenRiC's own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://ric.theahg.co.za/reference/ric-cm/) parallels the Ionian RiC-CM Nav. The relationship between the two is **currently undeclared** — see [drift-log](drift-log.html) for the open reconciliation question.
+OpenRiC's own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://ric.theahg.co.za/reference/ric-cm/) parallels the Ionian RiC-CM Nav, and the relationship between the two is **complementary, not competing** (declared in [drift-log](drift-log.html), 2026-05-25). The OpenRiC navigator is a **versioned, SPARQL-backed specification browser** with declared-vs-inherited separation, tied to spec releases. The Ionian RiC-CM Nav is a **standalone single-page graph navigator** for conceptual exploration. The two address different reader needs (spec-version reference vs. conceptual graph traversal); no deprecation, no fork.
 
 The Damigos group's 2023 ICADL paper on RiC-CM ↔ CIDOC-CRM mapping is the basis for the planned `OpenRiC-CIDOC-Bridge` extension (post-v1.0; see [`docs/extensions/openric-cidoc-bridge.md`](https://github.com/openric/spec/blob/main/docs/extensions/openric-cidoc-bridge.md)).
 

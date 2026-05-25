@@ -61,12 +61,6 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 |---|---|---|
 | Live homepage shows historical version pills (v0.1.0, v0.2.0) in the phase-cards section | These are accurate historical labels but reviewers may misread | Add a clearer "phase history" header above the cards |
 
-### RiC-CM navigator reconciliation
-
-| Item | Issue | Plan |
-|---|---|---|
-| Two RiC-CM navigators exist with overlapping purposes | OpenRiC ships its own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://ric.theahg.co.za/reference/ric-cm/) (SPARQL-backed, declared-vs-inherited separation, versioned URLs). The Damigos / Ionian University group ships [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) (SPA, listed in the official ICA RiC ResourceList). Currently both exist and the relationship is undeclared. | Decide one of: (a) deprecate the OpenRiC navigator and link out to the Ionian one; (b) contribute to the Ionian project; (c) articulate what the OpenRiC navigator does that the Ionian one doesn't (and vice versa) on the [Related Implementations page](related-implementations.html). Targeted resolution: post-v0.38, before any v1.0 freeze. |
-
 ### External-extension watch (RiC-O 1.1 ecosystem)
 
 | Item | Issue | Plan |
@@ -85,6 +79,8 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 
 ## Closed (recent)
 
+- **2026-05-25, v0.38.1** — **RiC-CM navigator reconciliation: declared.** Resolved via option (c) — articulate the distinction rather than deprecate. OpenRiC's `/reference/ric-cm/` is a **versioned, SPARQL-backed, declared-vs-inherited specification browser** tied to spec releases; the Damigos / Ionian [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) is a **standalone single-page graph navigator** aimed at conceptual exploration. The two address different reader needs (spec-version reference vs. conceptual graph traversal) and the relationship is now declared as **complementary, not competing** on [related-implementations](related-implementations.html). No deprecation; no fork. Either tool can cite the other.
+- **2026-05-25, v0.38.1** — **RiC-AG (Application Guidelines) promoted to first-class related-implementation.** EGAD published RiC-AG v0.1 in October 2025; this spec now cross-references RiC-AG's ISAD(G)/ISAAR(CPF)/ISDF/ISDIAH crosswalks as the authoritative reference in [mapping.md §1.2](spec/mapping.html), and RiC-AG has its own section on [related-implementations](related-implementations.html). The forthcoming EAC-CPF → RiC-O 1.1 mapping (also announced under RiC-AG) is tracked separately in this drift log.
 - **2026-04-25, v0.37.0** — RiC-O 1.1 namespace remediation, all 5 phases (A → E). Audit: 110 → 0 genuine emit-context violations.
 - **2026-04-25, v0.37.0** — Per-document version headers (mapping/viewing-api/graph-primitives/conformance) bumped from `0.1.0-draft` to `0.37.0`.
 - **2026-04-25, v0.37.0** — Mapping spec stale "review in progress" callout replaced with "REMEDIATION COMPLETE" callout.
