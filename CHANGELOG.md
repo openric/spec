@@ -1,5 +1,15 @@
 # OpenRiC Specification — Changelog
 
+## v0.38.2 — 2026-05-25
+
+### Conformance probe: detail-endpoint coverage for all 8 entity types
+
+`conformance/probe.sh` previously ran `probe_show_first` (detail-show) for only `records / agents / repositories`. The other 5 entity types (`places / rules / activities / instantiations / functions`) were list-only, which let the v0.9.0-introduced regression on `/functions/{id}` stay hidden for 35 days until the reference service's v0.9.2 audit caught it.
+
+This patch adds detail-show probes for the missing 5 types. Probe surface goes from 24 → 29 checks. The reference service at `ric.theahg.co.za/api/ric/v1` passes all 29.
+
+Any conformant OpenRiC implementation should pass the expanded probe; if a previously-passing server starts failing, it is a real regression (not a probe artifact). No spec prose, no profile claims, no SHACL shapes changed.
+
 ## v0.38.1 — 2026-05-25
 
 ### Doc-only patch: RiC-AG cross-reference + RiC-CM Nav declaration

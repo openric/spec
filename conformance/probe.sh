@@ -238,15 +238,20 @@ fi
 # ---- §2 Authority & Context — places, rules, activities ----
 if in_profile "authority-context"; then
   probe "list-places"     required GET "/places"     "$LIST_SHAPE"
+  probe_show_first "show-place"    "/places"     "/places"
   probe "list-rules"      required GET "/rules"      "$LIST_SHAPE"
+  probe_show_first "show-rule"     "/rules"      "/rules"
   probe "list-activities" required GET "/activities" "$LIST_SHAPE"
+  probe_show_first "show-activity" "/activities" "/activities"
   probe "places-flat"     optional GET "/places/flat" '.items | type == "array"'
 fi
 
 # ---- §3 Digital Object Linkage — instantiations, functions ----
 if in_profile "digital-object-linkage"; then
   probe "list-instantiations" required GET "/instantiations" "$LIST_SHAPE"
+  probe_show_first "show-instantiation" "/instantiations" "/instantiations"
   probe "list-functions"      optional GET "/functions"      "$LIST_SHAPE"
+  probe_show_first "show-function"      "/functions"      "/functions"
 fi
 
 # ---- §4 Graph Traversal — graph, relation-types, sparql ----
