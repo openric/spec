@@ -277,7 +277,18 @@ if in_profile "graph-traversal"; then
     RESULTS+=("SKIP|GET /graph|no-seed")
   fi
 
-  probe "sparql (experimental)" optional GET "/sparql?query=SELECT%20*%20WHERE%20{%20?s%20?p%20?o%20}%20LIMIT%201" '.'
+  # SPARQL probe — URL-encode the query body via jq @uri to avoid curl
+  # globbing the `{...}` and to escape `?` in variables (`?s ?p ?o`).
+  # Asserts canonical SPARQL Results JSON shape (head.vars is an array)
+  # so a server wrapping the result in a non-canonical envelope is
+  # caught here, not silently passed.
+  SPARQL_Q=$(printf '%s' 'SELECT * WHERE { ?s ?p ?o } LIMIT 1' | jq -sRr @uri)
+  probe "sparql (experimental)" optional GET "/sparql?query=${SPARQL_Q}" '(.head.vars | type) == "array"'
+
+  # SPARQL dataset description — void:Dataset endpoint at /sparql/info.
+  # Optional because sparql-access is a Draft profile; servers without
+  # SPARQL legitimately 404 here.
+  probe "sparql-info"           optional GET "/sparql/info"          '.'
 fi
 
 # ---- §5 Export-Only (OAI-PMH) ----

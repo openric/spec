@@ -1,5 +1,19 @@
 # OpenRiC Specification — Changelog
 
+## v0.38.3 — 2026-05-25
+
+### Conformance probe: SPARQL probes hardened + `/sparql/info` added
+
+Two corrections to the SPARQL Access section of `conformance/probe.sh`:
+
+1. **URL-encode the SPARQL query body.** The previous `/sparql` probe URL contained raw `{`, `?`, `}` characters in the query value (`?query=SELECT * WHERE { ?s ?p ?o } LIMIT 1`). `curl` was treating `{...}` as a glob/brace expansion and `?` as a query-string delimiter, so the URL was being mangled before transmission. The probe was passing only by accident — against the previous OpenRiC reference implementation, which masked all Fuseki errors as `HTTP 200` with a wrapped JSON envelope. A server that correctly returns 4xx on backend parse failures (as the spec requires per Core Discovery §4) was being flagged non-conformant by the previous probe. Fixed by piping the query through `jq -sRr @uri` before interpolation.
+2. **Assert canonical SPARQL Results JSON shape.** The predicate was a bare `.` (any non-null JSON), which silently accepted a server returning `{"sparql": "...", "results": {...}}` (non-canonical wrapper) as conformant. New predicate `(.head.vars | type) == "array"` requires the canonical `application/sparql-results+json` shape per the SPARQL 1.1 Protocol.
+3. **Add `/sparql/info` probe.** Tests the `void:Dataset` description endpoint required by `sparql-access` profile §2.1. Optional, since the profile is itself optional.
+
+Reference server (`ric.theahg.co.za`, OpenRiC service v0.10.0) passes 30/30 probes after this patch. Servers that previously claimed sparql-access conformance without exposing canonical SPARQL Results JSON will need to fix their endpoint to remain conformant.
+
+No spec prose changes; no profile claim changes.
+
 ## v0.38.2 — 2026-05-25
 
 ### Conformance probe: detail-endpoint coverage for all 8 entity types
