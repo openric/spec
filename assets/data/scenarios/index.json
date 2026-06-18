@@ -4,5 +4,8 @@
   { "id": "correspondence", "title": "Correspondence: a single letter vs. a whole exchange" },
   { "id": "photographs", "title": "Photographs: a single image vs. an album" },
   { "id": "cartographic", "title": "Maps: a single sheet vs. a map series" },
-  { "id": "born-digital-email", "title": "Email: a message, a thread, and attachments" }
+  { "id": "born-digital-email", "title": "Email: a message, a thread, and attachments" },
+  { "id": "oral-history", "title": "Oral history: interview, narrator and interviewer" },
+  { "id": "registers-volumes", "title": "Registers & volumes: a bound book and its entries" },
+  { "id": "organisational-records", "title": "Organisational records: function, activity and creator" }
 ]
