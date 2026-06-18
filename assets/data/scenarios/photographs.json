@@ -1,0 +1,79 @@
+{
+  "id": "photographs",
+  "title": "Photographs: a single image vs. an album",
+  "audience": "Photographic collections, museums, personal papers",
+  "intro": "Photographs raise the same fork as most material: are you describing one image, or a whole album? This scenario branches on that, then separates the picture (intellectual content) from the print or negative (physical carrier), and attaches the photographer — the three moves that keep a photo collection queryable.",
+  "question": "Is a photograph a Record, and the album a Record Set? And where do the print, the negative, and the photographer go?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "fork",
+      "prompt": "What are you cataloguing — one photograph, or a whole album/collection?",
+      "choices": [
+        { "label": "A single photograph", "entity": "RiC-E04", "correct": true, "next": "photo", "why": "Good — one image is one unit of content: a Record." },
+        { "label": "An album / collection", "entity": "RiC-E03", "correct": true, "next": "album", "why": "Good — an album is an aggregation of photographs that belong together: a Record Set, with each photo a member." },
+        { "label": "An Instantiation", "entity": "RiC-E06", "correct": false, "why": "Doesn't fit as the starting point. An Instantiation is the physical print or negative — a carrier of a photograph's content, which you'll add after choosing the intellectual unit (Record or Record Set)." }
+      ]
+    },
+    {
+      "id": "photo",
+      "prompt": "Model the single photograph (the image itself).",
+      "next": "photographer",
+      "choices": [
+        { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. The photograph's content is a Record. Its print and negative are Instantiations of it; the people or places depicted attach as subjects." },
+        { "label": "Instantiation", "entity": "RiC-E06", "correct": false, "why": "That's the physical print/negative, not the image's content. Keep the image as a Record and add the carrier as an Instantiation." },
+        { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "Too much for one image — a Set is for the album." }
+      ],
+      "capture": [
+        { "comment": "Create the photograph as a Record.", "method": "POST", "path": "/records", "body": { "title": "Portrait of the harbour master, c.1910", "level": "item" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "album",
+      "prompt": "Model the album.",
+      "next": "photographer",
+      "choices": [
+        { "label": "Record Set", "entity": "RiC-E03", "correct": true, "why": "Fits. The album is an aggregation of photographs — a Record Set. Each photograph is a Record that is part of it." },
+        { "label": "Record", "entity": "RiC-E04", "correct": false, "why": "Undersells it — one Record can't hold many distinct images with their own captions, dates and photographers. Use a Record Set of photo Records." },
+        { "label": "Record Part", "entity": "RiC-E05", "correct": false, "why": "Doesn't fit. The album isn't a component of a larger record; it's an aggregation. (A photo's caption slip could be a Record Part of that photo.)" }
+      ],
+      "capture": [
+        { "comment": "Create the album as a Record Set.", "method": "POST", "path": "/record-sets", "body": { "title": "Harbour views album, 1908–1912", "level": "collection" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "photographer",
+      "prompt": "Attach the photographer.",
+      "next": "carrier",
+      "choices": [
+        { "label": "Agent (Person) + has_creator", "entity": "RiC-E07", "correct": true, "why": "Fits. The photographer is a Person (an Agent). Create them once and relate the photograph/album to them with has_creator; reuse the same Agent across everything they shot." },
+        { "label": "Put the name in the caption text", "entity": "—", "correct": false, "why": "Doesn't fit. A name in free text can't be reconciled or linked to the photographer's other work. Model them as a first-class Agent." }
+      ],
+      "capture": [
+        { "comment": "Create the photographer as an Agent.", "method": "POST", "path": "/agents", "body": { "name": "E. Vasilakis, photographer" }, "save_as": "photographer" },
+        { "comment": "Link the photograph/album to the photographer with has_creator.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{photographer.id}}", "relation_type": "has_creator" } }
+      ]
+    },
+    {
+      "id": "carrier",
+      "prompt": "Finally — the physical print and the glass-plate negative. Where do they go?",
+      "choices": [
+        { "label": "Instantiation(s)", "entity": "RiC-E06", "correct": true, "why": "Fits. Each physical carrier — the print, the negative, a later scan — is an Instantiation of the photograph Record, linked with has_instantiation. That's how one image can have many carriers, each with its own format and condition." },
+        { "label": "Separate Records", "entity": "RiC-E04", "correct": false, "why": "Doesn't fit. The print and negative aren't different photographs — they're different carriers of the same image. Model them as Instantiations of the one Record." },
+        { "label": "Attributes on the photograph", "entity": "—", "correct": false, "why": "Too flat. Carriers have their own format, dimensions and condition and there can be several — they deserve to be Instantiation entities." }
+      ],
+      "capture": [
+        { "comment": "Create the physical carrier as an Instantiation.", "method": "POST", "path": "/instantiations", "body": { "title": "Gelatin silver print, 12×18 cm" }, "save_as": "print" },
+        { "comment": "Link the photograph to its carrier with has_instantiation. Repeat for the negative and any scans.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{print.id}}", "relation_type": "has_instantiation" } }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Image, carriers and creator — cleanly separated.",
+    "summary": "The image is a Record (or the album a Record Set); the print and negative are Instantiations of it; the photographer is a reusable Agent. Now you can ask 'every photo by this photographer' or 'all carriers of this image' — and add the people and places depicted as subjects whenever you're ready.",
+    "links": [
+      { "label": "Instantiation (RiC-E06) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E06" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}

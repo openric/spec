@@ -1,0 +1,78 @@
+{
+  "id": "born-digital-email",
+  "title": "Email: a message, a thread, and attachments",
+  "audience": "Born-digital archives, institutional records, personal papers",
+  "intro": "Email is born-digital correspondence at scale. The fork is message-vs-thread; the twist is the attachment, which is a distinct digital object, not just a property of the message. This scenario models all three and attaches the sender.",
+  "question": "Is a single email a Record and a thread a Record Set? And how do I handle attachments?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "fork",
+      "prompt": "Are you describing one message, or a whole thread?",
+      "choices": [
+        { "label": "A single message", "entity": "RiC-E04", "correct": true, "next": "message", "why": "Good — one message is one Record." },
+        { "label": "A thread / conversation", "entity": "RiC-E03", "correct": true, "next": "thread", "why": "Good — a thread is an aggregation of messages: a Record Set, with each message a member Record (ordered by send time)." },
+        { "label": "An Instantiation", "entity": "RiC-E06", "correct": false, "why": "Not the starting point. The .eml/.msg file on disk is an Instantiation of a message; first choose the intellectual unit (Record or Record Set)." }
+      ]
+    },
+    {
+      "id": "message",
+      "prompt": "Model the single email message.",
+      "next": "sender",
+      "choices": [
+        { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. One message = one Record. Sent date and subject line attach as a date and subject; the stored .eml file is an Instantiation; attachments are handled next." },
+        { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "Too much for one message — a Set is for the thread." },
+        { "label": "Instantiation", "entity": "RiC-E06", "correct": false, "why": "That's the stored file format, not the message's content. Keep the message as a Record." }
+      ],
+      "capture": [
+        { "comment": "Create the email message as a Record.", "method": "POST", "path": "/records", "body": { "title": "Re: 2024 budget — 2024-03-11 09:42", "level": "item" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "thread",
+      "prompt": "Model the whole thread.",
+      "next": "sender",
+      "choices": [
+        { "label": "Record Set", "entity": "RiC-E03", "correct": true, "why": "Fits. The thread is an aggregation of messages — a Record Set — each message a member Record. Reply order is captured by sequence/date relations between the messages." },
+        { "label": "Record", "entity": "RiC-E04", "correct": false, "why": "Undersells it — a thread is many messages with distinct senders and times. Use a Record Set of message Records." },
+        { "label": "Activity", "entity": "RiC-E13", "correct": false, "why": "Doesn't fit. Corresponding is an activity, but the thread itself is the aggregated messages — a Record Set." }
+      ],
+      "capture": [
+        { "comment": "Create the thread as a Record Set.", "method": "POST", "path": "/record-sets", "body": { "title": "Thread: 2024 budget approval", "level": "series" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "sender",
+      "prompt": "Attach the sender.",
+      "next": "attachment",
+      "choices": [
+        { "label": "Agent (Person) + has_creator", "entity": "RiC-E07", "correct": true, "why": "Fits. The sender is a Person (an Agent). Relate the message to them with has_creator (RiC also has sender/addressee relations; has_creator is the safe general choice). The same Agent is reused for every message that person sent." },
+        { "label": "Leave it in the From: header text", "entity": "—", "correct": false, "why": "Doesn't fit for description. The raw header lives in the stored file, but for a reconcilable, queryable archive the sender should be a first-class Agent." }
+      ],
+      "capture": [
+        { "comment": "Create the sender as an Agent.", "method": "POST", "path": "/agents", "body": { "name": "J. Mensah (finance@example.org)" }, "save_as": "sender" },
+        { "comment": "Link the message/thread to the sender with has_creator.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{sender.id}}", "relation_type": "has_creator" } }
+      ]
+    },
+    {
+      "id": "attachment",
+      "prompt": "The message had a spreadsheet attached. How do you model the attachment?",
+      "choices": [
+        { "label": "Record Part of the message", "entity": "RiC-E05", "correct": true, "why": "Fits well. An attachment is a distinct piece of content carried within the message — a Record Part contributes to the message's completeness while keeping its own format, title and (sometimes) author. Its stored file is then an Instantiation of that Record Part." },
+        { "label": "Instantiation of the message", "entity": "RiC-E06", "correct": false, "why": "Doesn't fit — an Instantiation is a carrier of the SAME content (the .eml file is one), but the spreadsheet is different content travelling with the message, not another rendering of the email body." },
+        { "label": "A column on the message", "entity": "—", "correct": false, "why": "Too flat. Attachments have their own filenames, formats, sizes and sometimes distinct creators — they deserve to be described entities (Record Parts)." }
+      ],
+      "capture": [
+        { "comment": "Create the attachment as a Record Part of the message.", "method": "POST", "path": "/record-parts", "body": { "title": "Attachment: 2024-budget.xlsx", "parent_id": "{{item.id}}" }, "save_as": "attachment" }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Message, thread, sender and attachment — all first-class.",
+    "summary": "A message is a Record; a thread is a Record Set of messages; the sender is a reusable Agent; and the attachment is a Record Part with its own file. Born-digital correspondence becomes a graph you can search by person, date and content — not an opaque mailbox dump.",
+    "links": [
+      { "label": "Record Part (RiC-E05) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E05" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}
