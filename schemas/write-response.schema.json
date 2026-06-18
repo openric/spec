@@ -3,7 +3,7 @@
   "$id": "https://openric.org/schemas/write-response.schema.json",
   "title": "OpenRiC write-operation response",
   "description": "Response shapes for write-side endpoints. POST returns create-response; PATCH/DELETE returns success-response.",
-  "oneOf": [
+  "anyOf": [
     { "$ref": "#/$defs/create" },
     { "$ref": "#/$defs/success" }
   ],

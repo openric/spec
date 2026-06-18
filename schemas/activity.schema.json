@@ -65,7 +65,7 @@
 
     "rico:hasOrHadParticipant": { "type": ["array", "object"] },
     "rico:resultsOrResultedIn": { "type": ["array", "object", "string"] },
-    "rico:hasActivityType":     { "type": "string" }
+    "rico:hasActivityType":     { "oneOf": [ { "type": "string", "format": "uri" }, { "type": "object", "required": ["@id"], "properties": { "@id": { "type": "string", "format": "uri" } } } ] }
   },
 
   "additionalProperties": true,

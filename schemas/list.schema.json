@@ -17,7 +17,7 @@
 
     "@type": {
       "type": "string",
-      "pattern": "^(rico:|openric:)[A-Z][A-Za-z]+List$"
+      "pattern": "^(rico:|openric:|openricx:)[A-Z][A-Za-z]+List$"
     },
 
     "ric:total":      { "type": "integer", "minimum": 0 },

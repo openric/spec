@@ -148,6 +148,31 @@ def _resolve_schema(
 
     Returns (short_type, path) or (None, None) if unrecognised.
     """
+    # ---- Response-shape routing (by endpoint path / structure) --------------
+    # Handles list responses and untyped envelopes the @type map can't see.
+    path = url.split("?", 1)[0].rstrip("/")
+    # Raw RDF graph (/export), SPARQL results & void:Dataset (/sparql*), and the
+    # revisions envelope have no JSON Schema — return None so callers skip
+    # JSON-Schema validation (covered by SHACL / OAI-XSD / other means).
+    if path.endswith("/export") or "/sparql" in path or path.endswith("/revisions"):
+        return None, None
+    # Bare-array autocomplete response.
+    if isinstance(response, list):
+        return "Autocomplete", schemas_dir / "autocomplete.schema.json"
+    # Write-side responses carry href (create) or success and have no @type.
+    if "@type" not in response and ("href" in response or "success" in response):
+        return "WriteResponse", schemas_dir / "write-response.schema.json"
+    if "/autocomplete" in path:
+        return "Autocomplete", schemas_dir / "autocomplete.schema.json"
+    if "/hierarchy/" in path:
+        return "Hierarchy", schemas_dir / "hierarchy.schema.json"
+    if "/relations-for/" in path:
+        return "RelationsFor", schemas_dir / "relations-for.schema.json"
+    if path.endswith("/info"):
+        return "EntityInfo", schemas_dir / "entity-info.schema.json"
+    if path.endswith("/relations"):
+        return "RelationList", schemas_dir / "relation-list.schema.json"
+
     t = response.get("@type", "")
     if isinstance(t, list):
         t = t[0] if t else ""
