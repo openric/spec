@@ -13,7 +13,7 @@
 (function () {
   "use strict";
 
-  var state = { scenario: null, step: 0, captured: {}, done: {} };
+  var state = { scenario: null, step: 0, captured: {}, done: {}, dummy: 9000, anyLive: false };
   var root;
 
   function el(tag, attrs, children) {
@@ -61,7 +61,7 @@
         el("label", { text: "API key" }),
         el("input", { id: "wiz-key", type: "password", placeholder: "write-scoped key — leave blank to preview calls only", spellcheck: "false" })
       ]),
-      el("p", { class: "wiz-hint", html: "With a write-scoped key the wizard creates entities live and threads the returned ids into later steps. Without one, it shows the exact calls without sending them. Need a key? <a href='https://ric.theahg.co.za/api/ric/v1/keys/request'>Request one</a>." })
+      el("p", { class: "wiz-hint", html: "<strong>Leave both blank to simulate</strong> — the wizard generates placeholder ids and threads them through, so you can walk the whole flow without sending anything. Add a write-scoped key to create the entities for real against the server. Need a key? <a href='https://ric.theahg.co.za/api/ric/v1/keys/request'>Request one</a>." })
     ]);
   }
 
@@ -82,27 +82,46 @@
       var body = call.body ? fill(call.body) : null;
       wrap.appendChild(el("div", { class: "wiz-call" }, [
         el("p", { class: "wiz-comment", text: "// " + call.comment }),
-        el("pre", { class: "wiz-code", text: call.method + " " + call.path + (body ? "\n" + JSON.stringify(body, null, 2) : "") }),
+        el("pre", { class: "wiz-code", id: "wiz-code-" + idx, text: call.method + " " + call.path + (body ? "\n" + JSON.stringify(body, null, 2) : "") }),
         el("div", { class: "wiz-call-result", id: "wiz-result-" + idx })
       ]));
     });
     var key = apiKey();
     wrap.appendChild(el("div", { class: "wiz-run-row" }, [
       el("button", { class: "wiz-btn wiz-run", onclick: function () { runLive(step); } },
-        [key ? "Run live ▶" : "Preview only (add a key to run live)"]),
+        [key ? "Run live ▶" : "Simulate ▶"]),
       el("button", { class: "wiz-btn wiz-next", onclick: next }, [state.step + 1 < state.scenario.steps.length ? "Next →" : "See the result →"])
     ]));
     return wrap;
   }
 
+  // Re-render the displayed call bodies of the current step so freshly
+  // captured ids (live or simulated) replace their {{key.id}} placeholders.
+  function paintBodies(step) {
+    step.capture.forEach(function (c, idx) {
+      var pre = document.getElementById("wiz-code-" + idx);
+      if (!pre) return;
+      var b = c.body ? fill(c.body) : null;
+      pre.textContent = c.method + " " + c.path + (b ? "\n" + JSON.stringify(b, null, 2) : "");
+    });
+  }
+
   function runLive(step) {
-    var base = serverBase(), key = apiKey();
-    if (!key) { flash("Add a write-scoped API key above to run the calls live."); return; }
+    var base = serverBase(), key = apiKey(), simulate = !key;
     var calls = step.capture.slice();
     (function chain(i) {
       if (i >= calls.length) return;
       var call = calls[i], body = call.body ? fill(call.body) : null;
       var slot = document.getElementById("wiz-result-" + i);
+      if (simulate) {
+        var simId = ++state.dummy;
+        if (call.save_as) state.captured[call.save_as] = simId;
+        slot.className = "wiz-call-result sim";
+        slot.textContent = "↪ simulated — would create id " + simId + " · nothing was sent (add a key above to run it for real)";
+        paintBodies(step);
+        chain(i + 1);
+        return;
+      }
       slot.className = "wiz-call-result pending"; slot.textContent = "…sending";
       fetch(base + call.path, {
         method: call.method,
@@ -111,9 +130,11 @@
       }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
         .then(function (res) {
           if (res.ok && res.j && (res.j.id != null)) {
+            state.anyLive = true;
             if (call.save_as) state.captured[call.save_as] = res.j.id;
             slot.className = "wiz-call-result ok";
             slot.textContent = "✓ " + res.status + " — created id " + res.j.id + (res.j.href ? " (" + res.j.href + ")" : "");
+            paintBodies(step);
             chain(i + 1);
           } else {
             slot.className = "wiz-call-result err";
@@ -177,14 +198,14 @@
     var links = el("div", { class: "wiz-out-links" });
     (o.links || []).forEach(function (l) { links.appendChild(el("a", { class: "wiz-out-link", href: l.href }, [l.label + " →"])); });
     var built = Object.keys(state.captured).length
-      ? el("p", { class: "wiz-built", text: "Built live: " + Object.keys(state.captured).map(function (k) { return k + " #" + state.captured[k]; }).join(" · ") })
+      ? el("p", { class: "wiz-built", text: (state.anyLive ? "Built live: " : "Assembled (simulated — nothing was created): ") + Object.keys(state.captured).map(function (k) { return k + " #" + state.captured[k]; }).join(" · ") })
       : null;
     swap(el("div", { class: "wiz-panel wiz-outcome" }, [
       el("div", { class: "wiz-verdict", text: o.verdict }),
       el("p", { text: o.summary }),
       built,
       links,
-      el("button", { class: "wiz-btn", onclick: function () { state.step = 0; state.captured = {}; renderStep(); window.scrollTo(0, 0); } }, ["↺ Start over"])
+      el("button", { class: "wiz-btn", onclick: function () { state.step = 0; state.captured = {}; state.dummy = 9000; state.anyLive = false; renderStep(); window.scrollTo(0, 0); } }, ["↺ Start over"])
     ]));
   }
 
