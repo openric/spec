@@ -7,5 +7,8 @@
   { "id": "born-digital-email", "title": "Email: a message, a thread, and attachments" },
   { "id": "oral-history", "title": "Oral history: interview, narrator and interviewer" },
   { "id": "registers-volumes", "title": "Registers & volumes: a bound book and its entries" },
-  { "id": "organisational-records", "title": "Organisational records: function, activity and creator" }
+  { "id": "organisational-records", "title": "Organisational records: function, activity and creator" },
+  { "id": "audiovisual-film", "title": "Film & video: one work, many physical elements" },
+  { "id": "web-archive", "title": "Web archives: captured pages, crawls and WARCs" },
+  { "id": "legal-case-file", "title": "Legal case files: court, parties and proceeding" }
 ]
