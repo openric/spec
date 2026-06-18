@@ -6,7 +6,7 @@ description: An open, free way to describe, explore, and share archival records 
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">Records in Contexts · open &amp; free</div>
+    <div class="hero-eyebrow">Records in Contexts · RiC-CM 1.0 / RiC-O 1.1 · open &amp; free</div>
     <h1>Understand records in context.</h1>
     <p class="hero-lede">
       OpenRiC is an open, free way to describe the records an archive holds — together with the people and organisations behind them, the activities that created them, and the places and dates that tie them together. Explore the model, browse a real collection, or build on the specification.
