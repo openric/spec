@@ -1,0 +1,168 @@
+{
+  "id": "linguistic-fieldwork",
+  "title": "Linguistic fieldwork: sessions, speakers, recordings",
+  "audience": "Language documentation, oral-history and ethnographic archives",
+  "intro": "Linguistic fieldwork produces a network, not a list: recording sessions, the speakers consulted, the audio captured, and the transcripts derived from it. This scenario walks the core modelling decisions and creates each entity live, so you can see how RiC links the event, the people, the content and its renderings.",
+  "question": "How do I model linguistic fieldwork in RiC — the recording session, the speakers, the audio recordings, and their transcripts — so the relationships between them are explicit?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "session",
+      "prompt": "Start with the recording session itself — the event where you sat down and recorded. How do you model it?",
+      "choices": [
+        {
+          "label": "Activity",
+          "entity": "RiC-E13",
+          "correct": true,
+          "why": "Fits. A RiC Activity is an action or event carried out by Agents. A fieldwork/recording session is exactly that — a documented event that produced records. The recordings, speakers and place all hang off it."
+        },
+        {
+          "label": "Record",
+          "entity": "RiC-E04",
+          "correct": false,
+          "why": "Doesn't fit. The session is the event, not the recorded content. The audio you captured is the Record; the session that produced it is an Activity."
+        },
+        {
+          "label": "Agent",
+          "entity": "RiC-E07",
+          "correct": false,
+          "why": "Doesn't fit. Agents are the people/organisations involved; the session is what they did, not who they are."
+        },
+        {
+          "label": "Place",
+          "entity": "RiC-E08",
+          "correct": false,
+          "why": "Doesn't fit. Where the session happened is a Place you relate to the Activity — but the session itself is the Activity."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the recording session as an Activity.",
+          "method": "POST",
+          "path": "/activities",
+          "body": { "name": "Fieldwork session — Naxos, July 2026" },
+          "save_as": "session"
+        }
+      ]
+    },
+    {
+      "id": "recording",
+      "prompt": "Now a single audio recording made during that session. What is it?",
+      "choices": [
+        {
+          "label": "Record",
+          "entity": "RiC-E04",
+          "correct": true,
+          "why": "Fits. The recording is discrete information content captured on a carrier — a Record. Later you can group a session's recordings in a Record Set, and link each Record to the session Activity."
+        },
+        {
+          "label": "Record Set",
+          "entity": "RiC-E03",
+          "correct": false,
+          "why": "Not for a single recording. A Record Set is the aggregation — use it for 'all recordings from this session', not for one recording."
+        },
+        {
+          "label": "Activity",
+          "entity": "RiC-E13",
+          "correct": false,
+          "why": "Doesn't fit. The recording is the product of the session activity, not an activity itself."
+        },
+        {
+          "label": "Instantiation",
+          "entity": "RiC-E06",
+          "correct": false,
+          "why": "Not the intellectual content. The WAV file on disk is an Instantiation of this Record; the recording's content is the Record."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the recording as a Record.",
+          "method": "POST",
+          "path": "/records",
+          "body": { "title": "Recording 03 — folk narrative", "level": "item" },
+          "save_as": "rec"
+        }
+      ]
+    },
+    {
+      "id": "speaker",
+      "prompt": "A speaker/consultant gave the narrative on Recording 03. How do you attach them?",
+      "choices": [
+        {
+          "label": "Agent (Person) + link to the recording",
+          "entity": "RiC-E07",
+          "correct": true,
+          "why": "Fits. The speaker is a Person (an Agent). Create them once as an Agent and relate the recording to them — here with has_creator, since they produced the spoken content. Reuse the same Agent across every recording they feature in; that's how RiC builds a reconciliable network."
+        },
+        {
+          "label": "A line in the recording's description",
+          "entity": "—",
+          "correct": false,
+          "why": "Doesn't fit. A name in free text can't be reused, reconciled, or linked to the speaker's other recordings. Model the person as a first-class Agent."
+        },
+        {
+          "label": "A separate Record",
+          "entity": "RiC-E04",
+          "correct": false,
+          "why": "Doesn't fit. The speaker is a person, not a record. People are Agents."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the speaker as an Agent (Person).",
+          "method": "POST",
+          "path": "/agents",
+          "body": { "name": "Maria K. (consultant)" },
+          "save_as": "speaker"
+        },
+        {
+          "comment": "Link the recording to the speaker with has_creator. Reuse this Agent for their other recordings.",
+          "method": "POST",
+          "path": "/relations",
+          "body": { "subject_id": "{{rec.id}}", "object_id": "{{speaker.id}}", "relation_type": "has_creator" }
+        }
+      ]
+    },
+    {
+      "id": "transcript",
+      "prompt": "Finally, the written transcript of Recording 03. How do you model it?",
+      "choices": [
+        {
+          "label": "Record Part",
+          "entity": "RiC-E05",
+          "correct": true,
+          "why": "Defensible and usually cleanest. Treat the transcript as a Record Part of the recording — a component with its own content (line numbering, annotations) that completes the record. It inherits the recording's context and can carry its own creator (the transcriber)."
+        },
+        {
+          "label": "Instantiation",
+          "entity": "RiC-E06",
+          "correct": false,
+          "why": "Also defensible — pick this instead if you regard the transcript as another manifestation of the same content (text rendering of the audio) rather than a distinct component. Both are valid; choose by whether the transcript adds content (Record Part) or just re-presents it (Instantiation)."
+        },
+        {
+          "label": "An attribute on the recording",
+          "entity": "—",
+          "correct": false,
+          "why": "Doesn't fit. A transcript has its own creator, date and rights; it deserves to be a described entity, not a text field."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the transcript as a Record Part of the recording.",
+          "method": "POST",
+          "path": "/record-parts",
+          "body": { "title": "Transcript — lines 1–80", "parent_id": "{{rec.id}}" },
+          "save_as": "transcript"
+        }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Your fieldwork is now a graph, not a folder.",
+    "summary": "The session is an Activity; each recording is a Record produced in it; the speaker is a reusable Agent linked to the recordings they feature in; and the transcript is a Record Part of its recording. Every relationship is explicit and queryable — you can now ask 'every recording featuring this speaker' or 'everything from this session'.",
+    "links": [
+      { "label": "Explore Agent, Activity and Record in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}
