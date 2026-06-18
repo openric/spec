@@ -1,0 +1,145 @@
+{
+  "id": "correspondence",
+  "title": "Correspondence: a single letter vs. a whole exchange",
+  "audience": "Personal papers, institutional correspondence, email archives",
+  "intro": "Correspondence forces an early modelling fork: are you describing one letter, or an exchange of many? This scenario branches on that decision, models the right entity for each path, then re-joins to attach a correspondent — so you can see how RiC handles both shapes with the same primitives.",
+  "question": "Should a letter be a Record, and a back-and-forth exchange a Record Set? How do I attach the people who wrote them?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "fork",
+      "prompt": "What are you cataloguing here — one letter, or a whole exchange between correspondents?",
+      "choices": [
+        {
+          "label": "A single letter",
+          "entity": "RiC-E04",
+          "correct": true,
+          "next": "letter",
+          "why": "Good — a single letter is one unit of content: a Record. Next we'll create it."
+        },
+        {
+          "label": "The whole exchange / thread",
+          "entity": "RiC-E03",
+          "correct": true,
+          "next": "exchange",
+          "why": "Good — an exchange is an aggregation of letters that belong together: a Record Set. Next we'll create it, and individual letters can be added as members."
+        },
+        {
+          "label": "A Record Part",
+          "entity": "RiC-E05",
+          "correct": false,
+          "why": "Doesn't fit either way. A letter stands on its own as a Record; an exchange is an aggregation (Record Set). A Record Part is a component of a single record — e.g. an enclosure within one letter — not the letter or the thread."
+        }
+      ]
+    },
+    {
+      "id": "letter",
+      "prompt": "Model the single letter.",
+      "next": "sender",
+      "choices": [
+        {
+          "label": "Record",
+          "entity": "RiC-E04",
+          "correct": true,
+          "why": "Fits. One letter = one Record. Its date, place of writing and subjects attach as relations; an enclosure would be a Record Part of it."
+        },
+        {
+          "label": "Record Set",
+          "entity": "RiC-E03",
+          "correct": false,
+          "why": "Too much for one letter — a Record Set is for the exchange, not a single item."
+        },
+        {
+          "label": "Instantiation",
+          "entity": "RiC-E06",
+          "correct": false,
+          "why": "That's the physical sheet / scanned image. The letter's content is the Record; the carrier is an Instantiation of it."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the letter as a Record.",
+          "method": "POST",
+          "path": "/records",
+          "body": { "title": "Letter, A. Smith to B. Jones, 1923-04-12", "level": "item" },
+          "save_as": "item"
+        }
+      ]
+    },
+    {
+      "id": "exchange",
+      "prompt": "Model the whole exchange.",
+      "next": "sender",
+      "choices": [
+        {
+          "label": "Record Set",
+          "entity": "RiC-E03",
+          "correct": true,
+          "why": "Fits. The exchange is an aggregation of letters grouped because they belong together — a Record Set. Each letter is then a Record that is a member of (part of) this set."
+        },
+        {
+          "label": "Record",
+          "entity": "RiC-E04",
+          "correct": false,
+          "why": "Undersells it. One Record can't capture that the exchange is made of many distinct letters with their own dates and authors. Use a Record Set whose members are the letters."
+        },
+        {
+          "label": "Activity",
+          "entity": "RiC-E13",
+          "correct": false,
+          "why": "Doesn't fit. The act of corresponding could be modelled as an Activity, but the letters themselves are records — the exchange is their aggregation, a Record Set."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the exchange as a Record Set. Add each letter as a member afterwards (POST /record-parts or a member relation).",
+          "method": "POST",
+          "path": "/record-sets",
+          "body": { "title": "Correspondence: A. Smith & B. Jones, 1921–1925", "level": "series" },
+          "save_as": "item"
+        }
+      ]
+    },
+    {
+      "id": "sender",
+      "prompt": "Now attach the writer (the person who sent it). How?",
+      "choices": [
+        {
+          "label": "Agent (Person) + link with has_creator",
+          "entity": "RiC-E07",
+          "correct": true,
+          "why": "Fits. The writer is a Person (an Agent). Create them once and relate the letter/exchange to them — here with has_creator. RiC also has more specific relations (sender/addressee); has_creator is the safe general choice and is reused across everything that person wrote."
+        },
+        {
+          "label": "Type the name into the title",
+          "entity": "—",
+          "correct": false,
+          "why": "Doesn't fit. A name in the title can't be reconciled or linked to the writer's other letters. Model the person as a first-class Agent."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the writer as an Agent (Person).",
+          "method": "POST",
+          "path": "/agents",
+          "body": { "name": "A. Smith" },
+          "save_as": "writer"
+        },
+        {
+          "comment": "Link the record (the letter, or the exchange — whichever you created) to the writer with has_creator.",
+          "method": "POST",
+          "path": "/relations",
+          "body": { "subject_id": "{{item.id}}", "object_id": "{{writer.id}}", "relation_type": "has_creator" }
+        }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Same primitives, two shapes — both correct.",
+    "summary": "A single letter is a Record; an exchange is a Record Set whose members are letters. Either way, the writer is a reusable Agent linked by has_creator. The fork you took at the start is exactly the judgement RiC leaves to the archivist — and both branches land on a clean, linked description.",
+    "links": [
+      { "label": "Record Set (RiC-E03) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E03" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}

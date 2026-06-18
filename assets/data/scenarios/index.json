@@ -1,4 +1,5 @@
 [
   { "id": "magnetic-tape", "title": "Magnetic tape with mixed-provenance tracks" },
-  { "id": "linguistic-fieldwork", "title": "Linguistic fieldwork: sessions, speakers, recordings" }
+  { "id": "linguistic-fieldwork", "title": "Linguistic fieldwork: sessions, speakers, recordings" },
+  { "id": "correspondence", "title": "Correspondence: a single letter vs. a whole exchange" }
 ]

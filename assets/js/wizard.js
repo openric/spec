@@ -1,19 +1,22 @@
 /*
- * OpenRiC modelling wizard — data-driven, editable, open-write.
+ * OpenRiC modelling wizard — data-driven, editable, open-write, branching.
  *
  * Copyright (C) 2026 Johan Pieterse / Plain Sailing iSystems. AGPL 3.0.
  *
  * Loads a scenario JSON (assets/data/scenarios/<id>.json) and walks the user
- * through modelling decisions: each step poses a prompt, offers entity choices,
- * explains why each fits or doesn't, and shows the "capture" — the real API
- * call(s). Every field is editable, so the user models their OWN material, and
- * the wizard creates it live against the (currently open) reference server.
- * A scenario picker (index.json) lets the library grow.
+ * through modelling decisions. Each step poses a prompt and offers entity
+ * choices with a "why it fits / why it doesn't" rationale; correct choices
+ * reveal the "capture" (the real API calls, every field editable) and a Next
+ * button. Navigation is id-based: a choice may carry `next` (a step id) so the
+ * wizard BRANCHES — multiple choices can be correct and lead to different valid
+ * paths. Steps with no `capture` are pure branch decisions. Creates live
+ * against the (currently open) reference server. A picker (index.json) lets the
+ * library grow.
  */
 (function () {
   "use strict";
 
-  var state = { scenario: null, index: [], step: 0, captured: {} };
+  var state = { scenario: null, index: [], byId: {}, current: null, trail: [], captured: {}, nextId: null };
   var root;
 
   function el(tag, attrs, children) {
@@ -30,14 +33,11 @@
     return n;
   }
 
-  // Fields the user shouldn't hand-edit: ids (auto-filled from prior steps) and
-  // fixed relation predicates. Everything else (title, name, level, …) is input.
   function isAuto(key, val) {
     return /(_id|^id)$/.test(key) || key === "relation_type"
       || (typeof val === "string" && /\{\{.*\}\}/.test(val));
   }
 
-  // Substitute {{key.id}} tokens from captured ids; coerce numeric strings.
   function tok(v) {
     if (typeof v !== "string") return v;
     var s = v.replace(/\{\{(\w+)\.id\}\}/g, function (_, k) {
@@ -46,8 +46,6 @@
     return /^\d+$/.test(s) ? parseInt(s, 10) : s;
   }
 
-  // The body actually sent: editable inputs override the scenario defaults;
-  // auto fields get their {{token}} substituted.
   function buildBody(call, idx) {
     if (!call.body) return null;
     var out = {};
@@ -64,6 +62,20 @@
     return (v || state.scenario.server_default || "").replace(/\/$/, "");
   }
 
+  // ---- navigation -------------------------------------------------------
+  function stepIndex(id) { for (var i = 0; i < state.scenario.steps.length; i++) if (state.scenario.steps[i].id === id) return i; return -1; }
+  function afterInArray(id) { var i = stepIndex(id); return (i >= 0 && i + 1 < state.scenario.steps.length) ? state.scenario.steps[i + 1].id : null; }
+  function hasBranching() { return state.scenario.steps.some(function (s) { return (s.choices || []).some(function (c) { return c.next; }); }); }
+
+  function goTo(id) {
+    if (!id) { renderOutcome(); return; }
+    state.current = id;
+    state.trail.push(id);
+    renderStep();
+    window.scrollTo(0, 0);
+  }
+
+  // ---- chrome -----------------------------------------------------------
   function settingsPanel() {
     return el("div", { class: "wiz-settings" }, [
       el("div", { class: "wiz-settings-row" }, [
@@ -86,12 +98,16 @@
   }
 
   function progress() {
-    var total = state.scenario.steps.length;
+    if (hasBranching()) {
+      return el("div", { class: "wiz-progress-wrap" }, [el("span", { class: "wiz-step-count", text: "Step " + state.trail.length })]);
+    }
+    var total = state.scenario.steps.length, at = stepIndex(state.current);
     var bar = el("div", { class: "wiz-progress" });
-    for (var i = 0; i < total; i++) bar.appendChild(el("span", { class: "wiz-dot" + (i < state.step ? " past" : i === state.step ? " now" : "") }));
-    return el("div", { class: "wiz-progress-wrap" }, [el("span", { class: "wiz-step-count", text: "Step " + (state.step + 1) + " of " + total }), bar]);
+    for (var i = 0; i < total; i++) bar.appendChild(el("span", { class: "wiz-dot" + (i < at ? " past" : i === at ? " now" : "") }));
+    return el("div", { class: "wiz-progress-wrap" }, [el("span", { class: "wiz-step-count", text: "Step " + (at + 1) + " of " + total }), bar]);
   }
 
+  // ---- capture (editable + live create) ---------------------------------
   function editableFields(call, idx) {
     if (!call.body) return null;
     var wrap = el("div", { class: "wiz-fields" });
@@ -100,23 +116,14 @@
       wrap.appendChild(el("label", { class: "wiz-field" }, [
         el("span", { class: "wiz-field-key", text: k }),
         el("input", { id: "wiz-in-" + idx + "-" + k, type: "text", value: String(call.body[k]),
-          oninput: function () { paintBodies(state.scenario.steps[state.step]); } })
+          oninput: function () { paintBodies(state.byId[state.current]); } })
       ]));
     });
     return wrap.children.length ? wrap : null;
   }
 
-  function preText(call, idx) {
-    var b = buildBody(call, idx);
-    return call.method + " " + call.path + (b ? "\n" + JSON.stringify(b, null, 2) : "");
-  }
-
-  function paintBodies(step) {
-    step.capture.forEach(function (c, idx) {
-      var pre = document.getElementById("wiz-code-" + idx);
-      if (pre) pre.textContent = preText(c, idx);
-    });
-  }
+  function preText(call, idx) { var b = buildBody(call, idx); return call.method + " " + call.path + (b ? "\n" + JSON.stringify(b, null, 2) : ""); }
+  function paintBodies(step) { (step.capture || []).forEach(function (c, idx) { var pre = document.getElementById("wiz-code-" + idx); if (pre) pre.textContent = preText(c, idx); }); }
 
   function captureBlock(step) {
     var wrap = el("div", { class: "wiz-capture" }, [el("div", { class: "wiz-capture-head", text: "Capture — edit any field, then create it" })]);
@@ -129,8 +136,7 @@
       ]));
     });
     wrap.appendChild(el("div", { class: "wiz-run-row" }, [
-      el("button", { class: "wiz-btn wiz-run", onclick: function () { runCreate(step); } }, ["Create it ▶"]),
-      el("button", { class: "wiz-btn wiz-next", onclick: next }, [state.step + 1 < state.scenario.steps.length ? "Next →" : "See the result →"])
+      el("button", { class: "wiz-btn wiz-run", onclick: function () { runCreate(step); } }, ["Create it ▶"])
     ]));
     return wrap;
   }
@@ -167,21 +173,22 @@
     })(0);
   }
 
+  // ---- step rendering ---------------------------------------------------
   function renderStep() {
-    var step = state.scenario.steps[state.step];
+    var step = state.byId[state.current];
     var why = el("div", { class: "wiz-why", id: "wiz-why" });
-    var captureHolder = el("div", { id: "wiz-capture-holder" });
+    var holder = el("div", { id: "wiz-after-holder" });
     var choices = el("div", { class: "wiz-choices" });
     step.choices.forEach(function (c, i) {
-      choices.appendChild(el("button", { class: "wiz-choice", onclick: function () { choose(step, i, choices, why, captureHolder); } }, [
+      choices.appendChild(el("button", { class: "wiz-choice", onclick: function () { choose(step, i, choices, why, holder); } }, [
         el("span", { class: "wiz-choice-label", text: c.label }),
         c.entity && c.entity !== "—" ? el("span", { class: "wiz-choice-id", text: c.entity }) : null
       ]));
     });
-    swap(el("div", { class: "wiz-panel" }, [progress(), el("h2", { class: "wiz-prompt", text: step.prompt }), choices, why, captureHolder]));
+    swap(el("div", { class: "wiz-panel" }, [progress(), el("h2", { class: "wiz-prompt", text: step.prompt }), choices, why, holder]));
   }
 
-  function choose(step, i, choices, why, captureHolder) {
+  function choose(step, i, choices, why, holder) {
     var c = step.choices[i];
     Array.prototype.forEach.call(choices.children, function (b) { b.classList.remove("sel-ok", "sel-no"); });
     choices.children[i].classList.add(c.correct ? "sel-ok" : "sel-no");
@@ -189,13 +196,16 @@
     why.innerHTML = "";
     why.appendChild(el("strong", { text: c.label + (c.entity && c.entity !== "—" ? " (" + c.entity + ")" : "") + ": " }));
     why.appendChild(document.createTextNode(c.why));
-    captureHolder.innerHTML = "";
-    if (c.correct) captureHolder.appendChild(captureBlock(step));
-  }
+    holder.innerHTML = "";
+    if (!c.correct) return;
 
-  function next() {
-    if (state.step + 1 < state.scenario.steps.length) { state.step++; renderStep(); window.scrollTo(0, 0); }
-    else renderOutcome();
+    // Route: choice.next → step.next → next-in-array → outcome.
+    state.nextId = c.next || step.next || afterInArray(step.id) || null;
+    if (step.capture && step.capture.length) holder.appendChild(captureBlock(step));
+    holder.appendChild(el("div", { class: "wiz-run-row" }, [
+      el("button", { class: "wiz-btn wiz-next", onclick: function () { goTo(state.nextId); } },
+        [state.nextId ? "Next →" : "See the result →"])
+    ]));
   }
 
   function renderOutcome() {
@@ -209,13 +219,14 @@
       el("div", { class: "wiz-verdict", text: o.verdict || "Done." }),
       o.summary ? el("p", { text: o.summary }) : null,
       built, links,
-      el("button", { class: "wiz-btn", onclick: function () { state.step = 0; state.captured = {}; renderStep(); window.scrollTo(0, 0); } }, ["↺ Start over"])
+      el("button", { class: "wiz-btn", onclick: restart }, ["↺ Start over"])
     ]));
   }
 
   function swap(node) { var h = document.getElementById("wiz-stage"); h.innerHTML = ""; h.appendChild(node); }
 
-  function start() { swap(el("div", {}, [])); renderStep(); }
+  function restart() { state.captured = {}; state.trail = []; goTo(state.scenario.steps[0].id); }
+  function start() { swap(el("div", {}, [])); state.trail = []; goTo(state.scenario.steps[0].id); }
 
   function boot() {
     root = document.getElementById("wizard");
@@ -229,6 +240,8 @@
       })
       .then(function (data) {
         state.scenario = data;
+        state.byId = {};
+        data.steps.forEach(function (s) { state.byId[s.id] = s; });
         root.querySelector("#wiz-title").textContent = data.title;
         root.querySelector("#wiz-intro").textContent = data.intro;
         root.querySelector("#wiz-intro-q").textContent = data.question;
