@@ -261,7 +261,18 @@
     var msg = document.getElementById("wiz-ai-msg");
     var btn = document.getElementById("wiz-ai-go");
     if (desc.length < 8) { msg.textContent = "Describe it in a sentence or two."; return; }
-    btn.disabled = true; msg.textContent = "…thinking";
+    btn.disabled = true;
+    // Live progress hint — the gateway model takes ~30s, so count up so the
+    // user knows it's working rather than hung.
+    var started = Date.now();
+    msg.className = "wiz-ai-msg working";
+    var tick = function () {
+      var s = Math.round((Date.now() - started) / 1000);
+      msg.textContent = "Generating a model… " + s + "s · this usually takes ~30s";
+    };
+    tick();
+    var timer = setInterval(tick, 1000);
+    var stop = function () { clearInterval(timer); btn.disabled = false; msg.className = "wiz-ai-msg"; };
     fetch(serverBase() + "/wizard/suggest", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -270,7 +281,7 @@
       return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; })
         .catch(function () { return { ok: r.ok, status: r.status, j: null }; });
     }).then(function (res) {
-      btn.disabled = false;
+      stop();
       if (res.ok && res.j && Array.isArray(res.j.steps)) {
         state.scenario = res.j;
         state.byId = {};
@@ -281,7 +292,7 @@
       } else {
         msg.textContent = (res.j && res.j.message) || ("Couldn't generate a model (" + res.status + ").");
       }
-    }).catch(function (e) { btn.disabled = false; msg.textContent = "Network error — " + e.message; });
+    }).catch(function (e) { stop(); msg.textContent = "Network error — " + e.message; });
   }
 
   function boot() {
