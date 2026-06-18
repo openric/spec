@@ -242,6 +242,48 @@
     });
   }
 
+  // AI-assisted: "describe your material" → gateway-proxied suggestion → render
+  // as a scenario through the same engine. Inert server returns 503 (handled).
+  function aiPanel() {
+    return el("div", { class: "wiz-ai" }, [
+      el("div", { class: "wiz-ai-head", text: "…or describe your own material (AI-assisted)" }),
+      el("textarea", { id: "wiz-ai-desc", class: "wiz-ai-input", rows: "2",
+        placeholder: "e.g. a parish baptism register, 1881–1899, with hundreds of entries" }),
+      el("div", { class: "wiz-ai-row" }, [
+        el("button", { class: "wiz-btn", id: "wiz-ai-go", onclick: suggest }, ["Suggest a model ▶"]),
+        el("span", { id: "wiz-ai-msg", class: "wiz-ai-msg" })
+      ])
+    ]);
+  }
+
+  function suggest() {
+    var desc = ((document.getElementById("wiz-ai-desc") || {}).value || "").trim();
+    var msg = document.getElementById("wiz-ai-msg");
+    var btn = document.getElementById("wiz-ai-go");
+    if (desc.length < 8) { msg.textContent = "Describe it in a sentence or two."; return; }
+    btn.disabled = true; msg.textContent = "…thinking";
+    fetch(serverBase() + "/wizard/suggest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ description: desc })
+    }).then(function (r) {
+      return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; })
+        .catch(function () { return { ok: r.ok, status: r.status, j: null }; });
+    }).then(function (res) {
+      btn.disabled = false;
+      if (res.ok && res.j && Array.isArray(res.j.steps)) {
+        state.scenario = res.j;
+        state.byId = {};
+        res.j.steps.forEach(function (s) { state.byId[s.id] = s; });
+        state.captured = {}; state.trail = [];
+        msg.textContent = "";
+        start();
+      } else {
+        msg.textContent = (res.j && res.j.message) || ("Couldn't generate a model (" + res.status + ").");
+      }
+    }).catch(function (e) { btn.disabled = false; msg.textContent = "Network error — " + e.message; });
+  }
+
   function boot() {
     root = document.getElementById("wizard");
     if (!root) return;
@@ -261,6 +303,7 @@
         var sh = root.querySelector("#wiz-settings-holder");
         var pick = scenarioPicker(); if (pick) sh.appendChild(pick);
         sh.appendChild(settingsPanel());
+        sh.appendChild(aiPanel());
         root.querySelector("#wiz-start").addEventListener("click", start);
       })
       .catch(function (e) { root.querySelector("#wiz-stage").textContent = "Could not load scenario \"" + id + "\" (" + e.message + "). Try a hard refresh — Ctrl/Cmd+Shift+R."; });

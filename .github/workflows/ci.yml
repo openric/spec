@@ -106,3 +106,16 @@ jobs:
               sys.exit(1)
           print(f'Checked {len(md_files)} markdown files — all internal links resolve.')
           "
+
+  scenario-validation:
+    name: Wizard scenario library
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate modelling-wizard scenarios
+        run: node bin/validate-scenarios.mjs
