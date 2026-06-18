@@ -228,15 +228,28 @@
   function restart() { state.captured = {}; state.trail = []; goTo(state.scenario.steps[0].id); }
   function start() { swap(el("div", {}, [])); state.trail = []; goTo(state.scenario.steps[0].id); }
 
+  // Fetch JSON with an r.ok check (clear errors, not "Unexpected token <")
+  // and a couple of retries — GitHub Pages briefly 404s every path while it
+  // swaps in a new build, so a load during that window self-heals.
+  function getJSON(url, tries) {
+    tries = tries || 1;
+    return fetch(url, { cache: "no-cache" }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }).catch(function (e) {
+      if (tries > 1) return new Promise(function (res) { setTimeout(res, 900); }).then(function () { return getJSON(url, tries - 1); });
+      throw e;
+    });
+  }
+
   function boot() {
     root = document.getElementById("wizard");
     if (!root) return;
     var id = (new URLSearchParams(location.search)).get("scenario") || root.getAttribute("data-scenario") || "magnetic-tape";
-    fetch("/assets/data/scenarios/index.json")
-      .then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; })
+    getJSON("/assets/data/scenarios/index.json", 2).catch(function () { return []; })
       .then(function (idx) {
         state.index = idx || [];
-        return fetch("/assets/data/scenarios/" + id + ".json").then(function (r) { return r.json(); });
+        return getJSON("/assets/data/scenarios/" + id + ".json", 4);
       })
       .then(function (data) {
         state.scenario = data;
@@ -250,7 +263,7 @@
         sh.appendChild(settingsPanel());
         root.querySelector("#wiz-start").addEventListener("click", start);
       })
-      .catch(function (e) { root.querySelector("#wiz-stage").textContent = "Could not load scenario: " + e.message; });
+      .catch(function (e) { root.querySelector("#wiz-stage").textContent = "Could not load scenario \"" + id + "\" (" + e.message + "). Try a hard refresh — Ctrl/Cmd+Shift+R."; });
   }
 
   if (document.readyState !== "loading") boot(); else document.addEventListener("DOMContentLoaded", boot);
