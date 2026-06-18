@@ -12,7 +12,7 @@
       "choices": [
         { "label": "A single file", "entity": "RiC-E04", "correct": true, "next": "file", "why": "Good — one file is one Record." },
         { "label": "A series", "entity": "RiC-E03", "correct": true, "next": "series", "why": "Good — a series of like records is a Record Set, each file a member Record." },
-        { "label": "An Activity", "entity": "RiC-E13", "correct": false, "why": "Not the records themselves. The business process is an Activity you link the records to — coming up in a later step." }
+        { "label": "An Activity", "entity": "RiC-E15", "correct": false, "why": "Not the records themselves. The business process is an Activity you link the records to — coming up in a later step." }
       ]
     },
     {
@@ -22,7 +22,7 @@
       "choices": [
         { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. The file is a Record. Its creating department is an Agent; the process that produced it is an Activity it results from." },
         { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "Too much for one file — a Set is for the series." },
-        { "label": "Function", "entity": "RiC-E13", "correct": false, "why": "A function/activity is what the records document, not the file itself. The file is a Record." }
+        { "label": "Function", "entity": "RiC-E15", "correct": false, "why": "A function/activity is what the records document, not the file itself. The file is a Record." }
       ],
       "capture": [
         { "comment": "Create the file as a Record.", "method": "POST", "path": "/records", "body": { "title": "Procurement file — HQ refurbishment, 2023", "level": "item" }, "save_as": "item" }
@@ -58,7 +58,7 @@
       "id": "activity",
       "prompt": "Finally — the business process that produced these records. How do you capture it?",
       "choices": [
-        { "label": "Activity, linked with results_from + performed_by", "entity": "RiC-E13", "correct": true, "why": "Fits — and this is the RiC payoff. Model the process as an Activity; relate the records to it with results_from, and relate the Activity to the department with performed_by. Now provenance is a queryable chain (record → activity → agent), not an implied folder structure." },
+        { "label": "Activity, linked with results_from + performed_by", "entity": "RiC-E15", "correct": true, "why": "Fits — and this is the RiC payoff. Model the process as an Activity; relate the records to it with results_from, and relate the Activity to the department with performed_by. Now provenance is a queryable chain (record → activity → agent), not an implied folder structure." },
         { "label": "A keyword on the records", "entity": "—", "correct": false, "why": "Too flat. The activity has its own dates, participants and outputs; as a first-class Activity it can link many records and agents." },
         { "label": "Nothing — the department is enough", "entity": "—", "correct": false, "why": "Misses the function dimension. The same department runs many activities; capturing the activity is what lets you see what the records actually document." }
       ],
@@ -73,7 +73,7 @@
     "verdict": "Records, creator and function — a provenance chain.",
     "summary": "The file is a Record (or the series a Record Set); the department is a Corporate-Body Agent; and the business process is an Activity linking record→activity→agent via results_from and performed_by. That chain is RiC's core advantage over a folder tree: provenance is explicit and queryable from any direction.",
     "links": [
-      { "label": "Activity (RiC-E13) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E13" },
+      { "label": "Activity (RiC-E15) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E15" },
       { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
     ]
   }

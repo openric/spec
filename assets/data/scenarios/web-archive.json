@@ -12,7 +12,7 @@
       "choices": [
         { "label": "A single captured page", "entity": "RiC-E04", "correct": true, "next": "page", "why": "Good — one capture of a page is one Record (a later re-capture is another Record, or another Instantiation if you treat it as the same content)." },
         { "label": "A whole archived site", "entity": "RiC-E03", "correct": true, "next": "site", "why": "Good — an archived site is an aggregation of captured pages: a Record Set." },
-        { "label": "An Activity", "entity": "RiC-E13", "correct": false, "why": "Not the content. The crawl that captured it is an Activity — modelled in a later step." }
+        { "label": "An Activity", "entity": "RiC-E15", "correct": false, "why": "Not the content. The crawl that captured it is an Activity — modelled in a later step." }
       ]
     },
     {
@@ -59,7 +59,7 @@
       "prompt": "Capture the crawl itself — the act that produced these records.",
       "next": "warc",
       "choices": [
-        { "label": "Activity, linked with results_from", "entity": "RiC-E13", "correct": true, "why": "Fits. The crawl is an Activity with its own scope, seeds and date. Relate the records to it with results_from — provenance becomes the queryable chain record → crawl → harvester, not just a timestamp." },
+        { "label": "Activity, linked with results_from", "entity": "RiC-E15", "correct": true, "why": "Fits. The crawl is an Activity with its own scope, seeds and date. Relate the records to it with results_from — provenance becomes the queryable chain record → crawl → harvester, not just a timestamp." },
         { "label": "A capture-date field", "entity": "—", "correct": false, "why": "Too flat. A crawl has scope, seed list, frequency and an operator; as an Activity it can link every record it produced." }
       ],
       "capture": [
@@ -85,7 +85,7 @@
     "verdict": "Capture, crawl, harvester and bytes — one chain.",
     "summary": "The page is a Record (or the site a Record Set); the harvesting body is a reusable Agent; the crawl is an Activity the records result from; and the WARC is an Instantiation. Web captures stop being anonymous files and become provenance-rich records you can search by site, crawl and date.",
     "links": [
-      { "label": "Activity (RiC-E13) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E13" },
+      { "label": "Activity (RiC-E15) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E15" },
       { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
     ]
   }

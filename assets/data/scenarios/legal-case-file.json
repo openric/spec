@@ -12,7 +12,7 @@
       "choices": [
         { "label": "A single case file", "entity": "RiC-E04", "correct": true, "next": "file", "why": "Good — one case file is one Record (its pleadings and exhibits can be Record Parts)." },
         { "label": "A series of case files", "entity": "RiC-E03", "correct": true, "next": "series", "why": "Good — a court's case files form a Record Set, each case a member Record." },
-        { "label": "An Activity", "entity": "RiC-E13", "correct": false, "why": "Not the file. The proceeding is an Activity you link the file to; the file itself is a Record." }
+        { "label": "An Activity", "entity": "RiC-E15", "correct": false, "why": "Not the file. The proceeding is an Activity you link the file to; the file itself is a Record." }
       ]
     },
     {

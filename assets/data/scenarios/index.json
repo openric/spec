@@ -10,5 +10,8 @@
   { "id": "organisational-records", "title": "Organisational records: function, activity and creator" },
   { "id": "audiovisual-film", "title": "Film & video: one work, many physical elements" },
   { "id": "web-archive", "title": "Web archives: captured pages, crawls and WARCs" },
-  { "id": "legal-case-file", "title": "Legal case files: court, parties and proceeding" }
+  { "id": "legal-case-file", "title": "Legal case files: court, parties and proceeding" },
+  { "id": "architectural-drawings", "title": "Architectural drawings: a sheet, a set, and the building" },
+  { "id": "scientific-dataset", "title": "Research data: dataset, team and study" },
+  { "id": "records-and-mandates", "title": "Records under a mandate: the Rule that governs them" }
 ]

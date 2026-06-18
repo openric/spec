@@ -90,7 +90,7 @@
       "choices": [
         {
           "label": "Create an Agent, link it to the track with has_creator",
-          "entity": "RiC-R027",
+          "entity": "RiC-E07",
           "correct": true,
           "why": "Fits. Per-part provenance is expressed as relations on the Record Part itself, not as attributes. Create the ethnographer as an Agent, then relate the track to that Agent with has_creator (RiC-R027). Because the relation is on the part, each track can have its own, different creator — the whole point of using Record Parts here."
         },

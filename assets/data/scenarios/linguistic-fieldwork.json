@@ -12,7 +12,7 @@
       "choices": [
         {
           "label": "Activity",
-          "entity": "RiC-E13",
+          "entity": "RiC-E15",
           "correct": true,
           "why": "Fits. A RiC Activity is an action or event carried out by Agents. A fieldwork/recording session is exactly that — a documented event that produced records. The recordings, speakers and place all hang off it."
         },
@@ -30,7 +30,7 @@
         },
         {
           "label": "Place",
-          "entity": "RiC-E08",
+          "entity": "RiC-E22",
           "correct": false,
           "why": "Doesn't fit. Where the session happened is a Place you relate to the Activity — but the session itself is the Activity."
         }
@@ -63,7 +63,7 @@
         },
         {
           "label": "Activity",
-          "entity": "RiC-E13",
+          "entity": "RiC-E15",
           "correct": false,
           "why": "Doesn't fit. The recording is the product of the session activity, not an activity itself."
         },

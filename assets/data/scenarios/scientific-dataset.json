@@ -1,0 +1,80 @@
+{
+  "id": "scientific-dataset",
+  "title": "Research data: dataset, team and study",
+  "audience": "Research-data repositories, scientific & university archives",
+  "intro": "Research data only makes sense alongside the study that produced it. This scenario branches on a single dataset vs a data collection, attaches the research team, and models the study as an Activity the data results from — the provenance link that makes a dataset reusable rather than orphaned.",
+  "question": "Is a dataset a Record? How do I link it to the team and the study that produced it?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "fork",
+      "prompt": "One dataset, or a whole data collection?",
+      "choices": [
+        { "label": "A single dataset", "entity": "RiC-E04", "correct": true, "next": "dataset", "why": "Good — one dataset is one Record; its files (CSV, NetCDF) are Instantiations." },
+        { "label": "A data collection", "entity": "RiC-E03", "correct": true, "next": "collection", "why": "Good — a collection of related datasets is a Record Set, each dataset a member Record." },
+        { "label": "An Activity", "entity": "RiC-E15", "correct": false, "why": "Not the data. The study that produced it is an Activity — modelled in a later step." }
+      ]
+    },
+    {
+      "id": "dataset",
+      "prompt": "Model the single dataset.",
+      "next": "team",
+      "choices": [
+        { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. The dataset is a Record; its files are Instantiations; the study it comes from is an Activity it results from; the team is its creator." },
+        { "label": "Instantiation", "entity": "RiC-E06", "correct": false, "why": "That's the data file. The dataset's content is the Record; the CSV/NetCDF files are its Instantiations." },
+        { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "Too much for one dataset — a Set is for the collection." }
+      ],
+      "capture": [
+        { "comment": "Create the dataset as a Record.", "method": "POST", "path": "/records", "body": { "title": "Coastal temperature series, 2019–2024", "level": "item" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "collection",
+      "prompt": "Model the data collection.",
+      "next": "team",
+      "choices": [
+        { "label": "Record Set", "entity": "RiC-E03", "correct": true, "why": "Fits. The collection aggregates related datasets — a Record Set, each dataset a member Record." },
+        { "label": "Record", "entity": "RiC-E04", "correct": false, "why": "Undersells it — a collection is many datasets. Use a Record Set." },
+        { "label": "Record Part", "entity": "RiC-E05", "correct": false, "why": "Doesn't fit — the collection is an aggregation. (A single variable within one dataset could be a Record Part.)" }
+      ],
+      "capture": [
+        { "comment": "Create the data collection as a Record Set.", "method": "POST", "path": "/record-sets", "body": { "title": "Coastal Monitoring Programme datasets", "level": "collection" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "team",
+      "prompt": "Attach the research team.",
+      "next": "study",
+      "choices": [
+        { "label": "Agent + has_creator", "entity": "RiC-E07", "correct": true, "why": "Fits. The research group (and PI) are Agents. Relate the dataset to them with has_creator; reuse the group Agent across all its outputs and link individual researchers too." },
+        { "label": "Author names in a README", "entity": "—", "correct": false, "why": "Doesn't fit for the catalogue. A README is fine documentation, but creators should be reconcilable Agents (ideally with ORCIDs) so their data is findable." }
+      ],
+      "capture": [
+        { "comment": "Create the research group as an Agent.", "method": "POST", "path": "/agents", "body": { "name": "Coastal Oceanography Group, Univ. of Riverside" }, "save_as": "team" },
+        { "comment": "Link the dataset to the team with has_creator.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{team.id}}", "relation_type": "has_creator" } }
+      ]
+    },
+    {
+      "id": "study",
+      "prompt": "The study/experiment that produced the data — how do you capture it?",
+      "choices": [
+        { "label": "Activity, linked with results_from + performed_by", "entity": "RiC-E15", "correct": true, "why": "Fits. Model the study as an Activity; relate the dataset to it with results_from, and the Activity to the team with performed_by. This is the link that makes data reusable — you can trace exactly which study, method and people produced it." },
+        { "label": "A methods paragraph on the dataset", "entity": "—", "correct": false, "why": "Too flat. The study has its own dates, funding and outputs; as an Activity it links data, publications and people." },
+        { "label": "Nothing — the dataset stands alone", "entity": "—", "correct": false, "why": "Misses the point. Data without its study is hard to trust or reuse; the Activity supplies that provenance." }
+      ],
+      "capture": [
+        { "comment": "Create the study as an Activity.", "method": "POST", "path": "/activities", "body": { "name": "Coastal warming study (2019–2024)" }, "save_as": "study" },
+        { "comment": "Link the dataset to the study with results_from.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{study.id}}", "relation_type": "results_from" } },
+        { "comment": "Link the study to the team that performed it.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{study.id}}", "object_id": "{{team.id}}", "relation_type": "performed_by" } }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Dataset, team and study — reusable provenance.",
+    "summary": "The dataset is a Record (or the collection a Record Set); the team is a reusable Agent; and the study is an Activity linking data→study→team via results_from and performed_by. That chain is what lets others trust and reuse the data — and find everything a study or group produced.",
+    "links": [
+      { "label": "Activity (RiC-E15) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E15" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}

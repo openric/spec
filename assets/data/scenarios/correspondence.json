@@ -85,7 +85,7 @@
         },
         {
           "label": "Activity",
-          "entity": "RiC-E13",
+          "entity": "RiC-E15",
           "correct": false,
           "why": "Doesn't fit. The act of corresponding could be modelled as an Activity, but the letters themselves are records — the exchange is their aggregation, a Record Set."
         }
