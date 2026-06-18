@@ -1,0 +1,69 @@
+{
+  "id": "family-papers",
+  "title": "Family papers: a family, its members and kinship",
+  "audience": "Personal & family archives, genealogy collections",
+  "intro": "Family papers let RiC show off its agent model: a Family is a first-class Agent, its members are People, and kinship is explicit relations between them. This scenario branches on one person's papers vs a whole family's, then wires up the family and a parent–child link.",
+  "question": "How do I model a family as a creator, and capture who is related to whom?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "fork",
+      "prompt": "Whose papers are these — one person's, or a whole family's?",
+      "choices": [
+        { "label": "One person's", "entity": "RiC-E08", "correct": true, "next": "person", "why": "Good — the papers are a Record Set created by a Person (an Agent)." },
+        { "label": "A family's", "entity": "RiC-E10", "correct": true, "next": "family", "why": "Good — a Family is a first-class Agent (RiC-E10). The papers are a Record Set it created, and individual members are related People." },
+        { "label": "A Record Part", "entity": "RiC-E05", "correct": false, "why": "Not the papers as a whole. The papers are an aggregation (Record Set); a Record Part is a component within one record." }
+      ]
+    },
+    {
+      "id": "person",
+      "prompt": "Model one person's papers.",
+      "next": "kin",
+      "choices": [
+        { "label": "Record Set + Person creator", "entity": "RiC-E03", "correct": true, "why": "Fits. The papers are a Record Set; the creator is a Person (an Agent), related with has_creator." },
+        { "label": "A single Record", "entity": "RiC-E04", "correct": false, "why": "Undersells it — personal papers are many items. Use a Record Set." }
+      ],
+      "capture": [
+        { "comment": "Create the papers as a Record Set.", "method": "POST", "path": "/record-sets", "body": { "title": "Papers of Eleni Vasilakis, 1920–1985", "level": "collection" }, "save_as": "item" },
+        { "comment": "Create the person as an Agent.", "method": "POST", "path": "/agents", "body": { "name": "Eleni Vasilakis" }, "save_as": "creator" },
+        { "comment": "Link the papers to their creator with has_creator.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{creator.id}}", "relation_type": "has_creator" } }
+      ]
+    },
+    {
+      "id": "family",
+      "prompt": "Model a whole family's papers.",
+      "next": "kin",
+      "choices": [
+        { "label": "Record Set + Family creator", "entity": "RiC-E03", "correct": true, "why": "Fits. The papers are a Record Set; the creator is a Family (RiC-E10) — a first-class Agent — related with has_creator. Members are related People." },
+        { "label": "A Person creator", "entity": "RiC-E08", "correct": false, "why": "Undersells it when several generations contributed. Model the Family as the creator and relate individual People to it." },
+        { "label": "A Place", "entity": "RiC-E22", "correct": false, "why": "Doesn't fit — the family is an Agent, not a location (though the family seat could be a related Place)." }
+      ],
+      "capture": [
+        { "comment": "Create the papers as a Record Set.", "method": "POST", "path": "/record-sets", "body": { "title": "Vasilakis family papers, 1880–1990", "level": "collection" }, "save_as": "item" },
+        { "comment": "Create the family as an Agent (Family).", "method": "POST", "path": "/agents", "body": { "name": "Vasilakis family" }, "save_as": "creator" },
+        { "comment": "Link the papers to the family with has_creator.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{creator.id}}", "relation_type": "has_creator" } }
+      ]
+    },
+    {
+      "id": "kin",
+      "prompt": "Two members appear throughout the papers — a mother and her son. How do you capture that they're related?",
+      "choices": [
+        { "label": "People (Agents) linked with is_child_of", "entity": "RiC-E08", "correct": true, "why": "Fits. Each member is a Person (an Agent); kinship is an explicit relation between them — is_child_of (and has_family_member to the Family). Now the papers connect to a real, queryable kin network, not just names on folders." },
+        { "label": "Note the relationship in a description field", "entity": "—", "correct": false, "why": "Doesn't fit RiC's strength. Kinship as free text can't be traversed or reconciled. Model the people as Agents and the relationship as a relation." }
+      ],
+      "capture": [
+        { "comment": "Create the mother as an Agent (Person).", "method": "POST", "path": "/agents", "body": { "name": "Maria Vasilakis" }, "save_as": "mother" },
+        { "comment": "Create the son as an Agent (Person).", "method": "POST", "path": "/agents", "body": { "name": "Nikos Vasilakis" }, "save_as": "son" },
+        { "comment": "Record the kinship: the son is_child_of the mother.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{son.id}}", "object_id": "{{mother.id}}", "relation_type": "is_child_of" } }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Family, members and kinship — a real agent network.",
+    "summary": "The papers are a Record Set created by a Person or a Family (a first-class Agent); members are People; and kinship (is_child_of, has_family_member) is explicit. Family papers become a navigable network of people and the records they left — RiC's agent model at its most useful.",
+    "links": [
+      { "label": "Family (RiC-E10) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E10" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}

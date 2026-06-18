@@ -1,0 +1,70 @@
+{
+  "id": "digitisation-surrogates",
+  "title": "Digitisation: original, microfilm and digital surrogate",
+  "audience": "Preservation & digitisation programmes, reformatting projects",
+  "intro": "Digitisation tempts people to create a new record for every copy. RiC says otherwise: the content is one Record, and the original, the microfilm and the digital scan are all Instantiations of it — with derivation links between them. This scenario models that surrogate chain.",
+  "question": "Is a digital scan a new Record, or an Instantiation of the same Record? How do I link surrogates?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "doc",
+      "prompt": "Start with the document being reformatted.",
+      "next": "scan",
+      "choices": [
+        { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. The document's content is one Record. Every physical and digital copy will be an Instantiation of this single Record." },
+        { "label": "Instantiation", "entity": "RiC-E06", "correct": false, "why": "That's a carrier (the paper, the film, the file). The intellectual content is the Record they all instantiate." },
+        { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "Not for a single document — a Set aggregates many records." }
+      ],
+      "capture": [
+        { "comment": "Create the document as a Record.", "method": "POST", "path": "/records", "body": { "title": "Deed of grant, 1887", "level": "item" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "scan",
+      "prompt": "You scan the document. Is the digital scan a new Record, or something else?",
+      "next": "original",
+      "choices": [
+        { "label": "An Instantiation of the same Record", "entity": "RiC-E06", "correct": true, "why": "Fits — and it's the key point. A surrogate carries the SAME content, so it's another Instantiation of the one Record (linked with has_instantiation), not a new Record. That keeps every copy under one intellectual description." },
+        { "label": "A new Record", "entity": "RiC-E04", "correct": false, "why": "Doesn't fit. A scan isn't new content — it's a new carrier of existing content. Making it a Record duplicates the description and breaks the link to the original." },
+        { "label": "A Record Part", "entity": "RiC-E05", "correct": false, "why": "Doesn't fit — the scan isn't a component that adds content; it re-presents the whole document. It's an Instantiation." }
+      ],
+      "capture": [
+        { "comment": "Create the digital scan as an Instantiation of the document.", "method": "POST", "path": "/instantiations", "body": { "title": "Digital master — TIFF, 600dpi" }, "save_as": "scan" },
+        { "comment": "Link the document to its digital scan with has_instantiation.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{scan.id}}", "relation_type": "has_instantiation" } }
+      ]
+    },
+    {
+      "id": "original",
+      "prompt": "Now the original paper itself.",
+      "next": "derivation",
+      "choices": [
+        { "label": "Instantiation", "entity": "RiC-E06", "correct": true, "why": "Fits. The original paper is also an Instantiation of the Record — the source one. Now the Record has two Instantiations (original + scan), each with its own format and condition." },
+        { "label": "The Record itself", "entity": "RiC-E04", "correct": false, "why": "Doesn't fit. The Record is the intellectual content; the paper is one carrier of it — an Instantiation." }
+      ],
+      "capture": [
+        { "comment": "Create the original paper as an Instantiation.", "method": "POST", "path": "/instantiations", "body": { "title": "Original — parchment, 1 sheet" }, "save_as": "original" },
+        { "comment": "Link the document to the original with has_instantiation.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{original.id}}", "relation_type": "has_instantiation" } }
+      ]
+    },
+    {
+      "id": "derivation",
+      "prompt": "The scan was made FROM the original. How do you record that the scan derives from it?",
+      "choices": [
+        { "label": "Link them with has_derived_instantiation", "entity": "RiC-E06", "correct": true, "why": "Fits. Relate the original Instantiation to the scan with has_derived_instantiation — capturing the reformatting lineage (and likewise for a microfilm intermediate). Now you can answer 'what was this scan made from?' and trust the chain." },
+        { "label": "Nothing — both just hang off the Record", "entity": "—", "correct": false, "why": "Misses the lineage. Both are Instantiations of the Record, but the derivation (scan FROM original) is itself meaningful for provenance and preservation — record it with has_derived_instantiation." },
+        { "label": "Make the scan a copy Record of the original", "entity": "RiC-E04", "correct": false, "why": "Doesn't fit — surrogates aren't records. The derivation is between Instantiations." }
+      ],
+      "capture": [
+        { "comment": "Record that the original yielded the digital scan as a derived instantiation.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{original.id}}", "object_id": "{{scan.id}}", "relation_type": "has_derived_instantiation" } }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "One Record, many carriers, lineage intact.",
+    "summary": "The document is a single Record; the original, microfilm and digital scan are Instantiations of it; and has_derived_instantiation captures which surrogate came from which. Reformatting no longer fragments the description into duplicate records — it enriches one record with a traceable carrier chain.",
+    "links": [
+      { "label": "Instantiation (RiC-E06) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E06" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" }
+    ]
+  }
+}

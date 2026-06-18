@@ -1,17 +1,74 @@
 [
-  { "id": "magnetic-tape", "title": "Magnetic tape with mixed-provenance tracks" },
-  { "id": "linguistic-fieldwork", "title": "Linguistic fieldwork: sessions, speakers, recordings" },
-  { "id": "correspondence", "title": "Correspondence: a single letter vs. a whole exchange" },
-  { "id": "photographs", "title": "Photographs: a single image vs. an album" },
-  { "id": "cartographic", "title": "Maps: a single sheet vs. a map series" },
-  { "id": "born-digital-email", "title": "Email: a message, a thread, and attachments" },
-  { "id": "oral-history", "title": "Oral history: interview, narrator and interviewer" },
-  { "id": "registers-volumes", "title": "Registers & volumes: a bound book and its entries" },
-  { "id": "organisational-records", "title": "Organisational records: function, activity and creator" },
-  { "id": "audiovisual-film", "title": "Film & video: one work, many physical elements" },
-  { "id": "web-archive", "title": "Web archives: captured pages, crawls and WARCs" },
-  { "id": "legal-case-file", "title": "Legal case files: court, parties and proceeding" },
-  { "id": "architectural-drawings", "title": "Architectural drawings: a sheet, a set, and the building" },
-  { "id": "scientific-dataset", "title": "Research data: dataset, team and study" },
-  { "id": "records-and-mandates", "title": "Records under a mandate: the Rule that governs them" }
+  {
+    "id": "magnetic-tape",
+    "title": "Magnetic tape with mixed-provenance tracks"
+  },
+  {
+    "id": "linguistic-fieldwork",
+    "title": "Linguistic fieldwork: sessions, speakers, recordings"
+  },
+  {
+    "id": "correspondence",
+    "title": "Correspondence: a single letter vs. a whole exchange"
+  },
+  {
+    "id": "photographs",
+    "title": "Photographs: a single image vs. an album"
+  },
+  {
+    "id": "cartographic",
+    "title": "Maps: a single sheet vs. a map series"
+  },
+  {
+    "id": "born-digital-email",
+    "title": "Email: a message, a thread, and attachments"
+  },
+  {
+    "id": "oral-history",
+    "title": "Oral history: interview, narrator and interviewer"
+  },
+  {
+    "id": "registers-volumes",
+    "title": "Registers & volumes: a bound book and its entries"
+  },
+  {
+    "id": "organisational-records",
+    "title": "Organisational records: function, activity and creator"
+  },
+  {
+    "id": "audiovisual-film",
+    "title": "Film & video: one work, many physical elements"
+  },
+  {
+    "id": "web-archive",
+    "title": "Web archives: captured pages, crawls and WARCs"
+  },
+  {
+    "id": "legal-case-file",
+    "title": "Legal case files: court, parties and proceeding"
+  },
+  {
+    "id": "architectural-drawings",
+    "title": "Architectural drawings: a sheet, a set, and the building"
+  },
+  {
+    "id": "scientific-dataset",
+    "title": "Research data: dataset, team and study"
+  },
+  {
+    "id": "records-and-mandates",
+    "title": "Records under a mandate: the Rule that governs them"
+  },
+  {
+    "id": "newspapers-serials",
+    "title": "Newspapers & serials: title, issue and article"
+  },
+  {
+    "id": "family-papers",
+    "title": "Family papers: a family, its members and kinship"
+  },
+  {
+    "id": "digitisation-surrogates",
+    "title": "Digitisation: original, microfilm and digital surrogate"
+  }
 ]
