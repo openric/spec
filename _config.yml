@@ -13,3 +13,8 @@ exclude:
   - .gitignore
   - Gemfile
   - Gemfile.lock
+  # Internal docs (session logs, outreach drafts, issues) — NOT website pages.
+  # They contain code/SPARQL/Liquid-like text ({% , {{ ) that breaks the Jekyll
+  # build (e.g. a URL-encoded "{%20" in a SPARQL query read as an unterminated
+  # Liquid tag). Excluding keeps them git-tracked (for KM) without rendering them.
+  - docs
