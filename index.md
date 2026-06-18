@@ -22,6 +22,18 @@ description: An open, free way to describe, explore, and share archival records 
   <p><strong>In plain language:</strong> <strong>RiC</strong> (Records in Contexts) is the International Council on Archives' model that brings the four older standards — ISAD(G), ISAAR(CPF), ISDF and ISDIAH — together into one connected picture of records and their context. <strong>OpenRiC</strong> is a free, open way to publish and explore that picture — a shared contract, like IIIF for images, that any archival system can implement.</p>
 </div>
 
+<div class="see-it">
+  <div class="see-it-inner">
+    <div class="see-it-copy">
+      <h2>New — the modelling wizard</h2>
+      <p>Not sure how to model something in RiC? The wizard walks you through real decisions step by step — <em>why</em> each entity fits or doesn't — and builds the model live. First scenario: a magnetic tape with mixed-provenance tracks.</p>
+    </div>
+    <div class="see-it-cta">
+      <a class="btn-primary" href="{{ '/wizard/' | relative_url }}">Try the wizard →</a>
+    </div>
+  </div>
+</div>
+
 ## Choose your path
 
 <div class="doors">

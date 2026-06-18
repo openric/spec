@@ -72,3 +72,29 @@ it was live but absent from the landing/nav. The redesign surfaces it rather tha
 cross-domain to `ric.theahg.co.za` (`/reference` is not currently proxied on the openric.org vhost).
 
 Rule reminder: staged only — Johan runs `bin/release` (or commit+push) to publish to GitHub Pages.
+
+---
+
+## Addendum (2026-06-18) — Record Part write support + RiC modelling wizard
+
+Driven by a forum question (Valentin Mansilla): model an ethnographic magnetic tape as a **Record** and each track as a **Record Part** (tracks have mixed provenance). Johan: "this must become a reference site… a wizard with prompts… comments with each capture… why it fits or doesn't." Decisions: **interactive data-driven JS wizard**, **live-where-possible capture**, **close the API write gap first**.
+
+### Reference API — Record Part / Record Set write support (OpenRiC repo, staged)
+Record / Record Set / Record Part are all `information_object` rows discriminated by `level_of_description` name (`item`→Record, `part`→RecordPart, aggregation→RecordSet); part/whole is the `parent_id` hierarchy. Changes in `packages/ahg-ric`:
+- `RicEntityService`: `resolveLevelTermId()` (taxonomy 34, case-insensitive), `createRecordPart()` (requires parent_id; resolves the existing **"Part" level term 299**), `createRecordSet()`.
+- `LinkedDataApiController`: `createRecordPart`, `createRecordSet`.
+- `routes/api.php`: `POST/PATCH/DELETE /record-parts` and `/record-sets` (write-scoped).
+- `OpenApiSpec`: documents the new endpoints.
+- **Bug fixed:** the detail serializer joined `term_i18n` with no culture filter, so it grabbed an arbitrary culture's level name ("Dio") and the level→RiC-type map silently fell back to `Record` for *all* detail records. Now culture-filtered to `en` + lowercased — `item→Record`, `collection→RecordSet`, `part→RecordPart` verified.
+- Test: `ApiDocumentationTest` asserts the endpoints are documented + routed (5 pass).
+
+**Verified:** create→serialize confirmed in a rolled-back txn; conformance probe **30 pass / 0 fail** against the live server. **The API change is LIVE on ric.theahg.co.za now** (vendor/ was re-synced on the prod host during testing; php-fpm picked it up — `POST /record-parts` → 401 gated, `/record-parts` in openapi.json). Canonical `packages/` source is staged for commit so a future `composer install` keeps it.
+
+### Modelling wizard (openric-spec, staged) — the reference-site piece
+Data-driven vanilla-JS wizard at **`/wizard/`**:
+- `wizard/index.html` (page + styles), `assets/js/wizard.js` (engine), `assets/data/scenarios/magnetic-tape.json` (scenario 1).
+- Per step: prompt → entity choices → **why it fits / why it doesn't** → **capture** (the real API call + comment) with a **Run live ▶** that POSTs to the server with the user's key and threads returned ids (`{{tape.id}}`) into later steps; preview-only without a key.
+- Scenario 1 = magnetic tape: tape=Record → track=Record Part (parent_id link) → per-track creator (Agent + `has_creator` relation) → physical reel=Instantiation → verdict.
+- Linked from nav (`Modelling wizard` CTA), the splash, and for-archivists. New scenarios drop in as JSON files.
+
+Outstanding: openric-spec changes need `git push` (GitHub Pages); OpenRiC `packages/` changes staged for commit. Capture-client (openric-capture) enhancement deprioritised — the wizard performs live capture directly.

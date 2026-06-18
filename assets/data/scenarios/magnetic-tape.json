@@ -1,0 +1,169 @@
+{
+  "id": "magnetic-tape",
+  "title": "Cataloguing a magnetic tape with mixed-provenance tracks",
+  "audience": "Ethnographic / audiovisual archives, fieldwork collections",
+  "intro": "A question that comes up on the Records in Contexts users forum: an ethnographic magnetic tape holds several tracks, and the tracks have mixed provenance — different creators, places, dates and topics. Should the tape be a Record and each track a Record Part? This wizard walks the decision step by step, explains why each option fits or doesn't, and — with an API key — builds the model live against the OpenRiC reference server.",
+  "question": "From a RiC perspective, is it appropriate to use the Record entity for the magnetic tape as a whole and the Record Part entity for each track, since the tracks often have mixed provenance (different agents, places, dates, topics)?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "tape-whole",
+      "prompt": "First, the tape as a whole — its recorded content. How do you represent it?",
+      "choices": [
+        {
+          "label": "Record",
+          "entity": "RiC-E04",
+          "correct": true,
+          "why": "Fits. A Record is “discrete information content … inscribed on a carrier” (RiC-E04). The tape's recording is exactly that: one intellectual unit of content. It becomes the parent that the tracks attach to."
+        },
+        {
+          "label": "Record Set",
+          "entity": "RiC-E03",
+          "correct": false,
+          "why": "Doesn't fit (yet). A Record Set (RiC-E03) is an aggregation of records grouped by shared attributes. A single physical tape isn't an aggregation of independent records — modelling it as a Set over-structures it. (A Set becomes right only if the tracks are genuinely standalone works; see the track step.)"
+        },
+        {
+          "label": "Record Part",
+          "entity": "RiC-E05",
+          "correct": false,
+          "why": "Doesn't fit. A Record Part (RiC-E05) is a component of a Record — it cannot stand as the whole. The tracks will be the parts; the tape is their whole."
+        },
+        {
+          "label": "Instantiation",
+          "entity": "RiC-E06",
+          "correct": false,
+          "why": "Doesn't fit here. The Instantiation (RiC-E06) is the physical reel — the carrier, not the intellectual content. You'll add that in a later step, linked to this Record."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the tape as a Record (item-level information_object).",
+          "method": "POST",
+          "path": "/records",
+          "body": { "title": "Ethnographic field recording — Reel 12", "level": "item" },
+          "save_as": "tape"
+        }
+      ]
+    },
+    {
+      "id": "track",
+      "prompt": "Each track was recorded by different people, in different places, on different dates, on different topics. How do you represent a single track?",
+      "choices": [
+        {
+          "label": "Record Part",
+          "entity": "RiC-E05",
+          "correct": true,
+          "why": "Fits. A Record Part is “a component of a Record with independent information content that contributes to the intellectual completeness of the Record” (RiC-E05). Each track contributes to the whole tape yet carries its own provenance — precisely the mixed-provenance case. It links to the tape as a part/whole relation."
+        },
+        {
+          "label": "Record",
+          "entity": "RiC-E04",
+          "correct": false,
+          "why": "Usually doesn't fit. Modelling each track as a standalone Record loses that the tracks share one physical carrier and one intellectual whole. Choose this only if a track is genuinely an independent work you want catalogued on its own — then group the tracks under a Record Set instead of a single Record."
+        },
+        {
+          "label": "Record Set",
+          "entity": "RiC-E03",
+          "correct": false,
+          "why": "Doesn't fit. A single track is not an aggregation of records, so it isn't a Record Set."
+        },
+        {
+          "label": "Instantiation",
+          "entity": "RiC-E06",
+          "correct": false,
+          "why": "Doesn't fit. Instantiation is the physical carrier, not the track's intellectual content."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the track as a Record Part belonging to the tape. The parent_id is the RiC part/whole link — it binds the track to its tape.",
+          "method": "POST",
+          "path": "/record-parts",
+          "body": { "title": "Track A — wedding songs, Epirus", "parent_id": "{{tape.id}}" },
+          "save_as": "trackA"
+        }
+      ]
+    },
+    {
+      "id": "provenance",
+      "prompt": "Track A was recorded by a different ethnographer than the other tracks. How do you attach that creator to this track only?",
+      "choices": [
+        {
+          "label": "Create an Agent, link it to the track with has_creator",
+          "entity": "RiC-R027",
+          "correct": true,
+          "why": "Fits. Per-part provenance is expressed as relations on the Record Part itself, not as attributes. Create the ethnographer as an Agent, then relate the track to that Agent with has_creator (RiC-R027). Because the relation is on the part, each track can have its own, different creator — the whole point of using Record Parts here."
+        },
+        {
+          "label": "Put the creator's name in the tape's title",
+          "entity": "—",
+          "correct": false,
+          "why": "Doesn't fit. Names buried in free-text titles aren't reconciliable, can't be shared as authorities, and can't differ per track. RiC wants the creator as a first-class Agent linked by a relation."
+        },
+        {
+          "label": "Set one creator on the tape for all tracks",
+          "entity": "—",
+          "correct": false,
+          "why": "Doesn't fit the scenario. A single creator on the tape erases the mixed provenance you set out to capture. Attach the creator to the individual Record Part instead."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the ethnographer as an Agent.",
+          "method": "POST",
+          "path": "/agents",
+          "body": { "name": "M. Papadopoulou (field collector)" },
+          "save_as": "agentA"
+        },
+        {
+          "comment": "Link the track (subject) to the Agent (object) with the has_creator relation. Repeat per track with its own Agent, place, date and subject.",
+          "method": "POST",
+          "path": "/relations",
+          "body": { "subject_id": "{{trackA.id}}", "object_id": "{{agentA.id}}", "relation_type": "has_creator" }
+        }
+      ]
+    },
+    {
+      "id": "carrier",
+      "prompt": "Finally, the physical reel itself — ¼-inch open-reel tape, 7.5 ips, some vinegar syndrome. Where does that go?",
+      "choices": [
+        {
+          "label": "Instantiation",
+          "entity": "RiC-E06",
+          "correct": true,
+          "why": "Fits. The Instantiation (RiC-E06) is the physical/digital carrier of the Record — format, extent, playback characteristics and condition live here, linked to the tape Record. This is why “the tape as a whole” split into two: the intellectual Record and its physical Instantiation."
+        },
+        {
+          "label": "Record Part",
+          "entity": "RiC-E05",
+          "correct": false,
+          "why": "Doesn't fit. A Record Part is intellectual content (a track), not the physical object carrying it."
+        },
+        {
+          "label": "An attribute on the Record",
+          "entity": "—",
+          "correct": false,
+          "why": "Doesn't fit well. Carrier format and condition belong on the Instantiation so that multiple carriers (an original reel and a digitised copy) can each be described and compared."
+        }
+      ],
+      "capture": [
+        {
+          "comment": "Create the physical carrier as an Instantiation. (Link it to the tape Record the same way — a relation — once your server exposes a carrier relation type.)",
+          "method": "POST",
+          "path": "/instantiations",
+          "body": { "title": "¼-inch open-reel tape, 7.5 ips" },
+          "save_as": "reel"
+        }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Yes — Valentin's instinct is right.",
+    "summary": "The tape is a Record; each track is a Record Part bound to it by the part/whole link; each track's own creator, place, date and subject are relations on that part; and the physical reel is an Instantiation. That structure captures mixed per-track provenance without flattening the tape into unrelated items.",
+    "links": [
+      { "label": "Inspect Record Part (RiC-E05) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E05" },
+      { "label": "See real RiC data in the graph viewer", "href": "https://viewer.openric.org/" },
+      { "label": "Read the ISAD(G) → RiC-O mapping", "href": "/spec/mapping.html" }
+    ]
+  }
+}
