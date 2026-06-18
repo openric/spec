@@ -395,6 +395,43 @@
     .site-footer { border-top: 1px solid var(--border); padding: 2rem 1.4rem; color: var(--muted); font-size: 0.85rem; text-align: center; background: var(--surface); }
     .site-footer a { color: var(--muted-2); text-decoration: underline; text-underline-offset: 2px; }
 
+    /* ---- Two doors (landing) ---- */
+    .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin: 1.75rem 0 1.25rem; }
+    .door {
+      display: flex; flex-direction: column;
+      padding: 1.9rem 1.7rem 1.6rem;
+      background: #fff; border: 1px solid var(--border); border-radius: 12px;
+      text-decoration: none; color: var(--fg);
+      transition: all 0.18s; position: relative; overflow: hidden;
+    }
+    .door::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--accent-2); }
+    .door.dev::before { background: var(--live); }
+    .door:hover { border-color: var(--accent-2); transform: translateY(-3px); box-shadow: var(--shadow-lg); text-decoration: none; }
+    .door .door-icon { font-size: 2rem; line-height: 1; margin-bottom: 0.6rem; }
+    .door .door-title { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 0.5rem; color: var(--fg); }
+    .door p { margin: 0 0 1rem; color: var(--muted-2); font-size: 0.95rem; line-height: 1.55; flex-grow: 1; }
+    .door .door-go { font-weight: 600; color: var(--accent-2); font-size: 0.95rem; }
+    .door.dev .door-go { color: #047857; }
+    .door .door-tags { margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px dashed var(--border); font-size: 0.78rem; color: var(--muted); }
+
+    /* ---- Secondary door (institutions) ---- */
+    .door-mini {
+      display: flex; align-items: center; gap: 0.9rem;
+      padding: 1rem 1.3rem; margin: 0 0 1rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      text-decoration: none; color: var(--fg); transition: all 0.15s;
+    }
+    .door-mini:hover { border-color: var(--accent-2); background: #fff; text-decoration: none; box-shadow: var(--shadow); }
+    .door-mini .door-mini-icon { font-size: 1.4rem; line-height: 1; }
+    .door-mini strong { font-weight: 600; }
+    .door-mini span { color: var(--muted-2); font-size: 0.9rem; }
+    .door-mini .door-mini-go { margin-left: auto; color: var(--accent-2); font-weight: 600; font-size: 0.88rem; white-space: nowrap; }
+
+    /* ---- Plain entity chips (for-archivists) ---- */
+    .entity-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 1.5rem; }
+    .entity-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; font-size: 0.88rem; color: var(--muted-2); }
+    .entity-chip strong { color: var(--fg); font-weight: 600; }
+
     @media (max-width: 640px) {
       .nav-brand { flex-basis: 100%; margin-bottom: 0.4rem; }
       .nav-links { gap: 0.15rem 0.6rem; font-size: 0.88rem; }
@@ -410,17 +447,15 @@
   <nav class="site-nav" aria-label="Primary">
     <div class="nav-inner">
       <div class="nav-brand">
-        <a href="{{ '/' | relative_url }}"><span class="logo-dot"></span>OpenRiC<small>v0.2.0</small></a>
+        <a href="{{ '/' | relative_url }}"><span class="logo-dot"></span>OpenRiC<small>Records in Contexts</small></a>
       </div>
       <div class="nav-links">
-        <a href="{{ '/guides/getting-started.html' | relative_url }}" class="nav-cta">Start here</a>
+        <a href="https://ric.theahg.co.za/reference/ric-cm/" class="nav-cta external">Explore the model</a>
+        <a href="{{ '/for-archivists.html' | relative_url }}">For archivists</a>
+        <a href="{{ '/for-institutions.html' | relative_url }}">For institutions</a>
+        <span class="sep">·</span>
+        <a href="{{ '/for-developers.html' | relative_url }}">Developers</a>
         <a href="{{ '/spec/' | relative_url }}">Spec</a>
-        <a href="{{ '/guides/' | relative_url }}">Guides</a>
-        <a href="{{ '/faq.html' | relative_url }}">FAQ</a>
-        <a href="{{ '/architecture.html' | relative_url }}">Architecture</a>
-        <a href="{{ '/conformance/' | relative_url }}">Conformance</a>
-        <a href="{{ '/governance.html' | relative_url }}">Governance</a>
-        <a href="https://github.com/openric/spec/discussions" class="external">Discussions</a>
         <a href="https://github.com/openric/spec" class="external">GitHub</a>
       </div>
     </div>
@@ -428,8 +463,8 @@
 
   <div class="demo-banner">
     <div class="demo-banner-inner">
-      <span class="demo-banner-label"><strong>See OpenRiC live</strong> — 2D/3D graph against a real archival dataset.</span>
-      <a class="demo-banner-cta" href="https://viewer.openric.org/">See it in action ↗</a>
+      <span class="demo-banner-label"><strong>Explore the RiC model</strong> — every entity, attribute and relation, plain and navigable.</span>
+      <a class="demo-banner-cta" href="https://ric.theahg.co.za/reference/ric-cm/">Open the model navigator ↗</a>
     </div>
   </div>
 
@@ -442,9 +477,13 @@
       OpenRiC specification © 2026 The Archive and Heritage Group (Pty) Ltd and contributors.
       Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a>.
       &middot;
-      <a href="{{ '/governance.html' | relative_url }}">Governance</a>
+      <a href="{{ '/for-archivists.html' | relative_url }}">For archivists</a>
+      &middot;
+      <a href="{{ '/for-developers.html' | relative_url }}">For developers</a>
       &middot;
       <a href="{{ '/for-institutions.html' | relative_url }}">For institutions</a>
+      &middot;
+      <a href="{{ '/governance.html' | relative_url }}">Governance</a>
       &middot;
       <a href="https://github.com/openric/spec">Source on GitHub</a>
     </p>

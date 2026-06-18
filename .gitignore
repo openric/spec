@@ -18,3 +18,8 @@ validator/.ruff_cache/
 validator/build/
 validator/dist/
 *.pyc
+
+# Local agent / tooling config (do not publish to the public spec repo)
+.claude/
+.mcp.json
+CLAUDE.md
