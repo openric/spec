@@ -31,3 +31,13 @@ Symptom: everything below the diagram — `# System map`, `## The profiles`, `##
 - **Embedding Markdown in a Jekyll page requires a `.md` extension** — a `.html` file with a Markdown body silently renders the Markdown raw. Diagram/JS pages that mix `<pre class="mermaid">` + Markdown prose must be `.md`; embedded block HTML still passes through kramdown untouched.
 - **Mermaid 10 + svg-pan-zoom** needs a sized container + the SVG forced to fill (`max-width:none`, explicit `width/height`) and an explicit `fit()/center()` after a `requestAnimationFrame`, or the diagram collapses into the corner.
 - After any openric.org change, confirm live against `server: GitHub.com` with a `?cb=` cache-buster — editing files on this host changes nothing until pushed.
+
+## Follow-up — v0.43.4: mobile pinch-zoom + black-box background
+
+Two more issues surfaced when viewing on mobile:
+
+1. **No two-finger pinch zoom on mobile.** Root cause: **svg-pan-zoom has no built-in touch support** — its docs require **Hammer.js** + a custom events handler. Added `hammerjs@2.0.8` and the library's official mobile recipe (`customEventsHandler` wiring `pinch`/`pan`/`doubletap` to `zoomAtPoint`/`panBy`/`zoomIn`), passed only when `window.Hammer` is present. Touch coexists with the default desktop mouse-wheel/drag handlers. Added `touch-action: none` on the SVG so the browser hands the gesture to the diagram instead of zooming the page.
+
+2. **The "black box" behind the diagram.** Root cause: the global stylesheet's `pre { background: #0f172a; color: #e2e8f0 }` (code-block styling) was bleeding onto `<pre class="mermaid">`, so the neutral-theme diagram floated on dark navy. Fix: `.diagram-wrap .mermaid { background: var(--bg); color: var(--fg) }` (class selector beats the bare `pre` rule) → diagram now sits on white.
+
+Reusable lesson: **svg-pan-zoom needs Hammer.js for any mobile pinch/pan** — it is mouse-only out of the box. And **`<pre class="mermaid">` inherits global `pre` code-block CSS** — reset its background/colour explicitly.
