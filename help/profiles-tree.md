@@ -7,8 +7,8 @@ permalink: /help/profiles-tree/
 
 <style>
   .diagram-wrap { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); overflow: hidden; margin: 1rem 0; }
-  .diagram-wrap .mermaid { padding: 1rem; height: 460px; }
-  .diagram-wrap .mermaid svg { width: 100%; height: 100%; max-width: none; display: block; }
+  .diagram-wrap .mermaid { padding: 1rem; height: 460px; background: var(--bg); color: var(--fg); }
+  .diagram-wrap .mermaid svg { width: 100%; height: 100%; max-width: none; display: block; touch-action: none; }
   .legend { font-size: .9rem; color: var(--muted-2); }
 </style>
 
@@ -88,7 +88,33 @@ See [Conformance & profiles](/help/conformance-and-profiles/) for how to claim a
 
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
 <script>
+  // svg-pan-zoom has no built-in touch support, so two-finger pinch/pan on mobile
+  // needs Hammer.js wired through a custom events handler (the library's own mobile
+  // recipe). Touch coexists with the default mouse-wheel/drag handlers on desktop.
+  var mobileEventsHandler = {
+    haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel'],
+    init: function (options) {
+      var instance = options.instance, initialScale = 1, pannedX = 0, pannedY = 0;
+      this.hammer = Hammer(options.svgElement, {
+        inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchInput
+      });
+      this.hammer.get('pinch').set({ enable: true });
+      this.hammer.on('doubletap', function () { instance.zoomIn(); });
+      this.hammer.on('panstart panmove', function (ev) {
+        if (ev.type === 'panstart') { pannedX = 0; pannedY = 0; }
+        instance.panBy({ x: ev.deltaX - pannedX, y: ev.deltaY - pannedY });
+        pannedX = ev.deltaX; pannedY = ev.deltaY;
+      });
+      this.hammer.on('pinchstart pinchmove', function (ev) {
+        if (ev.type === 'pinchstart') { initialScale = instance.getZoom(); }
+        instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y });
+      });
+      options.svgElement.addEventListener('touchmove', function (e) { e.preventDefault(); });
+    },
+    destroy: function () { this.hammer.destroy(); }
+  };
   mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', theme: 'neutral' });
   mermaid.run({ querySelector: '.mermaid' }).then(function () {
     document.querySelectorAll('.diagram-wrap svg').forEach(function (svg) {
@@ -102,7 +128,10 @@ See [Conformance & profiles](/help/conformance-and-profiles/) for how to claim a
       svg.style.height = '100%';
       if (window.svgPanZoom) {
         try {
-          var pz = svgPanZoom(svg, { controlIconsEnabled: true, fit: true, center: true, minZoom: 0.4, contain: true });
+          var pz = svgPanZoom(svg, {
+            controlIconsEnabled: true, fit: true, center: true, minZoom: 0.4, contain: true,
+            customEventsHandler: (window.Hammer ? mobileEventsHandler : undefined)
+          });
           requestAnimationFrame(function () { pz.resize(); pz.fit(); pz.center(); });
         } catch (e) {}
       }
