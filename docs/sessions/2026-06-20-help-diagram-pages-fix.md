@@ -41,3 +41,14 @@ Two more issues surfaced when viewing on mobile:
 2. **The "black box" behind the diagram.** Root cause: the global stylesheet's `pre { background: #0f172a; color: #e2e8f0 }` (code-block styling) was bleeding onto `<pre class="mermaid">`, so the neutral-theme diagram floated on dark navy. Fix: `.diagram-wrap .mermaid { background: var(--bg); color: var(--fg) }` (class selector beats the bare `pre` rule) → diagram now sits on white.
 
 Reusable lesson: **svg-pan-zoom needs Hammer.js for any mobile pinch/pan** — it is mouse-only out of the box. And **`<pre class="mermaid">` inherits global `pre` code-block CSS** — reset its background/colour explicitly.
+
+## Audit — are other help pages affected? (no)
+
+Swept the whole site for the four issues fixed above. **Only `system-map` and `profiles-tree` were ever affected; everything else is already correct.**
+
+- **Other Mermaid diagrams / svg-pan-zoom usage:** none site-wide except the two fixed pages (CHANGELOG + session-log hits are text mentions, not live diagrams).
+- **`.html` pages with raw Markdown bodies:** none. `help/index.html` and `help/search.html` are pure HTML (no heading/bold/list body lines, no `<pre>`). The standalone `for-archivists.html` / `for-developers.html` are also pure HTML — verified live with **0** raw-markdown lines each.
+- **The 17 `_help/*.md` articles** (glossary, faq, quick-tour, sparql, …) are all `.md`, so kramdown renders them by design, and none embed Mermaid.
+- **Scope of the background fix was correct:** `_help/*.md` articles legitimately use fenced code blocks that *should* keep the dark `pre { background:#0f172a }` styling — that's real code, a different element from `<pre class="mermaid">`. The fix targeted `.diagram-wrap .mermaid` only, so genuine code blocks are untouched.
+
+Conclusion: no further pages to ship.
