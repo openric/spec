@@ -1,0 +1,35 @@
+# OpenRiC — Inferred-Provenance profile SHACL shapes (v0.43.0)
+#
+# Copyright (C) 2026 Johan Pieterse / Plain Sailing iSystems. CC-BY 4.0.
+#
+# Enforces the distinguishability guarantee: a node marked as a machine-asserted
+# ("inferred") assertion MUST carry its PROV-O provenance block. Human-asserted
+# data carries no openricx:assertionStatus, so no shape targets it — absence of
+# the marker means asserted fact.
+
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prov:     <http://www.w3.org/ns/prov#> .
+@prefix openricx: <https://openric.org/ns/ext/v1#> .
+
+<https://openric.org/ric/shapes#InferredAssertionShape>
+    a sh:NodeShape ;
+    rdfs:label "Inferred assertions must carry PROV-O provenance" ;
+    sh:targetSubjectsOf openricx:assertionStatus ;
+    sh:property [
+        sh:path openricx:assertionStatus ;
+        sh:in ( "inferred" ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "openricx:assertionStatus, when present, must be \"inferred\" (absence = asserted fact)." ;
+    ] ;
+    sh:property [
+        sh:path prov:wasGeneratedBy ;
+        sh:minCount 1 ;
+        sh:message "An inferred assertion MUST declare prov:wasGeneratedBy (the model / prov:SoftwareAgent)." ;
+    ] ;
+    sh:property [
+        sh:path openricx:confidence ;
+        sh:minCount 1 ;
+        sh:message "An inferred assertion MUST carry openricx:confidence (0–1)." ;
+    ] .

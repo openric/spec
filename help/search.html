@@ -1,0 +1,29 @@
+---
+layout: default
+title: Search the OpenRiC help
+description: Full-text search across the OpenRiC help articles.
+permalink: /help/search/
+---
+
+<style>
+  .help-search-page { max-width: 760px; margin: 0 auto; }
+  #help-search-q { width: 100%; padding: .8rem 1rem; font: inherit; font-size: 1.05rem; border: 1px solid var(--border); border-radius: 10px; box-sizing: border-box; margin-bottom: 1.2rem; }
+  #help-search-q:focus { outline: none; border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(31,95,168,.15); }
+  a.help-sr { display: block; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: 9px; margin-bottom: .7rem; color: var(--fg); }
+  a.help-sr:hover { border-color: var(--accent-2); text-decoration: none; box-shadow: var(--shadow); }
+  .help-sr .r-cat { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--accent-2); }
+  .help-sr .r-title { font-weight: 600; font-size: 1.05rem; }
+  .help-sr .r-sum { color: var(--muted-2); font-size: .92rem; }
+  .help-search-page .muted { color: var(--muted); }
+</style>
+
+<div class="help-search-page">
+  <p style="font-size:.85rem;color:var(--muted);"><a href="{{ '/help/' | relative_url }}">← Help home</a></p>
+  <h1>Search the help</h1>
+  <input type="search" id="help-search-q" placeholder="Search the OpenRiC help…" autocomplete="off" aria-label="Search help">
+  <div id="help-search-results"></div>
+</div>
+
+<script src="{{ '/assets/js/lunr.min.js' | relative_url }}"></script>
+<script>window.HELP_INDEX_URL = "{{ '/help/search-index.json' | relative_url }}"; window.HELP_SEARCH_URL = "{{ '/help/search/' | relative_url }}";</script>
+<script src="{{ '/assets/js/help-search.js' | relative_url }}"></script>

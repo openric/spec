@@ -85,8 +85,13 @@ Consumers MUST read this field before issuing any requests that depend on a spec
 | [**Round-Trip Editing**](round-trip-editing.html) | **v0.34.0 normative** | Full write surface — POST/PATCH/DELETE on every entity + relations, gated by API-key scopes, with a public audit trail via `/{type}/{id}/revisions`. |
 | [**Provenance & Event**](provenance-event.html) | **v0.35.0 normative** | Tightened Activity shapes — Production/Accumulation/Activity with required results, participants, dates. Depends on Authority & Context. |
 | [**Export-Only**](export-only.html) | **v0.36.0 normative** | OAI-PMH v2.0 harvest (`oai_dc` + `rico_ld`) plus content-negotiated per-record JSON-LD / Turtle / RDF-XML dumps. |
+| [**SPARQL Access**](sparql-access.html) | **v0.1.0 draft** | Read-only SPARQL 1.1 query endpoint (`/sparql`, `/sparql/info`), public-read, rate-limited, Update rejected. |
+| [**Governance**](governance.html) | **v0.43.0 draft** | The meaning layer — pinned standards, two-layer IRI policy, deprecate-not-delete stable IRIs, SHACL as a merge gate, versioned change process. |
+| [**Portability**](portability.html) | **v0.43.0 draft** | Anti-lock-in — lossless JSON-LD/Turtle round-trip (proven by test), DCAT/VoID dataset descriptor + `/changelog`, optional validate-on-export. |
+| [**Inferred-Provenance**](inferred-provenance.html) | **v0.43.0 draft** | AI inference is never passed off as fact — `prov:wasGeneratedBy` + `assertionStatus`/confidence/receipt on machine assertions; absence ⇒ asserted fact. |
+| [**Graph-Grounding**](graph-grounding.html) | **v0.43.0 draft** | Read-only `GET /ground` so any agent/RAG disambiguates against the graph; vector↔graph join on the public entity IRI; fail-open. |
 
-**All seven profiles normative as of v0.36.0.** Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. The profile matrix is complete; v1.0 freeze now depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors), not on more profiles.
+**Seven profiles normative (v0.36.0); five in draft.** Normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. Draft (open for comment): SPARQL Access, and the v0.43 governance line — Governance, Portability, Inferred-Provenance, Graph-Grounding — each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
 
 <!-- TK Q1: confirm "profile" vs "level" naming. Profile chosen because our six axes are orthogonal, not a strict progression. -->
 

@@ -1,0 +1,78 @@
+---
+layout: default
+---
+<style>
+  .help-wrap { display: grid; grid-template-columns: 232px minmax(0,1fr) 200px; gap: 2rem; align-items: start; }
+  .help-side { position: sticky; top: 5rem; font-size: 0.9rem; max-height: calc(100vh - 6rem); overflow-y: auto; }
+  .help-side .help-search-mini { width: 100%; padding: .45rem .6rem; border: 1px solid var(--border); border-radius: 7px; font: inherit; font-size: .88rem; margin-bottom: .8rem; }
+  .help-cat { margin-bottom: 1rem; }
+  .help-cat > .help-cat-name { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; display: block; margin-bottom: .35rem; }
+  .help-cat a { display: block; color: var(--muted-2); padding: .2rem .5rem; border-radius: 5px; border-left: 2px solid transparent; }
+  .help-cat a:hover { color: var(--accent); background: var(--surface-2); text-decoration: none; }
+  .help-cat a.active { color: var(--accent); border-left-color: var(--accent-2); background: var(--surface-2); font-weight: 600; }
+  .help-main { min-width: 0; }
+  .help-crumb { font-size: .82rem; color: var(--muted); margin-bottom: .6rem; }
+  .help-crumb a { color: var(--muted-2); }
+  .help-summary { font-size: 1.1rem; color: var(--muted-2); line-height: 1.55; margin: .2rem 0 1.5rem; }
+  .help-toc { position: sticky; top: 5rem; font-size: .82rem; }
+  .help-toc-title { text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; font-size: .7rem; margin-bottom: .5rem; }
+  .help-toc a { display: block; color: var(--muted-2); padding: .15rem 0; border-left: 2px solid var(--border); padding-left: .6rem; }
+  .help-toc a.h3 { padding-left: 1.2rem; font-size: .95em; }
+  .help-toc a:hover { color: var(--accent); text-decoration: none; }
+  .help-related { margin-top: 2.5rem; border-top: 1px solid var(--border); padding-top: 1.2rem; }
+  .help-related h3 { margin-top: 0; }
+  .help-related a { display: inline-block; margin: .2rem .4rem .2rem 0; padding: .3rem .7rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; font-size: .9rem; }
+  .help-feedback { margin-top: 2rem; font-size: .85rem; color: var(--muted); }
+  @media (max-width: 1000px) { .help-wrap { grid-template-columns: 1fr; } .help-side, .help-toc { position: static; max-height: none; } .help-toc { display: none; } }
+</style>
+
+<div class="help-wrap">
+  <aside class="help-side">
+    <input type="search" class="help-search-mini" placeholder="Search help…" onkeydown="if(event.key==='Enter'){location.href='{{ '/help/search/' | relative_url }}?q='+encodeURIComponent(this.value)}">
+    <a href="{{ '/help/' | relative_url }}" class="help-cat-home">← Help home</a>
+    {% assign cats = site.help | group_by: "category" | sort: "name" %}
+    {% for cat in cats %}
+      <div class="help-cat">
+        <span class="help-cat-name">{{ cat.name }}</span>
+        {% assign arts = cat.items | sort: "order" %}
+        {% for a in arts %}<a href="{{ a.url | relative_url }}"{% if a.url == page.url %} class="active"{% endif %}>{{ a.title }}</a>{% endfor %}
+      </div>
+    {% endfor %}
+  </aside>
+
+  <main class="help-main">
+    <div class="help-crumb"><a href="{{ '/help/' | relative_url }}">Help</a> › {{ page.category }} › {{ page.title }}</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.summary %}<p class="help-summary">{{ page.summary }}</p>{% endif %}
+    <div id="help-body">{{ content }}</div>
+
+    {% assign related = site.help | where: "category", page.category | sort: "order" %}
+    {% if related.size > 1 %}
+    <div class="help-related">
+      <h3>More in {{ page.category }}</h3>
+      {% for a in related %}{% unless a.url == page.url %}<a href="{{ a.url | relative_url }}">{{ a.title }}</a>{% endunless %}{% endfor %}
+    </div>
+    {% endif %}
+
+    <p class="help-feedback">Something missing or unclear? <a href="https://github.com/openric/spec/discussions">Tell us in Discussions</a> or email <a href="mailto:johan@theahg.co.za">johan@theahg.co.za</a>.</p>
+  </main>
+
+  <nav class="help-toc" id="help-toc" aria-label="On this page"></nav>
+</div>
+
+<script>
+// Build an on-this-page TOC from the article's h2/h3, with anchor ids.
+(function () {
+  var body = document.getElementById('help-body');
+  var toc = document.getElementById('help-toc');
+  if (!body || !toc) return;
+  var heads = body.querySelectorAll('h2, h3');
+  if (heads.length < 2) { toc.style.display = 'none'; return; }
+  var html = '<div class="help-toc-title">On this page</div>';
+  heads.forEach(function (h, i) {
+    if (!h.id) h.id = 'h-' + i + '-' + (h.textContent || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    html += '<a class="' + h.tagName.toLowerCase() + '" href="#' + h.id + '">' + h.textContent + '</a>';
+  });
+  toc.innerHTML = html;
+})();
+</script>

@@ -1,5 +1,28 @@
 # OpenRiC Specification — Changelog
 
+## v0.43.0 — 2026-06-19
+
+### Governance-line draft profiles (ported from the Heratio reference implementation)
+
+Five proven-in-Heratio capabilities are specified as new **draft** OpenRiC profiles (ArchiveHeritageGroup/OpenRiC #1–#5):
+
+- **Governance** (`spec/profiles/governance.md`) — pinned standards (RiC-O 1.0.2 · SKOS · PROV-O · CIDOC-CRM 7.1.3), the **two-layer IRI policy** (`urn:ahg:ric:…` internal / `https://…/ric/…` public export), the projection-manifest rule, **deprecate-not-delete** stable IRIs (`owl:deprecated` + `dcterms:isReplacedBy`, issue #3), **SHACL as a merge gate**, and the versioned change process.
+- **Portability** (`spec/profiles/portability.md`) — the anti-lock-in guarantee: lossless JSON-LD/Turtle **round-trip** (proven by an automated test), a **DCAT/VoID** dataset descriptor (`/dataset`, schema `schemas/dataset.schema.json`) + `/changelog`, and an optional **validate-on-export** hook (`?validate=1` → `X-SHACL-Conformant`).
+- **Inferred-Provenance** (`spec/profiles/inferred-provenance.md`) — AI inference is never passed off as fact: machine-asserted entities/edges carry `prov:wasGeneratedBy` + `openricx:assertionStatus`/confidence/receipt; **absence of provenance ⇒ asserted fact**. New SHACL shape `shapes/profiles/inferred-provenance.shacl.ttl`. Ties the openric.org modelling-wizard AI surface into a normative provenance contract.
+- **Graph-Grounding** (`spec/profiles/graph-grounding.md`) — read-only `GET /ground` so any agent/RAG disambiguates against the graph (`{query, entities[], grounding_text}`, schema `schemas/ground.schema.json`); vector↔graph join on the public entity IRI; flag-guarded, fail-open.
+
+Also: registered the profiles (plus the previously-shipped **SPARQL Access**) in `spec/profiles/index.md`. Seven profiles normative, five draft.
+
+### Help centre (`/help`)
+
+A full, searchable help centre at [openric.org/help](https://openric.org/help) — the same two-door (archivist / technical) spirit as the redesigned home, now with sample-rich how-tos:
+
+- **17 articles** (`_help/*.md`) across eight categories — Getting started, The model, Using the API, The clients, Conformance & profiles, For institutions, For developers, Reference — each with copy-paste samples (curl, JSON-LD, SPARQL, OAI-PMH, the conformance probe).
+- **Client-side search** powered by a vendored **lunr.js** index built at site-build time (`help/search-index.json`), with an instant dropdown on the help home and a dedicated `/help/search/` page (`assets/js/help-search.js`, `assets/js/lunr.min.js`).
+- **Two interactive diagrams** — a clickable **system map** (`/help/system-map/`) and a **profiles tree** (`/help/profiles-tree/`), rendered with Mermaid + svg-pan-zoom and drill-down links into the spec.
+- New `help` Jekyll collection (`/help/:name/`), `_layouts/help.html` (sidebar + TOC), and a **Help** link in the site nav.
+- `bin/check-links.py` now resolves the `help` collection permalinks (no false positives on inter-article links).
+
 ## v0.38.3 — 2026-05-25
 
 ### Conformance probe: SPARQL probes hardened + `/sparql/info` added

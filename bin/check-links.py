@@ -44,6 +44,16 @@ def resolves(md_file: pathlib.Path, target: str) -> bool:
     if rel == "":
         return True  # site root / directory root
 
+    # Collection permalinks: Jekyll serves `_help/<name>.md` at `/help/<name>/`
+    # (per _config.yml `collections.help.permalink: /help/:name/`). These have no
+    # file at `<root>/help/<name>` on disk, so resolve them against the collection
+    # source folder. The collection's own index pages (help/index.html etc.) still
+    # resolve via the normal path logic below.
+    if target.startswith("/help/"):
+        name = target[len("/help/"):].rstrip("/")
+        if name and "/" not in name and (ROOT / "_help" / f"{name}.md").exists():
+            return True
+
     b = base / rel
     candidates = [
         b,

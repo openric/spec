@@ -8,6 +8,18 @@ author:
   name: The OpenRiC initiative
   email: johan@theahg.co.za
 
+collections:
+  help:
+    output: true
+    permalink: /help/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: help
+    values:
+      layout: help
+
 exclude:
   - README.md
   - .gitignore
