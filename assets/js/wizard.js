@@ -94,7 +94,11 @@
       if (s.id === state.scenario.id) o.selected = "selected";
       sel.appendChild(o);
     });
-    return el("div", { class: "wiz-pick-row" }, [el("label", { text: "Scenario" }), sel]);
+    return el("div", { class: "wiz-pick-row" }, [
+      el("label", { for: "wiz-pick", text: "📂 Choose a scenario" }),
+      sel,
+      el("span", { class: "wiz-pick-hint", text: state.index.length + " worked examples" })
+    ]);
   }
 
   function progress() {

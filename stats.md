@@ -45,7 +45,9 @@ sitemap: false
     <button data-days="30" class="active">30 days</button>
     <button data-days="90">90 days</button>
     <span class="st-muted" id="st-since"></span>
-    <button onclick="window.__stForget()" style="margin-left:auto">Sign out</button>
+    <button onclick="window.__stCsv('usage')" style="margin-left:auto" title="Download the full usage table for this range">⬇ Usage CSV</button>
+    <button onclick="window.__stCsv('questions')" title="Download submitted questions for this range">⬇ Questions CSV</button>
+    <button onclick="window.__stForget()">Sign out</button>
   </div>
   <div class="st-cards" id="st-cards"></div>
   <div class="st-grid" id="st-grid"></div>
@@ -68,6 +70,16 @@ sitemap: false
   function showApp() { gate.style.display = "none"; app.style.display = "block"; }
 
   window.__stForget = function () { localStorage.removeItem(KEY); showGate(""); };
+  window.__stCsv = function (which) {
+    fetch(API + "?days=" + days + "&format=csv&export=" + which, { headers: { "Authorization": "Bearer " + token() } })
+      .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.blob(); })
+      .then(function (b) {
+        var u = URL.createObjectURL(b), a = document.createElement("a");
+        a.href = u; a.download = "openric-" + which + "-last" + days + "d.csv";
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u);
+      })
+      .catch(function () { alert("Download failed — please re-check your admin token."); });
+  };
   window.__stLoad = function () {
     var t = document.getElementById("st-token").value.trim();
     if (t) localStorage.setItem(KEY, t);
