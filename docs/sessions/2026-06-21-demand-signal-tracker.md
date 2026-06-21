@@ -30,3 +30,10 @@ Spans **openric-spec** (openric.org, GitHub Pages) and the **OpenRiC** Laravel s
 
 ## Privacy posture (for any future reviewer)
 Only personal datum anywhere is the **optional, volunteered** reply-to email on the contact form. Everything else is aggregate counts with no identity. Search-query text is content-interest, not identity. `/stats` is token-gated because the (anonymous) search list is internal intelligence.
+
+## Follow-up — CSV export + prominent scenario picker (service v0.16.1, site v0.43.6)
+- **CSV download**: `GET /api/ric/v1/stats?format=csv&export=usage|questions` (Bearer-gated) streams the full usage rollup or the questions for the `?days=` window via `response()->streamDownload` + `fputcsv`. `/stats` dashboard gained ⬇ Usage CSV / ⬇ Questions CSV buttons (fetch-with-Authorization → Blob download, since `<a href>` can't carry the Bearer). Hardened the token test (override `$_SERVER` too — a real `.env` token was leaking into the test env via the ServerConst adapter); +1 CSV test (9 total).
+- **Wizard**: scenario picker restyled into a prominent accent card ("📂 Choose a scenario" + "N worked examples" hint) so visitors notice they can switch scenarios.
+
+## RiC modelling note (asked via /wizard/, answered from KM source=ric)
+Q: magnetic tape with mixed-provenance tracks — Record + Record Parts? Answer: the deciding test is intellectual independence, NOT "different agents" (RiC-E05 Record Part *can* carry its own provenance). Genuinely mixed/independent provenance → each track = **Record (E04)**, grouped by **Record Set (E03)**, tape = shared **Instantiation (E06)**; per-track Agents via `has_creator`. Record + Record Parts is only right if the tape is one intellectual record with track-level subdivisions. Grounded in RiC Users group threads (instantiation-vs-record-set).
