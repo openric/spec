@@ -10,6 +10,20 @@
 (function () {
   var idx = null, docs = [];
 
+  // Anonymous demand signal: log a SETTLED search query (debounced + de-duped),
+  // never per keystroke. This is the clearest "what people want to know" signal.
+  var lastTracked = "", trackTimer = null;
+  function trackSearch(v) {
+    v = (v || "").trim().toLowerCase();
+    if (v.length < 2) return;
+    clearTimeout(trackTimer);
+    trackTimer = setTimeout(function () {
+      if (v === lastTracked) return;
+      lastTracked = v;
+      if (window.openricTrack) window.openricTrack("search", v);
+    }, 1200);
+  }
+
   function esc(s) { return (s || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
   function load(cb) {
@@ -58,6 +72,7 @@
       var v = q.value.trim();
       if (v.length < 2) { box.style.display = "none"; return; }
       load(function () { render(run(v)); });
+      trackSearch(v);
     });
     q.addEventListener("keydown", function (e) {
       var a = box.querySelectorAll("a");
@@ -83,6 +98,7 @@
     function doPage(v) {
       load(function () {
         if (!v) { page.innerHTML = ""; return; }
+        trackSearch(v);
         var items = run(v);
         page.innerHTML = items.length
           ? '<p class="muted">' + items.length + " result" + (items.length > 1 ? "s" : "") + ' for &ldquo;' + esc(v) + '&rdquo;</p>' + items.map(function (d) { return card(d, "help-sr"); }).join("")

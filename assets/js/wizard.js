@@ -209,6 +209,7 @@
   }
 
   function renderOutcome() {
+    if (window.openricTrack && state.scenario) window.openricTrack("wizard_completed", state.scenario.id || "(unnamed)");
     var o = state.scenario.outcome || {};
     var links = el("div", { class: "wiz-out-links" });
     (o.links || []).forEach(function (l) { links.appendChild(el("a", { class: "wiz-out-link", href: l.href }, [l.label + " →"])); });
@@ -226,7 +227,10 @@
   function swap(node) { var h = document.getElementById("wiz-stage"); h.innerHTML = ""; h.appendChild(node); }
 
   function restart() { state.captured = {}; state.trail = []; goTo(state.scenario.steps[0].id); }
-  function start() { swap(el("div", {}, [])); state.trail = []; goTo(state.scenario.steps[0].id); }
+  function start() {
+    if (window.openricTrack && state.scenario) window.openricTrack("wizard_started", state.scenario.id || "(unnamed)");
+    swap(el("div", {}, [])); state.trail = []; goTo(state.scenario.steps[0].id);
+  }
 
   // Fetch JSON with an r.ok check (clear errors, not "Unexpected token <")
   // and a couple of retries — GitHub Pages briefly 404s every path while it

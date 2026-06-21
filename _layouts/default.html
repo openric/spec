@@ -486,9 +486,13 @@
       &middot;
       <a href="{{ '/governance.html' | relative_url }}">Governance</a>
       &middot;
+      <a href="{{ '/ask/' | relative_url }}">Ask a question</a>
+      &middot;
       <a href="https://github.com/openric/spec">Source on GitHub</a>
     </p>
   </footer>
 
+  <!-- Anonymous demand-signal beacon (no personal data) — see assets/js/track.js -->
+  <script src="{{ '/assets/js/track.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 </body>
 </html>
