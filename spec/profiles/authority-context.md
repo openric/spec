@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenRiC — Authority & Context Profile
+title: OpenRiC - Authority & Context Profile
 description: First-class Places, Rules, and Activities with reconciliation-friendly identifiers. The contextual entities that qualify records.
 ---
 
@@ -10,20 +10,20 @@ description: First-class Places, Rules, and Activities with reconciliation-frien
 **Profile version:** 0.4.0
 **Spec version:** 0.31.0
 **Status:** Normative
-**Dependencies:** None — orthogonal to Core Discovery
+**Dependencies:** None - orthogonal to Core Discovery
 **Last updated:** 2026-04-21
 
 ---
 
 ## 1. Purpose
 
-Authority & Context is the OpenRiC profile for **the contextual entities that qualify a record** — the places records are about or from, the rules (legislation, mandates, policies) records were created under, and the activities (production, accumulation, custody) that brought records into being or kept them moving. Core Discovery lets a client find a record and its custodial agent; Authority & Context lets that client answer *where, under what rule, and during which event*.
+Authority & Context is the OpenRiC profile for **the contextual entities that qualify a record** - the places records are about or from, the rules (legislation, mandates, policies) records were created under, and the activities (production, accumulation, custody) that brought records into being or kept them moving. Core Discovery lets a client find a record and its custodial agent; Authority & Context lets that client answer *where, under what rule, and during which event*.
 
 A server implementing this profile commits to three things:
 
 1. **Expose `rico:Place`, `rico:Rule`, `rico:Activity` entities** at stable URIs under `/api/ric/v1/{places,rules,activities}/{id}`. Activities carry `rico:hasActivityType` (production / accumulation / custody / etc.) per `spec/mapping.md` §6.5; there are no concrete `rico:Activity` subclasses in RiC-O 1.1.
-2. **Carry reconciliation-friendly identifiers** on those entities — at minimum `owl:sameAs` links to an external authority (GeoNames, VIAF, Wikidata, a local thesaurus URI) whenever the backing data has one. This is what makes OpenRiC authorities *useful* to the wider linked-data ecosystem rather than yet another walled garden.
-3. **Preserve hierarchy and qualification structure** — place parentage via `rico:isOrWasPartOf`, date ranges on activities via `rico:isAssociatedWithDate → openricx:DateRange`, jurisdictions on rules via `openric:jurisdiction`.
+2. **Carry reconciliation-friendly identifiers** on those entities - at minimum `owl:sameAs` links to an external authority (GeoNames, VIAF, Wikidata, a local thesaurus URI) whenever the backing data has one. This is what makes OpenRiC authorities *useful* to the wider linked-data ecosystem rather than yet another walled garden.
+3. **Preserve hierarchy and qualification structure** - place parentage via `rico:isOrWasPartOf`, date ranges on activities via `rico:isAssociatedWithDate → openricx:DateRange`, jurisdictions on rules via `openric:jurisdiction`.
 
 This profile is **orthogonal to Core Discovery**: a server MAY claim Authority & Context without Core Discovery (useful for servers that primarily expose thesauri / place authorities and do not hold records), and vice versa. A server that holds records *and* wants to expose their contextual authority should claim both.
 
@@ -48,7 +48,7 @@ Pagination rules match Core Discovery §3.3 (default page size 50, max 200, `ope
 
 | Verb | Path | Purpose |
 |---|---|---|
-| GET | `/api/ric/v1/places/flat` | Flattened place hierarchy (one row per place, parent_id column) — convenience for clients that cannot walk `rico:isOrWasPartOf` recursively |
+| GET | `/api/ric/v1/places/flat` | Flattened place hierarchy (one row per place, parent_id column) - convenience for clients that cannot walk `rico:isOrWasPartOf` recursively |
 
 Servers MAY expose additional endpoints (e.g., a type-filtered `/places?type=country`). Any such endpoint outside this table is outside the profile's normative surface.
 
@@ -64,7 +64,7 @@ All responses MUST be `application/ld+json` (success) or `application/problem+js
 
 ## 3. Response shapes
 
-### 3.1 Place — `GET /places/{id}`
+### 3.1 Place - `GET /places/{id}`
 
 A Place is a location or geographic entity. At minimum: `@id`, `@type: "rico:Place"`, and a name (either `rico:name` shorthand OR a structured `rico:hasOrHadPlaceName`). Everything else is OPTIONAL but SHOULD be emitted when the backing data carries it.
 
@@ -101,10 +101,10 @@ A Place is a location or geographic entity. At minimum: `@id`, `@type: "rico:Pla
 | `openricx:streetAddress` | Single-line address |
 | `rico:latitude`, `rico:longitude` | Decimal degrees, WGS84 |
 | `openric:localType` | Implementation-specific tag (`country`, `city`, `site`, `region`, …) |
-| `owl:sameAs` | Authority URI — GeoNames, Wikidata, Getty TGN. **STRONGLY RECOMMENDED when the backing row has one.** |
+| `owl:sameAs` | Authority URI - GeoNames, Wikidata, Getty TGN. **STRONGLY RECOMMENDED when the backing row has one.** |
 | `rico:isOrWasPartOf` | Parent Place, embedded as a stub with `@id`, `@type: "rico:Place"`, `rico:name` |
 
-### 3.2 Place hierarchy — `rico:isOrWasPartOf`
+### 3.2 Place hierarchy - `rico:isOrWasPartOf`
 
 Places form a tree via `rico:isOrWasPartOf`. A nested place MUST embed its parent as a stub (not a full Place), so clients can walk one level up without a second fetch. Deeper ancestors require either a second call to the parent's `@id` or a walk of `/places/flat`.
 
@@ -121,9 +121,9 @@ Places form a tree via `rico:isOrWasPartOf`. A nested place MUST embed its paren
 }
 ```
 
-### 3.3 Rule — `GET /rules/{id}`
+### 3.3 Rule - `GET /rules/{id}`
 
-A Rule is a law, regulation, mandate, policy, or other governing instrument. At minimum: `@id`, `@type: "rico:Rule"`, and `rico:title`. The SHACL `:RuleShape` additionally requires that **at least one** of `openricx:descriptiveNote` or `rico:hasOrHadRuleType` is present — a Rule with only a title carries no actionable semantics.
+A Rule is a law, regulation, mandate, policy, or other governing instrument. At minimum: `@id`, `@type: "rico:Rule"`, and `rico:title`. The SHACL `:RuleShape` additionally requires that **at least one** of `openricx:descriptiveNote` or `rico:hasOrHadRuleType` is present - a Rule with only a title carries no actionable semantics.
 
 ```json
 {
@@ -149,13 +149,13 @@ A Rule is a law, regulation, mandate, policy, or other governing instrument. At 
 
 **Optional but normative when present:** `openricx:description`, `rico:hasOrHadRuleType` (`law`, `regulation`, `mandate`, `policy`, `custom`), `openric:jurisdiction`, `dcterms:source`, `owl:sameAs`, `openricx:hasDateRangeSet`.
 
-### 3.4 Activity — `GET /activities/{id}`
+### 3.4 Activity - `GET /activities/{id}`
 
-Activities are events — things that happened to or with records. RiC-O 1.1 has only the parent class `rico:Activity` (no concrete `rico:Production` / `rico:Accumulation` subclasses); OpenRiC distinguishes event kinds via `rico:hasActivityType` carrying an IRI from the activity-type vocabulary defined in `spec/mapping.md` §6.5:
+Activities are events - things that happened to or with records. RiC-O 1.1 has only the parent class `rico:Activity` (no concrete `rico:Production` / `rico:Accumulation` subclasses); OpenRiC distinguishes event kinds via `rico:hasActivityType` carrying an IRI from the activity-type vocabulary defined in `spec/mapping.md` §6.5:
 
-- `<https://openric.org/vocab/activity-type/production>` — creation, contribution, any event that **produced** records
-- `<https://openric.org/vocab/activity-type/accumulation>` — aggregation, collection-building, any event that **brought records together**
-- `<https://openric.org/vocab/activity-type/custody>`, `<…/transfer>`, `<…/publication>`, `<…/reproduction>` — for events that don't fit the two above
+- `<https://openric.org/vocab/activity-type/production>` - creation, contribution, any event that **produced** records
+- `<https://openric.org/vocab/activity-type/accumulation>` - aggregation, collection-building, any event that **brought records together**
+- `<https://openric.org/vocab/activity-type/custody>`, `<…/transfer>`, `<…/publication>`, `<…/reproduction>` - for events that don't fit the two above
 
 Servers MUST emit the activity-type IRI that best matches the backing event-type taxonomy. Omitting `hasActivityType` on a backing event-type that *does* have a canonical mapping is a conformance failure at SHACL level (the per-type shapes have stricter recommendations).
 
@@ -177,13 +177,13 @@ Servers MUST emit the activity-type IRI that best matches the backing event-type
 
 **Required:** `@id`, `@type: "rico:Activity"`, `rico:name`. `rico:hasActivityType` is required when the backing data has a canonical event-type (Warning if absent for unknown event types).
 
-**Strongly recommended** (Warning at SHACL level — see §5):
+**Strongly recommended** (Warning at SHACL level - see §5):
 
-- `rico:isAssociatedWithDate` → `openricx:DateRange` — activities without a date are hard to reason about.
+- `rico:isAssociatedWithDate` → `openricx:DateRange` - activities without a date are hard to reason about.
 - For production-typed Activities: `rico:resultsOrResultedIn` (at least one resulting Record) and `rico:hasOrHadParticipant` (the creator agent).
 - For accumulation-typed Activities: `rico:resultsOrResultedIn`.
 
-Cross-entity references (`rico:resultsOrResultedIn`, `rico:hasOrHadParticipant`) MAY be emitted as stubs (just `@id` + `@type`) or as full embedded objects — implementations SHOULD use stubs on single-entity responses and full objects only when the depth is requested via `/graph` (Graph Traversal profile).
+Cross-entity references (`rico:resultsOrResultedIn`, `rico:hasOrHadParticipant`) MAY be emitted as stubs (just `@id` + `@type`) or as full embedded objects - implementations SHOULD use stubs on single-entity responses and full objects only when the depth is requested via `/graph` (Graph Traversal profile).
 
 ### 3.5 List envelopes
 
@@ -197,7 +197,7 @@ Each list envelope wraps `openric:items` as an array of **stubs** containing `@i
 
 ## 4. Error handling
 
-Error responses MUST follow Core Discovery §4 and §4.1 — `application/problem+json` with the nine registered error-type URIs under `https://openric.org/errors/`. In particular:
+Error responses MUST follow Core Discovery §4 and §4.1 - `application/problem+json` with the nine registered error-type URIs under `https://openric.org/errors/`. In particular:
 
 - `404 not-found` on missing place/rule/activity IDs.
 - `400 bad-request` if a list query carries a nonsense filter (e.g., `?type=unknown`).
@@ -224,7 +224,7 @@ This file contains:
 | `:ActivityShape` | `rico:Activity` (all) | `sh:Info` on missing `hasActivityType` |
 | `:RuleShape` | `rico:Rule` | `sh:Violation` on missing title; `sh:Warning` on missing `ruleType`; OR-constraint between `descriptiveNote` and `ruleType` |
 
-Shapes are **open** — unknown predicates do not cause failure. Implementations MAY emit private metadata under their own prefix without affecting validation.
+Shapes are **open** - unknown predicates do not cause failure. Implementations MAY emit private metadata under their own prefix without affecting validation.
 
 The OR-constraint in `:RuleShape` is the only structural coupling worth flagging: a Rule that carries *neither* `openricx:descriptiveNote` *nor* `rico:hasOrHadRuleType` is a SHACL Violation, because it would be impossible for a client to know what kind of rule it is.
 
@@ -235,7 +235,7 @@ A server claims `authority-context` if, for every entity exposed under `/places`
 1. The single-entity endpoint returns `application/ld+json` with HTTP 200.
 2. The response validates against `shapes/profiles/authority-context.shacl.ttl` at `sh:Violation` severity.
 3. For entities whose backing row has an authority identifier, `owl:sameAs` is emitted.
-4. Place parentage is walkable via `rico:isOrWasPartOf` — every emitted parent stub resolves to a valid Place.
+4. Place parentage is walkable via `rico:isOrWasPartOf` - every emitted parent stub resolves to a valid Place.
 5. Activity `@type` matches the backing event-type taxonomy per `spec/mapping.md` §6.5.
 
 Run the conformance probe with `--profile=authority-context` to exercise only this profile's checks against a live server.
@@ -252,7 +252,7 @@ The manifest declares these seven fixtures as normative for `authority-context`:
 | `rule-law` | `rico:Rule` with type, jurisdiction, `owl:sameAs`, and `openricx:DateRange` |
 | `activity-production` | `rico:Activity` with `hasActivityType <…/production>` and `rico:isAssociatedWithDate → openricx:DateRange` |
 | `activity-accumulation` | `rico:Activity` with `hasActivityType <…/accumulation>` and minimal shape |
-| `function-with-activities` | *(planned)* ISDF function with ≥2 activities — exercises cross-reference shape |
+| `function-with-activities` | *(planned)* ISDF function with ≥2 activities - exercises cross-reference shape |
 
 Fixtures outside this list are NOT required for profile conformance.
 
@@ -267,32 +267,32 @@ A server implementer works through:
 - [ ] Preserve place hierarchy via `rico:isOrWasPartOf` stubs
 - [ ] Emit date ranges on activities as `openricx:DateRange` structured objects (not loose `xsd:date` strings)
 - [ ] Update `GET /` to include `authority-context` in `openric_conformance.profiles`
-- [ ] Run the conformance probe with `--profile=authority-context` — all 6 shipped fixtures pass
+- [ ] Run the conformance probe with `--profile=authority-context` - all 6 shipped fixtures pass
 - [ ] Emit badge URL `/conformance/badge?profile=authority-context` that returns shields.io-compatible JSON
 
 ## 9. Design decisions
 
 Four questions were flagged during drafting; all four carry resolutions. Any resolution can be re-opened via a GitHub discussion citing the question ID.
 
-### Q1 — Place hierarchy via `rico:isOrWasPartOf` stubs, or flat paths?
+### Q1 - Place hierarchy via `rico:isOrWasPartOf` stubs, or flat paths?
 
 **Resolution**: **Stubs, with `/places/flat` as the convenience endpoint.**
 
-**Rationale**: A nested-object shape preserves the RiC-native link semantics (the predicate itself carries meaning — "part of" not "child of") and lets SHACL validate that the parent `@type` is actually `rico:Place`. A flat path-string like `"Egypt > Luxor"` would be easier to render but harder to validate and brittle under renames. The `/places/flat` endpoint exists for clients that need the whole tree cheaply, as a single flat list with `parent_id` columns, but it is explicitly outside the normative per-entity shape.
+**Rationale**: A nested-object shape preserves the RiC-native link semantics (the predicate itself carries meaning - "part of" not "child of") and lets SHACL validate that the parent `@type` is actually `rico:Place`. A flat path-string like `"Egypt > Luxor"` would be easier to render but harder to validate and brittle under renames. The `/places/flat` endpoint exists for clients that need the whole tree cheaply, as a single flat list with `parent_id` columns, but it is explicitly outside the normative per-entity shape.
 
-### Q3 — `owl:sameAs` MUST or SHOULD?
+### Q3 - `owl:sameAs` MUST or SHOULD?
 
 **Resolution**: **SHOULD, gated on backing data.**
 
-**Rationale**: Mandating `owl:sameAs` would force implementations to reject entities that simply don't have an external authority — which is most legacy archival catalogues. The STRONGLY RECOMMENDED wording in §3.1 captures the intent (OpenRiC is pro-reconciliation) without forcing implementations to fabricate authority URIs they don't have. An implementation with a populated-authority rate below ~30% is still conformant; one with 0% should look hard at its provenance story before claiming Authority & Context.
+**Rationale**: Mandating `owl:sameAs` would force implementations to reject entities that simply don't have an external authority - which is most legacy archival catalogues. The STRONGLY RECOMMENDED wording in §3.1 captures the intent (OpenRiC is pro-reconciliation) without forcing implementations to fabricate authority URIs they don't have. An implementation with a populated-authority rate below ~30% is still conformant; one with 0% should look hard at its provenance story before claiming Authority & Context.
 
-### Q4 — Activity subclass selection mandatory, or is `rico:Activity` always acceptable?
+### Q4 - Activity subclass selection mandatory, or is `rico:Activity` always acceptable?
 
 **Resolution**: **Mandatory subclass selection when the backing data supports it.**
 
-**Rationale**: Emitting a generic `rico:Activity` with no `hasActivityType` for what is clearly a creation event erases the semantics that Authority & Context exists to expose. The mapping spec §6.5 defines the allowed event-type → activity-type-IRI rules; following them is part of conformance. If the backing data is genuinely ambiguous (the event-type column is empty or says "other"), omitting `hasActivityType` is fine — the `:ActivityShape` accepts that case at Info severity. Reviewers should push back when they see Activities with no `hasActivityType` dominating an implementation's /activities response; it's usually a sign the mapping layer is under-specified.
+**Rationale**: Emitting a generic `rico:Activity` with no `hasActivityType` for what is clearly a creation event erases the semantics that Authority & Context exists to expose. The mapping spec §6.5 defines the allowed event-type → activity-type-IRI rules; following them is part of conformance. If the backing data is genuinely ambiguous (the event-type column is empty or says "other"), omitting `hasActivityType` is fine - the `:ActivityShape` accepts that case at Info severity. Reviewers should push back when they see Activities with no `hasActivityType` dominating an implementation's /activities response; it's usually a sign the mapping layer is under-specified.
 
-### Q5 — Rule `ruleType` vocabulary: open strings or fixed enumeration?
+### Q5 - Rule `ruleType` vocabulary: open strings or fixed enumeration?
 
 **Resolution**: **Open strings, with five conventional values RECOMMENDED.**
 

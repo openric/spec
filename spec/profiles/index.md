@@ -7,7 +7,7 @@ description: Profiles are named, bounded conformance targets. A server declares 
 # OpenRiC Profiles
 
 **Version:** 0.3.0-draft
-**Status:** Draft — open for comment
+**Status:** Draft - open for comment
 **Last updated:** 2026-04-19
 
 ---
@@ -16,7 +16,7 @@ description: Profiles are named, bounded conformance targets. A server declares 
 
 A **profile** is a named subset of the OpenRiC spec a server can claim conformance to. Profiles bound expectations. Instead of a single monolithic "OpenRiC-conformant" claim (all endpoints, all entity types, all write verbs), each profile defines a capability axis with a fixed endpoint set, minimum field set, and SHACL shape set.
 
-Design inspiration: the way [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) separates into Level 0 / 1 / 2, and the way [OGC WMS](https://www.ogc.org/standards/wms) defines named conformance classes. Both patterns have the same effect — they let implementations opt in at their current capability without over-claiming.
+Design inspiration: the way [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) separates into Level 0 / 1 / 2, and the way [OGC WMS](https://www.ogc.org/standards/wms) defines named conformance classes. Both patterns have the same effect - they let implementations opt in at their current capability without over-claiming.
 
 ## 2. Profiles and levels are orthogonal
 
@@ -32,7 +32,7 @@ A server declares one or more profiles and the level it meets for each. Example:
 ## 3. Composition rules
 
 - **Profiles are additive, not hierarchical.** Authority & Context is *not* a superset of Core Discovery; they are orthogonal. A server may implement any subset.
-- **Dependency declarations.** Some profiles have hard dependencies — for example, Provenance & Event depends on Authority & Context because Activity entities carry `rico:hasOrHadParticipant` references. A profile document lists its dependencies; declaring a profile without its dependencies is a conformance failure.
+- **Dependency declarations.** Some profiles have hard dependencies - for example, Provenance & Event depends on Authority & Context because Activity entities carry `rico:hasOrHadParticipant` references. A profile document lists its dependencies; declaring a profile without its dependencies is a conformance failure.
 - **Forbidden-field rule.** A response under one profile MUST NOT emit fields from a profile the server does not claim. A Core-Discovery-only server that emits `rico:isOrWasSubjectOf` edges lies about its capabilities and fails conformance.
 
 ## 4. Versioning
@@ -80,18 +80,18 @@ Consumers MUST read this field before issuing any requests that depend on a spec
 |---|---|---|
 | [**Core Discovery**](core-discovery.html) | **v0.30.0 normative** | Read-only Records, Agents, Repositories, vocabulary, autocomplete. The minimum "I can be queried" claim. |
 | [**Authority & Context**](authority-context.html) | **v0.31.0 normative** | Places, Rules, Activities as first-class entities with reconciliation-friendly identifiers. |
-| [**Graph Traversal**](graph-traversal.html) | **v0.32.0 normative** | `/graph`, `/relations`, `/hierarchy` — cross-entity walks plus full-graph SHACL hygiene shapes. |
+| [**Graph Traversal**](graph-traversal.html) | **v0.32.0 normative** | `/graph`, `/relations`, `/hierarchy` - cross-entity walks plus full-graph SHACL hygiene shapes. |
 | [**Digital Object Linkage**](digital-object-linkage.html) | **v0.33.0 normative** | Instantiation carriers (MIME, checksums, extent, record-backlinks) plus ISDF Functions. Optional `POST /upload` + thumbnail derivative. |
-| [**Round-Trip Editing**](round-trip-editing.html) | **v0.34.0 normative** | Full write surface — POST/PATCH/DELETE on every entity + relations, gated by API-key scopes, with a public audit trail via `/{type}/{id}/revisions`. |
-| [**Provenance & Event**](provenance-event.html) | **v0.35.0 normative** | Tightened Activity shapes — Production/Accumulation/Activity with required results, participants, dates. Depends on Authority & Context. |
+| [**Round-Trip Editing**](round-trip-editing.html) | **v0.34.0 normative** | Full write surface - POST/PATCH/DELETE on every entity + relations, gated by API-key scopes, with a public audit trail via `/{type}/{id}/revisions`. |
+| [**Provenance & Event**](provenance-event.html) | **v0.35.0 normative** | Tightened Activity shapes - Production/Accumulation/Activity with required results, participants, dates. Depends on Authority & Context. |
 | [**Export-Only**](export-only.html) | **v0.36.0 normative** | OAI-PMH v2.0 harvest (`oai_dc` + `rico_ld`) plus content-negotiated per-record JSON-LD / Turtle / RDF-XML dumps. |
 | [**SPARQL Access**](sparql-access.html) | **v0.1.0 draft** | Read-only SPARQL 1.1 query endpoint (`/sparql`, `/sparql/info`), public-read, rate-limited, Update rejected. |
-| [**Governance**](governance.html) | **v0.43.0 draft** | The meaning layer — pinned standards, two-layer IRI policy, deprecate-not-delete stable IRIs, SHACL as a merge gate, versioned change process. |
-| [**Portability**](portability.html) | **v0.43.0 draft** | Anti-lock-in — lossless JSON-LD/Turtle round-trip (proven by test), DCAT/VoID dataset descriptor + `/changelog`, optional validate-on-export. |
-| [**Inferred-Provenance**](inferred-provenance.html) | **v0.43.0 draft** | AI inference is never passed off as fact — `prov:wasGeneratedBy` + `assertionStatus`/confidence/receipt on machine assertions; absence ⇒ asserted fact. |
+| [**Governance**](governance.html) | **v0.43.0 draft** | The meaning layer - pinned standards, two-layer IRI policy, deprecate-not-delete stable IRIs, SHACL as a merge gate, versioned change process. |
+| [**Portability**](portability.html) | **v0.43.0 draft** | Anti-lock-in - lossless JSON-LD/Turtle round-trip (proven by test), DCAT/VoID dataset descriptor + `/changelog`, optional validate-on-export. |
+| [**Inferred-Provenance**](inferred-provenance.html) | **v0.43.0 draft** | AI inference is never passed off as fact - `prov:wasGeneratedBy` + `assertionStatus`/confidence/receipt on machine assertions; absence ⇒ asserted fact. |
 | [**Graph-Grounding**](graph-grounding.html) | **v0.43.0 draft** | Read-only `GET /ground` so any agent/RAG disambiguates against the graph; vector↔graph join on the public entity IRI; fail-open. |
 
-**Seven profiles normative (v0.36.0); five in draft.** Normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. Draft (open for comment): SPARQL Access, and the v0.43 governance line — Governance, Portability, Inferred-Provenance, Graph-Grounding — each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
+**Seven profiles normative (v0.36.0); five in draft.** Normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. Draft (open for comment): SPARQL Access, and the v0.43 governance line - Governance, Portability, Inferred-Provenance, Graph-Grounding - each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
 
 <!-- TK Q1: confirm "profile" vs "level" naming. Profile chosen because our six axes are orthogonal, not a strict progression. -->
 
@@ -107,7 +107,7 @@ The probe reads the server's declared profiles at `GET /`, runs the endpoint-spe
 
 ## 8. Why profiles matter strategically
 
-Without profiles, OpenRiC is a fixed bar — "you implement all of it or you don't implement it." That suits exactly one kind of implementer (a fully featured GLAM platform) and turns away every other kind (aggregators who only harvest, authority services that only publish agents, viewers that only need read, legacy systems that can expose a subset).
+Without profiles, OpenRiC is a fixed bar - "you implement all of it or you don't implement it." That suits exactly one kind of implementer (a fully featured GLAM platform) and turns away every other kind (aggregators who only harvest, authority services that only publish agents, viewers that only need read, legacy systems that can expose a subset).
 
 With profiles, OpenRiC becomes a growth path. An institution with a legacy catalogue exposes Core Discovery and gets listed. Over time they add Authority & Context, then Provenance, then Digital Object Linkage. Each step is a small, reviewable, badgeable commitment rather than an all-or-nothing decision. That is how IIIF went from aspirational spec to eight-hundred-institution reality, and it is the shape OpenRiC is adopting deliberately.
 

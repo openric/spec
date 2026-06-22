@@ -6,7 +6,7 @@ title: OpenRiC Viewing API
 # OpenRiC Viewing API
 
 **Version:** 0.37.0
-**Status:** Active — RiC-O 1.1 namespace remediation complete
+**Status:** Active - RiC-O 1.1 namespace remediation complete
 **Last updated:** 2026-04-25
 
 ---
@@ -21,7 +21,7 @@ A reference implementation exists in the Heratio `ahg-ric` package's `LinkedData
 
 ## 2. Conformance levels
 
-> **Note (v0.37):** The `L2-core` / `L2-graph` / `L2-query` / `L2-full` table below is **legacy** terminology, retained for historical context. Current conformance claims SHOULD be **profile-based** — `core-discovery`, `authority-context`, `graph-traversal`, `digital-object-linkage`, `round-trip-editing`, `provenance-event`, `export-only`, and `sparql-access` (draft). Mapping: `L2-core` ≈ `core-discovery`; `L2-graph` ≈ `graph-traversal` + `export-only`; `L2-query` ≈ `sparql-access`. The `openric_conformance.profiles` declaration in `GET /` is the authoritative claim.
+> **Note (v0.37):** The `L2-core` / `L2-graph` / `L2-query` / `L2-full` table below is **legacy** terminology, retained for historical context. Current conformance claims SHOULD be **profile-based** - `core-discovery`, `authority-context`, `graph-traversal`, `digital-object-linkage`, `round-trip-editing`, `provenance-event`, `export-only`, and `sparql-access` (draft). Mapping: `L2-core` ≈ `core-discovery`; `L2-graph` ≈ `graph-traversal` + `export-only`; `L2-query` ≈ `sparql-access`. The `openric_conformance.profiles` declaration in `GET /` is the authoritative claim.
 
 | Level | Requirement | Current profile equivalent |
 |---|---|---|
@@ -30,7 +30,7 @@ A reference implementation exists in the Heratio `ahg-ric` package's `LinkedData
 | **L2-query** | L2-core + `/sparql`, `/validate` | `core-discovery` + `sparql-access` (draft) |
 | **L2-full** | All of the above | All seven normative profiles + `sparql-access` |
 
-Level is advertised in the service description (§6) — but new implementations SHOULD declare profiles in `openric_conformance.profiles` instead.
+Level is advertised in the service description (§6) - but new implementations SHOULD declare profiles in `openric_conformance.profiles` instead.
 
 ## 3. Base URL
 
@@ -49,8 +49,8 @@ OpenRiC distinguishes between **stable semantic entity URIs** (the linked-data i
 | Layer | Pattern | Purpose |
 |---|---|---|
 | **Internal database ID** | `12345` | Local persistence only. |
-| **API endpoint** | `https://archives.example.org/api/ric/v1/agents/12345` | Application access — defined by this spec. |
-| **Semantic URI** *(recommended)* | `https://archives.example.org/id/agent/12345` | Linked-data identity — dereferences via content negotiation (§7). |
+| **API endpoint** | `https://archives.example.org/api/ric/v1/agents/12345` | Application access - defined by this spec. |
+| **Semantic URI** *(recommended)* | `https://archives.example.org/id/agent/12345` | Linked-data identity - dereferences via content negotiation (§7). |
 | **External authority URI** | `https://rdf.archives-nationales.culture.gouv.fr/agent/009941` | Identity in an external authority dataset (e.g. Garance, Wikidata, GeoNames). |
 | **Reconciliation link** | `skos:exactMatch` / `skos:closeMatch` / `owl:sameAs` | Identity / alignment relationship between local and external URIs. |
 
@@ -62,9 +62,9 @@ OpenRiC distinguishes between **stable semantic entity URIs** (the linked-data i
 
 Where `{kind}` is one of `record`, `record-set`, `record-part`, `agent`, `person`, `corporate-body`, `family`, `mechanism`, `place`, `rule`, `activity`, `instantiation`, `function`. Implementations MAY serve the semantic URI as a 303-See-Other redirect to the content-negotiated representation (HTML, JSON-LD, Turtle, RDF/XML).
 
-A server MAY expose only the API layer (`/api/ric/v1/...`) and treat that as both identity and access — but doing so couples the linked-data identity to the implementation API version. The two-layer pattern is RECOMMENDED for institutions that want their entity URIs to outlive any specific OpenRiC version.
+A server MAY expose only the API layer (`/api/ric/v1/...`) and treat that as both identity and access - but doing so couples the linked-data identity to the implementation API version. The two-layer pattern is RECOMMENDED for institutions that want their entity URIs to outlive any specific OpenRiC version.
 
-External authority URIs MUST be preserved as external identifiers — implementations MUST NOT silently replace them with locally-minted URIs without retaining the original via `skos:exactMatch` / `skos:closeMatch` / `owl:sameAs`. See §7.3 below for the reconciliation-relation guidance.
+External authority URIs MUST be preserved as external identifiers - implementations MUST NOT silently replace them with locally-minted URIs without retaining the original via `skos:exactMatch` / `skos:closeMatch` / `owl:sameAs`. See §7.3 below for the reconciliation-relation guidance.
 
 ## 3.2 Content negotiation
 
@@ -133,10 +133,10 @@ Returns the subset of RiC-O the server actually emits, plus any OpenRiC extensio
 
 | Param | Meaning | Default | Max |
 |---|---|---|---|
-| `page` | Page number (1-based) | `1` | — |
+| `page` | Page number (1-based) | `1` | - |
 | `limit` | Items per page | `50` | `200` |
-| `level` | Filter by level-of-description (`fonds`, `series`, `file`, `item`) | — | — |
-| `q` | Free-text search on title + identifier | — | — |
+| `level` | Filter by level-of-description (`fonds`, `series`, `file`, `item`) | - | - |
+| `q` | Free-text search on title + identifier | - | - |
 
 **List response:**
 
@@ -177,7 +177,7 @@ Returns the subset of RiC-O the server actually emits, plus any OpenRiC extensio
 | `GET /repositories` | Paginated list of repositories |
 | `GET /repositories/{id}` | Single repository (`rico:CorporateBody` per ISDIAH) |
 
-### 4.6 Functions (optional — L2-full)
+### 4.6 Functions (optional - L2-full)
 
 | Method & path | Purpose |
 |---|---|
@@ -217,12 +217,12 @@ Parameters:
 
 | Param | Meaning | Default | Max |
 |---|---|---|---|
-| `uri` | Root entity URI (REQUIRED) | — | — |
+| `uri` | Root entity URI (REQUIRED) | - | - |
 | `depth` | BFS depth from root | `1` | `3` |
-| `direction` | `in`, `out`, `both` | `both` | — |
-| `types` | Comma-separated filter of node RiC types | — | — |
+| `direction` | `in`, `out`, `both` | `both` | - |
+| `types` | Comma-separated filter of node RiC types | - | - |
 
-### 4.8 SPARQL (non-normative — outside the OpenRiC contract)
+### 4.8 SPARQL (non-normative - outside the OpenRiC contract)
 
 > **Status as of v0.36.0:** SPARQL is **not part of the OpenRiC conformance contract**, by design. OpenRiC is a purpose-built API for working archives (like IIIF for images); exposing SPARQL directly duplicates `/graph?uri=…&depth=N` for the common case, opens a DoS surface that's expensive to harden, and competes with the backing triplestore's own SPARQL endpoint for no net gain to an OpenRiC client. Clients that need SPARQL have better tools: run queries against the Turtle dump from `/export?format=ttl` in an offline processor, or talk directly to the implementation's triplestore if it exposes one.
 
@@ -235,9 +235,9 @@ Implementations **MAY** expose a SPARQL endpoint at an implementation-specific p
 
 The reference implementation historically carried `/api/ric/v1/sparql` as a stub; that route is retained for backwards compatibility with any consumer that wired to it, but it is not and will not become part of the normative surface unless a future `sparql-query` profile is defined in response to concrete implementer demand. See [`guides/triplestore-choice.md`](../guides/triplestore-choice.html) for a comparison of backing stores implementers may choose.
 
-**For the common graph-walk case, use `/graph?uri=…&depth=N`** — it's stable across every conformant server, SHACL-validated under Graph Traversal, and never degrades into an unbounded query.
+**For the common graph-walk case, use `/graph?uri=…&depth=N`** - it's stable across every conformant server, SHACL-validated under Graph Traversal, and never degrades into an unbounded query.
 
-### 4.9 Validate (optional — L2-query)
+### 4.9 Validate (optional - L2-query)
 
 ```
 POST /api/ric/v1/validate
@@ -270,7 +270,7 @@ GET /api/ric/v1/health
 
 Returns `{ "status": "ok" }` with HTTP 200 when the server is reachable and its backing store is healthy. Non-authenticated. Intended for monitoring.
 
-### 4.11 RiC-native entities — Places, Rules, Activities, Instantiations
+### 4.11 RiC-native entities - Places, Rules, Activities, Instantiations
 
 These four entity types are first-class RiC-O resources that exist independently of records. Each gets a list, a show, and (for Places) a flat-name-and-id endpoint suitable for parent pickers.
 
@@ -291,7 +291,7 @@ GET /api/ric/v1/instantiations/{id}
 
 List endpoints accept `page`, `per_page`, and OPTIONAL type filters matching the taxonomy (e.g. `?type_id=country`). Show endpoints return full `rico:Place` / `rico:Rule` / `rico:Activity` / `rico:Instantiation` serialisations with any `owl:sameAs` authority links.
 
-`/places/flat` returns `{items: [{id, name}], count}` — small-payload parent-picker companion. Unpaginated; bounded by server-side policy.
+`/places/flat` returns `{items: [{id, name}], count}` - small-payload parent-picker companion. Unpaginated; bounded by server-side policy.
 
 ### 4.12 Relations
 
@@ -319,7 +319,7 @@ For Places, returns parent + children + siblings from `ric_place.parent_id`. For
 GET /api/ric/v1/autocomplete?q={query}&types={types}&limit={n}
 ```
 
-Cross-entity name/title search. `types` is a comma-delimited subset of `place,rule,activity,instantiation,actor,io,repository,digital_object` — omit for all. Returns `[{id, label, type}]`, capped at `limit` (default 20, max 200).
+Cross-entity name/title search. `types` is a comma-delimited subset of `place,rule,activity,instantiation,actor,io,repository,digital_object` - omit for all. Returns `[{id, label, type}]`, capped at `limit` (default 20, max 200).
 
 ### 4.15 Vocabulary (single-taxonomy)
 
@@ -329,7 +329,7 @@ GET /api/ric/v1/vocabulary/{taxonomy}
 
 Returns `{taxonomy, items: [{code, label, color, icon, is_default, metadata}], count}`. `{taxonomy}` is a dropdown name like `ric_place_type`, `ric_rule_type`, `ric_activity_type`, `ric_carrier_type`, `ric_relation_type`, `certainty_level`. 404 when the taxonomy isn't defined.
 
-### 4.16 Records — linked RiC entities
+### 4.16 Records - linked RiC entities
 
 ```
 GET /api/ric/v1/records/{id}/entities?types={types}
@@ -395,7 +395,7 @@ Convenience endpoint for UIs that hold a numeric entity id but not its type. Ser
 | `Accept` header | Response |
 |---|---|
 | `application/ld+json` (default) | RiC-O JSON-LD |
-| `application/json` | Same as above — for clients that can't set ld+json |
+| `application/json` | Same as above - for clients that can't set ld+json |
 | `text/turtle` | RiC-O Turtle |
 | `application/rdf+xml` | RDF/XML (optional) |
 
@@ -427,9 +427,9 @@ Without this, browser-based capture clients (like [capture.openric.org](https://
 
 ## 6. Authentication
 
-**Reads** — public by default. `/health`, `/`, `/vocabulary*`, and the read-side entity + relation + graph endpoints SHOULD be reachable without credentials. An ODRL-based rights-enforcement layer (OpenRiC-Rights, forthcoming) will define how to expose per-record access controls for per-record private reads.
+**Reads** - public by default. `/health`, `/`, `/vocabulary*`, and the read-side entity + relation + graph endpoints SHOULD be reachable without credentials. An ODRL-based rights-enforcement layer (OpenRiC-Rights, forthcoming) will define how to expose per-record access controls for per-record private reads.
 
-**Writes** — authenticated via `X-API-Key` header. Alternative header names that SHOULD be accepted: `X-REST-API-Key`, `Authorization: Bearer <key>`.
+**Writes** - authenticated via `X-API-Key` header. Alternative header names that SHOULD be accepted: `X-REST-API-Key`, `Authorization: Bearer <key>`.
 
 API keys carry a list of **scopes**. The required scope per operation:
 
@@ -441,7 +441,7 @@ API keys carry a list of **scopes**. The required scope per operation:
 
 Missing key → `401 Unauthorized`. Key present but missing scope → `403 Forbidden`. Both responses MUST be JSON: `{error: "unauthorized", message: "…"}`.
 
-Key issuance is operator-defined — the spec doesn't mandate a particular UI or workflow. The reference implementation issues SHA-256-hashed keys with per-key scope lists and optional expiry. See the reference [`ahg-api`](https://github.com/ArchiveHeritageGroup/heratio/tree/main/packages/ahg-api) package for a model.
+Key issuance is operator-defined - the spec doesn't mandate a particular UI or workflow. The reference implementation issues SHA-256-hashed keys with per-key scope lists and optional expiry. See the reference [`ahg-api`](https://github.com/ArchiveHeritageGroup/heratio/tree/main/packages/ahg-api) package for a model.
 
 ## 7. Pagination
 
@@ -478,7 +478,7 @@ Codes: `not-found`, `forbidden`, `bad-request`, `rate-limited`, `unavailable`, `
 
 ## 8.5 Pagination envelope policy
 
-OpenRiC defines two list-envelope shapes — implementations MUST use the right shape for the right endpoint class:
+OpenRiC defines two list-envelope shapes - implementations MUST use the right shape for the right endpoint class:
 
 | Endpoint class | Envelope | Required keys |
 |---|---|---|
@@ -491,7 +491,7 @@ A server MUST NOT mix the two shapes within a single endpoint (e.g., emit `openr
 
 ## 8.6 Node `type` CURIE policy
 
-Graph and list responses use **CURIEs** (prefixed names like `rico:Person`, `rico:RecordSet`, `openricx:Function`) for `@type` and `Node.type` values, not bare local names. Bare local names (`"Person"`) MUST NOT be emitted — clients cannot disambiguate `rico:Person` from `foaf:Person`.
+Graph and list responses use **CURIEs** (prefixed names like `rico:Person`, `rico:RecordSet`, `openricx:Function`) for `@type` and `Node.type` values, not bare local names. Bare local names (`"Person"`) MUST NOT be emitted - clients cannot disambiguate `rico:Person` from `foaf:Person`.
 
 Where a server wants to expose its implementation-specific subtype (e.g. `"box"` for a `rico:Thing` carrier kind), use the dedicated `openric:localType` slot, not the canonical `type` field.
 

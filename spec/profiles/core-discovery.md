@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenRiC — Core Discovery Profile
+title: OpenRiC - Core Discovery Profile
 description: The minimum-viable OpenRiC conformance target. Read-only Records, Agents, Repositories, vocabulary, autocomplete. Ten endpoints, three entity types.
 ---
 
@@ -17,7 +17,7 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 
 ## 1. Purpose
 
-Core Discovery is the **minimum-viable OpenRiC conformance target**. A server that implements this profile can be listed, browsed, searched, and dereferenced for records, agents, and repositories — but is not required to expose graph traversal, relations, authority entities, activities, digital objects, write verbs, or OAI-PMH harvesting.
+Core Discovery is the **minimum-viable OpenRiC conformance target**. A server that implements this profile can be listed, browsed, searched, and dereferenced for records, agents, and repositories - but is not required to expose graph traversal, relations, authority entities, activities, digital objects, write verbs, or OAI-PMH harvesting.
 
 This profile answers the question: *"what is the smallest thing my system can expose and still call itself OpenRiC-compliant?"*
 
@@ -36,7 +36,7 @@ A server claiming Core Discovery conformance MUST implement all ten endpoints be
 | # | Method + path | Purpose |
 |---|---|---|
 | 1 | `GET /` | Service description with `openric_conformance` declaration |
-| 2 | `GET /health` | Liveness probe — `{"status":"ok"}` |
+| 2 | `GET /health` | Liveness probe - `{"status":"ok"}` |
 | 3 | `GET /vocabulary` | rico:* term catalogue used by clients to render type labels |
 | 4 | `GET /records` | List and search records; pagination required |
 | 5 | `GET /records/{key}` | Single record by slug or numeric id |
@@ -48,17 +48,17 @@ A server claiming Core Discovery conformance MUST implement all ten endpoints be
 
 All endpoints are unauthenticated reads. Rate limiting is allowed but MUST return RFC 6585 `429 Too Many Requests` with a `Retry-After` header when applied.
 
-<!-- Q3: Resolved — /autocomplete stays in Core Discovery. See §10 Q3. -->
-<!-- Q4: Resolved — repositories first-class in Core Discovery. See §10 Q4. -->
+<!-- Q3: Resolved - /autocomplete stays in Core Discovery. See §10 Q3. -->
+<!-- Q4: Resolved - repositories first-class in Core Discovery. See §10 Q4. -->
 
 ### 2.2 Forbidden endpoints (without additional profile claims)
 
 A server that claims **only** Core Discovery MUST NOT implement or reference:
 
-- `/graph`, `/hierarchy/{id}`, `/relations`, `/relations-for/{id}` — belong to the forthcoming Graph Traversal profile
-- `/activities`, `/places`, `/rules`, `/functions`, `/instantiations` — Authority & Context, Provenance, Digital Object profiles
-- `/oai` — Export-Only profile
-- `POST`, `PATCH`, `PUT`, `DELETE` on any resource — Round-Trip Editing profile
+- `/graph`, `/hierarchy/{id}`, `/relations`, `/relations-for/{id}` - belong to the forthcoming Graph Traversal profile
+- `/activities`, `/places`, `/rules`, `/functions`, `/instantiations` - Authority & Context, Provenance, Digital Object profiles
+- `/oai` - Export-Only profile
+- `POST`, `PATCH`, `PUT`, `DELETE` on any resource - Round-Trip Editing profile
 
 A server MAY implement these if it also declares the relevant profile. Silently implementing them without declaration is a conformance failure because it misleads consumers about the capability surface.
 
@@ -66,14 +66,14 @@ A server MAY implement these if it also declares the relevant profile. Silently 
 
 All responses MUST support:
 
-- `application/ld+json` — JSON-LD with the OpenRiC context
-- `application/json` — same content; `@context` MAY be trimmed to a URL reference
+- `application/ld+json` - JSON-LD with the OpenRiC context
+- `application/json` - same content; `@context` MAY be trimmed to a URL reference
 
 Servers MUST set `Vary: Accept` on every response that content-negotiates.
 
 ## 3. Response shapes
 
-### 3.1 Service description — `GET /`
+### 3.1 Service description - `GET /`
 
 ```json
 {
@@ -95,7 +95,7 @@ Servers MUST set `Vary: Accept` on every response that content-negotiates.
 
 The `openric_conformance` object is REQUIRED. At least one profile MUST be declared; `core-discovery` MUST appear if this profile is claimed.
 
-### 3.2 Vocabulary — `GET /vocabulary`
+### 3.2 Vocabulary - `GET /vocabulary`
 
 Returns an ordered array of rico:* types with labels. Minimum shape:
 
@@ -114,7 +114,7 @@ Returns an ordered array of rico:* types with labels. Minimum shape:
 
 Only classes and properties actually exposed by the server's declared profiles need be listed. A Core-Discovery-only server lists Record, Agent, CorporateBody (for repositories), and the property set it emits.
 
-### 3.3 List responses — `GET /records`, `/agents`, `/repositories`
+### 3.3 List responses - `GET /records`, `/agents`, `/repositories`
 
 Pagination envelope:
 
@@ -135,7 +135,7 @@ Pagination envelope:
 - Each item MUST include at minimum `@id`, `@type`, and a name-like field (`rico:title` for records, `rico:name` or `rico:hasOrHadAgentName` for agents and repositories).
 - Servers MUST emit RFC 5988 `Link` headers with `rel="next"` and `rel="prev"` when applicable.
 
-<!-- Q5: Resolved — pagination mandatory; default page 50, max 200. See §10 Q5. -->
+<!-- Q5: Resolved - pagination mandatory; default page 50, max 200. See §10 Q5. -->
 
 ### 3.4 Single-entity responses
 
@@ -157,14 +157,14 @@ Pagination envelope:
 | `openricx:description` | 0..1 | Long-form prose |
 | `rico:hasBeginningDate` | 0..1 | xsd:gYear / xsd:date / xsd:dateTime |
 | `rico:hasEndDate` | 0..1 | Same types as above |
-| `rico:hasOrHadHolder` | 0..1 | Embedded partial repository object — `@id`, `@type`, `rico:name` only |
-| `rico:hasCreator` | 0..n | Embedded partial agent objects — `@id`, `@type`, `rico:name` only |
+| `rico:hasOrHadHolder` | 0..1 | Embedded partial repository object - `@id`, `@type`, `rico:name` only |
+| `rico:hasCreator` | 0..n | Embedded partial agent objects - `@id`, `@type`, `rico:name` only |
 
 **Forbidden without other profile claims:**
 
-- `rico:isOrWasSubjectOf`, `rico:hasOrHadSubject` — require Graph Traversal profile
-- `rico:hasOrHadInstantiation` — requires Digital Object Linkage profile
-- `rico:hasOrganicProvenance` — requires Provenance & Event profile
+- `rico:isOrWasSubjectOf`, `rico:hasOrHadSubject` - require Graph Traversal profile
+- `rico:hasOrHadInstantiation` - requires Digital Object Linkage profile
+- `rico:hasOrganicProvenance` - requires Provenance & Event profile
 
 #### 3.4.2 `GET /agents/{key}`
 
@@ -203,7 +203,7 @@ Pagination envelope:
 
 #### 3.4.1 `openricx:ContactPoint` shape
 
-The contact point is a single embedded object under `openricx:contact`, typed `openricx:ContactPoint`. Consistent with `spec/mapping.md` §5.2.2 (ISDIAH 5.2.2 → `openricx:contact → openricx:ContactPoint`). All subfields are OPTIONAL — emit only what you have; omit nulls. Implementations MUST NOT invent alternative property names.
+The contact point is a single embedded object under `openricx:contact`, typed `openricx:ContactPoint`. Consistent with `spec/mapping.md` §5.2.2 (ISDIAH 5.2.2 → `openricx:contact → openricx:ContactPoint`). All subfields are OPTIONAL - emit only what you have; omit nulls. Implementations MUST NOT invent alternative property names.
 
 ```json
 {
@@ -231,7 +231,7 @@ The contact point is a single embedded object under `openricx:contact`, typed `o
 
 **Rationale for `openricx:ContactPoint` over `schema:ContactPoint`.** The Core Discovery profile is RiC-native and avoids cross-vocabulary dependencies in its normative surface. `schema.org/ContactPoint` is a valid alternative shape in a non-normative `@context` alias; implementations that want schema.org interop MAY emit the same object under `schema:contactPoint` in addition, but a Core-Discovery-conformant response MUST emit the `openricx:contact → openricx:ContactPoint` form.
 
-### 3.5 Autocomplete — `GET /autocomplete?q=&types=&limit=`
+### 3.5 Autocomplete - `GET /autocomplete?q=&types=&limit=`
 
 ```json
 {
@@ -260,7 +260,7 @@ Errors MUST use the RFC 7807 Problem Details shape with `Content-Type: applicati
 }
 ```
 
-The five base fields (`type`, `title`, `status`, `detail`, `instance`) are REQUIRED. Implementations MAY emit additional fields alongside them — for example, an `id` of the missing entity, a `code` shorthand, a `max_bytes` upload ceiling, a validation `example`. Clients MUST tolerate unknown fields.
+The five base fields (`type`, `title`, `status`, `detail`, `instance`) are REQUIRED. Implementations MAY emit additional fields alongside them - for example, an `id` of the missing entity, a `code` shorthand, a `max_bytes` upload ceiling, a validation `example`. Clients MUST tolerate unknown fields.
 
 ### 4.1 Error-type URIs
 
@@ -269,11 +269,11 @@ The `type` field is the stable identifier clients SHOULD dispatch on. Titles and
 | Type URI | HTTP status | Used for |
 |---|---|---|
 | `https://openric.org/errors/not-found` | 404 | Entity does not exist |
-| `https://openric.org/errors/bad-request` | 400 | Malformed request — missing or nonsense parameters |
+| `https://openric.org/errors/bad-request` | 400 | Malformed request - missing or nonsense parameters |
 | `https://openric.org/errors/validation-failed` | 422 | Request shape was fine; content did not pass validation |
 | `https://openric.org/errors/authentication-required` | 401 | Protected route hit without credentials |
 | `https://openric.org/errors/forbidden` | 403 | Credentials valid but insufficient scope |
-| `https://openric.org/errors/conflict` | 409 | State conflict — e.g. delete blocked by descendants |
+| `https://openric.org/errors/conflict` | 409 | State conflict - e.g. delete blocked by descendants |
 | `https://openric.org/errors/payload-too-large` | 413 | Upload exceeded the size ceiling |
 | `https://openric.org/errors/unsupported-media-type` | 415 | Content-Type not accepted for this endpoint |
 | `https://openric.org/errors/internal-error` | 500 | Unexpected server-side failure |
@@ -290,15 +290,15 @@ shapes/profiles/core-discovery.shacl.ttl
 
 This file is a strict subset of the main `shapes/openric.shacl.ttl` containing only:
 
-- `:RecordShape` — with forbidden-predicate rules for Graph/Authority/Provenance fields
-- `:AgentShape` — with minimum-name constraint
-- `:CorporateBodyShape` — for repositories
-- `:AgentNameShape` — for canonical name resolution
-- `:DateRangeShape` — for date fields
+- `:RecordShape` - with forbidden-predicate rules for Graph/Authority/Provenance fields
+- `:AgentShape` - with minimum-name constraint
+- `:CorporateBodyShape` - for repositories
+- `:AgentNameShape` - for canonical name resolution
+- `:DateRangeShape` - for date fields
 
-Shapes are **open** — unknown predicates do not cause failure. Implementations MAY emit private metadata.
+Shapes are **open** - unknown predicates do not cause failure. Implementations MAY emit private metadata.
 
-<!-- Q7: Resolved — open shapes (tolerant of unknown predicates). See §10 Q7. -->
+<!-- Q7: Resolved - open shapes (tolerant of unknown predicates). See §10 Q7. -->
 
 ## 6. Conformance testing
 
@@ -317,7 +317,7 @@ The probe MUST:
 5. Verify no forbidden predicates appear in responses
 6. Verify pagination links on list endpoints
 7. Verify RFC 7807 error shape on a deliberate 404
-8. Emit a JSON report — `{"profile":"core-discovery", "level":"L2", "pass":true, "tests":[...]}`
+8. Emit a JSON report - `{"profile":"core-discovery", "level":"L2", "pass":true, "tests":[...]}`
 
 A server passes Core Discovery conformance when all tests pass. A server may pass at `level: L1` (mapping only) or `L2` (full API); higher levels require graph-primitives support, which is out of scope for this profile.
 
@@ -325,17 +325,17 @@ A server passes Core Discovery conformance when all tests pass. A server may pas
 
 The following existing fixtures exercise Core Discovery and ship in the profile manifest at `fixtures/profiles/core-discovery/manifest.json`:
 
-1. `service-description` — `GET /`
-2. `vocabulary` — `GET /vocabulary`
-3. `record-list` — `GET /records` list envelope
-4. `fonds-minimal` — `GET /records/{key}` minimal valid record
-5. `fonds-with-children` — `GET /records/{key}` with nested structure (fields trimmed to profile)
-6. `record-multilingual` — `GET /records/{key}` with `@language` tagged titles
-7. `agent-person-simple` — `GET /agents/{key}` minimal Person
-8. `agent-corporate-body` — `GET /agents/{key}` CorporateBody
-9. `agent-family` — `GET /agents/{key}` Family
-10. `autocomplete-egypt` — `GET /autocomplete` cross-entity hit
-11. `error-not-found` — RFC 7807 error envelope
+1. `service-description` - `GET /`
+2. `vocabulary` - `GET /vocabulary`
+3. `record-list` - `GET /records` list envelope
+4. `fonds-minimal` - `GET /records/{key}` minimal valid record
+5. `fonds-with-children` - `GET /records/{key}` with nested structure (fields trimmed to profile)
+6. `record-multilingual` - `GET /records/{key}` with `@language` tagged titles
+7. `agent-person-simple` - `GET /agents/{key}` minimal Person
+8. `agent-corporate-body` - `GET /agents/{key}` CorporateBody
+9. `agent-family` - `GET /agents/{key}` Family
+10. `autocomplete-egypt` - `GET /autocomplete` cross-entity hit
+11. `error-not-found` - RFC 7807 error envelope
 
 The manifest declares these eleven fixtures as normative for `core-discovery`. Fixtures outside this list are NOT required for profile conformance.
 
@@ -351,7 +351,7 @@ A server implementer works through:
 - [ ] Support content negotiation; set `Vary: Accept`
 - [ ] Enable CORS for reads: `Access-Control-Allow-Origin: *`
 - [ ] Paginate list responses with RFC 5988 Link headers
-- [ ] Run `./probe.sh --profile core-discovery {base-url}` — all tests pass
+- [ ] Run `./probe.sh --profile core-discovery {base-url}` - all tests pass
 - [ ] Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
 ## 9. Migration from v0.2.0
@@ -372,17 +372,17 @@ Seven questions were flagged during drafting. All seven are resolved in the norm
 
 **A note on numbering**: Q2 was retired during early drafting; the remaining questions keep their original IDs (Q1, Q3–Q8) so cross-document references stay stable. Any resolution below can be re-opened via a GitHub discussion citing the question ID.
 
-### Q1 — "Core Discovery" name vs IIIF Level 0/1/2 numbering
+### Q1 - "Core Discovery" name vs IIIF Level 0/1/2 numbering
 
 **Question**: Should profiles follow IIIF's numeric Level 0/1/2 convention, or keep named profiles?
 
 **Resolution**: **Keep named profiles.** "Core Discovery", "Authority & Context", etc.
 
-**Rationale**: IIIF's numeric levels assume nested supersets — Level 1 contains Level 0. OpenRiC profiles are *bounded capability axes* that are largely orthogonal, not layered. A server might claim Core Discovery + Digital Object Linkage without ever implementing Round-Trip Editing, and numeric levels would falsely imply a ladder. Names preserve semantic flavour and avoid misrepresenting the design.
+**Rationale**: IIIF's numeric levels assume nested supersets - Level 1 contains Level 0. OpenRiC profiles are *bounded capability axes* that are largely orthogonal, not layered. A server might claim Core Discovery + Digital Object Linkage without ever implementing Round-Trip Editing, and numeric levels would falsely imply a ladder. Names preserve semantic flavour and avoid misrepresenting the design.
 
 *External review welcome on*: whether one profile should nonetheless be declared the "floor" in governance.
 
-### Q3 — `/autocomplete` in Core Discovery or a separate Search profile?
+### Q3 - `/autocomplete` in Core Discovery or a separate Search profile?
 
 **Question**: Is `/autocomplete` discovery, or is it search?
 
@@ -390,15 +390,15 @@ Seven questions were flagged during drafting. All seven are resolved in the norm
 
 **Rationale**: A discovery profile without type-ahead reads as navigation-only, which is a weaker position than IIIF Image API Level 0 (which at least delivers full images). Users evaluating whether to adopt OpenRiC will expect `/autocomplete` at the first step; carving it into a separate profile would make the default conformance target look incomplete. A richer Search profile can still add faceting, filters, and relevance tuning on top.
 
-### Q4 — Repositories as first-class in Core Discovery, or behind Authority & Context?
+### Q4 - Repositories as first-class in Core Discovery, or behind Authority & Context?
 
 **Question**: Should `GET /repositories/{key}` and repository inclusion in lists require an A&C profile claim?
 
 **Resolution**: **First-class in Core.**
 
-**Rationale**: `rico:hasOrHadHolder` is emitted inline on every record in the list and detail shapes already. If repositories were A&C-only, every Core-only implementation would have to either strip the `heldBy` triple (losing material context) or leak a class the profile doesn't cover (breaking conformance). First-classing repositories matches what real archival discovery always needs — "who holds this?" is a first-order discovery question, not an authority-control detail.
+**Rationale**: `rico:hasOrHadHolder` is emitted inline on every record in the list and detail shapes already. If repositories were A&C-only, every Core-only implementation would have to either strip the `heldBy` triple (losing material context) or leak a class the profile doesn't cover (breaking conformance). First-classing repositories matches what real archival discovery always needs - "who holds this?" is a first-order discovery question, not an authority-control detail.
 
-### Q5 — Pagination mandatory on list endpoints?
+### Q5 - Pagination mandatory on list endpoints?
 
 **Question**: Must `GET /records`, `/agents`, `/repositories` paginate, or is unbounded allowed?
 
@@ -408,35 +408,35 @@ Seven questions were flagged during drafting. All seven are resolved in the norm
 
 *External review welcome on*: the specific default (50) and max (200) page sizes.
 
-### Q6 — Error envelope shift to RFC 7807 in v0.3?
+### Q6 - Error envelope shift to RFC 7807 in v0.3?
 
 **Question**: Mandate `application/problem+json` in v0.3 and deprecate the existing `{success: false, error: …}` envelope, or accept both?
 
 **Resolution**: **Mandate RFC 7807 in v0.3. No migration window.**
 
-**Rationale**: There are no external v0.2 clients to accommodate — only the reference server itself was emitting the old envelope, and the migration landed in the reference implementation at the same time as this resolution (OpenRiC service v0.8.11, `packages/ahg-ric/src/Support/ProblemDetails.php`). Accepting both shapes indefinitely would lock every future implementer into emitting two error formats on every 4xx/5xx, which is strictly worse than a single IETF-standard shape. A migration window buys nothing when the only affected client is the one doing the migration. The nine registered error-type URIs are in §4.1; they cover the full surface the reference implementation currently returns. Implementations MAY mint additional types under a prefix they control, as §4.1 states.
+**Rationale**: There are no external v0.2 clients to accommodate - only the reference server itself was emitting the old envelope, and the migration landed in the reference implementation at the same time as this resolution (OpenRiC service v0.8.11, `packages/ahg-ric/src/Support/ProblemDetails.php`). Accepting both shapes indefinitely would lock every future implementer into emitting two error formats on every 4xx/5xx, which is strictly worse than a single IETF-standard shape. A migration window buys nothing when the only affected client is the one doing the migration. The nine registered error-type URIs are in §4.1; they cover the full surface the reference implementation currently returns. Implementations MAY mint additional types under a prefix they control, as §4.1 states.
 
-### Q7 — SHACL shapes open or closed?
+### Q7 - SHACL shapes open or closed?
 
 **Question**: Should Core Discovery SHACL shapes use `sh:closed true` (reject unknown predicates) or leave shapes open?
 
 **Resolution**: **Open shapes.**
 
-**Rationale**: Closed shapes punish harmless additions — a reference server adding an implementation-specific predicate (e.g. `myimpl:someInternalMarker`) for operational reasons while still satisfying every Core Discovery requirement would fail validation under closed shapes. That turns every future spec extension into a coordinated flag day for every implementation. Open shapes let the ecosystem extend forward-compatibly: new predicates don't break old validators, and closed-shape validation can still be offered as a stricter optional profile for implementers who want it.
+**Rationale**: Closed shapes punish harmless additions - a reference server adding an implementation-specific predicate (e.g. `myimpl:someInternalMarker`) for operational reasons while still satisfying every Core Discovery requirement would fail validation under closed shapes. That turns every future spec extension into a coordinated flag day for every implementation. Open shapes let the ecosystem extend forward-compatibly: new predicates don't break old validators, and closed-shape validation can still be offered as a stricter optional profile for implementers who want it.
 
-### Q8 — Profile lifecycle: tracks spec versions, or independent?
+### Q8 - Profile lifecycle: tracks spec versions, or independent?
 
 **Question**: Does Core Discovery v0.3 have to move to v0.4 when the spec does?
 
 **Resolution**: **Independent lifecycle.**
 
-**Rationale**: Spec version describes the HTTP contract (paths, response shapes, auth). Profile version describes a conformance-claim scope. An implementation might sit at Core Discovery v0.3 while the spec as a whole is at v0.4; the reverse is unlikely but permitted. Independent lifecycles mean we can revise Core Discovery without forcing a spec-wide freeze, and freezing the spec doesn't rush unpolished profiles out. Matches IIIF's multi-API approach — Image API and Presentation API ship on separate cadences.
+**Rationale**: Spec version describes the HTTP contract (paths, response shapes, auth). Profile version describes a conformance-claim scope. An implementation might sit at Core Discovery v0.3 while the spec as a whole is at v0.4; the reverse is unlikely but permitted. Independent lifecycles mean we can revise Core Discovery without forcing a spec-wide freeze, and freezing the spec doesn't rush unpolished profiles out. Matches IIIF's multi-API approach - Image API and Presentation API ship on separate cadences.
 
-*External review welcome on*: whether profile versions should declare a *minimum* spec version they require (likely yes) and a *maximum* (likely no — forward-compatible).
+*External review welcome on*: whether profile versions should declare a *minimum* spec version they require (likely yes) and a *maximum* (likely no - forward-compatible).
 
 ---
 
-Comments on any of these — including arguments to reverse a draft resolution — are welcome at <https://github.com/ArchiveHeritageGroup/openric-spec/discussions>.
+Comments on any of these - including arguments to reverse a draft resolution - are welcome at <https://github.com/ArchiveHeritageGroup/openric-spec/discussions>.
 
 ---
 

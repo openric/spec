@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenRiC — SPARQL Access Profile
+title: OpenRiC - SPARQL Access Profile
 description: Optional 8th profile. SPARQL 1.1 query endpoint over the canonical RDF graph backing an OpenRiC server. Draft.
 ---
 
@@ -9,22 +9,22 @@ description: Optional 8th profile. SPARQL 1.1 query endpoint over the canonical 
 **Profile id:** `sparql-access`
 **Profile version:** 0.1.0
 **Spec version:** 0.37.0
-**Status:** **Draft** — open for implementer review
-**Dependencies:** None — orthogonal to Core Discovery
+**Status:** **Draft** - open for implementer review
+**Dependencies:** None - orthogonal to Core Discovery
 **Last updated:** 2026-04-25
 
 ---
 
 ## 1. Purpose
 
-SPARQL Access is the OpenRiC profile for **graph-query access** to the RDF dataset backing a conformant server. Where the seven Normative profiles define HTTP/JSON-LD shapes for retrieving and editing entities, SPARQL Access exposes the same data through a SPARQL 1.1 query endpoint — for graph-walking analyses, federated queries, and downstream RDF tooling that doesn't speak the OpenRiC HTTP API.
+SPARQL Access is the OpenRiC profile for **graph-query access** to the RDF dataset backing a conformant server. Where the seven Normative profiles define HTTP/JSON-LD shapes for retrieving and editing entities, SPARQL Access exposes the same data through a SPARQL 1.1 query endpoint - for graph-walking analyses, federated queries, and downstream RDF tooling that doesn't speak the OpenRiC HTTP API.
 
 This profile is **optional**. Many OpenRiC servers (especially API-first or RDB-backed implementations) will not expose SPARQL. Servers that do back their data with a triplestore (Fuseki/Jena, GraphDB, QLever, Blazegraph, …) MAY claim this profile to advertise the query surface to consumers.
 
 A server implementing this profile commits to two things:
 
 1. **Expose a SPARQL 1.1 query endpoint** over the canonical RDF graph backing the server's RiC-O / openricx output, with a documented graph scope, access policy, and rate-limit posture.
-2. **Publish dataset metadata** — `void:Dataset` description, example queries, and any access-control caveats — so consumers can discover what's queryable and how.
+2. **Publish dataset metadata** - `void:Dataset` description, example queries, and any access-control caveats - so consumers can discover what's queryable and how.
 
 This profile **does not** require SPARQL Update (write access). Read-only SPARQL Query (1.1) is the normative surface. Update is a separate, future profile candidate (`sparql-update`).
 
@@ -34,20 +34,20 @@ This profile **does not** require SPARQL Update (write access). Read-only SPARQL
 
 | Verb | Path | Returns |
 |---|---|---|
-| GET / POST | `/api/ric/v1/sparql` | SPARQL 1.1 Query results — `application/sparql-results+json` (default), `application/sparql-results+xml`, `text/csv`, `text/turtle` (CONSTRUCT/DESCRIBE), `application/ld+json` (CONSTRUCT/DESCRIBE) |
+| GET / POST | `/api/ric/v1/sparql` | SPARQL 1.1 Query results - `application/sparql-results+json` (default), `application/sparql-results+xml`, `text/csv`, `text/turtle` (CONSTRUCT/DESCRIBE), `application/ld+json` (CONSTRUCT/DESCRIBE) |
 | GET | `/api/ric/v1/sparql/info` | Dataset metadata: `void:Dataset` description with triple count, graph scope, example queries (HTML or JSON-LD per content negotiation) |
 
 ### 2.2 Optional endpoints
 
 | Verb | Path | Purpose |
 |---|---|---|
-| GET | `/api/ric/v1/sparql/examples` | Library of example SPARQL queries with descriptions — useful for developer onboarding |
+| GET | `/api/ric/v1/sparql/examples` | Library of example SPARQL queries with descriptions - useful for developer onboarding |
 | GET | `/api/ric/v1/sparql/health` | SPARQL-specific liveness probe (separate from the global `/health`) |
 
 ### 2.3 Forbidden without additional profile claims
 
-- **SPARQL Update** (`INSERT DATA`, `DELETE DATA`, `CLEAR`, `LOAD`) — separate (forthcoming) `sparql-update` profile.
-- **SPARQL Graph Store HTTP Protocol** — separate profile candidate.
+- **SPARQL Update** (`INSERT DATA`, `DELETE DATA`, `CLEAR`, `LOAD`) - separate (forthcoming) `sparql-update` profile.
+- **SPARQL Graph Store HTTP Protocol** - separate profile candidate.
 
 A server claiming `sparql-access` MUST reject SPARQL Update operations with `405 Method Not Allowed` or `403 Forbidden` (per the chosen access-control posture).
 
@@ -55,7 +55,7 @@ A server claiming `sparql-access` MUST reject SPARQL Update operations with `405
 
 - Default response: `application/sparql-results+json` for SELECT/ASK; `text/turtle` for CONSTRUCT/DESCRIBE.
 - Servers MUST honour the `Accept` header per the SPARQL 1.1 Protocol.
-- All non-SPARQL errors (malformed query, rate limit, auth) MUST follow Core Discovery §4 — `application/problem+json` with `https://openric.org/errors/{type}` URIs.
+- All non-SPARQL errors (malformed query, rate limit, auth) MUST follow Core Discovery §4 - `application/problem+json` with `https://openric.org/errors/{type}` URIs.
 
 ## 3. Access policy
 
@@ -81,7 +81,7 @@ A server claims `sparql-access` with an explicit access-policy declaration in th
 | `authenticated-read` | Requires API key (per Round-Trip Editing §2.2 auth model) |
 | `tenant-restricted` | Requires API key + caller-tenant filtering applied server-side |
 
-`rate_limit` and `max_query_time_seconds` are SHOULD-document fields. Implementations MUST enforce both — SPARQL has no built-in protection against runaway queries.
+`rate_limit` and `max_query_time_seconds` are SHOULD-document fields. Implementations MUST enforce both - SPARQL has no built-in protection against runaway queries.
 
 ## 4. Response shapes
 
@@ -130,7 +130,7 @@ Responses validate against `shapes/profiles/sparql-access.shacl.ttl` (planned, v
 | `:SparqlInfoShape` | `/sparql/info` response root | `sh:Violation` on missing `void:Dataset`, `void:sparqlEndpoint`, `void:triples`; `sh:Warning` on missing `dcterms:license` |
 | `:SparqlConstructShape` | CONSTRUCT response when `Accept: application/ld+json` | `sh:Violation` if `@context` is absent or doesn't bind `rico` and `openricx` |
 
-Shape file is not yet shipped — this is a Draft profile.
+Shape file is not yet shipped - this is a Draft profile.
 
 ## 6. Conformance testing
 
@@ -155,9 +155,9 @@ Two fixtures planned for v0.8 of this profile (currently absent):
 
 ## 8. Implementation checklist
 
-- [ ] Choose a triplestore — Fuseki/Jena, GraphDB, QLever, Blazegraph, or other SPARQL 1.1-conformant engine
+- [ ] Choose a triplestore - Fuseki/Jena, GraphDB, QLever, Blazegraph, or other SPARQL 1.1-conformant engine
 - [ ] Mount the SPARQL endpoint at `/api/ric/v1/sparql` (proxy or direct)
-- [ ] Document the dataset graph scope — single default graph, named graphs, tenant-isolated graphs?
+- [ ] Document the dataset graph scope - single default graph, named graphs, tenant-isolated graphs?
 - [ ] Configure server-side query timeout (default ≤ 30s for `public-read`)
 - [ ] Configure rate limiting (default 60 requests / minute / IP for `public-read`)
 - [ ] Reject SPARQL Update with `405` or `403`
@@ -167,23 +167,23 @@ Two fixtures planned for v0.8 of this profile (currently absent):
 
 ## 9. Design decisions
 
-### Q1 — Why a separate profile, not a Core Discovery requirement?
+### Q1 - Why a separate profile, not a Core Discovery requirement?
 
-**Resolution**: SPARQL Access is **optional** because many OpenRiC implementations are API-first — they don't store data as RDF triples internally and cannot trivially expose a SPARQL endpoint. Forcing SPARQL on every conformant server would exclude RDB-backed implementations that would otherwise meet Core Discovery / Authority & Context. SPARQL is a strong-and-distinct capability, not a baseline.
+**Resolution**: SPARQL Access is **optional** because many OpenRiC implementations are API-first - they don't store data as RDF triples internally and cannot trivially expose a SPARQL endpoint. Forcing SPARQL on every conformant server would exclude RDB-backed implementations that would otherwise meet Core Discovery / Authority & Context. SPARQL is a strong-and-distinct capability, not a baseline.
 
-### Q2 — Why not require SPARQL Update?
+### Q2 - Why not require SPARQL Update?
 
-**Resolution**: SPARQL Update is a **separate future profile** (`sparql-update`) because the security and concurrency model for write SPARQL is fundamentally different — it touches every triple in the store with a single statement, which makes audit-trail recording (Round-Trip Editing §3.3) hard. Implementations that want write SPARQL access can ship it as an extension; this profile is intentionally read-only.
+**Resolution**: SPARQL Update is a **separate future profile** (`sparql-update`) because the security and concurrency model for write SPARQL is fundamentally different - it touches every triple in the store with a single statement, which makes audit-trail recording (Round-Trip Editing §3.3) hard. Implementations that want write SPARQL access can ship it as an extension; this profile is intentionally read-only.
 
-### Q3 — Default access posture: public or authenticated?
+### Q3 - Default access posture: public or authenticated?
 
 **Resolution**: **Implementer-declared via the `access` field in the service description**, with `public-read` as the documented default for institutional reference-data publication (consistent with Garance's pattern). Implementations holding sensitive metadata (PII, restricted records) MUST declare `authenticated-read` or `tenant-restricted` and enforce it.
 
-### Q4 — Triplestore engine recommendation?
+### Q4 - Triplestore engine recommendation?
 
-**Resolution**: **Engine-agnostic**. The profile defines the surface, not the implementation. Reference implementations using Fuseki/Jena and QLever both exist (the AnF Garance project uses QLever; the OpenRiC reference service uses Fuseki/Jena via the Heratio `ahg-ric` package). Performance characteristics differ — see the [Garance project benchmarks](https://github.com/sparna-git/garance) for QLever-specific guidance.
+**Resolution**: **Engine-agnostic**. The profile defines the surface, not the implementation. Reference implementations using Fuseki/Jena and QLever both exist (the AnF Garance project uses QLever; the OpenRiC reference service uses Fuseki/Jena via the Heratio `ahg-ric` package). Performance characteristics differ - see the [Garance project benchmarks](https://github.com/sparna-git/garance) for QLever-specific guidance.
 
-### Q5 — Should this profile be Normative or Draft for v1.0?
+### Q5 - Should this profile be Normative or Draft for v1.0?
 
 **Resolution**: **Draft** for now. The profile becomes Normative when:
 

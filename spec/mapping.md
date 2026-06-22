@@ -6,24 +6,24 @@ title: OpenRiC Mapping Specification
 # OpenRiC Mapping Specification
 
 **Version:** 0.38.1
-**Status:** Active — cross-referenced with RiC-AG (Application Guidelines) v0.1
+**Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
 **Last updated:** 2026-05-25
 
 ---
 
 <div class="callout" markdown="1">
 
-### ✅ RiC-O 1.1 namespace remediation — complete (v0.37.0, 2026-04-25)
+### ✅ RiC-O 1.1 namespace remediation - complete (v0.37.0, 2026-04-25)
 
 This document has been remediated against [RiC-O 1.1 (2025-05-22)](https://www.ica.org/standards/RiC/ontology/1.1). Every `rico:*` term emitted as data is canonical 1.1; every term that needed renaming, remodelling, or moving to the OpenRiC extension namespace has been processed across five phases (A → E). The full per-term disposition table and phase summaries are at [audit/ric-o-1.1-audit.html]({{ '/audit/ric-o-1.1-audit.html' | relative_url }}).
 
-The remaining `rico:*` tokens that appear in this document are exclusively in **"MUST NOT emit X"** warnings explaining what's *not* in RiC-O 1.1 — they are documentation prose, not emissions. Implementations of any OpenRiC profile MUST NOT emit them as data.
+The remaining `rico:*` tokens that appear in this document are exclusively in **"MUST NOT emit X"** warnings explaining what's *not* in RiC-O 1.1 - they are documentation prose, not emissions. Implementations of any OpenRiC profile MUST NOT emit them as data.
 
 </div>
 
 ## 1. Purpose
 
-This specification defines a deterministic mapping from the traditional archival-description standards — **ISAD(G)**, **ISAAR(CPF)**, **ISDIAH**, **ISDF** — to the ICA's **Records in Contexts** conceptual model ([RiC-CM v1.0](https://www.ica.org/app/uploads/2023/12/RiC-CM-1.0.pdf)) and its ontology ([RiC-O v1.1, 2025-05-22](https://www.ica.org/standards/RiC/ontology/1.1)).
+This specification defines a deterministic mapping from the traditional archival-description standards - **ISAD(G)**, **ISAAR(CPF)**, **ISDIAH**, **ISDF** - to the ICA's **Records in Contexts** conceptual model ([RiC-CM v1.0](https://www.ica.org/app/uploads/2023/12/RiC-CM-1.0.pdf)) and its ontology ([RiC-O v1.1, 2025-05-22](https://www.ica.org/standards/RiC/ontology/1.1)).
 
 Given a conforming input description, exactly one conforming RiC graph SHALL result. The mapping is total: every entity in the input has a defined target class in RiC, and every normatively-required ISAD(G)/ISAAR(CPF)/ISDIAH element has a defined target predicate.
 
@@ -31,20 +31,20 @@ A reference implementation exists in the [Heratio](https://github.com/ArchiveHer
 
 ### 1.1 Alignment with RiC-O Converter v3.0
 
-This mapping is **consistent with the conventions of [RiC-O Converter v3.0](https://github.com/ArchivesNationalesFR/rico-converter)** (Sparna + AnF Lab, March 2025) — the canonical EAD 2002 / EAC-CPF → RiC-O converter. Where this spec and the Converter make different decisions, the differences are documented:
+This mapping is **consistent with the conventions of [RiC-O Converter v3.0](https://github.com/ArchivesNationalesFR/rico-converter)** (Sparna + AnF Lab, March 2025) - the canonical EAD 2002 / EAC-CPF → RiC-O converter. Where this spec and the Converter make different decisions, the differences are documented:
 
 - **Source standards**: OpenRiC mapping covers ISAD(G), ISAAR(CPF), ISDIAH, ISDF (the AtoM/Heratio source set). RiC-O Converter covers EAD 2002 and EAC-CPF (the international XML formats). The two source sets overlap on ISAD(G) ↔ EAD and ISAAR(CPF) ↔ EAC-CPF; the Converter does NOT cover ISDIAH or ISDF source data, OpenRiC does.
 - **Output RiC-O version**: both target RiC-O 1.1.
-- **Property choices**: where both standards model the same concept, this spec emits the same `rico:*` property the Converter emits (verified for `rico:hasOrHadInstantiation`, `rico:hasOrHadHolder`, `rico:hasOrHadAgentName`, `rico:hasOrHadLanguage`, the date-property family, the inclusion-relation family, and others — see the [audit document](../audit/ric-o-1.1-audit.html) for the per-term decisions).
+- **Property choices**: where both standards model the same concept, this spec emits the same `rico:*` property the Converter emits (verified for `rico:hasOrHadInstantiation`, `rico:hasOrHadHolder`, `rico:hasOrHadAgentName`, `rico:hasOrHadLanguage`, the date-property family, the inclusion-relation family, and others - see the [audit document](../audit/ric-o-1.1-audit.html) for the per-term decisions).
 - **Extension namespace**: where neither the Converter nor RiC-O 1.1 covers a needed concept, OpenRiC mints terms in `openricx:` (see [`/ns/ext/v1.html`](../ns/ext/v1.html)). The Converter does not currently use an extension namespace; OpenRiC adopters that also use the Converter can ignore the openricx terms and stay strict-RiC-O.
 
 Institutions migrating existing EAD finding aids can reasonably use the Converter to bootstrap their corpus and an OpenRiC-conformant server (any conformant implementation, not just the reference) to expose the result over HTTP.
 
 ### 1.2 Cross-reference with RiC-AG (Application Guidelines)
 
-This mapping is **cross-referenced with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/)** (ICA-EGAD Application Guidelines, October 2025). RiC-AG ships a [crosswalk from the four legacy ICA standards](https://ica-egad.github.io/RiC-AG/mappings.html) — ISAD(G), ISAAR(CPF), ISDF, ISDIAH — to RiC-CM, which is exactly the source-standard set this mapping spec covers.
+This mapping is **cross-referenced with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/)** (ICA-EGAD Application Guidelines, October 2025). RiC-AG ships a [crosswalk from the four legacy ICA standards](https://ica-egad.github.io/RiC-AG/mappings.html) - ISAD(G), ISAAR(CPF), ISDF, ISDIAH - to RiC-CM, which is exactly the source-standard set this mapping spec covers.
 
-OpenRiC treats RiC-AG as the **upstream authoritative reference** for that crosswalk. Where this spec and RiC-AG agree on a class or property mapping, RiC-AG is canonical and OpenRiC defers. Where they diverge — intentionally or as drift — the divergence is documented:
+OpenRiC treats RiC-AG as the **upstream authoritative reference** for that crosswalk. Where this spec and RiC-AG agree on a class or property mapping, RiC-AG is canonical and OpenRiC defers. Where they diverge - intentionally or as drift - the divergence is documented:
 
 - **Intentional divergences:** OpenRiC mints `openricx:` terms where neither RiC-O 1.1 nor RiC-AG covers a needed concept (e.g. `openricx:containsPersonalData`, `openricx:hasMimeType`, the `openricx:hasDateRangeSet` wrapper for the multi-event date pattern). These are documented in [`/ns/ext/v1.html`](../ns/ext/v1.html) and tracked as [upstream-proposal candidates](https://github.com/openric/spec/tree/main/docs/upstream-proposals) for eventual contribution back to RiC-O via EGAD.
 - **Source-set extension:** OpenRiC covers ISDF and ISDIAH at the same level of detail as ISAD(G) and ISAAR(CPF). RiC-AG v0.1 covers all four; OpenRiC's per-standard tables in §6 are intended to be consistent with RiC-AG's crosswalk tables, not parallel definitions.
@@ -103,9 +103,9 @@ The canonical form is:
 ```
 
 Where:
-- `{baseUri}` — the OpenRiC server's public base URL (e.g. `https://archives.example.org`).
-- `{entity-path}` — one of `informationobject`, `actor`, `repository`, `function`, `event`, `thing`.
-- `{slug-or-id}` — the human-readable slug if available, otherwise the numeric primary key.
+- `{baseUri}` - the OpenRiC server's public base URL (e.g. `https://archives.example.org`).
+- `{entity-path}` - one of `informationobject`, `actor`, `repository`, `function`, `event`, `thing`.
+- `{slug-or-id}` - the human-readable slug if available, otherwise the numeric primary key.
 
 Example: `https://archives.example.org/informationobject/AHG-A001-fonds-smuts`.
 
@@ -129,7 +129,7 @@ The RiC class is selected from the ISAD(G) *level of description* term:
 | `file` | `rico:RecordSet` |
 | `item` | `rico:Record` |
 | `part` | `rico:RecordPart` |
-| *(fallback — unknown level)* | `rico:Record` |
+| *(fallback - unknown level)* | `rico:Record` |
 
 Implementations MAY extend this table for local levels but MUST preserve the `RecordSet` / `Record` / `RecordPart` coarse distinction.
 
@@ -143,7 +143,7 @@ Selected from the ISAAR(CPF) *type of entity* term, extended with `mechanism` fo
 | `person` | `rico:Person` |
 | `family` | `rico:Family` |
 | `mechanism` | `rico:Mechanism` |
-| *(fallback — unknown type)* | `rico:Agent` |
+| *(fallback - unknown type)* | `rico:Agent` |
 
 `rico:Mechanism` is a canonical RiC-O 1.1 subclass of `rico:Agent`, used for software systems, devices, importers, AI services, OCR pipelines, and other automated agents whose actions on records can be attributed in provenance. ICA-EGAD examples (Florence Clavaud, RiC user group #27) include scanners and digital cameras as Mechanisms participating in digitisation Activities.
 
@@ -154,7 +154,7 @@ Repositories (ISDIAH institutions) are always emitted as `rico:CorporateBody`. T
 - The `rico:hasOrHadHolder` inverse relation (records `rico:hasOrHadHolder` them).
 - Optional `openric:role "repository"` annotation for viewing convenience.
 
-### 6.4 Function → `openricx:Function` (interim) — see canonical alternatives below
+### 6.4 Function → `openricx:Function` (interim) - see canonical alternatives below
 
 RiC-O 1.1 does **not** define `rico:Function` as a class, and ICA-EGAD guidance (Florence Clavaud, RiC user group) is that an archival/business *function* is best modelled in canonical RiC-O as either:
 
@@ -167,7 +167,7 @@ There is no canonical "performs this function" property in RiC-O 1.1. Where the 
 
 ### 6.5 Event → `rico:Activity` + `rico:hasActivityType`
 
-RiC-O 1.1 does **not** define `rico:Production`, `rico:Accumulation`, `rico:CustodyEvent`, `rico:Transfer`, or any other concrete `rico:Activity` subclass — only the parent class `rico:Activity` is canonical. Earlier OpenRiC drafts (≤ v0.36) emitted `rico:Production` / `rico:Accumulation` as concrete classes; this was a non-conformant assumption flagged by the [RiC-O 1.1 audit](../audit/ric-o-1.1-audit.html).
+RiC-O 1.1 does **not** define `rico:Production`, `rico:Accumulation`, `rico:CustodyEvent`, `rico:Transfer`, or any other concrete `rico:Activity` subclass - only the parent class `rico:Activity` is canonical. Earlier OpenRiC drafts (≤ v0.36) emitted `rico:Production` / `rico:Accumulation` as concrete classes; this was a non-conformant assumption flagged by the [RiC-O 1.1 audit](../audit/ric-o-1.1-audit.html).
 
 The current pattern is: every event MUST be typed as `rico:Activity` and MUST carry a `rico:hasActivityType` IRI from the OpenRiC activity-type vocabulary:
 
@@ -181,7 +181,7 @@ The current pattern is: every event MUST be typed as `rico:Activity` and MUST ca
 | `transfer` | `rico:Activity` | `<https://openric.org/vocab/activity-type/transfer>` |
 | `publication` | `rico:Activity` | `<https://openric.org/vocab/activity-type/publication>` |
 | `reproduction` | `rico:Activity` | `<https://openric.org/vocab/activity-type/reproduction>` |
-| *(fallback — unknown event type)* | `rico:Activity` | (none — preserve in `openric:localType`) |
+| *(fallback - unknown event type)* | `rico:Activity` | (none - preserve in `openric:localType`) |
 
 The activity-type IRIs MAY be modelled as a SKOS concept scheme in a future release; today they are dereferenceable identifiers only. Implementations MAY mint local activity-type IRIs (e.g. `<https://archives.example.org/vocab/activity-type/migration>`) for site-specific event kinds, but MUST also emit `openric:localType` so consumers without the local vocabulary can still dispatch.
 
@@ -223,7 +223,7 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 | 3.4.2 Conditions governing reproduction | `rico:conditionsOfUse` | |
 | 3.4.3 Language/scripts of material | `rico:hasOrHadLanguage` → ISO 639-3 code | |
 | 3.4.4 Physical characteristics | `rico:hasCarrierType` | |
-| 3.4.5 Finding aids | `rico:isOrWasDescribedBy` → finding-aid Record (which carries `rico:hasDocumentaryFormType <https://www.ica.org/standards/RiC/ontology#FindingAid>`) | Canonical RiC-O 1.1 pattern per Florence Clavaud (RiC user group) — `FindingAid` is a `DocumentaryFormType` individual, not a separate property |
+| 3.4.5 Finding aids | `rico:isOrWasDescribedBy` → finding-aid Record (which carries `rico:hasDocumentaryFormType <https://www.ica.org/standards/RiC/ontology#FindingAid>`) | Canonical RiC-O 1.1 pattern per Florence Clavaud (RiC user group) - `FindingAid` is a `DocumentaryFormType` individual, not a separate property |
 | 3.5.1 Existence and location of originals | `rico:hasOrHadLocation` | |
 | 3.5.2 Existence and location of copies | `rico:hasOrHadInstantiation` | |
 | 3.5.3 Related units of description | `rico:isRelatedTo` | |
@@ -266,11 +266,11 @@ Dates are emitted as `openricx:DateRange` objects:
 | 5.2.2 History | `rico:history` |
 | 5.2.3 Places | `rico:isAssociatedWithPlace` → `rico:Place` |
 | 5.2.4 Legal status | `rico:hasOrHadLegalStatus` |
-| 5.2.5 Functions, occupations, activities | `rico:performsOrPerformed` → `openricx:Function` (interim, see §6.4); `openricx:hasOccupation` → SKOS Concept of `rico:OccupationType` (RiC-O 1.1 has no direct `Agent → OccupationType` linking property — Aaron+Florence in RiC user group #20 endorse SKOS individuals of `OccupationType`; canonical RDF expansion: an `Activity` typed by an OccupationType IRI per §6.5) |
+| 5.2.5 Functions, occupations, activities | `rico:performsOrPerformed` → `openricx:Function` (interim, see §6.4); `openricx:hasOccupation` → SKOS Concept of `rico:OccupationType` (RiC-O 1.1 has no direct `Agent → OccupationType` linking property - Aaron+Florence in RiC user group #20 endorse SKOS individuals of `OccupationType`; canonical RDF expansion: an `Activity` typed by an OccupationType IRI per §6.5) |
 | 5.2.6 Mandates / sources of authority | `rico:authorizingMandate` → `rico:Mandate` |
 | 5.2.7 Internal structures / genealogy | `openricx:hasInternalStructure` |
 | 5.2.8 General context | `openricx:generalContext` |
-| 5.3.x Relationships | `isOrWas...Of` property family (e.g. `rico:isOrWasOwnerOf`, `rico:isOrWasHolderOf`) — see §8 |
+| 5.3.x Relationships | `isOrWas...Of` property family (e.g. `rico:isOrWasOwnerOf`, `rico:isOrWasHolderOf`) - see §8 |
 
 ### 7.4 Repository (ISDIAH)
 
@@ -332,11 +332,11 @@ RiC-O 1.1 does **not** define `AccessRestriction` or `SecurityClassification` as
 - **The link from a regulated resource to its governing rule** is `rico:isOrWasRegulatedBy` (subject = the regulated `RecordResource` / `Instantiation` / etc.; object = a `rico:Rule`).
 - **The kind of rule** is carried on the `rico:Rule` instance via `rico:hasOrHadRuleType` pointing at a SKOS Concept from the OpenRiC rule-type vocabulary.
 
-OpenRiC rule-type IRIs (subset — a SKOS `ConceptScheme` will be published at `<https://openric.org/vocab/rule-type/>`):
+OpenRiC rule-type IRIs (subset - a SKOS `ConceptScheme` will be published at `<https://openric.org/vocab/rule-type/>`):
 
 | IRI | Meaning |
 |---|---|
-| `<https://openric.org/vocab/rule-type/access-restriction>` | Scoped restriction — time, role, purpose |
+| `<https://openric.org/vocab/rule-type/access-restriction>` | Scoped restriction - time, role, purpose |
 | `<https://openric.org/vocab/rule-type/security-classification>` | Classification code (e.g. "Confidential", "Restricted") |
 | `<https://openric.org/vocab/rule-type/access-rule>` | General access governance |
 
@@ -346,12 +346,12 @@ Privacy / personal-data flag remains an OpenRiC extension property because RiC-O
 |---|---|---|---|
 | `openricx:containsPersonalData` | `rico:Record` / `rico:RecordSet` | `xsd:boolean` | True if the record is known to contain personally identifiable information |
 
-Example — a record regulated by an access-restriction Rule:
+Example - a record regulated by an access-restriction Rule:
 
 ```turtle
 <.../record/abc> rico:isOrWasRegulatedBy <.../rule/popia-2026> .
 <.../rule/popia-2026> a rico:Rule ;
-    rico:title "POPIA section 14 — personal data" ;
+    rico:title "POPIA section 14 - personal data" ;
     rico:hasOrHadRuleType <https://openric.org/vocab/rule-type/access-restriction> .
 ```
 
@@ -387,7 +387,7 @@ API routes such as `/records`, `/agents`, `/repositories`, and `/functions` are 
 
 The actions performed by these mechanisms are modelled as `rico:Activity` instances, linked back via `rico:isOrWasPerformedBy` (or its inverse `rico:performsOrPerformed` on the Mechanism), and to the affected records via `rico:resultsOrResultedIn` / `rico:affectsOrAffected`.
 
-### 10.2 Example — OpenRiC importer converting EAD to RiC-O
+### 10.2 Example - OpenRiC importer converting EAD to RiC-O
 
 ```turtle
 @prefix rico:     <https://www.ica.org/standards/RiC/ontology#> .
@@ -414,7 +414,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 ---
 
-## 11. Canonical example — fonds with subordinate series
+## 11. Canonical example - fonds with subordinate series
 
 ### Input (abbreviated AtoM-shape JSON)
 
@@ -490,11 +490,11 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 ## 11. Open issues
 
-- **O-1 — Level-to-class flexibility.** The `file` level maps to `rico:RecordSet`, following Heratio's implementation. Some communities prefer `file` → `rico:Record`. Under discussion.
-- **O-2 — Rights statements.** RiC-O's rights vocabulary is thin. A separate OpenRiC-Rights spec is likely, building on ODRL.
-- **O-3 — Preservation events.** RiC-CM covers preservation; the predicate set in RiC-O 1.1 is incomplete for fine-grained PREMIS-equivalent events. Deferred to v0.2.
-- **O-4 — Multilinguality of `rico:title` and `openricx:description`.** Whether to emit one triple per culture with `@language`, or a single JSON-LD object with `@value`/`@language` pairs. Current recommendation: array of language-tagged strings. Under review.
-- **O-5 — Thing / container modelling.** RiC-O does not have a native `Container` or `StorageLocation` class; we map to `rico:Thing` with `openric:localType`. May warrant an OpenRiC-Storage extension.
+- **O-1 - Level-to-class flexibility.** The `file` level maps to `rico:RecordSet`, following Heratio's implementation. Some communities prefer `file` → `rico:Record`. Under discussion.
+- **O-2 - Rights statements.** RiC-O's rights vocabulary is thin. A separate OpenRiC-Rights spec is likely, building on ODRL.
+- **O-3 - Preservation events.** RiC-CM covers preservation; the predicate set in RiC-O 1.1 is incomplete for fine-grained PREMIS-equivalent events. Deferred to v0.2.
+- **O-4 - Multilinguality of `rico:title` and `openricx:description`.** Whether to emit one triple per culture with `@language`, or a single JSON-LD object with `@value`/`@language` pairs. Current recommendation: array of language-tagged strings. Under review.
+- **O-5 - Thing / container modelling.** RiC-O does not have a native `Container` or `StorageLocation` class; we map to `rico:Thing` with `openric:localType`. May warrant an OpenRiC-Storage extension.
 
 ---
 
@@ -502,7 +502,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
-| 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) — treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
+| 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) - treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
 | 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A–E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `ahg-ric` reference implementation. |
 

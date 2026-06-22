@@ -1,7 +1,7 @@
 ---
 layout: default
-title: OpenRiC — Round-Trip Editing Profile
-description: The write surface — POST/PATCH/DELETE across every writable entity, with an audit trail that lets a client confirm its mutation was persisted the way it intended. The hardest profile. Depends on Core Discovery and Authority & Context.
+title: OpenRiC - Round-Trip Editing Profile
+description: The write surface - POST/PATCH/DELETE across every writable entity, with an audit trail that lets a client confirm its mutation was persisted the way it intended. The hardest profile. Depends on Core Discovery and Authority & Context.
 ---
 
 # Round-Trip Editing Profile
@@ -23,10 +23,10 @@ A server implementing this profile commits to four things:
 
 1. **Expose write verbs** (POST, PATCH/PUT, DELETE) on every RiC entity type: agents, records, repositories, functions, places, rules, activities, instantiations, and the relations between them.
 2. **Gate those verbs behind an API-key-authenticated scope** (`write` for create/update, `delete` or equivalent for destructive ops). Reads remain public.
-3. **Return deterministic response envelopes** — `201 Created` with `{id, slug, type, href}` on POST; `200 OK` with `{success: true, id}` on PATCH/DELETE and relation writes. Errors follow RFC 7807 per Core Discovery §4.
+3. **Return deterministic response envelopes** - `201 Created` with `{id, slug, type, href}` on POST; `200 OK` with `{success: true, id}` on PATCH/DELETE and relation writes. Errors follow RFC 7807 per Core Discovery §4.
 4. **Record every successful mutation to an audit log** and expose that log via `GET /{type}/{id}/revisions` as an `openric:RevisionList`. This is the "round-trip" closure: a client that POSTed or PATCHed an entity can query the revision endpoint and see its own mutation recorded with `actor`, `created_at`, and (optionally) the redacted payload.
 
-Round-Trip Editing depends on Core Discovery and Authority & Context — a client writing entities it cannot fetch back, or writing Activities without Places/Rules to bind them to, cannot meaningfully round-trip. Claiming Round-Trip Editing without the two dependencies is a conformance failure.
+Round-Trip Editing depends on Core Discovery and Authority & Context - a client writing entities it cannot fetch back, or writing Activities without Places/Rules to bind them to, cannot meaningfully round-trip. Claiming Round-Trip Editing without the two dependencies is a conformance failure.
 
 ## 2. Scope
 
@@ -36,9 +36,9 @@ For each entity type `{t}` (one of `agents`, `records`, `repositories`, `functio
 
 | Verb | Path | Returns |
 |---|---|---|
-| POST | `/api/ric/v1/{t}` | `201 Created` — create envelope |
-| PATCH or PUT | `/api/ric/v1/{t}/{id}` | `200 OK` — success envelope |
-| DELETE | `/api/ric/v1/{t}/{id}` | `200 OK` — success envelope |
+| POST | `/api/ric/v1/{t}` | `201 Created` - create envelope |
+| PATCH or PUT | `/api/ric/v1/{t}/{id}` | `200 OK` - success envelope |
+| DELETE | `/api/ric/v1/{t}/{id}` | `200 OK` - success envelope |
 
 A server MUST accept PATCH; accepting PUT as an alias is RECOMMENDED (same body shape; PUT is less commonly used but still in the wild).
 
@@ -46,9 +46,9 @@ A server MUST accept PATCH; accepting PUT as an alias is RECOMMENDED (same body 
 
 | Verb | Path | Returns |
 |---|---|---|
-| POST | `/api/ric/v1/relations` | `201 Created` — create envelope (no `slug`) |
-| PATCH or PUT | `/api/ric/v1/relations/{id}` | `200 OK` — success envelope |
-| DELETE | `/api/ric/v1/relations/{id}` | `200 OK` — success envelope |
+| POST | `/api/ric/v1/relations` | `201 Created` - create envelope (no `slug`) |
+| PATCH or PUT | `/api/ric/v1/relations/{id}` | `200 OK` - success envelope |
+| DELETE | `/api/ric/v1/relations/{id}` | `200 OK` - success envelope |
 
 ### 2.3 Required revision endpoint
 
@@ -56,14 +56,14 @@ A server MUST accept PATCH; accepting PUT as an alias is RECOMMENDED (same body 
 |---|---|---|
 | GET | `/api/ric/v1/{type}/{id}/revisions` | `openric:RevisionList` |
 
-**Public-read default — operator-configurable** (revised v0.37): audit revision endpoints MUST exist for every writable entity. **Public visibility of revision metadata is the default**, but implementations MAY require authentication for sensitive fields. Sensitive keys (passwords, API keys, tokens) MUST be redacted at write time before the payload is stored.
+**Public-read default - operator-configurable** (revised v0.37): audit revision endpoints MUST exist for every writable entity. **Public visibility of revision metadata is the default**, but implementations MAY require authentication for sensitive fields. Sensitive keys (passwords, API keys, tokens) MUST be redacted at write time before the payload is stored.
 
 | Audit field | Default public visibility | Operator may restrict |
 |---|---|---|
 | Revision exists (`id`, `action`) | Public | Coarsen to row count |
 | Timestamp (`created_at`) | Public | Coarsen to date precision |
-| Actor (api-key id, user id) | **Redacted-or-role-only by default** | — |
-| IP address (`ip`) | **Not public by default** | — |
+| Actor (api-key id, user id) | **Redacted-or-role-only by default** | - |
+| IP address (`ip`) | **Not public by default** | - |
 | Payload (full JSON diff) | **Not public by default** | Operator opt-in for full payload |
 
 The "round-trip closure" (a client confirms its own mutation persisted) only requires `id`, `action`, `created_at`, and the entity's stable `@id`. The richer fields (full payload, actor IP) are governance metadata; their visibility is an operator/jurisdiction decision (POPIA §14, GDPR Art. 5/6, etc.), not an OpenRiC normative requirement.
@@ -76,20 +76,20 @@ The "round-trip closure" (a client confirms its own mutation persisted) only req
 
 ### 2.5 Forbidden without additional profile claims
 
-- **File uploads on write** (`POST /upload`) — that is Digital Object Linkage §2.2.
-- **Bulk imports** (`POST /import`) — out of scope here; implementations that offer bulk import do so outside any profile's normative surface.
-- **Write without audit** — a server that mutates entities without recording to `openric_audit_log` (or an equivalent) breaks the round-trip contract.
+- **File uploads on write** (`POST /upload`) - that is Digital Object Linkage §2.2.
+- **Bulk imports** (`POST /import`) - out of scope here; implementations that offer bulk import do so outside any profile's normative surface.
+- **Write without audit** - a server that mutates entities without recording to `openric_audit_log` (or an equivalent) breaks the round-trip contract.
 
 ### 2.6 Content types
 
 - **Request bodies:** `application/json` for all write verbs. Implementations MAY additionally accept `application/ld+json` (identical semantics; the `@context` is ignored on write).
-- **Success responses:** `application/json` (the create + success envelopes are pure JSON, not JSON-LD — see §3.1 and §9 Q1).
+- **Success responses:** `application/json` (the create + success envelopes are pure JSON, not JSON-LD - see §3.1 and §9 Q1).
 - **Revision responses:** `application/json` with `@type: openric:RevisionList` (see §3.3).
 - **Error responses:** `application/problem+json` per Core Discovery §4.
 
 ## 3. Response shapes
 
-### 3.1 Create envelope — `201 Created`
+### 3.1 Create envelope - `201 Created`
 
 Returned by every successful `POST /{t}` (and `POST /relations`).
 
@@ -106,13 +106,13 @@ Returned by every successful `POST /{t}` (and `POST /relations`).
 
 **Optional but normative when present:**
 
-- `slug` — present for entity types whose show-endpoint supports slug URLs (`places`, `rules`, `records`, `agents`, `repositories`, `functions`). May be `null` for types without slugs (`activities`, `instantiations`, `relations`).
-- `type` — singular form of the URL segment (`place`, `rule`, `activity`, `instantiation`, `agent`, `record`, `repository`, `function`). Omit on `POST /relations`.
-- `href` — path of the show endpoint for the new entity. The server MAY additionally set `Location:` to the same value.
+- `slug` - present for entity types whose show-endpoint supports slug URLs (`places`, `rules`, `records`, `agents`, `repositories`, `functions`). May be `null` for types without slugs (`activities`, `instantiations`, `relations`).
+- `type` - singular form of the URL segment (`place`, `rule`, `activity`, `instantiation`, `agent`, `record`, `repository`, `function`). Omit on `POST /relations`.
+- `href` - path of the show endpoint for the new entity. The server MAY additionally set `Location:` to the same value.
 
 Validated by `/schemas/write-response.schema.json` `$defs/create`. Fixture: [`write-response-create`](../../fixtures/write-response-create/).
 
-### 3.2 Success envelope — `200 OK`
+### 3.2 Success envelope - `200 OK`
 
 Returned by every successful `PATCH/PUT /{t}/{id}`, `DELETE /{t}/{id}`, and relation write.
 
@@ -124,7 +124,7 @@ Returned by every successful `PATCH/PUT /{t}/{id}`, `DELETE /{t}/{id}`, and rela
 
 Validated by `/schemas/write-response.schema.json` `$defs/success`. Fixture: [`write-response-success`](../../fixtures/write-response-success/).
 
-### 3.3 Revision list — `GET /{t}/{id}/revisions`
+### 3.3 Revision list - `GET /{t}/{id}/revisions`
 
 The audit trail for one entity, newest-first.
 
@@ -157,7 +157,7 @@ Validated by `:RevisionListShape` + `:RevisionEntryShape` in `shapes/profiles/ro
 
 ### 3.4 Pagination on revisions
 
-`GET /{t}/{id}/revisions?limit=N` — default 50, maximum 200. Paging past `limit` (deep audit history) is not in this profile's normative surface; a server that exposes it SHOULD do so via a separate audit-export endpoint.
+`GET /{t}/{id}/revisions?limit=N` - default 50, maximum 200. Paging past `limit` (deep audit history) is not in this profile's normative surface; a server that exposes it SHOULD do so via a separate audit-export endpoint.
 
 ## 4. Authentication & authorisation
 
@@ -172,7 +172,7 @@ All write verbs REQUIRE a `X-API-Key: <key>` header. The key is authenticated by
 | `write` | POST, PATCH, PUT on every entity type and relations |
 | `delete` | DELETE on every entity type and relations (a key with only `write` scope MUST NOT be able to delete) |
 
-A key MAY hold both scopes. Implementations MAY define additional scopes (`admin`, `write:records`) — any scope outside this table is outside the profile's normative surface.
+A key MAY hold both scopes. Implementations MAY define additional scopes (`admin`, `write:records`) - any scope outside this table is outside the profile's normative surface.
 
 ### 4.3 Error paths
 
@@ -190,7 +190,7 @@ Round-Trip Editing ships three shapes in `shapes/profiles/round-trip-editing.sha
 | `:RevisionEntryShape` | inline on `openric:items` values | `sh:Violation` on missing `id`, `action`, `entity`, `actor`, `created_at`; `sh:Violation` if `action` is not `create` / `update` / `delete`; `sh:Info` on optional `ip` / `payload` |
 | `:AuditedActionShape` | any subject with an `openric:action` predicate | Stand-alone constraint on the action enum, reusable outside the RevisionList envelope (e.g. audit-log exports) |
 
-Cross-entity checks ("every audit row references a live entity") are deliberately deferred to Graph Traversal's full-graph shapes — they require the whole store and produce false positives on a single revision-list response.
+Cross-entity checks ("every audit row references a live entity") are deliberately deferred to Graph Traversal's full-graph shapes - they require the whole store and produce false positives on a single revision-list response.
 
 ## 6. Conformance testing
 
@@ -214,7 +214,7 @@ The manifest declares these four fixtures as normative for `round-trip-editing`:
 
 | Fixture | Status | What it pins |
 |---|---|---|
-| `entity-write-place` | done | POST /places — request body + expected create-envelope response |
+| `entity-write-place` | done | POST /places - request body + expected create-envelope response |
 | `write-response-create` | done | Canonical `201` create envelope shape (reusable across all POSTs) |
 | `write-response-success` | done | Canonical `200` success envelope shape (reusable across PATCH/DELETE/relation writes) |
 | `revision-list` | done | `openric:RevisionList` response with `create` + `update` × 2 rows |
@@ -224,14 +224,14 @@ Fixtures outside this list are NOT required for profile conformance.
 ## 8. Implementation checklist
 
 - [ ] Wire write routes for all 8 entity types + relations under a middleware that enforces `X-API-Key` + scope
-- [ ] POST returns `201 Created` with `{id, slug?, type?, href?}` — at minimum `id`
+- [ ] POST returns `201 Created` with `{id, slug?, type?, href?}` - at minimum `id`
 - [ ] PATCH/PUT returns `200 OK` with `{success: true, id}`
 - [ ] DELETE returns `200 OK` with `{success: true, id}`
 - [ ] Every successful mutation writes one row to the audit log (action, entity, actor, timestamp, payload)
 - [ ] Sensitive keys (passwords, API keys) redacted in the stored payload before insert
-- [ ] `GET /{t}/{id}/revisions` returns `openric:RevisionList` per §3.3 — minimal fields (`id`, `action`, `created_at`, `entity`) public by default; richer fields (`actor`, `ip`, `payload`) operator-gated per §2.3 visibility table
-- [ ] Revision response validates against `:RevisionListShape` — 0 Violations
-- [ ] 401 on missing/invalid key; 403 on scope mismatch — both `application/problem+json`
+- [ ] `GET /{t}/{id}/revisions` returns `openric:RevisionList` per §3.3 - minimal fields (`id`, `action`, `created_at`, `entity`) public by default; richer fields (`actor`, `ip`, `payload`) operator-gated per §2.3 visibility table
+- [ ] Revision response validates against `:RevisionListShape` - 0 Violations
+- [ ] 401 on missing/invalid key; 403 on scope mismatch - both `application/problem+json`
 - [ ] 409 on referential-integrity conflicts; 422 on body validation failures
 - [ ] Add `round-trip-editing` to `openric_conformance.profiles` in `GET /`
 - [ ] All 4 shipped fixtures pass the conformance probe at `--profile=round-trip-editing`
@@ -241,38 +241,38 @@ Fixtures outside this list are NOT required for profile conformance.
 
 Six questions were flagged during drafting; all six carry resolutions.
 
-### Q1 — Write envelopes as pure JSON or JSON-LD?
+### Q1 - Write envelopes as pure JSON or JSON-LD?
 
 **Resolution**: **Pure JSON.**
 
-**Rationale**: Create and success envelopes are confirmations, not RiC data. They carry identifiers and routing hints (`href`), not ontology-bearing facts. Wrapping them in JSON-LD with an `@context` would force every write response to declare prefix bindings for data that doesn't use them. This matches the pattern already set by Graph Traversal §3.3 (`/relations`, `/hierarchy` are compact JSON) and by IIIF Image API's non-LD responses. LD-native clients can still parse the envelopes — they're valid JSON.
+**Rationale**: Create and success envelopes are confirmations, not RiC data. They carry identifiers and routing hints (`href`), not ontology-bearing facts. Wrapping them in JSON-LD with an `@context` would force every write response to declare prefix bindings for data that doesn't use them. This matches the pattern already set by Graph Traversal §3.3 (`/relations`, `/hierarchy` are compact JSON) and by IIIF Image API's non-LD responses. LD-native clients can still parse the envelopes - they're valid JSON.
 
-### Q2 — Optimistic concurrency control (ETags / If-Match)?
+### Q2 - Optimistic concurrency control (ETags / If-Match)?
 
 **Resolution**: **Not required in v0.7. Last-write-wins with audit trail.**
 
-**Rationale**: The audit log provides *reactive* concurrency — a client that wants to detect "someone else wrote while I was editing" can `GET /revisions` before and after its PATCH and look for intervening entries. That is enough for the common case (catalogue curation rarely has racing writers on the same entity). ETag / If-Match *proactive* concurrency is a real v1.0+ candidate for high-concurrency scenarios, but adding it in v0.7 would change every implementation's storage layer and every client's write code for a problem most implementers don't yet have. Implementations that need it now MAY emit ETags — clients MUST tolerate their absence.
+**Rationale**: The audit log provides *reactive* concurrency - a client that wants to detect "someone else wrote while I was editing" can `GET /revisions` before and after its PATCH and look for intervening entries. That is enough for the common case (catalogue curation rarely has racing writers on the same entity). ETag / If-Match *proactive* concurrency is a real v1.0+ candidate for high-concurrency scenarios, but adding it in v0.7 would change every implementation's storage layer and every client's write code for a problem most implementers don't yet have. Implementations that need it now MAY emit ETags - clients MUST tolerate their absence.
 
-### Q3 — Audit log: public or gated?
+### Q3 - Audit log: public or gated?
 
 **Resolution**: **Public read, with redaction at write time.**
 
-**Rationale**: Audit transparency is load-bearing for the "round-trip" contract — a client that cannot read the audit log cannot verify its own mutation landed. Gating audit reads would effectively require every consuming client to hold an API key just to confirm a write, which defeats the point. The cost is that audit payloads are public, so implementations MUST redact sensitive keys (passwords, API keys, tokens, anything that would leak creds) at write time, before storing the payload. This puts the burden on the server (redact on write) rather than on every audit reader (filter on read), which is strictly safer.
+**Rationale**: Audit transparency is load-bearing for the "round-trip" contract - a client that cannot read the audit log cannot verify its own mutation landed. Gating audit reads would effectively require every consuming client to hold an API key just to confirm a write, which defeats the point. The cost is that audit payloads are public, so implementations MUST redact sensitive keys (passwords, API keys, tokens, anything that would leak creds) at write time, before storing the payload. This puts the burden on the server (redact on write) rather than on every audit reader (filter on read), which is strictly safer.
 
-### Q4 — Deep audit pagination: in-profile or out-of-scope?
+### Q4 - Deep audit pagination: in-profile or out-of-scope?
 
 **Resolution**: **Out of scope. `?limit=N` ≤ 200 is the normative ceiling.**
 
 **Rationale**: A pathological entity (a Record edited daily over a decade = 3,650 revisions) exceeds 200 rows. A profile that mandates deep pagination would push implementations to build a paging protocol (cursors? page tokens? offset?) for a problem that applies to a handful of long-lived entities. Instead, this profile caps at 200 and punts deeper history to a separate audit-export endpoint (out of the profile's normative surface). Implementations MAY expose such an endpoint under their own prefix; a future v1.0+ profile revision may promote it.
 
-### Q5 — Scope granularity: coarse (`write` / `delete`) or fine (`write:records`, `delete:places`)?
+### Q5 - Scope granularity: coarse (`write` / `delete`) or fine (`write:records`, `delete:places`)?
 
 **Resolution**: **Coarse in v0.7. Fine-grained scopes are implementation-specific.**
 
-**Rationale**: Coarse scopes (write / delete) cover the 80% case: a catalogue curator holds both, a bulk-ingest key holds only write. Mandating fine-grained scopes would force every implementation to implement per-entity-type scope checking, which many don't need. The profile's minimum is the coarse pair; implementations MAY add fine-grained scopes under their own names (`write:records`, `delete:activities`, etc.) — those are outside the profile's normative surface but do not break conformance. A client given only a narrow scope and attempting a broader operation simply gets `403 forbidden`.
+**Rationale**: Coarse scopes (write / delete) cover the 80% case: a catalogue curator holds both, a bulk-ingest key holds only write. Mandating fine-grained scopes would force every implementation to implement per-entity-type scope checking, which many don't need. The profile's minimum is the coarse pair; implementations MAY add fine-grained scopes under their own names (`write:records`, `delete:activities`, etc.) - those are outside the profile's normative surface but do not break conformance. A client given only a narrow scope and attempting a broader operation simply gets `403 forbidden`.
 
-### Q6 — PUT as PATCH alias, or full-replacement semantics?
+### Q6 - PUT as PATCH alias, or full-replacement semantics?
 
-**Resolution**: **PUT and PATCH are aliases — both partial-update.**
+**Resolution**: **PUT and PATCH are aliases - both partial-update.**
 
-**Rationale**: HTTP orthodoxy says PUT = full replacement, PATCH = partial update. In an archival catalogue, full replacement is actively dangerous: a client that PUTs a Record without every field it previously had would erase data by omission. Treating both verbs as partial-update matches how every actual RiC implementation uses them (the reference server's `Route::match(['patch', 'put'], ...)` is deliberate) and prevents data loss from a common client mistake. Implementations that want true PUT replacement MAY expose it under a different path (`/{t}/{id}/replace`) — not in this profile.
+**Rationale**: HTTP orthodoxy says PUT = full replacement, PATCH = partial update. In an archival catalogue, full replacement is actively dangerous: a client that PUTs a Record without every field it previously had would erase data by omission. Treating both verbs as partial-update matches how every actual RiC implementation uses them (the reference server's `Route::match(['patch', 'put'], ...)` is deliberate) and prevents data loss from a common client mistake. Implementations that want true PUT replacement MAY expose it under a different path (`/{t}/{id}/replace`) - not in this profile.

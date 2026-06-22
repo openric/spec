@@ -6,14 +6,14 @@ title: OpenRiC Graph Primitives
 # OpenRiC Graph Primitives
 
 **Version:** 0.37.0
-**Status:** Active — RiC-O 1.1 namespace remediation complete
+**Status:** Active - RiC-O 1.1 namespace remediation complete
 **Last updated:** 2026-04-25
 
 ---
 
 ## 1. Purpose
 
-Defines the **abstract viewing model** — the minimum vocabulary a server emits and a viewer consumes so that visualisations of RiC data can be built interoperably.
+Defines the **abstract viewing model** - the minimum vocabulary a server emits and a viewer consumes so that visualisations of RiC data can be built interoperably.
 
 A server-produced subgraph described in these primitives can be rendered as a 2D force-directed graph, a 3D WebGL graph, a timeline, a matrix, a Sankey, or a form of visualisation not yet invented. The spec is deliberately minimal: **it describes what data travels, not what the screen looks like.**
 
@@ -157,11 +157,11 @@ Non-binding advice from the server about node placement. Viewers may consume or 
 |---|---|
 | `preferred_position` | Suggested coordinates in normalised [0,1] space. `z` may be null for 2D-intended viewers. |
 | `weight` | Force-directed layout weight (higher → more central pull) |
-| `group` | Free-form group identifier — viewers may use for colouring or clustering |
+| `group` | Free-form group identifier - viewers may use for colouring or clustering |
 
 ## 4. Operations
 
-Operations are client → server requests that modify what the server returns. They are issued against existing endpoints — the operations themselves are not endpoints.
+Operations are client → server requests that modify what the server returns. They are issued against existing endpoints - the operations themselves are not endpoints.
 
 ### 4.1 `Drill`
 
@@ -226,12 +226,12 @@ Conformance test fixtures (see [Conformance](conformance.html)) assert all six i
 
 - **Layout algorithms.** Not specified. Viewers choose.
 - **Styling.** Not specified. Viewers choose.
-- **Interactivity.** Hover, click, keyboard navigation — entirely viewer concerns.
+- **Interactivity.** Hover, click, keyboard navigation - entirely viewer concerns.
 - **Mutation.** This spec is read-only. Editing RiC data belongs to a separate (future) Editing API, not here.
 
 ## 8. Rationale
 
-Why so minimal? Because IIIF's biggest win was deciding what *not* to specify. Anything baked into the primitives becomes a constraint on future viewers. By keeping the core to five primitives and six invariants, OpenRiC leaves room for future viewers that don't exist yet — timeline-only viewers, matrix-only viewers, VR viewers — to consume the same server output.
+Why so minimal? Because IIIF's biggest win was deciding what *not* to specify. Anything baked into the primitives becomes a constraint on future viewers. By keeping the core to five primitives and six invariants, OpenRiC leaves room for future viewers that don't exist yet - timeline-only viewers, matrix-only viewers, VR viewers - to consume the same server output.
 
 ## 9. Change log
 

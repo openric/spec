@@ -1,7 +1,7 @@
 ---
 layout: default
-title: OpenRiC — Graph-Grounding Profile
-description: A read-only grounding endpoint so any agent or RAG can disambiguate against a RiC graph — vectors retrieve, the ontology graph disambiguates. GET /ground returns prompt-ready authoritative facts keyed to the canonical entity IRI.
+title: OpenRiC - Graph-Grounding Profile
+description: A read-only grounding endpoint so any agent or RAG can disambiguate against a RiC graph - vectors retrieve, the ontology graph disambiguates. GET /ground returns prompt-ready authoritative facts keyed to the canonical entity IRI.
 ---
 
 # Graph-Grounding Profile
@@ -9,18 +9,18 @@ description: A read-only grounding endpoint so any agent or RAG can disambiguate
 **Profile id:** `graph-grounding`
 **Profile version:** 0.43.0
 **Spec version:** 0.43.0
-**Status:** Draft — open for comment
+**Status:** Draft - open for comment
 **Dependencies:** [Core Discovery](core-discovery.html) (the entities `/ground` resolves to) and, in practice, a SPARQL surface ([sparql-access](sparql-access.html)) to read the graph. [Inferred-Provenance](inferred-provenance.html) is recommended so grounding packs can carry the asserted-vs-inferred signal.
 **Last updated:** 2026-06-19
-**Reference implementation:** Heratio ([ArchiveHeritageGroup/heratio#1320](https://github.com/ArchiveHeritageGroup/heratio)) — `GraphGroundingService`, `GET /api/ric/ground`, `docs/reference/graphrag-grounding-km.md`.
+**Reference implementation:** Heratio ([ArchiveHeritageGroup/heratio#1320](https://github.com/ArchiveHeritageGroup/heratio)) - `GraphGroundingService`, `GET /api/ric/ground`, `docs/reference/graphrag-grounding-km.md`.
 
 ---
 
 ## 1. Purpose
 
-LLM and RAG systems hallucinate entities and conflate similar names. A RiC graph is exactly the authority that can fix this — **"vectors retrieve, the ontology graph disambiguates."** The Graph-Grounding Profile defines a read-only, server-to-server endpoint any agent can call to resolve a query to **authoritative graph facts** and get a compact, prompt-ready block to prepend to its LLM context.
+LLM and RAG systems hallucinate entities and conflate similar names. A RiC graph is exactly the authority that can fix this - **"vectors retrieve, the ontology graph disambiguates."** The Graph-Grounding Profile defines a read-only, server-to-server endpoint any agent can call to resolve a query to **authoritative graph facts** and get a compact, prompt-ready block to prepend to its LLM context.
 
-## 2. The endpoint — `GET /api/ric/v1/ground`
+## 2. The endpoint - `GET /api/ric/v1/ground`
 
 | Param | Meaning |
 |---|---|
@@ -48,7 +48,7 @@ Public, throttled, no CSRF (server-to-server). Returns:
 ```
 
 - Each **entity** is a *disambiguation pack*: canonical IRI, types, label, dates, key properties, relations, and a provenance signal (`asserted` / `inferred`, per [Inferred-Provenance](inferred-provenance.html)).
-- **`grounding_text`** is a compact, prompt-ready block assembled from the packs — the artifact a consumer actually injects.
+- **`grounding_text`** is a compact, prompt-ready block assembled from the packs - the artifact a consumer actually injects.
 
 ## 3. The join-key rule
 
@@ -62,8 +62,8 @@ The **canonical join between the vector layer and the graph is the public entity
 
 Two operational rules borne out by the reference pilot:
 
-- **Flag-guarded** — grounding is opt-in per request (or per deployment), so it can be A/B-measured and rolled out gradually.
-- **Fail-open** — any error fetching grounding yields an empty block and the answer proceeds; grounding sharpens answers, it never blocks them. (The reference pilot measured grounded answers 15–35% shorter and anchored on canonical ids, with no fabricated entities.)
+- **Flag-guarded** - grounding is opt-in per request (or per deployment), so it can be A/B-measured and rolled out gradually.
+- **Fail-open** - any error fetching grounding yields an empty block and the answer proceeds; grounding sharpens answers, it never blocks them. (The reference pilot measured grounded answers 15–35% shorter and anchored on canonical ids, with no fabricated entities.)
 
 ## 5. SHACL
 

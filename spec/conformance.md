@@ -6,7 +6,7 @@ title: OpenRiC Conformance
 # OpenRiC Conformance
 
 **Version:** 0.37.0
-**Status:** Active — RiC-O 1.1 namespace remediation complete
+**Status:** Active - RiC-O 1.1 namespace remediation complete
 **Last updated:** 2026-04-25
 
 ---
@@ -31,13 +31,13 @@ This document specifies:
 | **L3** | Graph primitives conformance | All subgraph responses satisfy the six invariants in [Graph Primitives](graph-primitives.html) §6. |
 | **L4** | Full conformance | L1 + L2 + L3, plus round-trip (input → RiC → subgraph → viewer-ready) passes with no data loss against the round-trip fixture set. |
 
-> **Note (v0.37):** The `L1`–`L4` envelope levels above are **legacy** terminology, retained for historical context. Current conformance claims SHOULD be **profile-based** — `core-discovery`, `authority-context`, `graph-traversal`, `digital-object-linkage`, `round-trip-editing`, `provenance-event`, `export-only`, and `sparql-access` (draft). A server's `openric_conformance.profiles` declaration in `GET /` is the authoritative claim; the L1–L4 levels were defined before the profile model and now map roughly as: L1 ≈ per-profile mapping, L2 ≈ profile basic-discovery surface, L3 ≈ graph-traversal, L4 ≈ full multi-profile.
+> **Note (v0.37):** The `L1`–`L4` envelope levels above are **legacy** terminology, retained for historical context. Current conformance claims SHOULD be **profile-based** - `core-discovery`, `authority-context`, `graph-traversal`, `digital-object-linkage`, `round-trip-editing`, `provenance-event`, `export-only`, and `sparql-access` (draft). A server's `openric_conformance.profiles` declaration in `GET /` is the authoritative claim; the L1–L4 levels were defined before the profile model and now map roughly as: L1 ≈ per-profile mapping, L2 ≈ profile basic-discovery surface, L3 ≈ graph-traversal, L4 ≈ full multi-profile.
 
-Implementations advertise the highest level they claim. Claims are verifiable — the validator CLI reports actual level, which MUST match the claim.
+Implementations advertise the highest level they claim. Claims are verifiable - the validator CLI reports actual level, which MUST match the claim.
 
 ## 3. Normative validation inputs
 
-### 3.1 SHACL shapes — `shapes/openric.shacl.ttl`
+### 3.1 SHACL shapes - `shapes/openric.shacl.ttl`
 
 Every RiC-O entity emitted MUST validate against the corresponding SHACL node shape. The shape file is versioned with the spec. Shapes use the `sh:` namespace per W3C SHACL 1.0.
 
@@ -56,7 +56,7 @@ The shape file defines, at minimum:
 
 Severity levels: `sh:Violation` (L1 fail), `sh:Warning` (advisory), `sh:Info`.
 
-### 3.2 JSON Schemas — `schemas/*.schema.json`
+### 3.2 JSON Schemas - `schemas/*.schema.json`
 
 Every endpoint response MUST validate against its JSON Schema. Schemas are JSON Schema 2020-12.
 
@@ -86,7 +86,7 @@ Every endpoint response MUST validate against its JSON Schema. Schemas are JSON 
 | `entity-write.schema.json` | Request body for `POST /{type}` and `PATCH /{type}/{id}`; also `POST /relations`, `PATCH /relations/{id}` |
 | `write-response.schema.json` | Any `201 Created` or `200 OK` write response (both shapes via `oneOf`) |
 
-### 3.3 Fixture pack — `fixtures/`
+### 3.3 Fixture pack - `fixtures/`
 
 The fixture pack is a directory of ~20 cases. Each case is a folder containing:
 
@@ -100,36 +100,36 @@ fixtures/fonds-with-series/
 
 Initial fixture set covers:
 
-1. `fonds-minimal` — fonds with title and creator only
-2. `fonds-with-series` — fonds + series + item hierarchy
-3. `fonds-multilingual` — fonds with en + fr + af titles
-4. `agent-person-simple` — single person with dates
-5. `agent-corporate-body` — corporate body with mandates and places
-6. `agent-family` — family with member relationships
-7. `agent-with-relations` — successor-of, predecessor-of chains
-8. `repository-with-holdings` — ISDIAH repo + 3 fonds
-9. `function-with-activities` — ISDF function with 2 activities
-10. `event-production` — record with creation event → Production
-11. `event-accumulation` — record with accumulation event
-12. `record-with-digital-object` — record + instantiation + mime-type
-13. `record-in-container` — record held in `rico:Thing` (box)
-14. `record-security-classified` — record with classification level
-15. `record-personal-data` — record flagged `containsPersonalData=true`
-16. `record-with-access-restriction` — record with restriction scope
-17. `subgraph-depth-1` — graph endpoint, root + direct neighbours
-18. `subgraph-depth-2` — graph endpoint, two-hop BFS
-19. `subgraph-filtered-by-type` — graph endpoint with `types=rico:Person`
-20. `validation-failure` — deliberately broken input, expected SHACL failures
+1. `fonds-minimal` - fonds with title and creator only
+2. `fonds-with-series` - fonds + series + item hierarchy
+3. `fonds-multilingual` - fonds with en + fr + af titles
+4. `agent-person-simple` - single person with dates
+5. `agent-corporate-body` - corporate body with mandates and places
+6. `agent-family` - family with member relationships
+7. `agent-with-relations` - successor-of, predecessor-of chains
+8. `repository-with-holdings` - ISDIAH repo + 3 fonds
+9. `function-with-activities` - ISDF function with 2 activities
+10. `event-production` - record with creation event → Production
+11. `event-accumulation` - record with accumulation event
+12. `record-with-digital-object` - record + instantiation + mime-type
+13. `record-in-container` - record held in `rico:Thing` (box)
+14. `record-security-classified` - record with classification level
+15. `record-personal-data` - record flagged `containsPersonalData=true`
+16. `record-with-access-restriction` - record with restriction scope
+17. `subgraph-depth-1` - graph endpoint, root + direct neighbours
+18. `subgraph-depth-2` - graph endpoint, two-hop BFS
+19. `subgraph-filtered-by-type` - graph endpoint with `types=rico:Person`
+20. `validation-failure` - deliberately broken input, expected SHACL failures
 
 **Added in v0.2.0:**
 
-21. `autocomplete-egypt` — cross-entity search result shape
-22. `relations-for-place` — outgoing + incoming split on a Place
-23. `hierarchy-with-children` — parent + children + siblings on a hierarchical Place
-24. `entity-info-place` — minimal info card shape
-25. `relation-list` — paginated global relation browse
-26. `entity-write-place` — request + response for `POST /places`
-27. `write-response-create` — canonical 201-Created shape across every POST endpoint
+21. `autocomplete-egypt` - cross-entity search result shape
+22. `relations-for-place` - outgoing + incoming split on a Place
+23. `hierarchy-with-children` - parent + children + siblings on a hierarchical Place
+24. `entity-info-place` - minimal info card shape
+25. `relation-list` - paginated global relation browse
+26. `entity-write-place` - request + response for `POST /places`
+27. `write-response-create` - canonical 201-Created shape across every POST endpoint
 
 ## 4. Graph equality
 
@@ -210,7 +210,7 @@ Additionally, a conformance badge MAY be displayed in the server's web UI or REA
 ![OpenRiC conformance L4](https://openric.org/badge/L4.svg)
 ```
 
-(Badge endpoint is aspirational — not yet live.)
+(Badge endpoint is aspirational - not yet live.)
 
 ## 7. Certification
 

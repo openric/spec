@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenRiC — Digital Object Linkage Profile
+title: OpenRiC - Digital Object Linkage Profile
 description: rico:Instantiation carriers (files, images, PDFs) and openricx:Function (ISDF) as first-class entities. The profile that connects records to their bitstreams and to the business functions that produced them.
 ---
 
@@ -17,15 +17,15 @@ description: rico:Instantiation carriers (files, images, PDFs) and openricx:Func
 
 ## 1. Purpose
 
-Digital Object Linkage is the profile for **the concrete surfaces records live on** — digital files, images, PDFs, audio, video, and their physical counterparts — plus **the business functions that produced them**. Where Core Discovery answers *what is this record*, this profile answers *where does the bitstream actually sit, and under which organisational function was it created*.
+Digital Object Linkage is the profile for **the concrete surfaces records live on** - digital files, images, PDFs, audio, video, and their physical counterparts - plus **the business functions that produced them**. Where Core Discovery answers *what is this record*, this profile answers *where does the bitstream actually sit, and under which organisational function was it created*.
 
 A server implementing this profile commits to three things:
 
-1. **Expose `rico:Instantiation` entities** — one per carrier (file, physical object, copy) — at stable URIs under `/api/ric/v1/instantiations/{id}`. Each Instantiation carries MIME type, carrier type, extent, and a link back to the Record it instantiates via `rico:isOrWasInstantiationOf`.
-2. **Expose `openricx:Function` entities** — ISDF-native business functions — at `/api/ric/v1/functions/{id}`. Each Function carries name, classification, and optional history / mandate.
-3. **Optionally expose file bytes and thumbnails** — `POST /upload` writes bytes; `GET /thumbnail/{id}` derives display-sized renditions for image Instantiations. These are conveniences for a working catalogue, not strictly required for profile claim.
+1. **Expose `rico:Instantiation` entities** - one per carrier (file, physical object, copy) - at stable URIs under `/api/ric/v1/instantiations/{id}`. Each Instantiation carries MIME type, carrier type, extent, and a link back to the Record it instantiates via `rico:isOrWasInstantiationOf`.
+2. **Expose `openricx:Function` entities** - ISDF-native business functions - at `/api/ric/v1/functions/{id}`. Each Function carries name, classification, and optional history / mandate.
+3. **Optionally expose file bytes and thumbnails** - `POST /upload` writes bytes; `GET /thumbnail/{id}` derives display-sized renditions for image Instantiations. These are conveniences for a working catalogue, not strictly required for profile claim.
 
-Digital Object Linkage is **orthogonal to every other profile**. A server may claim it without Core Discovery (a pure object repository), without Authority & Context (files with no places or activities behind them), or without Graph Traversal (no `/graph` endpoint — Instantiations surfaced only via their per-record backlink). Combining with Graph Traversal is what enables store-wide hygiene checks over Instantiation ↔ Record linkage.
+Digital Object Linkage is **orthogonal to every other profile**. A server may claim it without Core Discovery (a pure object repository), without Authority & Context (files with no places or activities behind them), or without Graph Traversal (no `/graph` endpoint - Instantiations surfaced only via their per-record backlink). Combining with Graph Traversal is what enables store-wide hygiene checks over Instantiation ↔ Record linkage.
 
 ## 2. Scope
 
@@ -67,9 +67,9 @@ Error responses MUST be `application/problem+json` per Core Discovery §4.
 
 ## 3. Response shapes
 
-### 3.1 Instantiation — `GET /instantiations/{id}`
+### 3.1 Instantiation - `GET /instantiations/{id}`
 
-An Instantiation is a concrete carrier of the information in a Record — a specific file, a specific physical copy. At minimum: `@id`, `@type: "rico:Instantiation"`, `rico:title`, and at least one of `rico:hasCarrierType`, `openricx:hasMimeType`, `rico:hasContentOfType`, or `rico:productionTechnique` (otherwise the Instantiation is a shell with no way to identify what it actually carries — SHACL Violation per §5).
+An Instantiation is a concrete carrier of the information in a Record - a specific file, a specific physical copy. At minimum: `@id`, `@type: "rico:Instantiation"`, `rico:title`, and at least one of `rico:hasCarrierType`, `openricx:hasMimeType`, `rico:hasContentOfType`, or `rico:productionTechnique` (otherwise the Instantiation is a shell with no way to identify what it actually carries - SHACL Violation per §5).
 
 ```json
 {
@@ -107,12 +107,12 @@ An Instantiation is a concrete carrier of the information in a Record — a spec
 | `openricx:hasMimeType` | MUST match `^[a-zA-Z0-9!#$&^_.+-]+/[a-zA-Z0-9!#$&^_.+-]+$` per SHACL |
 | `rico:hasCarrierType` | `digital`, `physical`, `born-digital`, `analog-converted`, or a local vocabulary value |
 | `rico:hasExtent` | Structured `rico:Extent` with `rico:quantity` (integer) + `rico:hasExtentType` (`bytes`, `pages`, `minutes`, etc.) |
-| `openricx:technicalCharacteristics` | Free-form string. Checksum convention: `"Checksum (sha256): <hex>"` — structured checksum shape is a v0.7 candidate (see §9 Q2). |
+| `openricx:technicalCharacteristics` | Free-form string. Checksum convention: `"Checksum (sha256): <hex>"` - structured checksum shape is a v0.7 candidate (see §9 Q2). |
 | `rico:isOrWasInstantiationOf` | **STRONGLY RECOMMENDED.** Embedded stub of the Record this Instantiation carries. Without it, the Instantiation is floating (SHACL Warning at Graph Traversal level). |
 
-### 3.2 Function — `GET /functions/{id}`
+### 3.2 Function - `GET /functions/{id}`
 
-A Function is an ISDF business function — a recurring organisational activity-class under which records are produced and managed ("Acquisitions Management", "Conservation Treatment", "Permit Administration"). At minimum: `@id`, `@type: "openricx:Function"`, and a name (either `rico:name` shorthand OR `rico:hasOrHadName`).
+A Function is an ISDF business function - a recurring organisational activity-class under which records are produced and managed ("Acquisitions Management", "Conservation Treatment", "Permit Administration"). At minimum: `@id`, `@type: "openricx:Function"`, and a name (either `rico:name` shorthand OR `rico:hasOrHadName`).
 
 ```json
 {
@@ -138,7 +138,7 @@ List responses follow the Core Discovery §3.3 shape:
 
 Each envelope wraps `openric:items` as an array of stubs: `@id`, `@type`, `rico:title` (Instantiations) or `rico:name` (Functions), plus `openric:localType` when the server carries one. Full shapes only on single-entity GET.
 
-### 3.4 Upload — `POST /upload` (optional)
+### 3.4 Upload - `POST /upload` (optional)
 
 ```
 POST /api/ric/v1/upload HTTP/1.1
@@ -168,7 +168,7 @@ Error cases:
 - Upload system-rejected (PHP upload error, etc.) → `422 validation-failed` with `code: invalid_file`
 - File exceeds size cap → `413 payload-too-large` with `max_bytes` in the problem+json body
 
-### 3.5 Thumbnail — `GET /thumbnail/{id}` (optional)
+### 3.5 Thumbnail - `GET /thumbnail/{id}` (optional)
 
 Public, cacheable derivative for image Instantiations. The `{id}` is the Instantiation's numeric ID (not the Record's).
 
@@ -181,14 +181,14 @@ Servers SHOULD emit `Cache-Control: public, max-age=86400` or similar on success
 
 ## 4. Error handling
 
-Error responses follow Core Discovery §4 / §4.1 verbatim — `application/problem+json` with the nine registered error-type URIs. This profile uses:
+Error responses follow Core Discovery §4 / §4.1 verbatim - `application/problem+json` with the nine registered error-type URIs. This profile uses:
 
-- `404 not-found` — missing Instantiation / Function ID, missing source file for thumbnail
-- `400 bad-request` — `POST /upload` without a `file` part
-- `413 payload-too-large` — upload exceeds size cap
-- `415 unsupported-media-type` — thumbnail requested for a non-image Instantiation
-- `422 validation-failed` — upload system-rejected
-- `401 authentication-required` — `POST /upload` without a valid `X-API-Key`
+- `404 not-found` - missing Instantiation / Function ID, missing source file for thumbnail
+- `400 bad-request` - `POST /upload` without a `file` part
+- `413 payload-too-large` - upload exceeds size cap
+- `415 unsupported-media-type` - thumbnail requested for a non-image Instantiation
+- `422 validation-failed` - upload system-rejected
+- `401 authentication-required` - `POST /upload` without a valid `X-API-Key`
 
 No Digital Object Linkage-specific error types are defined.
 
@@ -205,7 +205,7 @@ shapes/profiles/digital-object-linkage.shacl.ttl
 | `:InstantiationShape` | `rico:Instantiation` | `sh:Violation` on missing title; `sh:Warning` on invalid MIME pattern; `sh:Violation` if none of `hasCarrierType` / `hasMimeType` / `hasContentOfType` / `hasProductionTechnique` are present |
 | `:FunctionShape` | `openricx:Function` | `sh:Violation` on missing name; `sh:Info` on missing `history` / `classification` |
 
-Shapes are **open** — unknown predicates do not cause failure. The cross-entity check "Instantiation must be linked from a Record via `rico:hasOrHadInstantiation`" lives in `shapes/profiles/graph-traversal.shacl.ttl` (`:InstantiationLinkedFromRecordShape`) because it requires the full triple store to evaluate and produces false positives on single-document API responses.
+Shapes are **open** - unknown predicates do not cause failure. The cross-entity check "Instantiation must be linked from a Record via `rico:hasOrHadInstantiation`" lives in `shapes/profiles/graph-traversal.shacl.ttl` (`:InstantiationLinkedFromRecordShape`) because it requires the full triple store to evaluate and produces false positives on single-document API responses.
 
 ## 6. Conformance testing
 
@@ -227,8 +227,8 @@ The manifest declares these four fixtures as normative for `digital-object-linka
 
 | Fixture | Status | What it pins |
 |---|---|---|
-| `instantiation-tiff` | done | Digital Instantiation — TIFF carrier with MIME, bytes-extent, sha256 checksum, backlink to Record |
-| `instantiation-application` | done | Digital Instantiation — `application/vnd.openxmlformats…` MIME (exercises the SHACL MIME-pattern regex on a compound subtype) |
+| `instantiation-tiff` | done | Digital Instantiation - TIFF carrier with MIME, bytes-extent, sha256 checksum, backlink to Record |
+| `instantiation-application` | done | Digital Instantiation - `application/vnd.openxmlformats…` MIME (exercises the SHACL MIME-pattern regex on a compound subtype) |
 | `function-with-activities` | planned | ISDF Function with ≥2 linked Activities (cross-tags Authority & Context) |
 | `record-in-container` | planned | Record held in a `rico:Thing` container (physical Instantiation cousin) |
 
@@ -240,44 +240,44 @@ Fixtures outside this list are NOT required for profile conformance.
 - [ ] Emit `@type: rico:Instantiation` on every instantiation response
 - [ ] Emit at least one of `hasCarrierType` / `hasMimeType` / `hasContentOfType` / `hasProductionTechnique` per Instantiation
 - [ ] Emit `rico:isOrWasInstantiationOf` pointing at a real Record (stub with `@id` + `@type` + `rico:title`)
-- [ ] Validate Instantiation responses against `:InstantiationShape` — 0 Violations
+- [ ] Validate Instantiation responses against `:InstantiationShape` - 0 Violations
 - [ ] Emit `@type: openricx:Function` on every function response
 - [ ] Emit a name (`rico:name` or `rico:hasOrHadName`) on every Function
 - [ ] Add `digital-object-linkage` to `openric_conformance.profiles` in `GET /`
-- [ ] Run the conformance probe with `--profile=digital-object-linkage` — all shipped fixtures pass
+- [ ] Run the conformance probe with `--profile=digital-object-linkage` - all shipped fixtures pass
 - [ ] Emit `/conformance/badge?profile=digital-object-linkage` returning shields.io JSON
-- [ ] *(optional)* Implement `POST /upload` — handle all four error paths (`no_file`, `invalid_file`, `too_large`, auth)
-- [ ] *(optional)* Implement `GET /thumbnail/{id}` — handle `not_found`, `source_missing`, `not_an_image`
+- [ ] *(optional)* Implement `POST /upload` - handle all four error paths (`no_file`, `invalid_file`, `too_large`, auth)
+- [ ] *(optional)* Implement `GET /thumbnail/{id}` - handle `not_found`, `source_missing`, `not_an_image`
 
 ## 9. Design decisions
 
 Five questions were flagged during drafting; all five carry resolutions.
 
-### Q1 — Why `openricx:Function` in "Digital Object Linkage"?
+### Q1 - Why `openricx:Function` in "Digital Object Linkage"?
 
 **Resolution**: **Historical grouping, preserved for stability.**
 
-**Rationale**: When the profile matrix was first laid out, `openricx:Function` was grouped with `rico:Instantiation` under "things that qualify records but aren't Agents, Places, or Rules" — both are ISDF/ISAAR-adjacent carriers of organisational context. Splitting Function out into its own profile (or folding it into Authority & Context) would be a cleaner taxonomy today, but the shapes file + manifest have been stable since v0.1, and implementations are already mapping Function under this profile. Treating the grouping as a historical artefact and preserving it is strictly less churn than re-homing Function across two profile cycles. A future v1 review may revisit this.
+**Rationale**: When the profile matrix was first laid out, `openricx:Function` was grouped with `rico:Instantiation` under "things that qualify records but aren't Agents, Places, or Rules" - both are ISDF/ISAAR-adjacent carriers of organisational context. Splitting Function out into its own profile (or folding it into Authority & Context) would be a cleaner taxonomy today, but the shapes file + manifest have been stable since v0.1, and implementations are already mapping Function under this profile. Treating the grouping as a historical artefact and preserving it is strictly less churn than re-homing Function across two profile cycles. A future v1 review may revisit this.
 
-### Q2 — Checksum as a free-form string vs structured sub-object?
+### Q2 - Checksum as a free-form string vs structured sub-object?
 
 **Resolution**: **Free-form `openricx:technicalCharacteristics` string now; structured `openricx:Checksum` sub-object is a v0.7 candidate.**
 
-**Rationale**: The current convention `"Checksum (sha256): <hex>"` inside `openricx:technicalCharacteristics` is what every reference implementation emits today. It is machine-parseable (single regex) without being overengineered. A structured shape (`{@type: openricx:Checksum, openricx:algorithm: "sha256", openricx:checksumValue: "<hex>"}`) is cleaner for multi-algorithm storage and for PREMIS interop, but there is no current consumer that needs it. Adding the structured shape as OPTIONAL in v0.7 — allowed *alongside* the string form, not replacing it — is the planned path.
+**Rationale**: The current convention `"Checksum (sha256): <hex>"` inside `openricx:technicalCharacteristics` is what every reference implementation emits today. It is machine-parseable (single regex) without being overengineered. A structured shape (`{@type: openricx:Checksum, openricx:algorithm: "sha256", openricx:checksumValue: "<hex>"}`) is cleaner for multi-algorithm storage and for PREMIS interop, but there is no current consumer that needs it. Adding the structured shape as OPTIONAL in v0.7 - allowed *alongside* the string form, not replacing it - is the planned path.
 
-### Q3 — Is `/thumbnail/{id}` required or optional?
+### Q3 - Is `/thumbnail/{id}` required or optional?
 
 **Resolution**: **Optional.**
 
 **Rationale**: Thumbnails are an ergonomic layer, not a semantic one. A valid Digital Object Linkage claim can be made by a server that doesn't generate derivatives at all (e.g., a pure archive that serves master files only). Forcing thumbnails would exclude implementations without image-processing toolchains and push them out of conformance for a reason unrelated to the profile's meaning. Servers that *do* implement thumbnails MUST honour the three error paths in §3.5 so clients can depend on them.
 
-### Q4 — `rico:hasCarrierType` — fixed vocabulary or open strings?
+### Q4 - `rico:hasCarrierType` - fixed vocabulary or open strings?
 
 **Resolution**: **Open strings, with four conventional values RECOMMENDED.**
 
-**Rationale**: `digital`, `physical`, `born-digital`, `analog-converted` cover the common cases and SHOULD be preferred where they fit. But carrier taxonomies vary wildly by domain (archaeology vs film archive vs born-digital startup), and locking the vocabulary would bake a single discipline's assumptions into the spec. Implementations with a narrower local vocabulary MAY surface it via `openric:localType` alongside the broader `rico:hasCarrierType` — the same pattern as `rico:hasOrHadRuleType` in Authority & Context §3.3.
+**Rationale**: `digital`, `physical`, `born-digital`, `analog-converted` cover the common cases and SHOULD be preferred where they fit. But carrier taxonomies vary wildly by domain (archaeology vs film archive vs born-digital startup), and locking the vocabulary would bake a single discipline's assumptions into the spec. Implementations with a narrower local vocabulary MAY surface it via `openric:localType` alongside the broader `rico:hasCarrierType` - the same pattern as `rico:hasOrHadRuleType` in Authority & Context §3.3.
 
-### Q5 — Upload size cap: spec-enforced minimum, or implementation choice?
+### Q5 - Upload size cap: spec-enforced minimum, or implementation choice?
 
 **Resolution**: **Implementation choice, with a MUST on the error path.**
 
