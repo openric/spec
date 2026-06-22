@@ -142,7 +142,7 @@ A server claims `sparql-access` when:
 4. Update operations (`INSERT DATA` etc.) are rejected per §2.3.
 5. Errors (malformed query, rate limit, auth failure) follow RFC 7807 per Core Discovery §4.
 
-The conformance probe with `--profile=sparql-access` exercises checks 1–4 against a live server.
+The conformance probe with `--profile=sparql-access` exercises checks 1-4 against a live server.
 
 ## 7. Fixture pack
 

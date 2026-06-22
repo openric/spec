@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenRiC Drift Log — Public known issues
+title: OpenRiC Drift Log - Public known issues
 permalink: /drift-log.html
 ---
 
@@ -8,7 +8,7 @@ permalink: /drift-log.html
 
 A public log of known drift between the OpenRiC specification and its public surfaces (reference API, viewer, capture client, OpenAPI metadata, conformance probe). Updated as items land or are resolved.
 
-This page exists because the spec moves faster than the supporting implementations, and external reviewers need a single place to see *which* gaps are known, *where* they are, and *what's planned*. It is not a defect tracker — it tracks **deliberate** lag between the spec and downstream systems.
+This page exists because the spec moves faster than the supporting implementations, and external reviewers need a single place to see *which* gaps are known, *where* they are, and *what's planned*. It is not a defect tracker - it tracks **deliberate** lag between the spec and downstream systems.
 
 **Last updated:** 2026-04-25.
 
@@ -23,14 +23,14 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 | Item | Currently emits | Target (spec v0.37.0) | ETA |
 |---|---|---|---|
 | Service description | `spec_version: "0.36.0"`, claims 6 of 7 profiles | `spec_version: "0.37.0"`, declares 6 of 7 + optionally `sparql-access` draft | Phase G |
-| OpenAPI tags — Repository | `rico:Repository / Custodian` | `ISDIAH repository surface; canonical: rico:CorporateBody with hasOrHadHolder` | Phase G |
-| OpenAPI tags — Function | `rico:Function (ISDF)` | `ISDF function surface; canonical: openricx:Function (interim) — see mapping §6.4` | Phase G |
-| OpenAPI tags — SPARQL | `Subgraph walks + full SPARQL` | `Subgraph walks; SPARQL only if server declares sparql-access draft profile` | Phase G |
+| OpenAPI tags - Repository | `rico:Repository / Custodian` | `ISDIAH repository surface; canonical: rico:CorporateBody with hasOrHadHolder` | Phase G |
+| OpenAPI tags - Function | `rico:Function (ISDF)` | `ISDF function surface; canonical: openricx:Function (interim) - see mapping §6.4` | Phase G |
+| OpenAPI tags - SPARQL | `Subgraph walks + full SPARQL` | `Subgraph walks; SPARQL only if server declares sparql-access draft profile` | Phase G |
 | Relation examples | `relation_type: hasInstantiation` | `rico:hasOrHadInstantiation` | Phase G |
 | JSON-LD `@type` for events | `rico:Production` / `rico:Accumulation` (concrete classes) | `rico:Activity` + `rico:hasActivityType <vocab IRI>` (Activity+type per spec D.3) | Phase G |
 | JSON-LD `@context` extension | no `openricx:` declaration | declares `openricx: https://openric.org/ns/ext/v1#` | Phase G |
-| Hold-direction property names | `rico:heldBy`, `rico:hasInstantiation`, `rico:hasSubject`, `rico:hasLanguage`, `rico:hasMandate`, `rico:hasRecordPart`, `rico:isContainedIn`, etc. | Canonical 1.1 forms (`rico:hasOrHadHolder`, `rico:hasOrHadInstantiation`, etc. — full list in spec audit doc Phase B + D mappings) | Phase G |
-| Provenance & Event profile claim | Not claimed (data-gap blocker — 177 productions missing creator) | Claim once data backfill completes | Phase G + data hygiene |
+| Hold-direction property names | `rico:heldBy`, `rico:hasInstantiation`, `rico:hasSubject`, `rico:hasLanguage`, `rico:hasMandate`, `rico:hasRecordPart`, `rico:isContainedIn`, etc. | Canonical 1.1 forms (`rico:hasOrHadHolder`, `rico:hasOrHadInstantiation`, etc. - full list in spec audit doc Phase B + D mappings) | Phase G |
+| Provenance & Event profile claim | Not claimed (data-gap blocker - 177 productions missing creator) | Claim once data backfill completes | Phase G + data hygiene |
 
 ### Viewer (`viewer.openric.org`)
 
@@ -45,7 +45,7 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 | Item | Issue | Plan |
 |---|---|---|
 | Activity entity entry form | Currently picks `Production` / `Accumulation` / `Activity` as the @type | Refactor to single `rico:Activity` + activity-type dropdown sourced from `/vocab/activity-type` |
-| Repository entity | Form labels suggest `rico:Repository` is a class | Re-label as "ISDIAH repository — canonical: CorporateBody with holder relations" |
+| Repository entity | Form labels suggest `rico:Repository` is a class | Re-label as "ISDIAH repository - canonical: CorporateBody with holder relations" |
 | Function entity | Form emits `rico:Function` | Switch to `openricx:Function` until ICA-EGAD upstream decision |
 
 ### Conformance probe (`/conformance/`)
@@ -66,8 +66,8 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 | Item | Issue | Plan |
 |---|---|---|
 | AnF RiC-O extension landing ~June 2026 | Archives nationales de France is publishing a small RiC-O 1.1 ontology extension at [`github.com/ArchivesNationalesFR/ontology`](https://github.com/ArchivesNationalesFR/ontology) (v1.0 expected mid-June 2026). Likely to overlap with `openricx:` for agent description, address, place modelling. | When it lands: audit `openricx:` against the AnF extension. Where overlap exists, propose alignment or cross-reference rather than parallel definitions. Track per [external-signals memory](https://github.com/openric/spec). |
-| OpenRiC vocabularies (`/vocab/activity-type/`, `/vocab/rule-type/`) need SKOS-publishing maturity | Currently published as static Turtle + HTML. Per the v2 review, the broader SKOS-publication pattern (HTML / JSON-LD / Turtle / RDF/XML / CSV per vocabulary, with `/vocabularies` index endpoint exposing each as a `skos:ConceptScheme`) is a Garance-style maturity step. | Phase H — once a non-reference implementation expresses a need. |
-| `openricx:` extension namespace remains under-publicised | The Turtle ontology stub at [`/ns/ext/v1.html`](/ns/ext/v1.html) and 48 declared terms should be communicated to the EGAD-adjacent community. | Outreach drafts in [`docs/outreach/`](https://github.com/openric/spec/tree/main/docs/outreach) — Sparna and Damigos targets identified. |
+| OpenRiC vocabularies (`/vocab/activity-type/`, `/vocab/rule-type/`) need SKOS-publishing maturity | Currently published as static Turtle + HTML. Per the v2 review, the broader SKOS-publication pattern (HTML / JSON-LD / Turtle / RDF/XML / CSV per vocabulary, with `/vocabularies` index endpoint exposing each as a `skos:ConceptScheme`) is a Garance-style maturity step. | Phase H - once a non-reference implementation expresses a need. |
+| `openricx:` extension namespace remains under-publicised | The Turtle ontology stub at [`/ns/ext/v1.html`](/ns/ext/v1.html) and 48 declared terms should be communicated to the EGAD-adjacent community. | Outreach drafts in [`docs/outreach/`](https://github.com/openric/spec/tree/main/docs/outreach) - Sparna and Damigos targets identified. |
 
 ### Phase numbering reconciliation
 
@@ -79,14 +79,14 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 
 ## Closed (recent)
 
-- **2026-05-25, v0.38.1** — **RiC-CM navigator reconciliation: declared.** Resolved via option (c) — articulate the distinction rather than deprecate. OpenRiC's `/reference/ric-cm/` is a **versioned, SPARQL-backed, declared-vs-inherited specification browser** tied to spec releases; the Damigos / Ionian [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) is a **standalone single-page graph navigator** aimed at conceptual exploration. The two address different reader needs (spec-version reference vs. conceptual graph traversal) and the relationship is now declared as **complementary, not competing** on [related-implementations](related-implementations.html). No deprecation; no fork. Either tool can cite the other.
-- **2026-05-25, v0.38.1** — **RiC-AG (Application Guidelines) promoted to first-class related-implementation.** EGAD published RiC-AG v0.1 in October 2025; this spec now cross-references RiC-AG's ISAD(G)/ISAAR(CPF)/ISDF/ISDIAH crosswalks as the authoritative reference in [mapping.md §1.2](spec/mapping.html), and RiC-AG has its own section on [related-implementations](related-implementations.html). The forthcoming EAC-CPF → RiC-O 1.1 mapping (also announced under RiC-AG) is tracked separately in this drift log.
-- **2026-04-25, v0.37.0** — RiC-O 1.1 namespace remediation, all 5 phases (A → E). Audit: 110 → 0 genuine emit-context violations.
-- **2026-04-25, v0.37.0** — Per-document version headers (mapping/viewing-api/graph-primitives/conformance) bumped from `0.1.0-draft` to `0.37.0`.
-- **2026-04-25, v0.37.0** — Mapping spec stale "review in progress" callout replaced with "REMEDIATION COMPLETE" callout.
-- **2026-04-25, v0.37.0** — Audit doc opened with prominent STATUS banner.
-- **2026-04-25, v0.37.0** — README current-version banner updated to v0.37.0.
-- **2026-04-25, v0.37.0** — `drift-log.md` (this page) created.
+- **2026-05-25, v0.38.1** - **RiC-CM navigator reconciliation: declared.** Resolved via option (c) - articulate the distinction rather than deprecate. OpenRiC's `/reference/ric-cm/` is a **versioned, SPARQL-backed, declared-vs-inherited specification browser** tied to spec releases; the Damigos / Ionian [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) is a **standalone single-page graph navigator** aimed at conceptual exploration. The two address different reader needs (spec-version reference vs. conceptual graph traversal) and the relationship is now declared as **complementary, not competing** on [related-implementations](related-implementations.html). No deprecation; no fork. Either tool can cite the other.
+- **2026-05-25, v0.38.1** - **RiC-AG (Application Guidelines) promoted to first-class related-implementation.** EGAD published RiC-AG v0.1 in October 2025; this spec now cross-references RiC-AG's ISAD(G)/ISAAR(CPF)/ISDF/ISDIAH crosswalks as the authoritative reference in [mapping.md §1.2](spec/mapping.html), and RiC-AG has its own section on [related-implementations](related-implementations.html). The forthcoming EAC-CPF → RiC-O 1.1 mapping (also announced under RiC-AG) is tracked separately in this drift log.
+- **2026-04-25, v0.37.0** - RiC-O 1.1 namespace remediation, all 5 phases (A → E). Audit: 110 → 0 genuine emit-context violations.
+- **2026-04-25, v0.37.0** - Per-document version headers (mapping/viewing-api/graph-primitives/conformance) bumped from `0.1.0-draft` to `0.37.0`.
+- **2026-04-25, v0.37.0** - Mapping spec stale "review in progress" callout replaced with "REMEDIATION COMPLETE" callout.
+- **2026-04-25, v0.37.0** - Audit doc opened with prominent STATUS banner.
+- **2026-04-25, v0.37.0** - README current-version banner updated to v0.37.0.
+- **2026-04-25, v0.37.0** - `drift-log.md` (this page) created.
 
 ---
 

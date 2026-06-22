@@ -31,7 +31,7 @@ This document specifies:
 | **L3** | Graph primitives conformance | All subgraph responses satisfy the six invariants in [Graph Primitives](graph-primitives.html) §6. |
 | **L4** | Full conformance | L1 + L2 + L3, plus round-trip (input → RiC → subgraph → viewer-ready) passes with no data loss against the round-trip fixture set. |
 
-> **Note (v0.37):** The `L1`–`L4` envelope levels above are **legacy** terminology, retained for historical context. Current conformance claims SHOULD be **profile-based** - `core-discovery`, `authority-context`, `graph-traversal`, `digital-object-linkage`, `round-trip-editing`, `provenance-event`, `export-only`, and `sparql-access` (draft). A server's `openric_conformance.profiles` declaration in `GET /` is the authoritative claim; the L1–L4 levels were defined before the profile model and now map roughly as: L1 ≈ per-profile mapping, L2 ≈ profile basic-discovery surface, L3 ≈ graph-traversal, L4 ≈ full multi-profile.
+> **Note (v0.37):** The `L1`-`L4` envelope levels above are **legacy** terminology, retained for historical context. Current conformance claims SHOULD be **profile-based** - `core-discovery`, `authority-context`, `graph-traversal`, `digital-object-linkage`, `round-trip-editing`, `provenance-event`, `export-only`, and `sparql-access` (draft). A server's `openric_conformance.profiles` declaration in `GET /` is the authoritative claim; the L1-L4 levels were defined before the profile model and now map roughly as: L1 ≈ per-profile mapping, L2 ≈ profile basic-discovery surface, L3 ≈ graph-traversal, L4 ≈ full multi-profile.
 
 Implementations advertise the highest level they claim. Claims are verifiable - the validator CLI reports actual level, which MUST match the claim.
 

@@ -2,21 +2,21 @@
 title: For institutions & decision-makers
 category: For institutions
 order: 1
-summary: A non-technical brief on what adopting OpenRiC means — vendor independence, longevity, interoperability, and how to evaluate it or request it from vendors.
+summary: A non-technical brief on what adopting OpenRiC means - vendor independence, longevity, interoperability, and how to evaluate it or request it from vendors.
 ---
 
 A short, decision-focused brief for directors, IT leads and procurement officers.
 
 ## The one-sentence version
 
-OpenRiC is an **open, royalty-free contract** that lets any archival system publish and exchange **Records in Contexts**-modelled data in a consistent way — so you are not locked into a single vendor's interpretation of the standard.
+OpenRiC is an **open, royalty-free contract** that lets any archival system publish and exchange **Records in Contexts**-modelled data in a consistent way - so you are not locked into a single vendor's interpretation of the standard.
 
 ## Why it matters
 
-- **Vendor independence** — systems that implement OpenRiC are comparable on a *defined, testable surface*, not marketing claims. You can move data between them and compare offerings objectively.
-- **Longevity** — the spec is CC-BY 4.0 and the reference implementation AGPL-3.0; both remain readable and operable regardless of any vendor's fate.
-- **Interoperability, not just export** — read, write, validate, harvest (OAI-PMH) and graph-walk over one HTTP contract. Federated search and controlled migration become feasible.
-- **RiC alignment** — OpenRiC is the practical bridge from existing ISAD(G)-shaped catalogues to RiC-CM / RiC-O output, so you don't re-describe holdings later.
+- **Vendor independence** - systems that implement OpenRiC are comparable on a *defined, testable surface*, not marketing claims. You can move data between them and compare offerings objectively.
+- **Longevity** - the spec is CC-BY 4.0 and the reference implementation AGPL-3.0; both remain readable and operable regardless of any vendor's fate.
+- **Interoperability, not just export** - read, write, validate, harvest (OAI-PMH) and graph-walk over one HTTP contract. Federated search and controlled migration become feasible.
+- **RiC alignment** - OpenRiC is the practical bridge from existing ISAD(G)-shaped catalogues to RiC-CM / RiC-O output, so you don't re-describe holdings later.
 
 ## What it costs
 

@@ -199,8 +199,8 @@ A server claims `round-trip-editing` when, holding a valid API key with `write` 
 1. `POST /api/ric/v1/places` with a valid body returns `201 Created` with the create envelope; the `href` path dereferences to the newly-created Place.
 2. `PATCH /api/ric/v1/places/{id}` with a partial body returns `200 OK` with the success envelope; a subsequent `GET /places/{id}` reflects the change.
 3. `DELETE /api/ric/v1/places/{id}` returns `200 OK`; a subsequent `GET /places/{id}` returns `404 not-found`.
-4. `GET /api/ric/v1/places/{id}/revisions` returns an `openric:RevisionList` including at least the `create`, `update`, and `delete` rows from steps 1–3, with `actor` matching `api_key:{n}` for the key that performed them.
-5. Steps 1–4 repeated for every required entity type (records, agents, repositories, functions, rules, activities, instantiations) and for relations.
+4. `GET /api/ric/v1/places/{id}/revisions` returns an `openric:RevisionList` including at least the `create`, `update`, and `delete` rows from steps 1-3, with `actor` matching `api_key:{n}` for the key that performed them.
+5. Steps 1-4 repeated for every required entity type (records, agents, repositories, functions, rules, activities, instantiations) and for relations.
 6. `POST /api/ric/v1/places` without `X-API-Key` returns `401 authentication-required` (`application/problem+json`).
 7. `DELETE /api/ric/v1/places/{id}` with a key holding only `write` scope (not `delete`) returns `403 forbidden`.
 8. Deletion that would violate a referential constraint (e.g. deleting a Record with descendants) returns `409 conflict` per Core Discovery §4.1.

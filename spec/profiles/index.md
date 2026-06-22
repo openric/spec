@@ -69,7 +69,7 @@ Servers declare supported profiles in the service description at `GET /`:
 |---|---|
 | `id` | Profile identifier, kebab-case, from the profile catalogue below |
 | `version` | Profile version the server targets |
-| `level` | Conformance level (L1–L4) per [Conformance §2](../conformance.html#2-conformance-levels) |
+| `level` | Conformance level (L1-L4) per [Conformance §2](../conformance.html#2-conformance-levels) |
 | `conformance` | `"full"` or `"partial"`; if partial, a `"notes"` field is required |
 
 Consumers MUST read this field before issuing any requests that depend on a specific profile's endpoints.

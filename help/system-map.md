@@ -1,7 +1,7 @@
 ---
 layout: default
 title: OpenRiC system map
-description: How the OpenRiC pieces fit together — the specification, the reference API, the browser clients, the modelling wizard, and the consumers — as one navigable diagram.
+description: How the OpenRiC pieces fit together - the specification, the reference API, the browser clients, the modelling wizard, and the consumers - as one navigable diagram.
 permalink: /help/system-map/
 ---
 
@@ -27,13 +27,13 @@ flowchart TB
   classDef client fill:#fff7ed,stroke:#f59e0b,color:#92400e;
   classDef consumer fill:#f3effd,stroke:#8b5cf6,color:#5b21b6;
 
-  subgraph S [Specification — openric.org]
+  subgraph S [Specification - openric.org]
     SPEC["📖 Spec documents<br/>mapping · viewing API · graph primitives"]:::spec
     PROF["🧩 Profiles<br/>12 conformance targets"]:::spec
     SHAPES["✅ JSON Schemas + SHACL"]:::spec
   end
 
-  subgraph I [Reference implementation — ric.theahg.co.za]
+  subgraph I [Reference implementation - ric.theahg.co.za]
     API["🔌 Reference API<br/>/api/ric/v1 · 8-entity CRUD · OAI-PMH"]:::impl
     SPARQL["🔎 SPARQL endpoint"]:::impl
     NAV["🧭 RiC-CM navigator<br/>/reference/ric-cm"]:::impl
@@ -74,9 +74,9 @@ flowchart TB
 ## In words
 
 - The **Specification** (openric.org) defines the contract: the mapping documents, the [profiles](/spec/profiles/), and the JSON Schemas + SHACL shapes that make conformance testable.
-- The **Reference API** (ric.theahg.co.za) implements that contract over real archival data — read/write CRUD for all eight RiC entity types, SPARQL, OAI-PMH, and the SPARQL-backed [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/).
-- The **clients** — [viewer](https://viewer.openric.org/), [capture](https://capture.openric.org/), and the [modelling wizard](/wizard/) — are pure-browser apps that talk to *any* conformant server, not just the reference.
-- **Consumers** — Heratio (a production GLAM platform) and aggregators / RAG agents — use the same public contract; no privileged back door.
+- The **Reference API** (ric.theahg.co.za) implements that contract over real archival data - read/write CRUD for all eight RiC entity types, SPARQL, OAI-PMH, and the SPARQL-backed [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/).
+- The **clients** - [viewer](https://viewer.openric.org/), [capture](https://capture.openric.org/), and the [modelling wizard](/wizard/) - are pure-browser apps that talk to *any* conformant server, not just the reference.
+- **Consumers** - Heratio (a production GLAM platform) and aggregators / RAG agents - use the same public contract; no privileged back door.
 
 The point of the diagram: every box can be replaced by a third-party implementation of the same contract without touching the others.
 

@@ -28,7 +28,7 @@ title: OpenRiC - Specification
   </a>
   <a class="spec-doc" href="conformance.html">
     <strong>4 · Conformance</strong>
-    <span>Profile-based conformance (L1–L4 retained as legacy). JSON Schemas, SHACL shape set, fixture pack, validator CLI.</span>
+    <span>Profile-based conformance (L1-L4 retained as legacy). JSON Schemas, SHACL shape set, fixture pack, validator CLI.</span>
   </a>
 </div>
 

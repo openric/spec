@@ -75,7 +75,7 @@ A production-typed Activity response under Provenance & Event MUST include all t
     "@type":              "openricx:DateRange",
     "rico:beginningDate": { "@value": "1961-01-01", "@type": "xsd:date" },
     "rico:endDate":       { "@value": "1999-01-01", "@type": "xsd:date" },
-    "rico:expressedDate": "1961–1999"
+    "rico:expressedDate": "1961-1999"
   },
 
   "rico:resultsOrResultedIn": {

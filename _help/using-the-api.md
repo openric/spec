@@ -2,7 +2,7 @@
 title: Reading data from the API
 category: Using the API
 order: 1
-summary: How to read RiC data over HTTP — list and fetch entities, the JSON-LD shape, pagination, autocomplete, the graph and hierarchy endpoints, and RFC 7807 errors. With curl samples.
+summary: How to read RiC data over HTTP - list and fetch entities, the JSON-LD shape, pagination, autocomplete, the graph and hierarchy endpoints, and RFC 7807 errors. With curl samples.
 ---
 
 The OpenRiC reference API is at **`https://ric.theahg.co.za/api/ric/v1`**. Reads are public; every response is `application/ld+json`.
@@ -27,12 +27,12 @@ A single entity comes back as RiC-O JSON-LD:
   "@context": "https://openric.org/ns/ext/v1#",
   "@id": "https://ric.theahg.co.za/ric/record/kc4x-45tz-em84",
   "@type": "rico:Record",
-  "rico:title": "Field recording — Reel 12",
+  "rico:title": "Field recording - Reel 12",
   "rico:hasOrHadHolder": { "@id": "...", "@type": "rico:CorporateBody" }
 }
 ```
 
-The `@type` reflects the level — `rico:Record`, `rico:RecordSet`, or `rico:RecordPart`.
+The `@type` reflects the level - `rico:Record`, `rico:RecordSet`, or `rico:RecordPart`.
 
 ## Search & autocomplete
 
@@ -71,5 +71,5 @@ Errors use **RFC 7807** problem+json:
 
 ## Next
 
-- [Creating data](/help/creating-data/) — write entities
+- [Creating data](/help/creating-data/) - write entities
 - [SPARQL queries](/help/sparql/) · [Export & harvesting](/help/exporting-and-harvesting/)

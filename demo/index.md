@@ -1,26 +1,26 @@
 ---
 layout: default
-title: OpenRiC — Live Demo
+title: OpenRiC - Live Demo
 ---
 
 <link rel="stylesheet" href="css/demo.css">
 
 # Live Demo
 
-This page runs **inside your browser** and fetches live RiC-O data from the reference API at [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/api/ric/v1/health) over the OpenRiC Viewing API. Nothing on `openric.org` proxies or caches — the spec site and the API are genuinely independent. That is the point.
+This page runs **inside your browser** and fetches live RiC-O data from the reference API at [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/api/ric/v1/health) over the OpenRiC Viewing API. Nothing on `openric.org` proxies or caches - the spec site and the API are genuinely independent. That is the point.
 
-> **Prefer a catalogue view?** [/demo/browse/](browse/) renders the same data as a responsive card grid with per-type filters — useful for evaluating the shape of a dataset before drilling into the graph.
+> **Prefer a catalogue view?** [/demo/browse/](browse/) renders the same data as a responsive card grid with per-type filters - useful for evaluating the shape of a dataset before drilling into the graph.
 
-> **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. Heratio itself is a consumer of this API — every mutating admin action calls `/api/ric/v1/*` with an `X-API-Key`, same surface you're using here. No privileged shortcut.
+> **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. Heratio itself is a consumer of this API - every mutating admin action calls `/api/ric/v1/*` with an `X-API-Key`, same surface you're using here. No privileged shortcut.
 
 <div class="demo-controls">
   <label for="demo-example">Try:</label>
   <select id="demo-example">
-    <option value="https://heratio.theahg.co.za/informationobject/egyptian-boat">Egyptian Boat — RecordSet w/ subjects</option>
-    <option value="https://heratio.theahg.co.za/informationobject/cat-in-arms">Cat in Arms — multilingual Record</option>
-    <option value="https://heratio.theahg.co.za/actor/binneman-family">Binneman Family — Agent w/ creator events</option>
-    <option value="https://heratio.theahg.co.za/actor/mobrey-family">Mobrey Family — Agent</option>
-    <option value="https://heratio.theahg.co.za/place/912150">Egypt — Place</option>
+    <option value="https://heratio.theahg.co.za/informationobject/egyptian-boat">Egyptian Boat - RecordSet w/ subjects</option>
+    <option value="https://heratio.theahg.co.za/informationobject/cat-in-arms">Cat in Arms - multilingual Record</option>
+    <option value="https://heratio.theahg.co.za/actor/binneman-family">Binneman Family - Agent w/ creator events</option>
+    <option value="https://heratio.theahg.co.za/actor/mobrey-family">Mobrey Family - Agent</option>
+    <option value="https://heratio.theahg.co.za/place/912150">Egypt - Place</option>
   </select>
 
   <input id="demo-uri" type="text" placeholder="Or paste any Heratio entity URI…" />
@@ -61,7 +61,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 ### What the demo proves
 
 - The **spec** (served by openric.org) and the **reference API** (served by ric.theahg.co.za) live on separate infrastructure.
-- The viewer is ported straight from Heratio's UI and re-used here with a one-line adapter from `openric:Subgraph` → viewer's `{nodes, edges}`. Any other server implementing the OpenRiC Viewing API can swap in — same viewer, different backend.
+- The viewer is ported straight from Heratio's UI and re-used here with a one-line adapter from `openric:Subgraph` → viewer's `{nodes, edges}`. Any other server implementing the OpenRiC Viewing API can swap in - same viewer, different backend.
 - Every edge carries a canonical `rico:*` predicate as per [Graph Primitives §3.3](../spec/graph-primitives.html#33-edge).
 
 ---
@@ -132,10 +132,10 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
     var type = data.type || '';
     var apiBase = 'https://ric.theahg.co.za/api/ric/v1';
 
-    // Slug-based endpoints — pull slug from atomUrl.
+    // Slug-based endpoints - pull slug from atomUrl.
     var slug = atomUrl ? atomUrl.replace(/^\/+/, '').split('/').pop() : '';
 
-    // Id-based endpoints — pull numeric id from the canonical URI tail.
+    // Id-based endpoints - pull numeric id from the canonical URI tail.
     var tailId = id.replace(/\/$/, '').split('/').pop();
 
     switch (type) {
@@ -160,7 +160,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
     // data may come from cytoscape (flat) or from ForceGraph3D (node object).
     var label = data.label || data.name || 'Unknown';
     var id = data.id || '';
-    var type = data.type || '—';
+    var type = data.type || '-';
     var atomUrl = data.atomUrl || '';
     var heratioHost = 'https://heratio.theahg.co.za';
     var archiveLink = atomUrl ? heratioHost + atomUrl : null;
@@ -185,14 +185,14 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
     nodeInfoEl.innerHTML = html;
 
-    // Drill into this node's subgraph — re-root the graph at the clicked entity.
+    // Drill into this node's subgraph - re-root the graph at the clicked entity.
     if (id) {
       uriInput.value = id;
       load(id);
     }
   }
 
-  // Hover tooltip (v0.2.0 style — the demo predates the viewer package's own
+  // Hover tooltip (v0.2.0 style - the demo predates the viewer package's own
   // tooltip support; this is a drop-in that works with whatever viewer version
   // unpkg currently resolves to).
   var tooltipEl = null;
@@ -327,7 +327,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
   view3dBtn.addEventListener('click', function () { setMode('3d'); });
 
   renderLegend();
-  // First load — the first example.
+  // First load - the first example.
   load(exampleSelect.value);
 })();
 </script>

@@ -370,7 +370,7 @@ Servers using the Heratio-style `{"success":false, "error":"..."}` error envelop
 
 Seven questions were flagged during drafting. All seven are resolved in the normative Core Discovery profile (v0.3.0 profile, cut in spec v0.30.0). Rationale is retained below for the record; any resolution can be re-opened via a GitHub discussion citing the question ID.
 
-**A note on numbering**: Q2 was retired during early drafting; the remaining questions keep their original IDs (Q1, Q3–Q8) so cross-document references stay stable. Any resolution below can be re-opened via a GitHub discussion citing the question ID.
+**A note on numbering**: Q2 was retired during early drafting; the remaining questions keep their original IDs (Q1, Q3-Q8) so cross-document references stay stable. Any resolution below can be re-opened via a GitHub discussion citing the question ID.
 
 ### Q1 - "Core Discovery" name vs IIIF Level 0/1/2 numbering
 

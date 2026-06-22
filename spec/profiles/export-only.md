@@ -123,7 +123,7 @@ Canonical `Identify` and `ListMetadataFormats` examples are shipped as the [`oai
       "@id":   "https://example.org/actor/715",
       "@type": "rico:Family",
       "rico:name": "Mobrey family",
-      "rico:history": "Farming family active in the Eastern Cape, 1870s–1960s."
+      "rico:history": "Farming family active in the Eastern Cape, 1870s-1960s."
     }
   ]
 }

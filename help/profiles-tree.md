@@ -1,7 +1,7 @@
 ---
 layout: default
 title: OpenRiC profiles tree
-description: The OpenRiC conformance profiles as a capability tree — seven normative, five draft — each a named, bounded target a server can claim. Click any profile to read it.
+description: The OpenRiC conformance profiles as a capability tree - seven normative, five draft - each a named, bounded target a server can claim. Click any profile to read it.
 permalink: /help/profiles-tree/
 ---
 
@@ -16,7 +16,7 @@ permalink: /help/profiles-tree/
 
 # Profiles tree
 
-<p class="legend">A <strong>profile</strong> is a named, bounded conformance target — a server declares which it supports and consumers know exactly what to expect. Profiles are additive, not hierarchical. <strong>Click any profile to open its specification; drag to pan, controls to zoom.</strong></p>
+<p class="legend">A <strong>profile</strong> is a named, bounded conformance target - a server declares which it supports and consumers know exactly what to expect. Profiles are additive, not hierarchical. <strong>Click any profile to open its specification; drag to pan, controls to zoom.</strong></p>
 
 <div class="diagram-wrap">
 <pre class="mermaid">
@@ -35,7 +35,7 @@ flowchart LR
     EX["Export-Only<br/>OAI-PMH · JSON-LD/Turtle"]:::norm
   end
 
-  subgraph D [Draft — v0.43 governance line]
+  subgraph D [Draft - v0.43 governance line]
     SP["SPARQL Access<br/>read-only /sparql"]:::draft
     GOV["Governance<br/>IRI policy · SHACL gate"]:::draft
     PORT["Portability<br/>round-trip · DCAT/VoID"]:::draft
@@ -68,21 +68,21 @@ flowchart LR
 
 **Normative (claimable today):**
 
-- **Core Discovery** — read-only records, agents, repositories, vocabulary, autocomplete. The minimum "I can be queried" claim.
-- **Authority & Context** — places, rules, activities as first-class entities.
-- **Graph Traversal** — `/graph`, `/relations`, `/hierarchy` cross-entity walks.
-- **Digital Object Linkage** — instantiations (carriers) + ISDF functions.
-- **Round-Trip Editing** — the full write surface with an audit trail.
-- **Provenance & Event** — tightened activity shapes (results, participants, dates).
-- **Export-Only** — OAI-PMH harvest + per-record JSON-LD / Turtle / RDF-XML.
+- **Core Discovery** - read-only records, agents, repositories, vocabulary, autocomplete. The minimum "I can be queried" claim.
+- **Authority & Context** - places, rules, activities as first-class entities.
+- **Graph Traversal** - `/graph`, `/relations`, `/hierarchy` cross-entity walks.
+- **Digital Object Linkage** - instantiations (carriers) + ISDF functions.
+- **Round-Trip Editing** - the full write surface with an audit trail.
+- **Provenance & Event** - tightened activity shapes (results, participants, dates).
+- **Export-Only** - OAI-PMH harvest + per-record JSON-LD / Turtle / RDF-XML.
 
 **Draft (open for comment):**
 
-- **SPARQL Access** — a read-only SPARQL 1.1 endpoint.
-- **Governance** — pinned standards, the two-layer IRI policy, deprecate-not-delete, SHACL as a merge gate.
-- **Portability** — lossless round-trip + a DCAT/VoID dataset descriptor + validate-on-export.
-- **Inferred-Provenance** — AI-asserted edges are visibly distinguishable from documented fact.
-- **Graph-Grounding** — a `/ground` endpoint so RAG agents disambiguate against the graph.
+- **SPARQL Access** - a read-only SPARQL 1.1 endpoint.
+- **Governance** - pinned standards, the two-layer IRI policy, deprecate-not-delete, SHACL as a merge gate.
+- **Portability** - lossless round-trip + a DCAT/VoID dataset descriptor + validate-on-export.
+- **Inferred-Provenance** - AI-asserted edges are visibly distinguishable from documented fact.
+- **Graph-Grounding** - a `/ground` endpoint so RAG agents disambiguate against the graph.
 
 See [Conformance & profiles](/help/conformance-and-profiles/) for how to claim and test them.
 

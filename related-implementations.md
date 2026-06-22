@@ -8,11 +8,11 @@ permalink: /related-implementations.html
 
 OpenRiC is one of several initiatives building practical, RiC-aligned archival linked-data infrastructure. This page lists external projects that OpenRiC tracks as implementation references, interoperability benchmarks, or external authority targets.
 
-These projects are **independent** from OpenRiC. They are listed here because they demonstrate patterns OpenRiC adopts or learns from — not because OpenRiC has any formal partnership, endorsement, or dependency relationship with them. When citing or linking to data from these projects, follow the source attribution and licensing requirements of each.
+These projects are **independent** from OpenRiC. They are listed here because they demonstrate patterns OpenRiC adopts or learns from - not because OpenRiC has any formal partnership, endorsement, or dependency relationship with them. When citing or linking to data from these projects, follow the source attribution and licensing requirements of each.
 
 ---
 
-## Garance — Archives nationales de France
+## Garance - Archives nationales de France
 
 **Project URL:** [`https://rdf.archives-nationales.culture.gouv.fr/garance/pages/en/`](https://rdf.archives-nationales.culture.gouv.fr/garance/pages/en/)
 **Repository:** [`github.com/sparna-git/garance`](https://github.com/sparna-git/garance)
@@ -20,7 +20,7 @@ These projects are **independent** from OpenRiC. They are listed here because th
 **SPARQL endpoint:** [`https://sparql.archives-nationales.culture.gouv.fr/garance/sparql`](https://sparql.archives-nationales.culture.gouv.fr/garance/sparql)
 **Lead:** Archives nationales de France (with Sparna).
 
-**Garance** (*Graphe des Archives nationales pour la Recherche, l'Accès et la Navigation des Connaissances Enrichies* — Graph of the Archives nationales de France for Research, Access and Navigation of Enriched Knowledge) is the public RDF/SKOS dissemination platform for AnF reference datasets. Approximately:
+**Garance** (*Graphe des Archives nationales pour la Recherche, l'Accès et la Navigation des Connaissances Enrichies* - Graph of the Archives nationales de France for Research, Access and Navigation of Enriched Knowledge) is the public RDF/SKOS dissemination platform for AnF reference datasets. Approximately:
 
 - 18,400 agents
 - 54,000 places
@@ -34,20 +34,20 @@ Garance demonstrates several patterns that OpenRiC adopts:
 
 | Garance pattern | OpenRiC adoption |
 |---|---|
-| Stable semantic entity URIs separate from API endpoints | [Viewing API §3.1](spec/viewing-api.html) — semantic URI policy |
-| Content negotiation (HTML / JSON-LD / Turtle / RDF/XML) | [Viewing API §3.2](spec/viewing-api.html) — content-negotiation policy |
-| SKOS Concept Schemes for controlled vocabularies (place types, agent roles, etc.) | [`/vocab/`](/vocab/index.html) — OpenRiC vocabularies (activity-type, rule-type) |
+| Stable semantic entity URIs separate from API endpoints | [Viewing API §3.1](spec/viewing-api.html) - semantic URI policy |
+| Content negotiation (HTML / JSON-LD / Turtle / RDF/XML) | [Viewing API §3.2](spec/viewing-api.html) - content-negotiation policy |
+| SKOS Concept Schemes for controlled vocabularies (place types, agent roles, etc.) | [`/vocab/`](/vocab/index.html) - OpenRiC vocabularies (activity-type, rule-type) |
 | RiC-O + SKOS coexistence rather than `rico:` namespace minting | OpenRiC v0.37 namespace-remediation policy: "openricx never mints in rico:" |
-| Generated static entity pages from RDF | Roadmap — Phase G |
+| Generated static entity pages from RDF | Roadmap - Phase G |
 | SPARQL 1.1 query endpoint | [`sparql-access` profile](spec/profiles/sparql-access.html) (draft) |
 
 ### How OpenRiC uses Garance
 
 Three permitted uses, with attribution and original-URI preservation:
 
-1. **As an architecture reference** — for the publication patterns above.
-2. **As an interoperability benchmark** — for SHACL / vocabulary / entity-page conformance discussions.
-3. **As an external authority-linking target** — Garance entity URIs MAY be used in OpenRiC graphs via `skos:exactMatch` / `skos:closeMatch`. Example:
+1. **As an architecture reference** - for the publication patterns above.
+2. **As an interoperability benchmark** - for SHACL / vocabulary / entity-page conformance discussions.
+3. **As an external authority-linking target** - Garance entity URIs MAY be used in OpenRiC graphs via `skos:exactMatch` / `skos:closeMatch`. Example:
 
 ```turtle
 <.../agent/local-123> a rico:Person ;
@@ -79,13 +79,13 @@ ICA-EGAD also maintains the [RiC-O Converter](https://github.com/ArchivesNationa
 
 ---
 
-## RiC-AG — ICA-EGAD Application Guidelines
+## RiC-AG - ICA-EGAD Application Guidelines
 
 **Documentation:** [`ica-egad.github.io/RiC-AG/`](https://ica-egad.github.io/RiC-AG/)
 **Mappings:** [`ica-egad.github.io/RiC-AG/mappings.html`](https://ica-egad.github.io/RiC-AG/mappings.html)
 **Maintainer:** ICA-EGAD (October 2025, v0.1).
 
-RiC-AG is the EGAD-authored practical guide to applying RiC-CM and RiC-O. v0.1 ships a crosswalk from the four legacy ICA standards — **ISAD(G), ISAAR(CPF), ISDF, ISDIAH** — to RiC-CM, with an **EAC-CPF → RiC-O 1.1 mapping** announced as "planned to be released as soon as possible."
+RiC-AG is the EGAD-authored practical guide to applying RiC-CM and RiC-O. v0.1 ships a crosswalk from the four legacy ICA standards - **ISAD(G), ISAAR(CPF), ISDF, ISDIAH** - to RiC-CM, with an **EAC-CPF → RiC-O 1.1 mapping** announced as "planned to be released as soon as possible."
 
 ### Why OpenRiC tracks RiC-AG
 
@@ -107,11 +107,11 @@ OpenRiC does **not** fork or republish RiC-AG content. The Application Guideline
 **Project URL:** [`heratio.theahg.co.za`](https://heratio.theahg.co.za/)
 **Lead:** The Archive and Heritage Group.
 
-A production GLAM platform (AGPL-3.0) that consumes the OpenRiC reference API for every mutating administrative action. Heratio proves the OpenRiC contract is sufficient for a real archive, but **Heratio is one consumer of OpenRiC, not a special-cased dependency** — any conformant OpenRiC server can be substituted. See the [home page](/) "If you only remember one thing" callout for the contract/consumer separation.
+A production GLAM platform (AGPL-3.0) that consumes the OpenRiC reference API for every mutating administrative action. Heratio proves the OpenRiC contract is sufficient for a real archive, but **Heratio is one consumer of OpenRiC, not a special-cased dependency** - any conformant OpenRiC server can be substituted. See the [home page](/) "If you only remember one thing" callout for the contract/consumer separation.
 
 ---
 
-## Sparna — Garance build team and RiC-O Converter maintainers
+## Sparna - Garance build team and RiC-O Converter maintainers
 
 **Project URL:** [`sparna.fr`](https://www.sparna.fr/) · [`github.com/sparna-git`](https://github.com/sparna-git)
 
@@ -121,13 +121,13 @@ OpenRiC tracks Sparna as a **modelling-pattern reference** (the Eleventy + JSON-
 
 ---
 
-## Sparnatural — visual SPARQL query builder
+## Sparnatural - visual SPARQL query builder
 
 **Project URL:** [`sparnatural.eu`](https://sparnatural.eu/)
 
 A visual SPARQL query builder. [Garance](#garance--archives-nationales-de-france) plans to integrate Sparnatural before end of 2026.
 
-OpenRiC tracks Sparnatural as a **complementary client surface** to the OpenRiC viewer. The viewer renders graphs; Sparnatural builds queries. An institution running both could front-end its OpenRiC server with the viewer for exploration and Sparnatural for ad-hoc query construction. Optional embedding inside the OpenRiC viewer, or a standalone OpenRiC-Sparnatural bridge, is a discussion thread for v1.0+ — open via [openric/spec discussions](https://github.com/openric/spec/discussions) if interested.
+OpenRiC tracks Sparnatural as a **complementary client surface** to the OpenRiC viewer. The viewer renders graphs; Sparnatural builds queries. An institution running both could front-end its OpenRiC server with the viewer for exploration and Sparnatural for ad-hoc query construction. Optional embedding inside the OpenRiC viewer, or a standalone OpenRiC-Sparnatural bridge, is a discussion thread for v1.0+ - open via [openric/spec discussions](https://github.com/openric/spec/discussions) if interested.
 
 ---
 
@@ -140,7 +140,7 @@ The canonical EAD 2002 / EAC-CPF → RiC-O 1.1 converter. OpenRiC's [mapping spe
 
 ---
 
-## Damigos / Ionian University — RiC-CM Nav and the Corfu archives
+## Damigos / Ionian University - RiC-CM Nav and the Corfu archives
 
 **Project URLs:**
 - [RiC-CM NavTool](https://dlib-ionian-university.github.io/ric-cm-nav/) (2026)
@@ -153,13 +153,13 @@ OpenRiC's own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://r
 
 The Damigos group's 2023 ICADL paper on RiC-CM ↔ CIDOC-CRM mapping is the basis for the planned `OpenRiC-CIDOC-Bridge` extension (post-v1.0; see [`docs/extensions/openric-cidoc-bridge.md`](https://github.com/openric/spec/blob/main/docs/extensions/openric-cidoc-bridge.md)).
 
-OpenRiC tracks this group as a **second-implementation candidate** — the Corfu Criminal Court Archives application is the closest production deployment to a second OpenRiC implementation that the project has identified.
+OpenRiC tracks this group as a **second-implementation candidate** - the Corfu Criminal Court Archives application is the closest production deployment to a second OpenRiC implementation that the project has identified.
 
 ---
 
 ## Other tracked deployments and resources
 
-These are listed for visibility — OpenRiC tracks them as potential second-implementation candidates, modelling references, or community resources.
+These are listed for visibility - OpenRiC tracks them as potential second-implementation candidates, modelling references, or community resources.
 
 | Project | Lead | What |
 |---|---|---|

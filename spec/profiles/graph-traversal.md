@@ -117,7 +117,7 @@ A paginated index of every edge in the store (or a subset via future query param
       "start_date":        "1902-11-15",
       "end_date":          "1903-06-02",
       "certainty":         "probable",
-      "evidence":          "Field season report, Abu Sir 1902–1903, p.14."
+      "evidence":          "Field season report, Abu Sir 1902-1903, p.14."
     }
   ],
   "pagination": { "page": 1, "per_page": 2, "total": 681, "last_page": 341 }

@@ -68,7 +68,7 @@ A RiC entity projected for display.
   "type":  "rico:Person",
   "label": "Smuts, Jan Christian",
   "attributes": {
-    "dates":    "1870–1950",
+    "dates":    "1870-1950",
     "occupation": "Statesman, philosopher"
   },
   "openric:localType": null,

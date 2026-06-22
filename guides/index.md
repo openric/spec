@@ -1,13 +1,13 @@
 ---
 layout: default
-title: OpenRiC — Guides
+title: OpenRiC - Guides
 ---
 
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Guides</div>
     <h1>Use OpenRiC, don't just read about it</h1>
-    <p class="hero-lede">Practical how-tos for the three public tools in the OpenRiC ecosystem — the viewer you embed, the capture client you paste a key into, and the reference API you POST to.</p>
+    <p class="hero-lede">Practical how-tos for the three public tools in the OpenRiC ecosystem - the viewer you embed, the capture client you paste a key into, and the reference API you POST to.</p>
   </div>
 </div>
 
@@ -25,7 +25,7 @@ title: OpenRiC — Guides
   <a class="surface-card" href="capture.html">
     <span class="surface-icon">✍</span>
     <h3>Capture guide</h3>
-    <p>Walkthrough of <a href="https://capture.openric.org">capture.openric.org</a> — connect to a server, mint a key, create entities, link relations.</p>
+    <p>Walkthrough of <a href="https://capture.openric.org">capture.openric.org</a> - connect to a server, mint a key, create entities, link relations.</p>
   </a>
   <a class="surface-card" href="api.html">
     <span class="surface-icon">🔌</span>
@@ -43,7 +43,7 @@ title: OpenRiC — Guides
 
 If you haven't yet, the two-page orientation pieces are [**Home**](../) (what OpenRiC is + live status) and [**Architecture**](../architecture.html) (where the four public deployments fit and how they talk to each other). Read those first if you're new.
 
-For evidence that the contract actually works in production — live numbers, a real end-to-end use case, and one example of every RiC-O type — see [**Proof of implementation**](../proof.html).
+For evidence that the contract actually works in production - live numbers, a real end-to-end use case, and one example of every RiC-O type - see [**Proof of implementation**](../proof.html).
 
 ## Reference material, not step-by-step
 

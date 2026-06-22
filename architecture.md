@@ -1,11 +1,11 @@
 ---
 layout: default
-title: OpenRiC — Architecture
+title: OpenRiC - Architecture
 ---
 
 # Architecture
 
-OpenRiC is a specification plus four public deployments that implement it. The deployments are deliberately small, separately-hosted, and interoperable — any of them can be replaced by a third party's implementation without touching the others.
+OpenRiC is a specification plus four public deployments that implement it. The deployments are deliberately small, separately-hosted, and interoperable - any of them can be replaced by a third party's implementation without touching the others.
 
 This page explains what's where, how they talk to each other, and what the boundaries are.
 
@@ -24,7 +24,7 @@ Plus one supporting deployment:
 
 | URL | Role |
 |---|---|
-| **[heratio.theahg.co.za](https://heratio.theahg.co.za)** | Operational GLAM platform — the source of the data the reference API exposes. Also a *client* of that API for every admin action. |
+| **[heratio.theahg.co.za](https://heratio.theahg.co.za)** | Operational GLAM platform - the source of the data the reference API exposes. Also a *client* of that API for every admin action. |
 
 ---
 
@@ -41,7 +41,7 @@ Plus one supporting deployment:
                                       │
                                       ▼
         ┌─────────────────────────────────────────────────────────┐
-        │  /api/ric/v1/*  — the contract                          │
+        │  /api/ric/v1/*  - the contract                          │
         │  Reads  (no auth) + Writes (X-API-Key with scope)       │
         └─────────────────────────────────────────────────────────┘
                ▲               ▲                ▲
@@ -55,7 +55,7 @@ Plus one supporting deployment:
                │ shares MySQL with
                ▼
        heratio.theahg.co.za
-       (operational GLAM platform — also a client of /api/ric/v1
+       (operational GLAM platform - also a client of /api/ric/v1
         over HTTP for every mutating admin action)
 ```
 
@@ -65,37 +65,37 @@ Notably absent: any arrow from Heratio *into* `ric.theahg.co.za` other than HTTP
 
 ## How each surface works
 
-### openric.org — specification
+### openric.org - specification
 
 Static Jekyll site, hosted on GitHub Pages. Four spec documents in `spec/`, JSON Schemas in `schemas/`, SHACL in `shapes/`, fixtures in `fixtures/`, validator CLI in `validator/`, conformance probe in `conformance/`, API explorer in `api-explorer/`. Current tagged release: `v0.2.0` (2026-04-18).
 
-The **[live demo](demo/)** is a single HTML page that fetches `/api/ric/v1/graph` from `ric.theahg.co.za` over HTTPS. No server-side code on `openric.org` — proves the spec site is independent of any implementation.
+The **[live demo](demo/)** is a single HTML page that fetches `/api/ric/v1/graph` from `ric.theahg.co.za` over HTTPS. No server-side code on `openric.org` - proves the spec site is independent of any implementation.
 
-### viewer.openric.org — graph viewer demo
+### viewer.openric.org - graph viewer demo
 
 GitHub Pages from `github.com/openric/viewer` (`docs/` branch). Loads `@openric/viewer` from unpkg CDN (the published npm package). Server picker offers:
 
-1. **Reference API** (`ric.theahg.co.za/api/ric/v1`) — real archival data.
-2. **Static fixtures** — service-worker intercepts `/api/static-ric/*` requests, serves pre-rendered JSON from the spec's conformance fixture pack. Proves the viewer has no Heratio-specific assumptions.
-3. **Custom URL** — paste any OpenRiC-conformant base URL.
+1. **Reference API** (`ric.theahg.co.za/api/ric/v1`) - real archival data.
+2. **Static fixtures** - service-worker intercepts `/api/static-ric/*` requests, serves pre-rendered JSON from the spec's conformance fixture pack. Proves the viewer has no Heratio-specific assumptions.
+3. **Custom URL** - paste any OpenRiC-conformant base URL.
 
 `@openric/viewer` is ~500 lines of vanilla JS with cytoscape (2D) and 3d-force-graph (3D) as peer deps.
 
-### capture.openric.org — capture client
+### capture.openric.org - capture client
 
-GitHub Pages from `github.com/openric/capture` (`docs/` branch). Single-file HTML — no build step. Fields:
+GitHub Pages from `github.com/openric/capture` (`docs/` branch). Single-file HTML - no build step. Fields:
 
-- **Server URL** — any OpenRiC-conformant base URL.
-- **API key** — must have `write` scope. Stored in `localStorage`.
+- **Server URL** - any OpenRiC-conformant base URL.
+- **API key** - must have `write` scope. Stored in `localStorage`.
 - Five entity-type tiles (Place, Rule, Activity, Instantiation, Relation).
 
 On submit, POSTs to `${server}/{type}`. Type pickers are fetched live from `${server}/vocabulary/{taxonomy}` so the form always reflects whatever vocabulary the target server publishes.
 
-Recent captures logged in `localStorage` (last 20) — useful for verifying writes actually landed.
+Recent captures logged in `localStorage` (last 20) - useful for verifying writes actually landed.
 
-### ric.theahg.co.za — reference API
+### ric.theahg.co.za - reference API
 
-Laravel 12 app at `/usr/share/nginx/OpenRiC/`. Reuses Heratio's `ahg-ric`, `ahg-api`, and `ahg-core` packages via composer path repo (`/usr/share/nginx/heratio/packages/*`). Not a fork — every fix pushed to Heratio's packages is active on the next request here.
+Laravel 12 app at `/usr/share/nginx/OpenRiC/`. Reuses Heratio's `ahg-ric`, `ahg-api`, and `ahg-core` packages via composer path repo (`/usr/share/nginx/heratio/packages/*`). Not a fork - every fix pushed to Heratio's packages is active on the next request here.
 
 nginx vhost serves:
 
@@ -105,12 +105,12 @@ nginx vhost serves:
 
 Shared MySQL with Heratio. Phase 4.3 Option A (shared DB); separate-DB migration planned but not currently active.
 
-### heratio.theahg.co.za — operational platform + API client
+### heratio.theahg.co.za - operational platform + API client
 
 Full-stack archival-management platform. Three weeks ago (pre-split), Heratio exposed `/api/ric/v1/*` as in-process Laravel routes. Today:
 
 - Those routes are no longer loaded in Heratio (`AhgRicServiceProvider` skips `api.php` when `RIC_API_URL` is set).
-- Every admin action — create Place, edit Rule, delete Relation — goes through `RicApiClient`, which makes HTTPS calls to `ric.theahg.co.za/api/ric/v1/*` with `X-API-Key`.
+- Every admin action - create Place, edit Rule, delete Relation - goes through `RicApiClient`, which makes HTTPS calls to `ric.theahg.co.za/api/ric/v1/*` with `X-API-Key`.
 - `/ric-capture` is a 302 redirect to `capture.openric.org`.
 - Embedded Blade partials that fetch via JS (`_ric-entities-panel`, `_relation-editor`, etc.) hit `window.RIC_API_BASE` which resolves to the external service URL from config.
 
@@ -126,10 +126,10 @@ This means the reference implementation of OpenRiC consumes its own public API, 
 | viewer.openric.org | ric.theahg.co.za/api/ric/v1 | HTTPS, wide-open CORS | none (reads only) |
 | capture.openric.org | any configured server | HTTPS, wide-open CORS | `X-API-Key` from `localStorage` |
 | heratio.theahg.co.za admin (server-side) | ric.theahg.co.za/api/ric/v1 | HTTPS, in-VM hairpin | `X-API-Key` from Heratio's `.env` |
-| heratio.theahg.co.za admin (browser-side) | ric.theahg.co.za/api/ric/v1 | HTTPS, cross-origin | cookie-less, admin-session — read-only surfaces |
+| heratio.theahg.co.za admin (browser-side) | ric.theahg.co.za/api/ric/v1 | HTTPS, cross-origin | cookie-less, admin-session - read-only surfaces |
 | Heratio DB | RiC service DB | **shared MySQL** | DB user credentials in both apps' `.env` |
 
-The shared DB is a soft boundary, documented in the split plan (`docs/ric-split-plan.md` in the Heratio repo). Phase 4.3 Option B — separate DBs with a sync layer — is on the roadmap but not executed.
+The shared DB is a soft boundary, documented in the split plan (`docs/ric-split-plan.md` in the Heratio repo). Phase 4.3 Option B - separate DBs with a sync layer - is on the roadmap but not executed.
 
 ---
 
@@ -154,17 +154,17 @@ Once your implementation serves `/api/ric/v1/*`:
 | [`openric/spec`](https://github.com/openric/spec) | Jekyll site source + spec documents + JSON Schemas + SHACL shapes + fixtures + validator CLI |
 | [`openric/viewer`](https://github.com/openric/viewer) | `@openric/viewer` npm package + GH Pages demo |
 | [`openric/capture`](https://github.com/openric/capture) | Capture client + GH Pages demo |
-| [`ArchiveHeritageGroup/heratio`](https://github.com/ArchiveHeritageGroup/heratio) | Operational GLAM platform (includes `packages/ahg-ric/` — the code the reference API service reuses) |
+| [`ArchiveHeritageGroup/heratio`](https://github.com/ArchiveHeritageGroup/heratio) | Operational GLAM platform (includes `packages/ahg-ric/` - the code the reference API service reuses) |
 
 ---
 
 ## Related
 
-- **[Data management & deployment topologies](data-management.html)** — where RiC data lives in the backing store, and three concrete topologies (green-field, AtoM retrofit, consumer-with-own-UI) covering every realistic deployment shape. Read this if you're evaluating how OpenRiC fits alongside an existing system.
+- **[Data management & deployment topologies](data-management.html)** - where RiC data lives in the backing store, and three concrete topologies (green-field, AtoM retrofit, consumer-with-own-UI) covering every realistic deployment shape. Read this if you're evaluating how OpenRiC fits alongside an existing system.
 
 ---
 
 ## Licence
 
-- **Spec** — CC-BY 4.0
-- **All implementations** — AGPL-3.0
+- **Spec** - CC-BY 4.0
+- **All implementations** - AGPL-3.0

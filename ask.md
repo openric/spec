@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Ask a question
-description: Ask the OpenRiC maintainers a question — about the spec, the reference API, conformance, or modelling. Your question is emailed straight to us.
+description: Ask the OpenRiC maintainers a question - about the spec, the reference API, conformance, or modelling. Your question is emailed straight to us.
 permalink: /ask/
 ---
 
@@ -25,7 +25,7 @@ permalink: /ask/
 
 # Ask a question
 
-<p class="legend">Stuck on the spec, the reference API, conformance, or how to model something in RiC? Ask here — your question is emailed straight to the maintainers. Leave an email if you'd like a reply (optional).</p>
+<p class="legend">Stuck on the spec, the reference API, conformance, or how to model something in RiC? Ask here - your question is emailed straight to the maintainers. Leave an email if you'd like a reply (optional).</p>
 
 <div class="ask-wrap">
 <form id="ask-form" novalidate>
@@ -34,7 +34,7 @@ permalink: /ask/
     <textarea id="ask-body" name="body" required minlength="8" placeholder="e.g. Does the reference API support OAI-PMH selective harvesting by set?"></textarea>
   </div>
   <div class="ask-field">
-    <label for="ask-email">Your email <span class="ask-note">(optional — only used to reply)</span></label>
+    <label for="ask-email">Your email <span class="ask-note">(optional - only used to reply)</span></label>
     <input type="email" id="ask-email" name="email" placeholder="you@institution.org" autocomplete="email">
   </div>
   <div class="ask-hp" aria-hidden="true">
@@ -76,7 +76,7 @@ permalink: /ask/
       return r.json();
     }).then(function () {
       form.reset();
-      show("ok", "Thanks — your question is on its way. We'll reply if you left an email.");
+      show("ok", "Thanks - your question is on its way. We'll reply if you left an email.");
     }).catch(function () {
       show("err", "Sorry, that didn't send. Please try again, or email johan@theahg.co.za directly.");
     }).then(function () { btn.disabled = false; });

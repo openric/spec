@@ -1,13 +1,13 @@
 ---
 layout: default
-title: OpenRiC — Getting started
+title: OpenRiC - Getting started
 ---
 
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Getting started</div>
     <h1>From zero to a working OpenRiC integration in 15 minutes</h1>
-    <p class="hero-lede">You just landed on openric.org. This walks you through reading data, getting an API key, writing your first entity, embedding the viewer, and verifying your own server — the whole stack, end to end, using the live reference deployment as the backend.</p>
+    <p class="hero-lede">You just landed on openric.org. This walks you through reading data, getting an API key, writing your first entity, embedding the viewer, and verifying your own server - the whole stack, end to end, using the live reference deployment as the backend.</p>
   </div>
 </div>
 
@@ -21,7 +21,7 @@ That's it. No framework, no build step, no signup unless you want to write.
 
 ---
 
-## Step 1 — Read something, no auth
+## Step 1 - Read something, no auth
 
 OpenRiC reads are public. Confirm the reference server is up:
 
@@ -45,29 +45,29 @@ Other read endpoints to try:
 # All agents (persons, corporate bodies, families)
 curl -s "https://ric.theahg.co.za/api/ric/v1/agents?limit=5" | jq
 
-# Subgraph walk — seeds the viewer
+# Subgraph walk - seeds the viewer
 curl -s "https://ric.theahg.co.za/api/ric/v1/graph?uri=https://ric.theahg.co.za/place/912324&depth=2" | jq
 
 # Harvester entrypoint (OAI-PMH v2.0, XML)
 curl -s "https://ric.theahg.co.za/api/ric/v1/oai?verb=Identify"
 ```
 
-The full catalogue is in the [API Explorer](https://ric.theahg.co.za/api/ric/v1/docs) — `Try it out` works on every endpoint.
+The full catalogue is in the [API Explorer](https://ric.theahg.co.za/api/ric/v1/docs) - `Try it out` works on every endpoint.
 
 ---
 
-## Step 2 — Explore interactively
+## Step 2 - Explore interactively
 
 Two in-browser tools:
 
-- **[API Explorer](/api-explorer/)** (this site) — Swagger UI over any OpenRiC server. Paste a base URL + optional API key, click `Try it out`.
-- **[Viewer](https://viewer.openric.org)** — 2D + 3D graph viewer. Pick a starting entity and drill through the RiC graph visually. Supports both the reference API and a bundled static fixture backend so you can see it working offline.
+- **[API Explorer](/api-explorer/)** (this site) - Swagger UI over any OpenRiC server. Paste a base URL + optional API key, click `Try it out`.
+- **[Viewer](https://viewer.openric.org)** - 2D + 3D graph viewer. Pick a starting entity and drill through the RiC graph visually. Supports both the reference API and a bundled static fixture backend so you can see it working offline.
 
 The viewer has a **Browse ▾** button that lists real entities from whichever server you connect to. Use it when you don't know where to start.
 
 ---
 
-## Step 3 — Get an API key (for writes)
+## Step 3 - Get an API key (for writes)
 
 Reads are free. To create, update, or delete entities you need an `X-API-Key`.
 
@@ -79,11 +79,11 @@ Fill in your email + organization + a sentence describing what you plan to do wi
 
 Keys carry scopes (`read`, `write`, `delete`) and a rate limit. You can always ask for a scope bump later.
 
-Running your own OpenRiC server? The exact same page ships on every conformant deployment — just swap the host.
+Running your own OpenRiC server? The exact same page ships on every conformant deployment - just swap the host.
 
 ---
 
-## Step 4 — Write your first entity
+## Step 4 - Write your first entity
 
 Once you have a key, export it:
 
@@ -119,7 +119,7 @@ The same CRUD pattern works for `records`, `agents`, `rules`, `activities`, `ins
 
 ---
 
-## Step 5 — Create a linked graph
+## Step 5 - Create a linked graph
 
 The point of RiC is *context*. Create a `rico:Record`, attach an `rico:Instantiation` (e.g. a digital image), link them with a relation:
 
@@ -152,11 +152,11 @@ Now view the subgraph:
 curl -s "$OPENRIC_BASE/graph?uri=https://ric.theahg.co.za/recordset/$REC_ID&depth=2" | jq
 ```
 
-Or click it in the [viewer](https://viewer.openric.org) — paste `/recordset/<your-id>` into the Start field and hit Load.
+Or click it in the [viewer](https://viewer.openric.org) - paste `/recordset/<your-id>` into the Start field and hit Load.
 
 ---
 
-## Step 6 — Probe your own server
+## Step 6 - Probe your own server
 
 If you're running OpenRiC yourself (or evaluating whether a server conforms), run the conformance probe:
 
@@ -171,7 +171,7 @@ You'll get a green/red report across every documented endpoint. Exit code 0 = co
 
 ---
 
-## Step 7 — Embed the viewer
+## Step 7 - Embed the viewer
 
 Drop two script tags into any HTML page:
 
@@ -198,7 +198,7 @@ No build step, no framework. Swap `init2D` for `init3D` if you want the 3-dimens
 
 ---
 
-## Step 8 — Harvest via OAI-PMH
+## Step 8 - Harvest via OAI-PMH
 
 If you're an OAI harvester (ArchiveSpace, DPLA hub, institutional repository aggregator), point your harvester at:
 
@@ -230,10 +230,10 @@ curl -s 'https://ric.theahg.co.za/api/ric/v1/oai?verb=ListRecords&metadataPrefix
 
 ## A note on AGPL
 
-The reference implementation (API server, viewer, capture client, conformance probe, API explorer) is **AGPL-3.0-or-later**. You can run your own, fork it, modify it — but if you host a modified version publicly, you have to share your changes under the same licence.
+The reference implementation (API server, viewer, capture client, conformance probe, API explorer) is **AGPL-3.0-or-later**. You can run your own, fork it, modify it - but if you host a modified version publicly, you have to share your changes under the same licence.
 
 The *specification* itself is **CC-BY 4.0**. Anyone can implement it under any licence. That's the point of a spec.
 
 ## Licence for this guide
 
-CC-BY 4.0. Copy it, translate it, adapt it — just credit OpenRiC.
+CC-BY 4.0. Copy it, translate it, adapt it - just credit OpenRiC.

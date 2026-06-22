@@ -2,14 +2,14 @@
 title: A 5-minute tour
 category: Getting started
 order: 3
-summary: Six things to try in five minutes — the wizard, the model navigator, the live graph, the API, the conformance probe, and the spec.
+summary: Six things to try in five minutes - the wizard, the model navigator, the live graph, the API, the conformance probe, and the spec.
 ---
 
 The fastest way to understand OpenRiC is to poke at the live surfaces. None of these need an account.
 
 ## 1. Model something in the wizard
 
-Open the **[modelling wizard](/wizard/)**, pick a scenario (or describe your own material), and walk the decisions. It explains *why* each RiC entity fits, and creates the entities live. Start here — it teaches the model by doing.
+Open the **[modelling wizard](/wizard/)**, pick a scenario (or describe your own material), and walk the decisions. It explains *why* each RiC entity fits, and creates the entities live. Start here - it teaches the model by doing.
 
 ## 2. Explore the model
 
@@ -17,7 +17,7 @@ Open the **[RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/)** and 
 
 ## 3. Walk the live graph
 
-Open the **[viewer](https://viewer.openric.org/)** against a real archival dataset. Click any node to expand its neighbourhood — same data, visual.
+Open the **[viewer](https://viewer.openric.org/)** against a real archival dataset. Click any node to expand its neighbourhood - same data, visual.
 
 ## 4. Call the API
 
@@ -38,7 +38,7 @@ Pure bash + jq; points at any OpenRiC server and reports pass/fail across every 
 
 ## 6. Read the spec
 
-Four short documents — [mapping, viewing API, graph primitives, conformance](/spec/) — plus the [profiles](/spec/profiles/).
+Four short documents - [mapping, viewing API, graph primitives, conformance](/spec/) - plus the [profiles](/spec/profiles/).
 
 ## Where next
 

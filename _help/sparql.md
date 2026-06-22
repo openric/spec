@@ -2,7 +2,7 @@
 title: SPARQL queries
 category: Using the API
 order: 3
-summary: Query the RiC graph with SPARQL 1.1 — the read-only endpoint, a sample query and result, and the dataset-description endpoint. With curl samples.
+summary: Query the RiC graph with SPARQL 1.1 - the read-only endpoint, a sample query and result, and the dataset-description endpoint. With curl samples.
 ---
 
 A server implementing the **SPARQL Access** profile exposes a read-only SPARQL 1.1 endpoint at `/api/ric/v1/sparql` (public, rate-limited; SPARQL Update is rejected).
@@ -37,7 +37,7 @@ SELECT ?record ?title WHERE {
 curl -s "https://ric.theahg.co.za/api/ric/v1/sparql/info"
 ```
 
-Returns a `void:Dataset` description — triple count, endpoint, vocabularies.
+Returns a `void:Dataset` description - triple count, endpoint, vocabularies.
 
 ## Notes
 

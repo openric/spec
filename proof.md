@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenRiC — Proof of implementation
+title: OpenRiC - Proof of implementation
 description: Real data, real endpoints, real mappings. The evidence that the OpenRiC contract works in practice, not just on paper.
 ---
 
@@ -9,7 +9,7 @@ description: Real data, real endpoints, real mappings. The evidence that the Ope
     <div class="hero-eyebrow">Proof of implementation</div>
     <h1>Real data. Real endpoints. Real mappings.</h1>
     <p class="hero-lede">
-      OpenRiC is a contract. This page is the evidence that the contract works — a live reference implementation backed by real archival data, concrete ISAD(G)&nbsp;→&nbsp;RiC-O mappings, and end-to-end use cases you can follow with <code>curl</code>.
+      OpenRiC is a contract. This page is the evidence that the contract works - a live reference implementation backed by real archival data, concrete ISAD(G)&nbsp;→&nbsp;RiC-O mappings, and end-to-end use cases you can follow with <code>curl</code>.
     </p>
     <div class="hero-cta">
       <a class="btn-primary" href="https://ric.theahg.co.za/api/ric/v1/">Live service root ↗</a>
@@ -19,7 +19,7 @@ description: Real data, real endpoints, real mappings. The evidence that the Ope
   </div>
 </div>
 
-## Reference implementation — live numbers
+## Reference implementation - live numbers
 
 The OpenRiC reference API at <code><a href="https://ric.theahg.co.za/api/ric/v1/">ric.theahg.co.za</a></code> is backed by a real archival service (The Archive and Heritage Group) with multi-jurisdiction holdings and live digital objects.
 
@@ -62,13 +62,13 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
 
 ## End-to-end use case
 
-**Scenario:** a curator has a single archival record — *Egyptian Boat* (BM-125320, held by The British Museum) — and wants it to appear in a third-party graph viewer, harvested by an OAI consumer, and validated against SHACL. Here is the full trajectory the OpenRiC contract guarantees.
+**Scenario:** a curator has a single archival record - *Egyptian Boat* (BM-125320, held by The British Museum) - and wants it to appear in a third-party graph viewer, harvested by an OAI consumer, and validated against SHACL. Here is the full trajectory the OpenRiC contract guarantees.
 
 <div class="e2e-step">
   <div class="num">1</div>
   <div>
     <h4>Cataloguing</h4>
-    <p>A curator describes the record in Heratio (or any OpenRiC-compliant producer) using standard ISAD(G) fields — title, identifier, dates, creator, scope, extent, repository.</p>
+    <p>A curator describes the record in Heratio (or any OpenRiC-compliant producer) using standard ISAD(G) fields - title, identifier, dates, creator, scope, extent, repository.</p>
     <p><em>Inputs live in the producer. OpenRiC does not dictate the editing UI.</em></p>
   </div>
 </div>
@@ -76,15 +76,15 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
 <div class="e2e-step">
   <div class="num">2</div>
   <div>
-    <h4>Mapping — ISAD(G) → RiC-O</h4>
-    <p>The producer maps ISAD(G) fields into RiC-O classes and predicates (see the mapping table below) and exposes each entity at a stable HTTP URL. Heratio does this automatically; other producers can follow <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3 — Canonical mapping</a>.</p>
+    <h4>Mapping - ISAD(G) → RiC-O</h4>
+    <p>The producer maps ISAD(G) fields into RiC-O classes and predicates (see the mapping table below) and exposes each entity at a stable HTTP URL. Heratio does this automatically; other producers can follow <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3 - Canonical mapping</a>.</p>
   </div>
 </div>
 
 <div class="e2e-step">
   <div class="num">3</div>
   <div>
-    <h4>Publishing — JSON-LD over HTTP</h4>
+    <h4>Publishing - JSON-LD over HTTP</h4>
     <p>The record is live at <a href="https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat"><code>/api/ric/v1/records/egyptian-boat</code></a>, content-negotiated, with an embedded <code>rico:hasOrHadHolder</code> link to the British Museum repository and a stable <code>@id</code> anyone can follow.</p>
 <pre><code>curl https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat</code></pre>
   </div>
@@ -94,7 +94,7 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
   <div class="num">4</div>
   <div>
     <h4>Graph traversal</h4>
-    <p>A third-party viewer calls <code>/graph?uri=...&depth=2</code> and receives a normalized Subgraph envelope — nodes, edges, canonical <code>rico:*</code> predicates on every edge. Exactly the same shape from every conformant server.</p>
+    <p>A third-party viewer calls <code>/graph?uri=...&depth=2</code> and receives a normalized Subgraph envelope - nodes, edges, canonical <code>rico:*</code> predicates on every edge. Exactly the same shape from every conformant server.</p>
 <pre><code>curl "https://ric.theahg.co.za/api/ric/v1/graph?uri=https://ric.theahg.co.za/informationobject/egyptian-boat&amp;depth=2"</code></pre>
   </div>
 </div>
@@ -102,7 +102,7 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
 <div class="e2e-step">
   <div class="num">5</div>
   <div>
-    <h4>Validation — SHACL</h4>
+    <h4>Validation - SHACL</h4>
     <p>A validator (for example <code>openric-validate</code>, shipped in the spec repo) runs the published JSON-LD against the spec's SHACL shapes. Shapes catch missing identifiers, dangling references, and wrong cardinalities before they reach downstream consumers.</p>
 <pre><code>openric-validate --record https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat</code></pre>
   </div>
@@ -111,8 +111,8 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
 <div class="e2e-step">
   <div class="num">6</div>
   <div>
-    <h4>Harvesting — OAI-PMH</h4>
-    <p>An aggregator (think Europeana, DPLA, a national portal) harvests the record via OAI-PMH <code>/oai</code>, with metadata prefixes <code>oai_dc</code> and <code>rico_ld</code>. No bespoke integration — it is the same verb set every OpenRiC server speaks.</p>
+    <h4>Harvesting - OAI-PMH</h4>
+    <p>An aggregator (think Europeana, DPLA, a national portal) harvests the record via OAI-PMH <code>/oai</code>, with metadata prefixes <code>oai_dc</code> and <code>rico_ld</code>. No bespoke integration - it is the same verb set every OpenRiC server speaks.</p>
 <pre><code>curl "https://ric.theahg.co.za/api/ric/v1/oai?verb=ListRecords&amp;metadataPrefix=rico_ld"</code></pre>
   </div>
 </div>
@@ -121,15 +121,15 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
   <div class="num">7</div>
   <div>
     <h4>Embedding</h4>
-    <p>A research institution drops the viewer component into their own portal and points it at <code>ric.theahg.co.za</code> — or at their own conformant server. Same embed, different backend; that is the interoperability dividend.</p>
+    <p>A research institution drops the viewer component into their own portal and points it at <code>ric.theahg.co.za</code> - or at their own conformant server. Same embed, different backend; that is the interoperability dividend.</p>
   </div>
 </div>
 
 That is the contract: one record, seven touchpoints, zero bespoke adapters. Every step has a live endpoint on this site.
 
-## Example entities — one of each type
+## Example entities - one of each type
 
-Each card links to a real JSON-LD document served by the reference API. Open any of them in your browser (or <code>curl</code> them) — they are unauthenticated reads.
+Each card links to a real JSON-LD document served by the reference API. Open any of them in your browser (or <code>curl</code> them) - they are unauthenticated reads.
 
 <div class="entity-grid">
   <div class="entity-card">
@@ -141,7 +141,7 @@ Each card links to a real JSON-LD document served by the reference API. Open any
   <div class="entity-card">
     <span class="type">rico:Agent</span>
     <h4>Person agent</h4>
-    <p>Minimal <code>rico:Person</code> — name, culture, stable @id. Canonical in <a href="{{ '/fixtures/agent-person-simple/' | relative_url }}">agent-person-simple</a>.</p>
+    <p>Minimal <code>rico:Person</code> - name, culture, stable @id. Canonical in <a href="{{ '/fixtures/agent-person-simple/' | relative_url }}">agent-person-simple</a>.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/agents/d6mh-ktzy-h6qz"><code>/agents/d6mh-ktzy-h6qz</code></a></p>
   </div>
   <div class="entity-card">
@@ -165,26 +165,26 @@ Each card links to a real JSON-LD document served by the reference API. Open any
   <div class="entity-card">
     <span class="type">rico:Rule</span>
     <h4>Egyptian Antiquities Law</h4>
-    <p>Law 117/1983 — a <code>rico:Rule</code> governing an activity. Demonstrates mandate + legal-context chaining.</p>
+    <p>Law 117/1983 - a <code>rico:Rule</code> governing an activity. Demonstrates mandate + legal-context chaining.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/rules"><code>/rules</code></a></p>
   </div>
   <div class="entity-card">
     <span class="type">rico:Instantiation</span>
     <h4>TIFF digital object</h4>
-    <p>Derivative instantiation of a physical record — MIME, byte count, checksum, IIIF manifest link where present.</p>
+    <p>Derivative instantiation of a physical record - MIME, byte count, checksum, IIIF manifest link where present.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/instantiations"><code>/instantiations</code></a></p>
   </div>
   <div class="entity-card">
     <span class="type">openricx:Function</span>
     <h4>ISDF function</h4>
-    <p>Function / activity-context description — used to model why a record was created and by which business process.</p>
+    <p>Function / activity-context description - used to model why a record was created and by which business process.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/functions"><code>/functions</code></a></p>
   </div>
 </div>
 
-## Sample mapping — ISAD(G) → RiC-O
+## Sample mapping - ISAD(G) → RiC-O
 
-This is the 1:1 mapping the reference implementation applies at read time. No transformation pipeline — just predicate translation.
+This is the 1:1 mapping the reference implementation applies at read time. No transformation pipeline - just predicate translation.
 
 <table class="mapping-table">
   <thead>
@@ -212,7 +212,7 @@ This is the 1:1 mapping the reference implementation applies at read time. No tr
 
 The full canonical mapping (including ISAAR-CPF, ISDIAH, and ISDF) lives in <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3</a>. The fixture pack at <a href="{{ '/fixtures/' | relative_url }}">fixtures/</a> pins 27 concrete input/output pairs against this mapping.
 
-## Example dataset — the Egyptian Boat mini-fonds
+## Example dataset - the Egyptian Boat mini-fonds
 
 The reference implementation ships an <code>openric:seed-demo</code> Artisan command that populates a coherent mini-fonds for exactly this "proof" purpose. Running it creates:
 
@@ -234,7 +234,7 @@ php artisan openric:rebuild-nested-set
 ## Screenshots
 
 <div class="screenshot-placeholder">
-  Live surfaces you can capture right now — no static images needed:
+  Live surfaces you can capture right now - no static images needed:
   <br><br>
   <a href="{{ '/demo/browse/' | relative_url }}">Browse view</a>
   &nbsp;·&nbsp;
@@ -247,9 +247,9 @@ php artisan openric:rebuild-nested-set
 
 ## Going further
 
-- Read the <a href="{{ '/spec/' | relative_url }}">spec</a> — four documents, <code>v0.2.0</code> is current.
+- Read the <a href="{{ '/spec/' | relative_url }}">spec</a> - four documents, <code>v0.2.0</code> is current.
 - Run the <a href="{{ '/conformance/' | relative_url }}">conformance probe</a> against any server to check claims.
-- Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> — 27 input/output pairs covering every RiC-O type.
+- Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> - 27 input/output pairs covering every RiC-O type.
 - Follow the <a href="{{ '/guides/getting-started.html' | relative_url }}">15-minute getting-started guide</a> to point your own server at the same contract.
 
 *The strongest evidence that a spec is implementable is a spec that's implemented. Everything on this page is running right now. Change a record in the reference impl, and the responses above change in real time.*

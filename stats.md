@@ -1,7 +1,7 @@
 ---
 layout: default
 title: OpenRiC usage insights
-description: Anonymous demand-signal dashboard for openric.org — top pages, popular demos, search queries, and AI/API usage. Admin only.
+description: Anonymous demand-signal dashboard for openric.org - top pages, popular demos, search queries, and AI/API usage. Admin only.
 permalink: /stats/
 sitemap: false
 ---
@@ -27,7 +27,7 @@ sitemap: false
 
 # Usage insights
 
-<p class="legend">Anonymous demand signals — what people view, search, and try — so enhancements can be pre-empted. No personal data is collected; these are aggregate counts only.</p>
+<p class="legend">Anonymous demand signals - what people view, search, and try - so enhancements can be pre-empted. No personal data is collected; these are aggregate counts only.</p>
 
 <div id="st-gate" class="st-gate" style="display:none">
   <div class="ask-field" style="margin:1rem 0">
@@ -79,7 +79,7 @@ sitemap: false
         a.href = u; a.download = "openric-" + which + "-last" + days + "d.csv";
         document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u);
       })
-      .catch(function () { alert("Download failed — please re-check your admin token."); });
+      .catch(function () { alert("Download failed - please re-check your admin token."); });
   };
   window.__stLoad = function () {
     var t = document.getElementById("st-token").value.trim();
@@ -103,7 +103,7 @@ sitemap: false
     var bars = daily.map(function (r, i) {
       var h = Math.round((r.page_view / max) * (H - pad * 2));
       var x = pad + i * bw, y = H - pad - h;
-      var tip = r.day + " — " + r.page_view + " views, " + r.search + " searches, " + (r.wizard_started || 0) + " wizard, " + r.ai_suggest + " AI, " + r.api_action + " API";
+      var tip = r.day + " - " + r.page_view + " views, " + r.search + " searches, " + (r.wizard_started || 0) + " wizard, " + r.ai_suggest + " AI, " + r.api_action + " API";
       return '<rect x="' + (x + 0.5) + '" y="' + y + '" width="' + Math.max(1, bw - 1) + '" height="' + h + '" fill="var(--accent-2)"><title>' + tip + '</title></rect>';
     }).join("");
     function lbl(i) { var x = pad + i * bw + bw / 2; return '<text x="' + x + '" y="' + (H - 7) + '" font-size="10" fill="var(--muted)" text-anchor="middle">' + daily[i].day.slice(5) + '</text>'; }

@@ -9,7 +9,7 @@ Evidence-based reviews of the spec's conformance claims. Each audit documents wh
 
 ## Open audits
 
-- [**RiC-O 1.1 conformance audit**](ric-o-1.1-audit.html) *(2026-04-24)* — of 168 `rico:*` tokens used across the spec, 110 are not defined in RiC-O 1.1. Full disposition table with confidence flags; phased migration plan.
+- [**RiC-O 1.1 conformance audit**](ric-o-1.1-audit.html) *(2026-04-24)* - of 168 `rico:*` tokens used across the spec, 110 are not defined in RiC-O 1.1. Full disposition table with confidence flags; phased migration plan.
 
 ## Closed audits
 

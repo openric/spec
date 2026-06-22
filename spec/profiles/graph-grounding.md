@@ -63,7 +63,7 @@ The **canonical join between the vector layer and the graph is the public entity
 Two operational rules borne out by the reference pilot:
 
 - **Flag-guarded** - grounding is opt-in per request (or per deployment), so it can be A/B-measured and rolled out gradually.
-- **Fail-open** - any error fetching grounding yields an empty block and the answer proceeds; grounding sharpens answers, it never blocks them. (The reference pilot measured grounded answers 15–35% shorter and anchored on canonical ids, with no fabricated entities.)
+- **Fail-open** - any error fetching grounding yields an empty block and the answer proceeds; grounding sharpens answers, it never blocks them. (The reference pilot measured grounded answers 15-35% shorter and anchored on canonical ids, with no fabricated entities.)
 
 ## 5. SHACL
 

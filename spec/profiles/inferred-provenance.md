@@ -39,7 +39,7 @@ A registered machine-asserted entity/edge MUST export:
 |---|---|
 | `openricx:assertionStatus` | `"inferred"` (the visible marker) |
 | `prov:wasGeneratedBy` | a `prov:SoftwareAgent` node - the model that produced the assertion |
-| `openricx:confidence` | the model's confidence (0–1) on the assertion |
+| `openricx:confidence` | the model's confidence (0-1) on the assertion |
 | `openricx:inferenceReceipt` | the id of a tamper-evident inference receipt (§4) |
 | `openricx:humanConfirmed` | `true` once a human has confirmed/overridden (optional) |
 

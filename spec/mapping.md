@@ -424,7 +424,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
     "identifier": "AHG-A001",
     "title": "Papers of Jan Christian Smuts",
     "level_of_description": "fonds",
-    "scope_and_content": "Correspondence, diaries, speeches, 1886–1950.",
+    "scope_and_content": "Correspondence, diaries, speeches, 1886-1950.",
     "dates": [{ "start_date": "1886-01-01", "end_date": "1950-09-11" }],
     "extent_and_medium": "3.2 linear metres, 18 boxes",
     "language": ["eng", "afr"],
@@ -450,7 +450,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
   "@type": "rico:RecordSet",
   "rico:identifier": "AHG-A001",
   "rico:title": { "@value": "Papers of Jan Christian Smuts", "@language": "en" },
-  "openricx:description": "Correspondence, diaries, speeches, 1886–1950.",
+  "openricx:description": "Correspondence, diaries, speeches, 1886-1950.",
   "openricx:hasDateRangeSet": {
     "@type": "openricx:DateRange",
     "rico:hasBeginningDate": { "@value": "1886-01-01", "@type": "xsd:date" },
@@ -503,7 +503,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 | Version | Date | Notes |
 |---|---|---|
 | 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) - treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
-| 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A–E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
+| 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A-E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `ahg-ric` reference implementation. |
 
 ---
