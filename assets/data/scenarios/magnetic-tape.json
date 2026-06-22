@@ -48,6 +48,7 @@
     {
       "id": "track",
       "prompt": "Each track was recorded by different people, in different places, on different dates, on different topics. How do you represent a single track?",
+      "note": "<strong>Record Part vs separate Records — the test is intellectual independence, not “different agents.”</strong> A Record Part (RiC-E05) <em>may</em> carry its own creator, place and date, so mixed provenance alone doesn't force separate Records. Use <strong>Record Parts</strong> when the tracks are components of <em>one</em> tape-as-record (this scenario). Prefer separate <strong>Records (RiC-E04)</strong> grouped in a <strong>Record Set (RiC-E03)</strong> — with the reel as a shared <strong>Instantiation (RiC-E06)</strong> — when each track is a standalone work that would be searched, cited or appraised on its own.",
       "choices": [
         {
           "label": "Record Part",

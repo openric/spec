@@ -189,7 +189,8 @@
         c.entity && c.entity !== "—" ? el("span", { class: "wiz-choice-id", text: c.entity }) : null
       ]));
     });
-    swap(el("div", { class: "wiz-panel" }, [progress(), el("h2", { class: "wiz-prompt", text: step.prompt }), choices, why, holder]));
+    var note = step.note ? el("div", { class: "wiz-note", html: step.note }) : null;
+    swap(el("div", { class: "wiz-panel" }, [progress(), el("h2", { class: "wiz-prompt", text: step.prompt }), note, choices, why, holder]));
   }
 
   function choose(step, i, choices, why, holder) {

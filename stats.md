@@ -50,6 +50,7 @@ sitemap: false
     <button onclick="window.__stForget()">Sign out</button>
   </div>
   <div class="st-cards" id="st-cards"></div>
+  <div class="st-sec" id="st-chart" style="margin:1.2rem 0"></div>
   <div class="st-grid" id="st-grid"></div>
 </div>
 
@@ -94,8 +95,29 @@ sitemap: false
     return '<div class="st-sec"><h3>' + title + '</h3><table class="st-tbl"><thead><tr><th>' + head + '</th><th class="c">Hits</th></tr></thead><tbody>' + body + '</tbody></table></div>';
   }
 
+  function chart(daily) {
+    if (!daily || !daily.length) return '<h3>Page views per day</h3><p class="st-muted">No data yet.</p>';
+    var W = 760, H = 170, pad = 26, n = daily.length;
+    var max = Math.max(1, Math.max.apply(null, daily.map(function (r) { return r.page_view; })));
+    var bw = (W - pad * 2) / n;
+    var bars = daily.map(function (r, i) {
+      var h = Math.round((r.page_view / max) * (H - pad * 2));
+      var x = pad + i * bw, y = H - pad - h;
+      var tip = r.day + " — " + r.page_view + " views, " + r.search + " searches, " + (r.wizard_started || 0) + " wizard, " + r.ai_suggest + " AI, " + r.api_action + " API";
+      return '<rect x="' + (x + 0.5) + '" y="' + y + '" width="' + Math.max(1, bw - 1) + '" height="' + h + '" fill="var(--accent-2)"><title>' + tip + '</title></rect>';
+    }).join("");
+    function lbl(i) { var x = pad + i * bw + bw / 2; return '<text x="' + x + '" y="' + (H - 7) + '" font-size="10" fill="var(--muted)" text-anchor="middle">' + daily[i].day.slice(5) + '</text>'; }
+    var ticks = [lbl(0), lbl(Math.floor(n / 2)), lbl(n - 1)].join("");
+    return '<h3>Page views per day <span class="st-muted" style="font-weight:400">(hover a bar for the full breakdown)</span></h3>'
+      + '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="' + H + '" preserveAspectRatio="none" role="img" aria-label="Page views per day">'
+      + '<text x="2" y="' + (pad - 6) + '" font-size="10" fill="var(--muted)">' + max + '</text>'
+      + '<line x1="' + pad + '" y1="' + (H - pad) + '" x2="' + (W - pad) + '" y2="' + (H - pad) + '" stroke="var(--border)"/>'
+      + bars + ticks + '</svg>';
+  }
+
   function render(d) {
     document.getElementById("st-since").textContent = "since " + d.since;
+    document.getElementById("st-chart").innerHTML = chart(d.daily);
     var t = d.totals || {};
     document.getElementById("st-cards").innerHTML =
         card(t.page_view || 0, "Page views")
