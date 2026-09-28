@@ -136,6 +136,7 @@
     .hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
     .hero h1 { font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.028em; margin-bottom: 0.7rem; background: linear-gradient(135deg, var(--fg) 40%, var(--accent-2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .hero-lede { font-size: 1.15rem; color: var(--muted-2); line-height: 1.55; margin: 0 0 1.6rem; }
+    .hero-sub { margin: 0.9rem 0 0; font-size: 0.92rem; color: var(--muted); }
     .hero-cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
     .hero-cta a {
       display: inline-flex;
@@ -395,37 +396,57 @@
     .site-footer { border-top: 1px solid var(--border); padding: 2rem 1.4rem; color: var(--muted); font-size: 0.85rem; text-align: center; background: var(--surface); }
     .site-footer a { color: var(--muted-2); text-decoration: underline; text-underline-offset: 2px; }
 
-    /* ---- Two doors (landing) ---- */
-    .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin: 1.75rem 0 1.25rem; }
-    .door {
+    /* ---- Task cards (Explore / Learn / Build hubs + homepage "Try it now") ----
+       Task-first replacements for the old audience "doors": the label names what
+       you will DO, not who you are. */
+    .task-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.1rem; margin: 1.6rem 0 1.5rem; }
+    .task-card {
       display: flex; flex-direction: column;
-      padding: 1.9rem 1.7rem 1.6rem;
+      padding: 1.5rem 1.4rem 1.3rem;
       background: #fff; border: 1px solid var(--border); border-radius: 12px;
       text-decoration: none; color: var(--fg);
       transition: all 0.18s; position: relative; overflow: hidden;
     }
-    .door::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--accent-2); }
-    .door.dev::before { background: var(--live); }
-    .door:hover { border-color: var(--accent-2); transform: translateY(-3px); box-shadow: var(--shadow-lg); text-decoration: none; }
-    .door .door-icon { font-size: 2rem; line-height: 1; margin-bottom: 0.6rem; }
-    .door .door-title { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 0.5rem; color: var(--fg); }
-    .door p { margin: 0 0 1rem; color: var(--muted-2); font-size: 0.95rem; line-height: 1.55; flex-grow: 1; }
-    .door .door-go { font-weight: 600; color: var(--accent-2); font-size: 0.95rem; }
-    .door.dev .door-go { color: #047857; }
-    .door .door-tags { margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px dashed var(--border); font-size: 0.78rem; color: var(--muted); }
+    .task-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-2); }
+    .task-card:hover { border-color: var(--accent-2); transform: translateY(-3px); box-shadow: var(--shadow-lg); text-decoration: none; }
+    .task-card-icon { font-size: 1.7rem; line-height: 1; margin-bottom: 0.5rem; }
+    .task-card-title { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.012em; margin-bottom: 0.4rem; }
+    .task-card p { margin: 0 0 0.9rem; color: var(--muted-2); font-size: 0.92rem; line-height: 1.55; flex-grow: 1; }
+    .task-card em { font-style: normal; font-weight: 600; color: var(--fg); }
+    .task-card-go { font-weight: 600; color: var(--accent-2); font-size: 0.92rem; }
 
-    /* ---- Secondary door (institutions) ---- */
-    .door-mini {
-      display: flex; align-items: center; gap: 0.9rem;
-      padding: 1rem 1.3rem; margin: 0 0 1rem;
+    /* ---- The 60-second explanation: a flow, not an architecture diagram ---- */
+    .flow { margin: 1.5rem 0 2rem; }
+    .flow-steps { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0.5rem; }
+    .flow-step {
+      flex: 1 1 150px; padding: 0.9rem 1rem;
       background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      text-decoration: none; color: var(--fg); transition: all 0.15s;
+      font-size: 0.9rem; line-height: 1.45;
     }
-    .door-mini:hover { border-color: var(--accent-2); background: #fff; text-decoration: none; box-shadow: var(--shadow); }
-    .door-mini .door-mini-icon { font-size: 1.4rem; line-height: 1; }
-    .door-mini strong { font-weight: 600; }
-    .door-mini span { color: var(--muted-2); font-size: 0.9rem; }
-    .door-mini .door-mini-go { margin-left: auto; color: var(--accent-2); font-weight: 600; font-size: 0.88rem; white-space: nowrap; }
+    .flow-step strong { display: block; color: var(--fg); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .flow-step span { color: var(--muted); }
+    .flow-arrow { align-self: center; color: var(--muted); font-size: 1.1rem; flex: 0 0 auto; }
+    .flow-note { margin: 0.9rem 0 0; color: var(--muted-2); font-size: 0.95rem; line-height: 1.6; }
+
+    /* ---- Why list: short, no bold-lead-in stack ---- */
+    .why { margin: 1.3rem 0 1.8rem; padding-left: 1.1rem; color: var(--muted-2); line-height: 1.7; }
+    .why li { margin-bottom: 0.35rem; }
+    .why strong { color: var(--fg); }
+
+    /* ---- Technical evidence strip: belongs low on the page ---- */
+    .evidence {
+      margin: 2rem 0 1rem; padding: 1.1rem 1.3rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .evidence h2 { margin: 0 0 0.6rem; font-size: 1.05rem; }
+    .evidence-items { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; font-size: 0.88rem; color: var(--muted-2); margin: 0; padding: 0; list-style: none; }
+    .evidence-items li::before { content: '· '; color: var(--muted); }
+    .evidence-items li:first-child::before { content: ''; }
+
+    @media (max-width: 640px) {
+      .flow-arrow { display: none; }
+      .flow-step { flex-basis: 100%; }
+    }
 
     /* ---- Plain entity chips (for-archivists) ---- */
     .entity-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 1.5rem; }
@@ -449,16 +470,19 @@
       <div class="nav-brand">
         <a href="{{ '/' | relative_url }}"><span class="logo-dot"></span>OpenRiC<small>Records in Contexts</small></a>
       </div>
+      <!-- Task-first navigation. Every item names something you can DO; none
+           names an audience or an implementation artefact. Spec stays one click
+           away under Build rather than competing with Explore and Learn.
+           Search is deliberately absent until the unified index exists (#17) -
+           a nav item that leads nowhere is worse than one that is missing. -->
       <div class="nav-links">
-        <a href="{{ '/wizard/' | relative_url }}" class="nav-cta">Modelling wizard</a>
-        <a href="https://ric.theahg.co.za/reference/ric-cm/" class="external">Explore the model</a>
-        <a href="{{ '/for-archivists.html' | relative_url }}">For archivists</a>
+        <a href="{{ '/explore.html' | relative_url }}">Explore</a>
+        <a href="{{ '/learn.html' | relative_url }}">Learn &amp; Model</a>
+        <a href="{{ '/for-developers.html' | relative_url }}">Build</a>
+        <a href="{{ '/about.html' | relative_url }}">About</a>
         <span class="sep">·</span>
-        <a href="{{ '/for-developers.html' | relative_url }}">Developers</a>
-        <a href="{{ '/spec/' | relative_url }}">Spec</a>
-        <a href="{{ '/ric-baseline.html' | relative_url }}">Baseline</a>
         <a href="{{ '/help/' | relative_url }}">Help</a>
-        <a href="https://github.com/openric/spec" class="external">GitHub</a>
+        <a href="{{ '/wizard/' | relative_url }}" class="nav-cta">Model something</a>
       </div>
     </div>
   </nav>
