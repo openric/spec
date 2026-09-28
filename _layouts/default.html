@@ -462,6 +462,13 @@
       main { padding: 1.5rem 1.2rem 3rem; }
     }
   </style>
+
+  <!-- Shared shell, chrome suppressed. These pages already have their own nav
+       and footer, so data-chrome="false" mounts ONLY the WhatsApp contact
+       button - which then appears on every page of every OpenRiC surface from
+       one definition, with one number. -->
+  <link rel="stylesheet" href="{{ '/assets/shell/v1.css' | relative_url }}">
+  <script defer src="{{ '/assets/shell/v1.js' | relative_url }}" data-chrome="false"></script>
 </head>
 <body>
 

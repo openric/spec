@@ -40,6 +40,16 @@
 
   var HOME = 'https://openric.org';
 
+  // The shared AHG sender, in E.164 without the plus. Canonical here so the
+  // four surfaces cannot drift apart on it - the entity-colour lesson.
+  var WHATSAPP = '27648830533';
+  var WHATSAPP_TEXT = 'Hi, I have a question about OpenRiC.';
+
+  // data-chrome="false" mounts ONLY the contact button. openric.org's own pages
+  // already have their nav and footer and must not get a second set; they still
+  // want the button, which is why this flag exists.
+  var wantChrome = !(script && script.getAttribute('data-chrome') === 'false');
+
   function el(tag, cls, html) {
     var node = document.createElement(tag);
     if (cls) node.className = cls;
@@ -105,10 +115,30 @@
     return footer;
   }
 
+  // WhatsApp click-to-chat. The visitor initiates, so their own 24-hour window
+  // opens and no template or consent record is involved. Replies are handled
+  // from the workbench WhatsApp view - the sender has no handset of its own.
+  function buildWhatsApp() {
+    var a = el('a', 'oric-wa');
+    a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(WHATSAPP_TEXT);
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.setAttribute('aria-label', 'Message OpenRiC on WhatsApp');
+    a.title = 'Message us on WhatsApp';
+    a.innerHTML =
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.1.81.83-3.03-.2-.31a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.23-8.23 2.2 0 4.26.86 5.82 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.24 8.21Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.04 0 1.2.87 2.36.99 2.53.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29Z"/>' +
+      '</svg><span class="oric-wa-label">WhatsApp us</span>';
+    return a;
+  }
+
   function mount() {
-    if (document.querySelector('.oric-shell')) return; // never double-mount
-    document.body.insertBefore(buildHeader(), document.body.firstChild);
-    if (wantFooter) document.body.appendChild(buildFooter());
+    if (document.querySelector('.oric-wa')) return; // never double-mount
+    if (wantChrome && !document.querySelector('.oric-shell')) {
+      document.body.insertBefore(buildHeader(), document.body.firstChild);
+      if (wantFooter) document.body.appendChild(buildFooter());
+    }
+    document.body.appendChild(buildWhatsApp());
   }
 
   if (document.readyState === 'loading') {

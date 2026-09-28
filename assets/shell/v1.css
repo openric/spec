@@ -148,6 +148,40 @@
 .oric-badge.experimental { background: var(--oric-pending); }
 .oric-badge.write        { background: var(--oric-danger); }
 
+/* ---------- Floating WhatsApp contact ----------
+   On every page, every surface. The visitor initiates, which opens their own
+   24-hour window - so this needs no template, no consent record and no send
+   path. Bottom-right deliberately: Browse pins a delete bar and the wizard a
+   flash message to bottom-centre, and colliding with either would be worse
+   than not being there. */
+
+.oric-wa {
+  position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 9500;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 1rem 0.6rem 0.85rem;
+  background: #25d366; color: #fff !important;
+  border-radius: 999px; text-decoration: none !important;
+  font-family: var(--oric-font); font-size: 0.88rem; font-weight: 600;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18), 0 10px 24px -8px rgba(15, 23, 42, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.oric-wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.22), 0 14px 30px -8px rgba(15, 23, 42, 0.35);
+  color: #fff !important; text-decoration: none !important;
+}
+.oric-wa:focus-visible { outline: 3px solid var(--oric-accent-2); outline-offset: 2px; }
+.oric-wa svg { width: 18px; height: 18px; flex: none; fill: currentColor; }
+
+/* On a narrow screen the label costs more than it gives - keep the target,
+   drop the word, and leave the accessible name on the element. */
+@media (max-width: 560px) {
+  .oric-wa { padding: 0.7rem; gap: 0; }
+  .oric-wa .oric-wa-label { display: none; }
+}
+
+@media print { .oric-wa { display: none; } }
+
 /* ---------- Shared footer ---------- */
 
 .oric-shell-footer {
