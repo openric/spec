@@ -15,28 +15,41 @@
   <title>OpenRiC - Browse</title>
   <meta name="description" content="Browse a live OpenRiC dataset - records, agents, places, rules, activities, instantiations, repositories, functions." />
   <link rel="canonical" href="https://openric.org/demo/browse/" />
+
+  <!-- Shared OpenRiC shell: tokens, canonical entity colours, header, footer.
+       Same-origin here; the viewer and editor load it cross-origin. -->
+  <link rel="stylesheet" href="/assets/shell/v1.css" />
+  <script defer src="/assets/shell/v1.js" data-product="Explore"></script>
   <style>
     :root {
       --fg: #111827; --muted: #6b7280; --bg: #ffffff; --panel: #f9fafb;
       --panel-alt: #f3f4f6; --border: #e5e7eb; --accent: #3b82f6; --accent-hover: #2563eb;
       --danger: #dc2626; --danger-hover: #b91c1c;
       --row-hover: #f3f4f6; --row-highlight: #fef3c7;
-      /* Per-type colours - match the viewer's getColour */
-      --c-record: #3b82f6; --c-agent: #10b981; --c-place: #f59e0b;
-      --c-rule: #8b5cf6;   --c-activity: #ef4444; --c-instantiation: #06b6d4;
-      --c-repository: #db2777; --c-function: #64748b;
+      /* Per-type colours. These now come from the shared shell
+         (https://openric.org/assets/shell/v1.css), which carries the canonical
+         set taken from the viewer's src/colours.js. The fallbacks below are the
+         same values, so the page still colours correctly if the shell fails to
+         load. Do not restate a hex here - change it in the shell.
+
+         Until v1 this block held a DIFFERENT palette under a comment claiming
+         it matched the viewer. It did not: Record was #3b82f6 against the
+         viewer's #45b7d1, Activity #ef4444 against #6f42c1. That is exactly the
+         inconsistency the September 2026 UX review flagged. */
+      --c-record: var(--ric-record, #45b7d1);
+      --c-agent: var(--ric-person, #dc3545);
+      --c-place: var(--ric-place, #fd7e14);
+      --c-rule: var(--ric-rule, #8e44ad);
+      --c-activity: var(--ric-activity, #6f42c1);
+      --c-instantiation: var(--ric-instantiation, #17a2b8);
+      --c-repository: var(--ric-repository, #db2777);
+      --c-function: var(--ric-function, #6c757d);
     }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: system-ui, -apple-system, sans-serif; color: var(--fg); background: var(--bg); line-height: 1.4; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    header.site { background: #0f172a; color: #e5e7eb; padding: 0.7rem 1.2rem;
-             display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
-    header.site h1 { margin: 0; font-size: 1rem; font-weight: 600; }
-    header.site h1 small { color: #9ca3af; font-weight: 400; margin-left: 0.5rem; font-size: 0.8rem; }
-    header.site a { color: #60a5fa; font-size: 0.85rem; }
-    header.site .right { margin-left: auto; display: flex; gap: 1rem; flex-wrap: wrap; }
 
     .controls { background: var(--panel); border-bottom: 1px solid var(--border); padding: 0.9rem 1.5rem;
                 display: grid; grid-template-columns: 2fr 1.5fr auto; gap: 0.8rem; align-items: end; }
@@ -187,17 +200,10 @@
   </style>
 </head>
 <body>
-  <header class="site">
-    <h1><a href="/" style="color:#e5e7eb;">OpenRiC</a> - Browse
-      <small>live catalogue over any OpenRiC-conformant server</small></h1>
-    <div class="right">
-      <a href="/" target="_self">Spec ↗</a>
-      <a href="/demo/" target="_self">Graph ↗</a>
-      <a href="/api-explorer/" target="_self">API Explorer ↗</a>
-      <a href="https://viewer.openric.org" target="_blank" rel="noopener">Viewer ↗</a>
-      <a href="https://capture.openric.org" target="_blank" rel="noopener">Capture ↗</a>
-    </div>
-  </header>
+  <!-- The header is injected by the shared shell (assets/shell/v1.js) so this
+       page carries the same chrome as the viewer, the editor and openric.org.
+       The old bespoke header lived here and listed five sibling tools, which
+       is the architecture-first pattern the UX review flagged. -->
 
   <div class="controls">
     <div>
