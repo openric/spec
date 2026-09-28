@@ -440,4 +440,4 @@ Comments on any of these - including arguments to reverse a draft resolution - a
 
 ---
 
-*Copyright © 2026 The Archive and Heritage Group (Pty) Ltd and the OpenRiC contributors. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Editor: Johan Pieterse ([johan@plainsailingisystems.co.za](mailto:johan@plainsailingisystems.co.za)).*
+*Copyright © 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Editor: Johan Pieterse ([johan@plainsailingisystems.co.za](mailto:johan@plainsailingisystems.co.za)).*

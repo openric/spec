@@ -21,7 +21,7 @@ description: Real data, real endpoints, real mappings. The evidence that the Ope
 
 ## Reference implementation - live numbers
 
-The OpenRiC reference API at <code><a href="https://ric.theahg.co.za/api/ric/v1/">ric.theahg.co.za</a></code> is backed by a real archival service (The Archive and Heritage Group) with multi-jurisdiction holdings and live digital objects.
+The OpenRiC reference API at <code><a href="https://ric.theahg.co.za/api/ric/v1/">ric.theahg.co.za</a></code> is backed by a real archival service (The Archive and Heritage Digital Commons Group) with multi-jurisdiction holdings and live digital objects.
 
 <div class="proof-stats">
   <div class="proof-stat"><strong>713</strong><span>Records</span></div>

@@ -87,4 +87,4 @@ The spec is currently **single-maintainer**; a second-implementer invitation goe
 
 ## Contact
 
-Johan Pieterse · [johan@theahg.co.za](mailto:johan@theahg.co.za) · The Archive and Heritage Group (Pty) Ltd.
+Johan Pieterse · [johan@theahg.co.za](mailto:johan@theahg.co.za) · The Archive and Heritage Digital Commons Group (Pty) Ltd.

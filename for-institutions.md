@@ -116,6 +116,6 @@ If your institution wants to publicly support OpenRiC - formally or informally -
 
 ## Contact
 
-Johan Pieterse · [johan@theahg.co.za](mailto:johan@theahg.co.za) · The Archive and Heritage Group (Pty) Ltd · South Africa.
+Johan Pieterse · [johan@theahg.co.za](mailto:johan@theahg.co.za) · The Archive and Heritage Digital Commons Group (Pty) Ltd · South Africa.
 
 Available to present OpenRiC to archival institutions, standards bodies, or technical working groups on request.

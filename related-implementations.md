@@ -105,7 +105,7 @@ OpenRiC does **not** fork or republish RiC-AG content. The Application Guideline
 ## Heratio (OpenRiC reference consumer)
 
 **Project URL:** [`heratio.theahg.co.za`](https://heratio.theahg.co.za/)
-**Lead:** The Archive and Heritage Group.
+**Lead:** The Archive and Heritage Digital Commons Group.
 
 A production GLAM platform (AGPL-3.0) that consumes the OpenRiC reference API for every mutating administrative action. Heratio proves the OpenRiC contract is sufficient for a real archive, but **Heratio is one consumer of OpenRiC, not a special-cased dependency** - any conformant OpenRiC server can be substituted. See the [home page](/) "If you only remember one thing" callout for the contract/consumer separation.
 

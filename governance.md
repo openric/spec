@@ -25,7 +25,7 @@ Governance is deliberately **lightweight** at this stage - the goal is to attrac
 
 ### Maintainer
 
-Currently: **Johan Pieterse** ([johan@theahg.co.za](mailto:johan@theahg.co.za)) - The Archive and Heritage Group (Pty) Ltd. Wrote the initial spec + reference implementation; operates `ric.theahg.co.za`; merges changes.
+Currently: **Johan Pieterse** ([johan@theahg.co.za](mailto:johan@theahg.co.za)) - The Archive and Heritage Digital Commons Group (Pty) Ltd. Wrote the initial spec + reference implementation; operates `ric.theahg.co.za`; merges changes.
 
 This is a **single-maintainer-for-now** model. It will change once additional stewards are invited (see Phase 3 below).
 
