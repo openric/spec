@@ -15,7 +15,7 @@ title: OpenRiC - Governance
 
 ## Current state
 
-OpenRiC is at **v0.2.0** - a stable spec with one reference implementation, a live toolchain (viewer, capture, API explorer, conformance probe), and one operational consumer (Heratio). The spec is published under CC-BY 4.0; the reference code is AGPL-3.0.
+OpenRiC is at **v{{ site.data.version.version }}** - a stable spec with one reference implementation, a live toolchain (viewer, capture, API explorer, conformance probe), and one operational consumer (Heratio). The spec is published under CC-BY 4.0; the reference code is AGPL-3.0.
 
 Governance is deliberately **lightweight** at this stage - the goal is to attract a second independent implementation before formalising. Heavy governance structures before that happens can deter the very contributors the project needs.
 
@@ -74,9 +74,9 @@ PRs against `openric/service` (reference API) or any of `openric/viewer`, `openr
 
 ## Compatibility policy
 
-- **`v0.x` series** - Breaking changes allowed between minor versions, but must be documented in the changelog and announced ahead of time. Conformance version stamps (e.g., `openric:L1-v0.2.0`) let implementations advertise exactly what they support.
+- **`v0.x` series** - Breaking changes allowed between minor versions, but must be documented in the changelog and announced ahead of time. Implementations advertise what they support per profile, each carrying its own version (e.g. `{ "id": "core-discovery", "version": "0.3.0", "conformance": "full" }`), so a profile can stabilise without waiting for the spec as a whole.
 - **`v1.0` onward** - Breaking changes only on major version bumps. Deprecations announced at least one minor version before removal.
-- **JSON Schemas, SHACL shapes, OpenAPI** - versioned with the spec. A server that claims conformance to `v0.2.0` MUST validate against the `v0.2.0` shape files.
+- **JSON Schemas, SHACL shapes, OpenAPI** - versioned with the spec. A server claiming conformance to a given spec version MUST validate against that version's shape files.
 
 ---
 
@@ -104,7 +104,7 @@ KEY=your-write-key \
 bash spec/conformance/probe.sh
 ```
 
-If it passes, you can publicly claim `OpenRiC v0.2.0` conformance. If you'd like your server **listed on openric.org** as a known implementation, open a Discussion with the URL and a one-paragraph context note - that triggers the (planned) implementation registry (see the [roadmap](/)).
+If it passes, you can publicly claim `OpenRiC v{{ site.data.version.version }}` conformance for the profiles the probe covered. If you'd like your server **listed on openric.org** as a known implementation, open a Discussion with the URL and a one-paragraph context note - that triggers the (planned) implementation registry (see the [roadmap](/)).
 
 ---
 

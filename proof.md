@@ -247,7 +247,7 @@ php artisan openric:rebuild-nested-set
 
 ## Going further
 
-- Read the <a href="{{ '/spec/' | relative_url }}">spec</a> - four documents, <code>v0.2.0</code> is current.
+- Read the <a href="{{ '/spec/' | relative_url }}">spec</a> - four documents, <code>v{{ site.data.version.version }}</code> is current.
 - Run the <a href="{{ '/conformance/' | relative_url }}">conformance probe</a> against any server to check claims.
 - Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> - 27 input/output pairs covering every RiC-O type.
 - Follow the <a href="{{ '/guides/getting-started.html' | relative_url }}">15-minute getting-started guide</a> to point your own server at the same contract.

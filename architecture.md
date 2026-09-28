@@ -67,7 +67,7 @@ Notably absent: any arrow from Heratio *into* `ric.theahg.co.za` other than HTTP
 
 ### openric.org - specification
 
-Static Jekyll site, hosted on GitHub Pages. Four spec documents in `spec/`, JSON Schemas in `schemas/`, SHACL in `shapes/`, fixtures in `fixtures/`, validator CLI in `validator/`, conformance probe in `conformance/`, API explorer in `api-explorer/`. Current tagged release: `v0.2.0` (2026-04-18).
+Static Jekyll site, hosted on GitHub Pages. Four spec documents in `spec/`, JSON Schemas in `schemas/`, SHACL in `shapes/`, fixtures in `fixtures/`, validator CLI in `validator/`, conformance probe in `conformance/`, API explorer in `api-explorer/`. Current tagged release: `v{{ site.data.version.version }}` ({{ site.data.version.release_date }}).
 
 The **[live demo](demo/)** is a single HTML page that fetches `/api/ric/v1/graph` from `ric.theahg.co.za` over HTTPS. No server-side code on `openric.org` - proves the spec site is independent of any implementation.
 

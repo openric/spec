@@ -1,5 +1,26 @@
 # OpenRiC Specification — Changelog
 
+## v0.43.1 - v0.43.10 - 2026-06-20 to 2026-06-22
+
+Backfilled 2026-09-28. Ten patch releases shipped after v0.43.0 without changelog entries, which is why pages still quoting v0.37.0 went unnoticed for three months. Recorded here in groups.
+
+**Help diagrams (v0.43.1, v0.43.3, v0.43.4)**
+- Fixed Mermaid diagram collapse on `/help/profiles-tree` and `/help/system-map`, caused by svg-pan-zoom sizing.
+- Renamed both pages from `.html` to `.md` so kramdown processes the body - headings, lists and links below the diagram were previously rendered as raw text.
+- Added mobile pinch and pan zoom (Hammer.js plus an svg-pan-zoom touch handler), and fixed the dark code-block background bleeding onto `pre.mermaid`.
+
+**Demand-signal tracker and the Ask form (v0.43.5, v0.43.6, v0.43.7)**
+- New anonymous demand-signal tracker: a site beacon plus search and wizard events, with no personal data collected.
+- New `/ask` question form, emailing the maintainer and storing every question so none is lost.
+- New `/stats` admin dashboard, later gaining a one-click CSV export of usage and questions, and a per-day page-views chart.
+- Wizard: made the scenario picker prominent, and added a step-level note callout carrying Record-vs-Record-Part guidance on the magnetic-tape scenario.
+
+**Typography (v0.43.8, v0.43.9, v0.43.10)**
+- Replaced em and en dashes with plain hyphens across every rendered page: 521 occurrences in the 19 spec base documents and profiles, then 583 more across 57 files site-wide, then the residual dash in the `_config.yml` meta description that appeared on every page.
+- Repository metadata - this changelog, the README and CLAUDE.md - was deliberately left untouched at the time.
+
+**Note on tags.** A stray `v0.43.2` tag and release were created by an accidental second `bin/release` run and have been deleted; the empty commit `fbf71a8` remains in linear history, untagged and harmless. The tag line is v0.43.0, v0.43.1, v0.43.3 onward.
+
 ## v0.43.0 — 2026-06-19
 
 ### Governance-line draft profiles (ported from the Heratio reference implementation)

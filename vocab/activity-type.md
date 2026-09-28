@@ -7,7 +7,7 @@ permalink: /vocab/activity-type.html
 # OpenRiC Activity-Type Vocabulary
 
 **Scheme IRI:** `https://openric.org/vocab/activity-type/`
-**Status:** Active (v0.37.0) · **Issued:** 2026-04-25 · **Licence:** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+**Status:** Active (spec v{{ site.data.version.version }}) · **Issued:** 2026-04-25 · **Licence:** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 **Machine-readable:** [activity-type.ttl](activity-type.ttl) (Turtle)
 
 A SKOS ConceptScheme of activity-type concepts referenced from `rico:hasActivityType` on `rico:Activity` instances. Each concept is **also** a `rico:ActivityType` (RiC-O 1.1 defines `ActivityType` as a class for categorising activities).

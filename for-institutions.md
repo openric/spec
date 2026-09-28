@@ -50,7 +50,7 @@ Institutions that adopt RiC-native description formats now will not need to re-d
 
 ### 5. Implementation flexibility
 
-The spec defines **four conformance levels (L1-L4)**. An institution does not have to support the full semantic range on day one. An L1-conformant server - basic read-only mapped endpoints - is useful immediately and can be deployed with a weekend of developer effort against an existing catalogue.
+The spec defines **twelve named profiles** - seven normative, five draft - and an implementation claims each one independently. An institution does not have to support the full semantic range on day one. A server conforming to [Core Discovery](/spec/profiles/core-discovery.html) alone - basic read-only mapped endpoints - is useful immediately and can be deployed with a weekend of developer effort against an existing catalogue. (The older L1-L4 level vocabulary is legacy; it survives as a `level` field in responses but no longer frames conformance.)
 
 ---
 
@@ -58,7 +58,7 @@ The spec defines **four conformance levels (L1-L4)**. An institution does not ha
 
 | Component | What it is | Status |
 |---|---|---|
-| **Specification** (v0.2.0) | Four documents, 19 JSON Schemas, SHACL shapes, 27-case fixture pack | Frozen tag, under [openric.org](/spec/) |
+| **Specification** (v{{ site.data.version.version }}) | Four documents, 19 JSON Schemas, SHACL shapes, 27-case fixture pack | Tagged release, under [openric.org](/spec/) |
 | **Reference API** | ~40 endpoints covering read, write, graph, harvest (OAI-PMH), validation | Live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health) |
 | **Conformance probe** | Pure bash + jq; points at any server, returns pass/fail across every required endpoint | Live at [/conformance/](/conformance/) |
 | **API Explorer** | Interactive Swagger UI - any reviewer can try every endpoint from a browser | Live at [/api-explorer/](/api-explorer/) |
@@ -72,7 +72,7 @@ The spec defines **four conformance levels (L1-L4)**. An institution does not ha
 
 Honesty matters for institutional evaluation:
 
-- **No SPARQL endpoint** in v0.2.0. The stub exists but is marked experimental. Institutions needing SPARQL should ask; it's deferred until concrete demand. The `/graph?uri=…&depth=N` endpoint covers most traversal needs without SPARQL.
+- **SPARQL is outside the conformance contract.** A [SPARQL Access](/spec/profiles/sparql-access.html) profile exists in draft, so an implementation may offer it, but no conforming client may assume it. Institutions needing SPARQL should ask. The `/graph?uri=…&depth=N` endpoint covers most traversal needs without SPARQL.
 - **Single reference implementation.** A second independent implementation is a goal for v1.0. Until that exists, portability claims rest on the conformance probe being a fair test (which adopters can and should verify themselves).
 - **No commercial vendor yet** has shipped OpenRiC-conformant products. This is the state of a v0.x open spec. Institutions asking vendors for OpenRiC support is the path from v0.x to v1.0.
 

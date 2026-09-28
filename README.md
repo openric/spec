@@ -10,14 +10,18 @@
 
 ## Current version
 
-**v0.37.0** — 2026-04-25. RiC-O 1.1 namespace remediation complete (all 5 phases A→E applied; zero genuine emit-context violations of unsupported `rico:*` terms remain — see [audit/ric-o-1.1-audit.md](audit/ric-o-1.1-audit.md)). All 7 profiles normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. New 8th profile **`sparql-access`** (Draft) for optional SPARQL 1.1 query access. New publication-layer infrastructure: openricx extension ontology at [`/ns/ext/v1.html`](https://openric.org/ns/ext/v1.html), SKOS vocabularies at [`/vocab/`](https://openric.org/vocab/), semantic URI policy + content-negotiation policy in viewing-api §3.1/§3.2, [Related Implementations page](https://openric.org/related-implementations.html) (Garance, ICA-EGAD, Heratio). See [`CHANGELOG.md`](CHANGELOG.md) for the full v0.37.0 entry.
+**v0.43.10** — 2026-06-22. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
+
+The v0.43 governance line added five draft profiles ported from the Heratio reference implementation — Governance, Portability, Inferred-Provenance, Graph-Grounding — plus the `/help` centre. Twelve profiles now: seven normative, five draft. See [`CHANGELOG.md`](CHANGELOG.md).
+
+Earlier, v0.37.0 — 2026-04-25. RiC-O 1.1 namespace remediation complete (all 5 phases A→E applied; zero genuine emit-context violations of unsupported `rico:*` terms remain — see [audit/ric-o-1.1-audit.md](audit/ric-o-1.1-audit.md)). All 7 profiles normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. New 8th profile **`sparql-access`** (Draft) for optional SPARQL 1.1 query access. New publication-layer infrastructure: openricx extension ontology at [`/ns/ext/v1.html`](https://openric.org/ns/ext/v1.html), SKOS vocabularies at [`/vocab/`](https://openric.org/vocab/), semantic URI policy + content-negotiation policy in viewing-api §3.1/§3.2, [Related Implementations page](https://openric.org/related-implementations.html) (Garance, ICA-EGAD, Heratio). See [`CHANGELOG.md`](CHANGELOG.md) for the full v0.37.0 entry.
 
 ## The OpenRiC ecosystem
 
 | Repository | Role | Licence |
 |---|---|---|
 | **[openric/spec](https://github.com/openric/spec)** (you are here) | The specification, schemas, shapes, fixtures, conformance probe, API explorer | CC-BY 4.0 (spec) / AGPL-3.0 (tools) |
-| **[openric/service](https://github.com/openric/service)** | Reference implementation — Laravel service, public; currently tracking spec v0.36.0 (Phase G migration to v0.37.0 in progress) | AGPL-3.0 |
+| **[openric/service](https://github.com/openric/service)** | Reference implementation — Laravel service, public. Carries its own version line (currently v0.17.0), deliberately independent of the spec version; see the [drift log](https://openric.org/drift-log.html) for where it lags | AGPL-3.0 |
 | **[openric/viewer](https://github.com/openric/viewer)** | `@openric/viewer` on npm — 2D + 3D graph rendering library | AGPL-3.0 |
 | **[openric/capture](https://github.com/openric/capture)** | Pure-browser data-entry client; talks to any conformant server | AGPL-3.0 |
 

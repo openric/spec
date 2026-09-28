@@ -33,7 +33,7 @@ summary: Short definitions of the terms used across OpenRiC - RiC, RiC-CM, RiC-O
 
 **Profile** - a named, bounded conformance target a server can claim (Core Discovery, Export-Only, …). See the [profiles tree](/help/profiles-tree/).
 
-**Level (L1-L4)** - how rigorously a profile's endpoints conform: L1 mapping, L2 API, L3 graph, L4 full.
+**Level (L1-L4)** - legacy conformance vocabulary: L1 mapping, L2 API, L3 graph, L4 full. Superseded by named profiles, and retained only as a `level` field in responses. Conformance is now claimed per profile.
 
 **Conformance probe** - the bash + jq tool that tests a server against the spec.
 

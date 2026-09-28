@@ -7,7 +7,7 @@ permalink: /vocab/rule-type.html
 # OpenRiC Rule-Type Vocabulary
 
 **Scheme IRI:** `https://openric.org/vocab/rule-type/`
-**Status:** Active (v0.37.0) · **Issued:** 2026-04-25 · **Licence:** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+**Status:** Active (spec v{{ site.data.version.version }}) · **Issued:** 2026-04-25 · **Licence:** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 **Machine-readable:** [rule-type.ttl](rule-type.ttl) (Turtle)
 
 A SKOS ConceptScheme of rule-type concepts referenced from `rico:hasOrHadRuleType` on `rico:Rule` instances. Used to classify rules by their function.

@@ -5,7 +5,7 @@ title: OpenRiC - Specification
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">Specification · v0.37.0 · 7 normative profiles + 1 draft</div>
+    <div class="hero-eyebrow">Specification · v{{ site.data.version.version }} · 7 normative profiles + 5 draft</div>
     <h1>The spec - base documents + profiles</h1>
     <p class="hero-lede">OpenRiC is an open, implementation-neutral specification for serving ICA's Records in Contexts (RiC-CM / RiC-O 1.1) over HTTP. The spec is layered: four base documents define the contract, seven normative profiles target specific implementation surfaces, and one draft profile (SPARQL Access) extends the linked-data publication story.</p>
   </div>
@@ -49,7 +49,7 @@ title: OpenRiC - Specification
 
 | Layer | Current version | Status |
 |---|---|---|
-| Base spec (mapping + viewing API + graph primitives + conformance) | **v0.37.0** | Active - RiC-O 1.1 namespace remediation complete (see [audit](../audit/ric-o-1.1-audit.html)) |
+| Base spec (mapping + viewing API + graph primitives + conformance) | **v{{ site.data.version.version }}** | Active - RiC-O 1.1 namespace remediation complete (see [audit](../audit/ric-o-1.1-audit.html)) |
 | Mapping spec | 0.1.0-draft → v0.37.0 (post-remediation) | Active |
 | Profiles | per table above | 7 normative + 1 draft |
 | RiC-O ontology target | 1.1 (2025-05-22) | Tracked |

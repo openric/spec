@@ -91,12 +91,19 @@ echo -e "Message:         ${MSG}"
 [[ -n "$ISSUE_ARG" ]] && echo -e "Issues:          #${ISSUE_ARG}"
 echo ""
 
-# Update version.json
+# Update version.json, then mirror it into _data/ so Jekyll can render it.
+# The site reads site.data.version.*; the root file stays the published
+# https://openric.org/version.json endpoint. CI asserts the two match.
 TMP=$(mktemp)
 jq --arg v "$NEW_VERSION" --arg d "$DATE" \
     '.version = $v | .release_date = $d' \
     "$VERSION_FILE" > "$TMP"
 mv "$TMP" "$VERSION_FILE"
+mkdir -p _data
+cp "$VERSION_FILE" _data/version.json
+
+# The README banner is outside the Jekyll build, so it cannot use Liquid.
+sed -i -E "s/^\*\*v[0-9]+\.[0-9]+\.[0-9]+\*\* — [0-9]{4}-[0-9]{2}-[0-9]{2}\. The canonical/**v${NEW_VERSION}** — ${DATE}. The canonical/" README.md
 
 #===============================================================================
 # Git operations

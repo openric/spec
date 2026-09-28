@@ -79,6 +79,9 @@ jobs:
       - name: Check internal Markdown links resolve
         run: python3 bin/check-links.py
 
+      - name: Check version claims agree with version.json
+        run: python3 bin/check-versions.py
+
   scenario-validation:
     name: Wizard scenario library
     runs-on: ubuntu-latest
