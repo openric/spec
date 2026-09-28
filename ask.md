@@ -21,6 +21,14 @@ permalink: /ask/
   .ask-msg { margin-top: 1rem; padding: .8rem 1rem; border-radius: var(--radius); display: none; }
   .ask-msg.ok { display: block; background: #eafaf1; color: #065f46; border: 1px solid #10b981; }
   .ask-msg.err { display: block; background: #fef2f2; color: #991b1b; border: 1px solid #ef4444; }
+  .ask-or { margin: 1.4rem 0 .6rem; color: var(--muted); font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; }
+  .ask-wa {
+    display: inline-flex; align-items: center; gap: .4rem; font-weight: 600;
+  }
+  .ask-wa::before {
+    content: ""; width: .7rem; height: .7rem; border-radius: 50%;
+    background: #25d366; display: inline-block; flex: none;
+  }
 </style>
 
 # Ask a question
@@ -44,6 +52,13 @@ permalink: /ask/
   <p class="ask-note" style="margin-top:.6rem;">We store the question to answer it, and nothing else. No tracking, no account.</p>
   <div class="ask-msg" id="ask-msg" role="status"></div>
 </form>
+
+<p class="ask-or">or</p>
+
+<p class="ask-note">
+  <a class="ask-wa" href="https://wa.me/{{ site.whatsapp_msisdn }}?text=Hi%2C%20I%20have%20a%20question%20about%20OpenRiC." target="_blank" rel="noopener">Message us on WhatsApp</a>
+  - opens your own WhatsApp app. Useful if you would rather have a conversation than write one long question. We reply from the same number.
+</p>
 </div>
 
 <script>

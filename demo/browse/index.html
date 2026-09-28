@@ -3,7 +3,7 @@
   Email: johan@plainsailingisystems.co.za
   SPDX-License-Identifier: AGPL-3.0-or-later
 
-  OpenRiC browse demo — row-layout catalogue with inline actions.
+  OpenRiC browse demo - row-layout catalogue with inline actions.
   Points at any OpenRiC-conformant server; reads are unauthenticated,
   optional write-key unlocks the delete action. Pure browser.
 -->
@@ -12,8 +12,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OpenRiC — Browse</title>
-  <meta name="description" content="Browse a live OpenRiC dataset — records, agents, places, rules, activities, instantiations, repositories, functions." />
+  <title>OpenRiC - Browse</title>
+  <meta name="description" content="Browse a live OpenRiC dataset - records, agents, places, rules, activities, instantiations, repositories, functions." />
   <link rel="canonical" href="https://openric.org/demo/browse/" />
   <style>
     :root {
@@ -21,7 +21,7 @@
       --panel-alt: #f3f4f6; --border: #e5e7eb; --accent: #3b82f6; --accent-hover: #2563eb;
       --danger: #dc2626; --danger-hover: #b91c1c;
       --row-hover: #f3f4f6; --row-highlight: #fef3c7;
-      /* Per-type colours — match the viewer's getColour */
+      /* Per-type colours - match the viewer's getColour */
       --c-record: #3b82f6; --c-agent: #10b981; --c-place: #f59e0b;
       --c-rule: #8b5cf6;   --c-activity: #ef4444; --c-instantiation: #06b6d4;
       --c-repository: #db2777; --c-function: #64748b;
@@ -75,7 +75,7 @@
     .intro { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
     .intro strong { color: var(--fg); }
 
-    /* Toolbar above the list — search + bulk */
+    /* Toolbar above the list - search + bulk */
     .toolbar {
       display: grid; grid-template-columns: 1fr auto; gap: 0.8rem; align-items: center;
       padding: 0.7rem 0.9rem; background: var(--panel-alt); border: 1px solid var(--border);
@@ -188,7 +188,7 @@
 </head>
 <body>
   <header class="site">
-    <h1><a href="/" style="color:#e5e7eb;">OpenRiC</a> — Browse
+    <h1><a href="/" style="color:#e5e7eb;">OpenRiC</a> - Browse
       <small>live catalogue over any OpenRiC-conformant server</small></h1>
     <div class="right">
       <a href="/" target="_self">Spec ↗</a>
@@ -206,7 +206,7 @@
     </div>
     <div>
       <label for="apikey">API key <small style="color:var(--muted);text-transform:none;letter-spacing:0;">(enables ✗ delete)</small></label>
-      <input id="apikey" type="password" placeholder="optional — only for write actions" />
+      <input id="apikey" type="password" placeholder="optional - only for write actions" />
     </div>
     <div>
       <button id="reload" type="button">Reload</button>
@@ -218,7 +218,7 @@
 
   <main>
     <p class="intro">
-      Rendered <strong>entirely in your browser</strong> from whichever OpenRiC server you point at. Click any row's viewer icon (<span style="font-size:1rem;">🗺</span>) to see its graph neighbourhood, edit (<span style="font-size:1rem;">✎</span>) to open in the capture tool, source (<span style="font-size:1rem;">↗</span>) to open the record on the backing platform.
+      Rendered <strong>entirely in your browser</strong> from whichever OpenRiC server you point at. Click any row's viewer icon (<span style="font-size:1rem;">🗺</span>) to see its graph neighbourhood, edit (<span style="font-size:1rem;">✎</span>) to open in the capture tool, source (<span style="font-size:1rem;">↗</span>) to open the record on the backing platform, or share (<span style="font-size:1rem;">💬</span>) to send a link to it over WhatsApp.
     </p>
 
     <div class="toolbar">
@@ -228,8 +228,8 @@
         <select id="sort">
           <option value="id-desc">Newest first</option>
           <option value="id-asc">Oldest first</option>
-          <option value="label-asc">Label A–Z</option>
-          <option value="label-desc">Label Z–A</option>
+          <option value="label-asc">Label A-Z</option>
+          <option value="label-desc">Label Z-A</option>
         </select>
       </span>
     </div>
@@ -475,6 +475,10 @@
         ? `https://capture.openric.org/?type=${type.id}&id=${numId}`
         : 'https://capture.openric.org/';
       const sourceHref = atId ? escapeHtml(atId) : '#';
+      // No number in the wa.me URL: that opens the visitor's own WhatsApp and
+      // lets them choose a recipient. A number here would message us instead.
+      const shareText  = `${label} - ${type.label.replace(/s$/, '')} in OpenRiC\n${viewerHref}`;
+      const shareHref  = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
       const canDelete = hasKey && numId != null;
 
       return `
@@ -493,6 +497,7 @@
             <a class="act" title="Open in graph viewer" href="${viewerHref}" target="_blank" rel="noopener">🗺</a>
             <a class="act" title="Edit in capture tool"  href="${captureHref}" target="_blank" rel="noopener">✎</a>
             <a class="act" title="Open source record"    href="${sourceHref}"  target="_blank" rel="noopener">↗</a>
+            <a class="act" title="Share on WhatsApp"      href="${shareHref}"   target="_blank" rel="noopener">💬</a>
             <button class="act danger delete ${canDelete ? '' : 'disabled'}"
                     title="${canDelete ? 'Delete (needs delete-scoped key)' : 'Paste an API key above to enable delete'}"
                     data-type="${type.id}" data-id="${numId ?? ''}" data-label="${escapeHtml(label)}">✗</button>

@@ -8,6 +8,12 @@ author:
   name: The OpenRiC initiative
   email: johan@theahg.co.za
 
+# Shared AHG WhatsApp sender, used for click-to-chat links. Public by design -
+# a visitor opens their own WhatsApp and messages us, which opens their own
+# 24-hour window, so these links need no template and no consent record.
+# Replies are handled from the workbench WhatsApp view.
+whatsapp_msisdn: "27648830533"
+
 collections:
   help:
     output: true
