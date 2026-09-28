@@ -101,14 +101,42 @@
     ]);
   }
 
+  // Step back one. Changing your mind about an answer should not mean losing
+  // the whole scenario - a branching wizard where the only way to revise is
+  // "Start over" punishes exactly the exploration it is meant to encourage.
+  //
+  // The trail is the record of where you have been, so going back pops the
+  // current step off it and re-enters the previous one. state.captured is
+  // deliberately NOT rolled back: those entities were really created on a real
+  // server, and pretending otherwise would be a lie about live data.
+  function goBack() {
+    if (state.trail.length < 2) return;
+    state.trail.pop();
+    state.current = state.trail[state.trail.length - 1];
+    renderStep();
+    window.scrollTo(0, 0);
+  }
+
+  function backButton() {
+    if (state.trail.length < 2) return null;
+    return el("button", {
+      class: "wiz-btn wiz-back",
+      title: "Go back and choose differently",
+      onclick: goBack
+    }, ["← Back"]);
+  }
+
   function progress() {
+    var back = backButton();
     if (hasBranching()) {
-      return el("div", { class: "wiz-progress-wrap" }, [el("span", { class: "wiz-step-count", text: "Step " + state.trail.length })]);
+      return el("div", { class: "wiz-progress-wrap" },
+        [el("span", { class: "wiz-step-count", text: "Step " + state.trail.length })].concat(back ? [back] : []));
     }
     var total = state.scenario.steps.length, at = stepIndex(state.current);
     var bar = el("div", { class: "wiz-progress" });
     for (var i = 0; i < total; i++) bar.appendChild(el("span", { class: "wiz-dot" + (i < at ? " past" : i === at ? " now" : "") }));
-    return el("div", { class: "wiz-progress-wrap" }, [el("span", { class: "wiz-step-count", text: "Step " + (at + 1) + " of " + total }), bar]);
+    return el("div", { class: "wiz-progress-wrap" },
+      [el("span", { class: "wiz-step-count", text: "Step " + (at + 1) + " of " + total }), bar].concat(back ? [back] : []));
   }
 
   // ---- capture (editable + live create) ---------------------------------
