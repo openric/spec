@@ -9,6 +9,8 @@ permalink: /explore.html
 
 Everything here runs against live data. Nothing needs an account, a server address or an API key.
 
+If you would rather be shown than go wandering, [OpenRiC in five minutes](/five-minutes/) follows a single object all the way through - catalogue record, the activities and laws around it, a 3D file, and a machine-readable export.
+
 <div class="task-cards">
   <a class="task-card" href="{{ '/demo/browse/' | relative_url }}">
     <div class="task-card-icon">📚</div>

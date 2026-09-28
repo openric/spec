@@ -15,7 +15,7 @@ description: An open, free way to describe, explore and share archival records t
       <a class="btn-primary" href="{{ '/demo/browse/' | relative_url }}">Explore real records →</a>
       <a class="btn-ghost" href="{{ '/wizard/' | relative_url }}">Model something ↗</a>
     </div>
-    <p class="hero-sub"><a href="{{ '/for-developers.html' | relative_url }}">Build with OpenRiC</a> - the specification, API and conformance tooling.</p>
+    <p class="hero-sub">New here? <a href="{{ '/five-minutes/' | relative_url }}"><strong>OpenRiC in five minutes</strong></a> - one 4,500-year-old object followed end to end, on live data. Or <a href="{{ '/for-developers.html' | relative_url }}">build with OpenRiC</a>.</p>
   </div>
 </div>
 
