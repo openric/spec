@@ -1,0 +1,75 @@
+{
+  "id": "restricted-records",
+  "title": "Closed records: modelling a restriction as a thing, not a flag",
+  "audience": "Access officers, archives holding personal, medical, legal or embargoed material",
+  "intro": "Access restrictions are usually stored as a status on the record - closed until 2049, or a tick marked confidential. That works until somebody asks why it is closed, under what authority, who may open it, or which other holdings the same instrument affects. This scenario models the restriction as a Rule in its own right, linked to what it governs.",
+  "question": "A case file is closed for 75 years. Is that a property of the record, or an entity of its own?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "file",
+      "prompt": "A children's home admission register, closed under a statutory privacy period. Start with the material.",
+      "next": "restriction",
+      "choices": [
+        { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. The register is one bound record whose entries are Record Parts. Being closed changes who may see it, not what it is." },
+        { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "A Set aggregates several records. A single register is a Record - though a run of them across years would indeed be a Set." },
+        { "label": "Record Part", "entity": "RiC-E05", "correct": false, "why": "That is an individual admission entry inside the register. The volume itself is the Record." }
+      ],
+      "capture": [
+        { "comment": "Create the register as a Record.", "method": "POST", "path": "/records", "body": { "title": "Admission register, 1954-1961", "level": "item" }, "save_as": "file" }
+      ]
+    },
+    {
+      "id": "restriction",
+      "prompt": "It is closed for 75 years from the last entry. How do you model the closure?",
+      "next": "why",
+      "choices": [
+        { "label": "Rule - the instrument imposing the closure", "entity": "RiC-E16", "correct": true, "why": "Fits, and this is the scenario's point. A restriction has an author, a legal basis, a duration and a scope. As a Rule it is a thing you can link from every record it governs, and change once when the law changes." },
+        { "label": "A closed-until date field on the record", "entity": "—", "correct": false, "why": "Works for one record and fails at scale. It cannot say WHY, cannot be cited, and when the statute is amended you are editing thousands of records instead of one Rule." },
+        { "label": "Activity - the act of closing it", "entity": "RiC-E15", "correct": false, "why": "A closure decision may well be an Activity worth recording, but the ongoing restriction is not an event. It is a standing constraint - a Rule." }
+      ],
+      "capture": [
+        { "comment": "Create the statutory closure period as a Rule.", "method": "POST", "path": "/rules", "body": { "name": "Statutory closure - personal records of minors, 75 years", "type": "access_restriction" }, "save_as": "rule" },
+        { "comment": "Link the register to the Rule that restricts it.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{file.id}}", "object_id": "{{rule.id}}", "relation_type": "is_regulated_by" } }
+      ]
+    },
+    {
+      "id": "why",
+      "prompt": "The closure exists because the register contains personal data about identifiable children. Where does that fact belong?",
+      "next": "scope",
+      "choices": [
+        { "label": "On the record, as a statement about its content", "entity": "—", "correct": true, "why": "Fits. Containing personal data is a property of the material itself and stays true even if the law changes. Keeping it separate from the Rule is what lets you answer 'what else holds personal data?' independently of 'what is currently closed?'. RiC-O 1.1 has no term for this, which is why OpenRiC proposes openricx:containsPersonalData upstream." },
+        { "label": "In the Rule's description", "entity": "RiC-E16", "correct": false, "why": "Puts a fact about the records inside a fact about the law. When the closure lapses and the Rule no longer applies, the knowledge that this material is sensitive disappears with it." },
+        { "label": "Nowhere - the closure implies it", "entity": "—", "correct": false, "why": "Not reliably. Material is closed for many reasons - commercial confidence, donor conditions, national security. Inferring sensitivity from closure conflates them." }
+      ]
+    },
+    {
+      "id": "scope",
+      "prompt": "The same statute closes eleven other registers in your holdings. Do you create a Rule for each?",
+      "next": "expiry",
+      "choices": [
+        { "label": "No - one Rule, linked from all twelve", "entity": "RiC-E16", "correct": true, "why": "Fits, and it is the practical payoff. One instrument, one entity, twelve relations. Ask 'what does this statute close?' and get twelve answers; amend the statute once and all twelve follow." },
+        { "label": "Yes - a separate Rule per record keeps them independent", "entity": "RiC-E16", "correct": false, "why": "Twelve copies of the same statute that will drift apart. The first time one is edited and the others are not, your access position becomes unauditable." },
+        { "label": "No - put the statute in a note on each record instead", "entity": "—", "correct": false, "why": "Back to prose. A citation you cannot follow is not much better than no citation." }
+      ]
+    },
+    {
+      "id": "expiry",
+      "prompt": "Closure runs 75 years from the last entry, so this register opens in 2036. How is that expressed?",
+      "choices": [
+        { "label": "Date attached to the restriction, not to the record", "entity": "RiC-E18", "correct": true, "why": "Fits. The end date is a property of this record's application of the Rule - the statute is 75 years, but each register's opening date depends on its own last entry. Attaching it to the restriction keeps a general rule general while letting each case compute its own date." },
+        { "label": "Date on the record, as an opens-on field", "entity": "RiC-E18", "correct": false, "why": "Workable, but it severs the date from its reason. A reader sees 2036 with nothing saying why, and no way to recompute it if the last-entry date is corrected." },
+        { "label": "No date - review it manually when asked", "entity": "—", "correct": false, "why": "Guarantees material stays closed past its period. Restrictions that never expire automatically are how archives end up withholding records they are obliged to open." }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "A restriction you can cite, share, and expire.",
+    "summary": "The register is a Record. The closure is a Rule with its own identity, linked from all twelve registers it governs rather than copied twelve times. The fact that the material contains personal data sits on the records themselves, so it survives the restriction lapsing. The opening date hangs off this record's application of the Rule, computed from its own last entry. You can now answer what is closed, why, under what authority, until when, and what else the same instrument affects - none of which a closed-until field can tell you.",
+    "links": [
+      { "label": "Rule (RiC-E16) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E16" },
+      { "label": "Records under a mandate - the companion scenario", "href": "https://openric.org/wizard/?scenario=records-and-mandates" },
+      { "label": "The containsPersonalData proposal to ICA-EGAD", "href": "https://github.com/openric/spec/tree/main/docs/upstream-proposals" }
+    ]
+  }
+}

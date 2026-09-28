@@ -70,5 +70,17 @@
   {
     "id": "digitisation-surrogates",
     "title": "Digitisation: original, microfilm and digital surrogate"
+  },
+  {
+    "id": "unknown-creator",
+    "title": "Unknown creator: describing what you do not know"
+  },
+  {
+    "id": "chain-of-custody",
+    "title": "Chain of custody: who held it, when, and how it moved"
+  },
+  {
+    "id": "restricted-records",
+    "title": "Closed records: modelling a restriction as a thing, not a flag"
   }
 ]

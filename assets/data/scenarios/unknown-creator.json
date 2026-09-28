@@ -1,0 +1,80 @@
+{
+  "id": "unknown-creator",
+  "title": "Unknown creator: describing what you do not know",
+  "audience": "Any archive holding pre-modern, orphaned or unattributed material",
+  "intro": "Most modelling examples assume you know who made the thing. Across real holdings you very often do not - and that is the normal case, not a failure of cataloguing. This scenario is about describing a record honestly when the creator is unknown, without inventing an agent to fill the gap and without losing the creation event itself.",
+  "question": "A photograph has no attribution. Do I create an 'Unknown' creator, attribute it to the donor, or leave it blank?",
+  "server_default": "https://ric.theahg.co.za/api/ric/v1",
+  "steps": [
+    {
+      "id": "item",
+      "prompt": "An unattributed studio photograph, probably 1890s, came in with a family deposit. Start with the thing itself.",
+      "next": "creator",
+      "choices": [
+        { "label": "Record", "entity": "RiC-E04", "correct": true, "why": "Fits. Not knowing who made it changes nothing about what it is. The photograph is a Record whether or not its creator is ever identified." },
+        { "label": "Instantiation", "entity": "RiC-E06", "correct": false, "why": "That is the print itself as a carrier. You will want one later, but the intellectual content is the Record." },
+        { "label": "Record Set", "entity": "RiC-E03", "correct": false, "why": "A Set aggregates. One photograph is a Record; the deposit it arrived in may well be the Set above it." }
+      ],
+      "capture": [
+        { "comment": "Create the photograph as a Record.", "method": "POST", "path": "/records", "body": { "title": "Studio portrait of an unidentified woman", "level": "item" }, "save_as": "item" }
+      ]
+    },
+    {
+      "id": "creator",
+      "prompt": "Nobody knows who took it. How do you record the creator?",
+      "next": "activity",
+      "choices": [
+        { "label": "Do not assert a creator at all", "entity": "—", "correct": true, "why": "Right, and it is the whole point of this scenario. RiC lets you describe a record without a creator relation. Absence of a claim is itself accurate information - a search for records by a known photographer correctly will not return this one, and nothing false has entered the authority file." },
+        { "label": "Person called 'Unknown'", "entity": "RiC-E08", "correct": false, "why": "Tempting and damaging. 'Unknown' becomes an Agent that accumulates hundreds of unrelated records, appears in your authority list, and can be merged, exported and reconciled against real people. You have not recorded ignorance; you have asserted a person who does not exist." },
+        { "label": "Person - the depositing family", "entity": "RiC-E08", "correct": false, "why": "Doesn't fit. They are a provenance relation, not the creator. Attributing creation to whoever handed it over is a guess that later researchers will inherit as fact." },
+        { "label": "Corporate Body - the studio, guessed from the mount style", "entity": "RiC-E11", "correct": false, "why": "Not yet. A reasoned attribution is valuable, but it belongs recorded AS an attribution with its evidence - not silently as a creator relation indistinguishable from a documented one." }
+      ]
+    },
+    {
+      "id": "activity",
+      "prompt": "You still know the photograph was made - a creation happened, even though you cannot name who did it. Can that be recorded?",
+      "next": "date",
+      "choices": [
+        { "label": "Activity, with no participant linked", "entity": "RiC-E15", "correct": true, "why": "Fits. The creation Activity is a real event and can carry its date and place even with no agent attached. This is the distinction that matters: you are asserting that the making happened, not who did it." },
+        { "label": "Nothing - without a creator there is no activity to record", "entity": "—", "correct": false, "why": "Loses real information. The date and place of creation are often known when the creator is not, and they have nowhere to live if the Activity is omitted." },
+        { "label": "Activity, performed by the archive that catalogued it", "entity": "RiC-E15", "correct": false, "why": "Conflates two different events. Cataloguing in 2026 is its own activity; it is not the creation of an 1890s photograph." }
+      ],
+      "capture": [
+        { "comment": "Record the creation event itself, with no performer asserted.", "method": "POST", "path": "/activities", "body": { "name": "Creation of studio portrait", "type": "production" }, "save_as": "creation" },
+        { "comment": "Link the photograph to the creation event that produced it.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{creation.id}}", "relation_type": "results_from" } }
+      ]
+    },
+    {
+      "id": "date",
+      "prompt": "The mount style says 1890s, but no exact date is known. How do you record when?",
+      "next": "provenance",
+      "choices": [
+        { "label": "Date covering the range, qualified as approximate", "entity": "RiC-E18", "correct": true, "why": "Fits. A Date in RiC carries a range and a qualifier, so 'probably 1890s' is expressible as what it is - a bounded estimate. Machine-readable, searchable, and honest about its own uncertainty." },
+        { "label": "Date of 1895, picking the middle", "entity": "RiC-E18", "correct": false, "why": "Manufactures precision. A researcher filtering to 1895 gets a hit that nobody ever claimed, and the estimate's uncertainty has been silently discarded." },
+        { "label": "Leave the date empty and put '1890s?' in a note", "entity": "—", "correct": false, "why": "Better than a false date, worse than a range. Prose notes are invisible to a date filter, so the record drops out of every chronological search it belongs in." }
+      ]
+    },
+    {
+      "id": "provenance",
+      "prompt": "You do know who deposited it. Where does that go?",
+      "choices": [
+        { "label": "Family, linked as provenance", "entity": "RiC-E10", "correct": true, "why": "Fits. The depositing family is a genuine, documented relationship - just not authorship. Recording it as provenance keeps a true fact without letting it drift into a creator claim." },
+        { "label": "Family, linked as creator", "entity": "RiC-E10", "correct": false, "why": "This is the substitution the whole scenario warns against. Custody is not creation, and once the two are conflated no later reader can tell which was actually known." },
+        { "label": "Nowhere - it is not part of the description", "entity": "—", "correct": false, "why": "Discards the most useful lead you have. Provenance is frequently how an attribution is eventually established." }
+      ],
+      "capture": [
+        { "comment": "Create the depositing family as an Agent.", "method": "POST", "path": "/agents", "body": { "name": "Mobrey family", "agent_type": "family" }, "save_as": "family" },
+        { "comment": "Link the photograph to its provenance - NOT to a creator.", "method": "POST", "path": "/relations", "body": { "subject_id": "{{item.id}}", "object_id": "{{family.id}}", "relation_type": "has_provenance" } }
+      ]
+    }
+  ],
+  "outcome": {
+    "verdict": "Everything known recorded; nothing unknown invented.",
+    "summary": "The photograph is a Record. A creation Activity carries the date and place with no performer attached, because none is known. The date is a qualified range rather than a false precision. The depositing family is recorded as provenance, which is what it actually is. Nothing here asserts a fact the archive cannot support - and if the photographer is identified in ten years, the attribution attaches to an Activity that is already there waiting for it.",
+    "links": [
+      { "label": "Activity (RiC-E15) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E15" },
+      { "label": "Date (RiC-E18) in the model navigator", "href": "https://ric.theahg.co.za/reference/ric-cm/1.0/entities/RiC-E18" },
+      { "label": "Why the reference service does not yet claim Provenance & Event", "href": "https://openric.org/drift-log.html" }
+    ]
+  }
+}

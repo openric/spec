@@ -44,7 +44,7 @@ Content-Type: application/json
 
 ## The library
 
-There are 18 scenarios - magnetic tape, photographs, maps, oral history, registers, newspapers, family papers, email, web archives, and more. Pick one from the scenario dropdown.
+There are 21 scenarios. Most are organised by material - magnetic tape, photographs, maps, oral history, registers, newspapers, family papers, email, web archives. Three are organised by problem instead, and apply whatever you hold: an unknown creator, a chain of custody, and a closed record. Pick one from the scenario dropdown.
 
 ## Next
 

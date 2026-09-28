@@ -16,7 +16,7 @@ The **[modelling wizard](/wizard/)** (openric.org/wizard) teaches RiC by doing. 
 
 ## Two ways to use it
 
-1. **Pick a scenario** - 18 worked examples (magnetic tape, photographs, maps, oral history, registers, newspapers, family papers, email, web archives, …). Each is a citable, branching walkthrough.
+1. **Pick a scenario** - 21 worked examples. Eighteen are organised by material (magnetic tape, photographs, maps, oral history, registers, newspapers, family papers, email, web archives, …); three by modelling problem instead, and those apply whatever you hold - an unknown creator, a chain of custody, a closed record. Each is a citable, branching walkthrough.
 2. **Describe your own material** - type a sentence; an AI proposes a model. Every entity code and relation is **validated against RiC-CM 1.0 before display**, so it never shows an invalid model. It proposes; you review and create. (≈30s while it generates.)
 
 ## Live creation

@@ -13,7 +13,7 @@ Records in Contexts is a model, not a format. The hard part is rarely the syntax
   <a class="task-card" href="{{ '/wizard/' | relative_url }}">
     <div class="task-card-icon">🧭</div>
     <div class="task-card-title">Model something</div>
-    <p>Describe what you actually have and the wizard works through the decisions with you, saying <em>why</em> each entity fits or does not, and building the model as it goes.</p>
+    <p>Describe what you actually have and the wizard works through the decisions with you, saying <em>why</em> each entity fits or does not, and building the model as it goes. Twenty-one worked scenarios, including an unknown creator, a chain of custody and a closed record.</p>
     <span class="task-card-go">Open the wizard →</span>
   </a>
   <a class="task-card" href="https://ric.theahg.co.za/reference/ric-cm/">
