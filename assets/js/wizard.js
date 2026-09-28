@@ -89,10 +89,27 @@
   function scenarioPicker() {
     if (!state.index || state.index.length < 2) return null;
     var sel = el("select", { id: "wiz-pick", class: "wiz-pick", onchange: function () { location.search = "?scenario=" + this.value; } });
+
+    // Grouped by category, in the order index.json lists them - so "Modelling
+    // problems" leads, being the group that applies whatever you hold. Native
+    // <optgroup>: no JS menu, correct on touch, and a screen reader announces
+    // the group name with the option.
+    var groups = [], byName = {};
     state.index.forEach(function (s) {
-      var o = el("option", { value: s.id }, [s.title]);
-      if (s.id === state.scenario.id) o.selected = "selected";
-      sel.appendChild(o);
+      var name = s.category || "Scenarios";
+      if (!byName[name]) { byName[name] = []; groups.push(name); }
+      byName[name].push(s);
+    });
+
+    groups.forEach(function (name) {
+      // One unnamed group is not a grouping; skip the optgroup wrapper.
+      var parent = groups.length > 1 ? el("optgroup", { label: name }) : sel;
+      byName[name].forEach(function (s) {
+        var o = el("option", { value: s.id }, [s.title]);
+        if (s.id === state.scenario.id) o.selected = "selected";
+        parent.appendChild(o);
+      });
+      if (parent !== sel) sel.appendChild(parent);
     });
     return el("div", { class: "wiz-pick-row" }, [
       el("label", { for: "wiz-pick", text: "📂 Choose a scenario" }),

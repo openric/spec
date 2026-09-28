@@ -113,8 +113,11 @@ const indexIds = new Set(index.map((s) => s.id));
 const files = readdirSync(DIR).filter((f) => f.endsWith('.json') && f !== 'index.json').map((f) => f.replace(/\.json$/, ''));
 
 const errs = [];
+// The picker groups by category, so an uncategorised scenario would silently
+// fall into its own stray group. Required, not optional.
 for (const s of index) {
   if (!s.id || !s.title) errs.push(`index: entry missing id/title`);
+  if (!s.category) errs.push(`index/${s.id || '?'}: missing category (the wizard picker groups by it)`);
   validateScenario(s.id, errs);
 }
 for (const f of files) if (!indexIds.has(f)) errs.push(`${f}.json exists but is not listed in index.json`);
