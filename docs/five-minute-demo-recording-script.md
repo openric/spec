@@ -54,7 +54,7 @@ Resist reading fields aloud. The viewer can read.
 
 Open the graph URL. **Say nothing for three seconds** while it draws.
 
-> "Twenty-three things, twenty-two connections. Places, the repository, four
+> "Twenty-one things, twenty connections. Places, the repository, four
 > activities, two pieces of legislation, two digital files. None of this is a
 > search result - every line is a stated relationship a machine can follow."
 
@@ -120,9 +120,19 @@ Five minutes is short, and each of these has sunk a version of this demo:
 
 Somebody will go poking around after watching, and they will find records
 titled "Duck duck go", a repository still labelled "UPDATED" from a test edit,
-a duplicated Egypt, and three entities typed as `Activity` that are plainly a
-place, an organisation and a family. The boat's own description is
-machine-generated and reads like it.
+and an entity typed as `Activity` that is plainly a family. The boat's own
+description is machine-generated and reads like it.
+
+Two rows that were worse than this - "Giza Pyramid" typed as an activity with
+activity-type `mandate`, and "Giza Pyramid Organization" whose name, type and
+description disagreed with each other - were deleted on 28 September, which is
+why the graph is 21 nodes rather than the 23 an earlier draft of this script
+quoted. If you are re-recording, check the count on the day.
+
+Two Egypts remain and are worth a sentence rather than an apology: one is a
+subject heading from the underlying catalogue, the other a Place entity with
+its own description. Two things in two systems sharing a name is a
+reconciliation problem the model is meant to surface, not a typo.
 
 Better to say so than be caught:
 

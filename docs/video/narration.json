@@ -1,6 +1,6 @@
 {
   "voice": "en_US-ljspeech-high",
-  "_note": "Narration for the OpenRiC five-minute demonstration. Ids match the marks in record.js exactly; a mark without an entry fails the build, which is the behaviour we want. Written as normal prose - pronunciation rules (RiC as Rick, RiC-O as Rick Oh, glTF, BM-125320) live in speak.py, not here, so this stays readable for whoever edits it next. Reflects the state of openric.org, viewer.openric.org and ric.theahg.co.za on 28 September 2026.",
+  "_note": "Narration for the OpenRiC five-minute demonstration. Ids match the marks in record.js exactly; a mark without an entry fails the build, which is the behaviour we want. Written as normal prose - pronunciation rules (RiC as Rick, RiC-O as Rick Oh, glTF, BM-125320) live in speak.py, not here, so this stays readable for whoever edits it next. Reflects the state of openric.org, viewer.openric.org and ric.theahg.co.za on 28 September 2026, after two incoherent activity rows were removed.",
   "scenes": [
     {
       "id": "01-title",
@@ -12,7 +12,7 @@
     },
     {
       "id": "03-graph",
-      "text": "Now the same record, drawn with everything connected to it. Twenty-three things, twenty-two connections, in about two seconds. Places, the repository holding it, four separate activities, two pieces of legislation, and two digital files. None of this is a search result. Every line here is a stated, typed relationship that a machine can follow without guessing. The legend names them in plain language, and the trail along the top is how you find your way back."
+      "text": "Now the same record, drawn with everything connected to it. Twenty-one things, twenty connections, in about two seconds. Places, the repository holding it, four separate activities, two pieces of legislation, and two digital files. None of this is a search result. Every line here is a stated, typed relationship that a machine can follow without guessing. The legend names them in plain language, and the trail along the top is how you find your way back."
     },
     {
       "id": "04-custody",
@@ -28,7 +28,7 @@
     },
     {
       "id": "07-honesty",
-      "text": "One last thing, before you go looking. This is a working archive, not a showcase, and it has the rough edges you would expect. You will find a repository still labelled UPDATED from somebody's test edit, a duplicated Egypt, and three entities typed as activities that are plainly a place, an organisation and a family. We leave them visible on purpose. A demonstration built on hand-groomed data proves nothing about whether the model survives contact with real holdings."
+      "text": "One last thing, before you go looking. This is a working archive, not a showcase, and it has the rough edges you would expect. You will find a repository still labelled UPDATED from somebody's test edit, records called Duck duck go, and an entity typed as an activity that is plainly a family. We leave them visible on purpose. A demonstration built on hand-groomed data proves nothing about whether the model survives contact with real holdings."
     },
     {
       "id": "08-end",

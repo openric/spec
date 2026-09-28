@@ -27,7 +27,7 @@ Notice what is already different: the holder is not the string "The British Muse
 
 <a class="btn-primary" href="https://viewer.openric.org/?start=/informationobject/egyptian-boat">Open the graph →</a>
 
-Twenty-three things, twenty-two connections. Two seconds to draw.
+Twenty-one things, twenty connections. Two seconds to draw.
 
 Walk outwards from the boat and you pass through places (Egypt, Thebes, Giza), the repository holding it, four separate activities, two pieces of legislation, and two digital files. None of that is a search result. Every one of those is a stated, typed relationship that a machine can follow without guessing.
 
@@ -76,7 +76,9 @@ This is the part that matters if you are deciding whether to adopt anything. The
 
 ## Being honest about the data
 
-The reference dataset is a working archive, not a showcase, and it shows. If you go poking around you will find records titled "Duck duck go", a repository whose label still ends in "UPDATED" from somebody's test edit, a duplicated Egypt, and three entities typed as `Activity` that are plainly a place, an organisation and a family. The boat's own description is machine-generated and reads like it.
+The reference dataset is a working archive, not a showcase, and it shows. Go poking around and you will find records titled "Duck duck go", a repository whose label still ends in "UPDATED" from somebody's test edit, and an entity typed as an `Activity` that is plainly a family. The boat's own description is machine-generated and reads like it.
+
+Two Egypts appear in the graph, and that one is more interesting than a mistake. One is a subject heading inherited from the underlying catalogue; the other is a Place entity with its own description. They are two different things in two different systems that happen to share a name - which is exactly the kind of reconciliation problem this model is supposed to make visible rather than hide.
 
 That is left visible on purpose. A demo built on hand-groomed data proves nothing about whether the model survives contact with real holdings, and the [drift log](/drift-log.html) records the gaps we know about rather than hiding them.
 
