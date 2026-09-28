@@ -30,6 +30,11 @@
     if (idx) { cb(); return; }
     fetch(window.HELP_INDEX_URL).then(function (r) { return r.json(); }).then(function (data) {
       docs = data;
+      // lunr refs by "id" and results are looked up by array position, so the
+      // id IS the position. Assigning it here rather than in Liquid keeps the
+      // index template free to emit from several sources without having to
+      // carry a continuous counter across loops.
+      docs.forEach(function (d, i) { d.id = i; });
       idx = lunr(function () {
         this.ref("id");
         this.field("title", { boost: 8 });
@@ -42,13 +47,14 @@
     }).catch(function () { cb(); });
   }
 
-  function run(q) {
+  // limit: the dropdown wants a short list, the full page wants depth.
+  function run(q, limit) {
     if (!idx || !q || q.trim().length < 2) return [];
     var terms = q.trim().split(/\s+/);
     var expanded = terms.map(function (t) { return t + " " + t + "*"; }).join(" ");
     var res;
     try { res = idx.search(expanded); } catch (e) { try { res = idx.search(q); } catch (e2) { res = []; } }
-    return res.slice(0, 8).map(function (r) { return docs[parseInt(r.ref, 10)]; }).filter(Boolean);
+    return res.slice(0, limit || 8).map(function (r) { return docs[parseInt(r.ref, 10)]; }).filter(Boolean);
   }
 
   function card(d, cls) {
@@ -99,7 +105,7 @@
       load(function () {
         if (!v) { page.innerHTML = ""; return; }
         trackSearch(v);
-        var items = run(v);
+        var items = run(v, 30);
         page.innerHTML = items.length
           ? '<p class="muted">' + items.length + " result" + (items.length > 1 ? "s" : "") + ' for &ldquo;' + esc(v) + '&rdquo;</p>' + items.map(function (d) { return card(d, "help-sr"); }).join("")
           : '<p class="muted">No matches for &ldquo;' + esc(v) + '&rdquo;. Try fewer or different words.</p>';

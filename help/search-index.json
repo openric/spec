@@ -1,15 +1,62 @@
 ---
 permalink: /help/search-index.json
 ---
+{%- comment -%}
+  One search index across the whole site, not just the help centre.
+
+  Four kinds, which become the category shown on each result:
+    Guide - help articles and the guides/ how-tos
+    Spec  - the base specification documents and the profiles
+    Model - pages about RiC itself, the baseline and the vocabularies
+    About - governance, institutions, related work, project pages
+
+  Adding a page here is the ONLY step needed to make it searchable; the
+  renderer reads whatever this emits.
+{%- endcomment -%}
 [
-{% for a in site.help %}
-  {
-    "id": {{ forloop.index0 }},
+{%- assign sep = "" -%}
+
+{%- comment -%} Help articles - the original corpus. {%- endcomment -%}
+{%- for a in site.help -%}
+  {{ sep }}{
     "url": {{ a.url | relative_url | jsonify }},
     "title": {{ a.title | jsonify }},
-    "category": {{ a.category | jsonify }},
-    "summary": {{ a.summary | default: "" | jsonify }},
+    "category": {{ a.category | default: "Guide" | jsonify }},
+    "kind": "Guide",
+    "summary": {{ a.summary | default: a.description | default: "" | jsonify }},
     "body": {{ a.content | strip_html | normalize_whitespace | truncatewords: 220 | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-{% endfor %}
+  }
+  {%- assign sep = "," -%}
+{%- endfor -%}
+
+{%- comment -%}
+  Everything else worth finding, classified by where it lives. Pages with no
+  title are skipped - they are redirects, data files or fragments, and a
+  result with no title is noise.
+{%- endcomment -%}
+{%- for p in site.pages -%}
+  {%- if p.title and p.url != "/help/search/" and p.url != "/help/search-index.json" -%}
+    {%- assign kind = "" -%}
+    {%- if p.url contains "/spec/" -%}
+      {%- assign kind = "Spec" -%}
+    {%- elsif p.url contains "/guides/" -%}
+      {%- assign kind = "Guide" -%}
+    {%- elsif p.url contains "/vocab/" or p.url contains "/ns/" or p.url == "/ric-baseline.html" or p.url == "/learn.html" -%}
+      {%- assign kind = "Model" -%}
+    {%- elsif p.url == "/faq.html" or p.url == "/about.html" or p.url == "/governance.html" or p.url == "/for-institutions.html" or p.url == "/related-implementations.html" or p.url == "/architecture.html" or p.url == "/proof.html" or p.url == "/shell.html" or p.url == "/drift-log.html" or p.url == "/explore.html" or p.url == "/profiles.html" or p.url == "/for-archivists.html" or p.url == "/for-developers.html" -%}
+      {%- assign kind = "About" -%}
+    {%- endif -%}
+    {%- if kind != "" -%}
+      {{ sep }}{
+        "url": {{ p.url | relative_url | jsonify }},
+        "title": {{ p.title | jsonify }},
+        "category": {{ kind | jsonify }},
+        "kind": {{ kind | jsonify }},
+        "summary": {{ p.description | default: "" | jsonify }},
+        "body": {{ p.content | strip_html | normalize_whitespace | truncatewords: 220 | jsonify }}
+      }
+      {%- assign sep = "," -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
 ]
