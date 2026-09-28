@@ -156,7 +156,6 @@
     }
     .row .act:hover { border-color: var(--accent); color: var(--accent); background: var(--panel); text-decoration: none; }
     .row .act.danger:hover { border-color: var(--danger); color: var(--danger); }
-    .row .act.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
     .row .act[title]:hover::after { /* keep native tooltip */ }
 
     @media (max-width: 720px) {
@@ -197,6 +196,36 @@
       margin-top: 3rem; padding: 1.5rem; border-top: 1px solid var(--border);
       color: var(--muted); font-size: 0.82rem; text-align: center;
     }
+
+    /* Advanced drawer - closed by default, because a server URL and an API key
+       are not what a first-time visitor came for. */
+    .advanced { border-bottom: 1px solid var(--border); background: var(--panel); }
+    .advanced > summary {
+      cursor: pointer; padding: 0.6rem 1.5rem; font-size: 0.85rem; color: var(--muted);
+      list-style: none; user-select: none;
+    }
+    .advanced > summary::-webkit-details-marker { display: none; }
+    .advanced > summary::before { content: '▸ '; }
+    .advanced[open] > summary::before { content: '▾ '; }
+    .advanced > summary:hover { color: var(--fg); }
+    .advanced-inner { padding-bottom: 0.3rem; }
+    .advanced-note { margin: 0 1.5rem 0.2rem; font-size: 0.82rem; color: var(--muted); max-width: 70ch; }
+    .advanced .controls { border-bottom: none; }
+
+    /* Editing mode is loud on purpose. Deleting archival description is not a
+       routine action and must never look like one. */
+    .edit-banner {
+      display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+      padding: 0.6rem 1.5rem; background: #fef2f2;
+      border-bottom: 2px solid var(--danger); color: #7f1d1d; font-size: 0.87rem;
+    }
+    .edit-banner strong { color: var(--danger); text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.78rem; }
+    .edit-banner button {
+      margin-left: auto; padding: 0.3rem 0.8rem; border-radius: 4px;
+      border: 1px solid var(--danger); background: #fff; color: var(--danger);
+      font-weight: 600; font-size: 0.82rem; cursor: pointer;
+    }
+    .edit-banner button:hover { background: var(--danger); color: #fff; }
   </style>
 </head>
 <body>
@@ -205,20 +234,42 @@
        The old bespoke header lived here and listed five sibling tools, which
        is the architecture-first pattern the UX review flagged. -->
 
-  <div class="controls">
-    <div>
-      <label for="server">Server base URL</label>
-      <input id="server" value="https://ric.theahg.co.za/api/ric/v1" />
-    </div>
-    <div>
-      <label for="apikey">API key <small style="color:var(--muted);text-transform:none;letter-spacing:0;">(enables ✗ delete)</small></label>
-      <input id="apikey" type="password" placeholder="optional - only for write actions" />
-    </div>
-    <div>
-      <button id="reload" type="button">Reload</button>
-    </div>
-    <div class="status" id="status">Ready.</div>
+  <!-- Editing mode is a state you opt into, and it says so loudly. Until a key
+       is supplied this banner is hidden and no destructive control exists in
+       the DOM at all. -->
+  <div class="edit-banner" id="edit-banner" hidden>
+    <strong>Editing mode</strong>
+    <span>Delete is enabled on every row. Leave editing mode to browse safely.</span>
+    <button type="button" id="leave-edit">Leave editing mode</button>
   </div>
+
+  <!-- Server address and API key are the two things almost nobody needs on a
+       first visit, and putting them above the catalogue was the single biggest
+       piece of friction the September 2026 UX review found. They live in a
+       closed drawer now. <details> rather than JS: it works without script,
+       keyboard-operable and correct on touch. -->
+  <details class="advanced" id="advanced">
+    <summary>Advanced - connect another OpenRiC server</summary>
+    <div class="advanced-inner">
+      <p class="advanced-note">
+        Browse is implementation-neutral: it reads any conformant OpenRiC server, not just the reference one. Leave these alone to explore the live reference dataset.
+      </p>
+      <div class="controls">
+        <div>
+          <label for="server">Server base URL</label>
+          <input id="server" value="https://ric.theahg.co.za/api/ric/v1" />
+        </div>
+        <div>
+          <label for="apikey">API key <small style="color:var(--muted);text-transform:none;letter-spacing:0;">(enables editing mode)</small></label>
+          <input id="apikey" type="password" placeholder="leave empty to browse read-only" />
+        </div>
+        <div>
+          <button id="reload" type="button">Reload</button>
+        </div>
+        <div class="status" id="status">Ready.</div>
+      </div>
+    </div>
+  </details>
 
   <nav class="tabs" id="tabs"></nav>
 
@@ -264,15 +315,18 @@
     const STORAGE_KEY = 'openric-browse';
     const PAGE_SIZE = 30;
 
+    // `label` is what an archivist would call it; `ricClass` is the formal RiC
+    // class, shown as secondary metadata on the row. Plain language first,
+    // formal vocabulary still visible - a user interface is not a specification.
     const TYPES = [
-      { id: 'record',        plural: 'records',        label: 'Records',        icon: '📚', labelKey: 'rico:title' },
-      { id: 'agent',         plural: 'agents',         label: 'Agents',         icon: '👤', labelKey: 'rico:name'  },
-      { id: 'place',         plural: 'places',         label: 'Places',         icon: '📍', labelKey: 'rico:name'  },
-      { id: 'rule',          plural: 'rules',          label: 'Rules',          icon: '⚖️', labelKey: 'rico:title' },
-      { id: 'activity',      plural: 'activities',     label: 'Activities',     icon: '🏃', labelKey: 'rico:name'  },
-      { id: 'instantiation', plural: 'instantiations', label: 'Instantiations', icon: '📄', labelKey: 'rico:title' },
-      { id: 'repository',    plural: 'repositories',   label: 'Repositories',   icon: '🏛️', labelKey: 'rico:name'  },
-      { id: 'function',      plural: 'functions',      label: 'Functions',      icon: '⚙️', labelKey: 'rico:name'  },
+      { id: 'record',        plural: 'records',        label: 'Records',                  ricClass: 'Record',         icon: '📚', labelKey: 'rico:title' },
+      { id: 'agent',         plural: 'agents',         label: 'People & organisations',   ricClass: 'Agent',          icon: '👤', labelKey: 'rico:name'  },
+      { id: 'place',         plural: 'places',         label: 'Places',                   ricClass: 'Place',          icon: '📍', labelKey: 'rico:name'  },
+      { id: 'rule',          plural: 'rules',          label: 'Rules & mandates',         ricClass: 'Rule',           icon: '⚖️', labelKey: 'rico:title' },
+      { id: 'activity',      plural: 'activities',     label: 'Activities',               ricClass: 'Activity',       icon: '🏃', labelKey: 'rico:name'  },
+      { id: 'instantiation', plural: 'instantiations', label: 'Physical & digital copies', ricClass: 'Instantiation', icon: '📄', labelKey: 'rico:title' },
+      { id: 'repository',    plural: 'repositories',   label: 'Repositories',             ricClass: 'Repository',     icon: '🏛️', labelKey: 'rico:name'  },
+      { id: 'function',      plural: 'functions',      label: 'Functions',                ricClass: 'Function',       icon: '⚙️', labelKey: 'rico:name'  },
     ];
 
     const $ = (id) => document.getElementById(id);
@@ -483,16 +537,16 @@
       const sourceHref = atId ? escapeHtml(atId) : '#';
       // No number in the wa.me URL: that opens the visitor's own WhatsApp and
       // lets them choose a recipient. A number here would message us instead.
-      const shareText  = `${label} - ${type.label.replace(/s$/, '')} in OpenRiC\n${viewerHref}`;
+      const shareText  = `${label} - ${type.ricClass} in OpenRiC\n${viewerHref}`;
       const shareHref  = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
       const canDelete = hasKey && numId != null;
 
       return `
         <div class="row${seed ? ' seeded' : ''}">
-          <div class="icon-wrap ${type.id}" title="${escapeHtml(type.label.replace(/s$/, ''))}">${type.icon}</div>
+          <div class="icon-wrap ${type.id}" title="${escapeHtml(type.ricClass)}">${type.icon}</div>
           <div class="body">
             <div class="title-line">
-              <span class="type-label">${escapeHtml(type.label.replace(/s$/, ''))}</span>
+              <span class="type-label" title="RiC class">${escapeHtml(type.ricClass)}</span>
               <span>${escapeHtml(label)}</span>
               ${seed ? '<span class="seeded-pin" title="Seeded by openric:seed-demo">demo</span>' : ''}
             </div>
@@ -504,9 +558,9 @@
             <a class="act" title="Edit in capture tool"  href="${captureHref}" target="_blank" rel="noopener">✎</a>
             <a class="act" title="Open source record"    href="${sourceHref}"  target="_blank" rel="noopener">↗</a>
             <a class="act" title="Share on WhatsApp"      href="${shareHref}"   target="_blank" rel="noopener">💬</a>
-            <button class="act danger delete ${canDelete ? '' : 'disabled'}"
-                    title="${canDelete ? 'Delete (needs delete-scoped key)' : 'Paste an API key above to enable delete'}"
-                    data-type="${type.id}" data-id="${numId ?? ''}" data-label="${escapeHtml(label)}">✗</button>
+            ${canDelete ? `<button class="act danger delete"
+                    title="Delete (needs a delete-scoped key)"
+                    data-type="${type.id}" data-id="${numId ?? ''}" data-label="${escapeHtml(label)}">✗</button>` : ''}
           </div>
         </div>
       `;
@@ -572,7 +626,26 @@
 
     reloadBtn.addEventListener('click', () => { state.page = 1; persist(); init(); });
     serverInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') reloadBtn.click(); });
-    keyInput.addEventListener('input', () => { persist(); renderRows(); });
+
+    // Editing mode. Supplying a key is the opt-in, and the banner is the
+    // "strong visual indicator" - a delete control must never appear in a
+    // discovery session without the visitor having deliberately entered a
+    // state that says so.
+    const editBanner = $('edit-banner');
+    const leaveEdit  = $('leave-edit');
+
+    function syncEditMode() {
+      editBanner.hidden = !currentKey();
+    }
+    keyInput.addEventListener('input', () => { persist(); syncEditMode(); renderRows(); });
+    leaveEdit.addEventListener('click', () => {
+      keyInput.value = '';
+      persist();
+      syncEditMode();
+      renderRows();
+      setStatus('ok', 'Editing mode off. Browsing read-only.');
+    });
+    syncEditMode();
 
     async function init() {
       renderTabs();
