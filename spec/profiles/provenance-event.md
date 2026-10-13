@@ -8,7 +8,7 @@ description: The full event model - Production, Accumulation, and generic Activi
 
 **Profile id:** `provenance-event`
 **Profile version:** 0.8.0
-**Spec version:** 0.35.0
+**Last revised in spec:** v0.35.0
 **Status:** Normative
 **Dependencies:** **Authority & Context** (a server cannot claim Provenance & Event without also exposing Places, Rules, and Activities as first-class entities - this profile *tightens* authority-context's Activity shapes rather than redefining them).
 **Last updated:** 2026-04-21

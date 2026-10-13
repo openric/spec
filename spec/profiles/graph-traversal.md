@@ -8,7 +8,7 @@ description: The /graph endpoint and its relation + hierarchy companions. Where 
 
 **Profile id:** `graph-traversal`
 **Profile version:** 0.5.0
-**Spec version:** 0.32.0
+**Last revised in spec:** v0.32.0
 **Status:** Normative
 **Dependencies:** None at the endpoint level; SHACL shapes assume a full-graph data source. See §5.
 **Last updated:** 2026-04-21

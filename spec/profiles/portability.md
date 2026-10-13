@@ -8,7 +8,7 @@ description: The anti-lock-in guarantee - lossless JSON-LD/Turtle round-trip, a 
 
 **Profile id:** `portability`
 **Profile version:** 0.43.0
-**Spec version:** 0.43.0
+**Last revised in spec:** v0.43.0
 **Status:** Draft - open for comment
 **Dependencies:** [Export-Only](export-only.html) (the JSON-LD / Turtle / RDF-XML export surface Portability strengthens into a *guarantee*).
 **Last updated:** 2026-06-19

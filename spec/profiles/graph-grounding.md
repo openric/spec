@@ -8,7 +8,7 @@ description: A read-only grounding endpoint so any agent or RAG can disambiguate
 
 **Profile id:** `graph-grounding`
 **Profile version:** 0.43.0
-**Spec version:** 0.43.0
+**Last revised in spec:** v0.43.0
 **Status:** Draft - open for comment
 **Dependencies:** [Core Discovery](core-discovery.html) (the entities `/ground` resolves to) and, in practice, a SPARQL surface ([sparql-access](sparql-access.html)) to read the graph. [Inferred-Provenance](inferred-provenance.html) is recommended so grounding packs can carry the asserted-vs-inferred signal.
 **Last updated:** 2026-06-19

@@ -8,7 +8,7 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 
 **Profile id:** `core-discovery`
 **Profile version:** 0.3.0
-**Spec version:** 0.30.0
+**Last revised in spec:** v0.30.0
 **Status:** Normative
 **Dependencies:** None
 **Last updated:** 2026-04-21

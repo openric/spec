@@ -8,7 +8,7 @@ description: The meaning-layer contract - pinned standards, the two-layer IRI po
 
 **Profile id:** `governance`
 **Profile version:** 0.43.0
-**Spec version:** 0.43.0
+**Last revised in spec:** v0.43.0
 **Status:** Draft - open for comment
 **Dependencies:** None. Orthogonal to every read/write profile - it governs *meaning and change*, not the endpoint surface.
 **Last updated:** 2026-06-19

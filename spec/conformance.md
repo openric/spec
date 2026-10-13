@@ -5,7 +5,7 @@ title: OpenRiC Conformance
 
 # OpenRiC Conformance
 
-**Version:** 0.37.0
+**Last revised in:** v0.37.0
 **Status:** Active - RiC-O 1.1 namespace remediation complete
 **Last updated:** 2026-04-25
 

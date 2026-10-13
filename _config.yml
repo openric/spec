@@ -14,6 +14,11 @@ author:
 # Replies are handled from the workbench WhatsApp view.
 whatsapp_msisdn: "27648830533"
 
+# On the GitHub Pages allow-list. Generates /sitemap.xml, and a robots.txt
+# pointing at it since the site has none of its own.
+plugins:
+  - jekyll-sitemap
+
 collections:
   help:
     output: true

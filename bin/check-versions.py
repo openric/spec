@@ -25,6 +25,8 @@
 #      states the current version
 #   3. any line making a CURRENCY CLAIM states the current version, or renders
 #      it from site data
+#      (a bare "**Version:**" or "**Spec version:**" document header counts as
+#      one - use "Last revised in:" for a document on an earlier release)
 # plus a global ban on the retired L1-L4 conformance vocabulary.
 
 import json
@@ -51,7 +53,11 @@ CURRENCY_CLAIM = re.compile(
     r"|\| \*\*Specification\*\*"
     r"|Base spec \("
     r"|publicly claim"
-    r"|claims? conformance to",
+    r"|claims? conformance to"
+    # A bare document header. A reader takes "Version: 0.37.0" at the top of
+    # a spec page as the current release, so a document that last changed in
+    # an earlier release says "Last revised in: v0.37.0" instead.
+    r"|^\*\*(Spec )?Version:\*\*",
     re.IGNORECASE,
 )
 

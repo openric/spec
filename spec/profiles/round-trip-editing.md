@@ -8,7 +8,7 @@ description: The write surface - POST/PATCH/DELETE across every writable entity,
 
 **Profile id:** `round-trip-editing`
 **Profile version:** 0.7.0
-**Spec version:** 0.34.0
+**Last revised in spec:** v0.34.0
 **Status:** Normative
 **Dependencies:** Core Discovery + Authority & Context (a client that can write entities it cannot read, or entities with no authority context, cannot meaningfully round-trip).
 **Last updated:** 2026-04-21

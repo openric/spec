@@ -6,7 +6,7 @@ description: Profiles are named, bounded conformance targets. A server declares 
 
 # OpenRiC Profiles
 
-**Version:** 0.3.0-draft
+**Profile framework version:** 0.3.0-draft
 **Status:** Draft - open for comment
 **Last updated:** 2026-04-19
 

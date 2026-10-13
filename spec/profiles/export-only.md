@@ -8,7 +8,7 @@ description: OAI-PMH v2.0 harvest and one-shot JSON-LD dumps. The profile for ag
 
 **Profile id:** `export-only`
 **Profile version:** 0.9.0
-**Spec version:** 0.36.0
+**Last revised in spec:** v0.36.0
 **Status:** Normative
 **Dependencies:** None. Export-Only is orthogonal to every other profile - a server may expose a pure harvest surface without any of the per-entity read endpoints required by Core Discovery.
 **Last updated:** 2026-04-21

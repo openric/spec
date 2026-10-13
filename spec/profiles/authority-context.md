@@ -8,7 +8,7 @@ description: First-class Places, Rules, and Activities with reconciliation-frien
 
 **Profile id:** `authority-context`
 **Profile version:** 0.4.0
-**Spec version:** 0.31.0
+**Last revised in spec:** v0.31.0
 **Status:** Normative
 **Dependencies:** None - orthogonal to Core Discovery
 **Last updated:** 2026-04-21

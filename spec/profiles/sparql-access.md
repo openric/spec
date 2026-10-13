@@ -8,7 +8,7 @@ description: Optional 8th profile. SPARQL 1.1 query endpoint over the canonical 
 
 **Profile id:** `sparql-access`
 **Profile version:** 0.1.0
-**Spec version:** 0.37.0
+**Last revised in spec:** v0.37.0
 **Status:** **Draft** - open for implementer review
 **Dependencies:** None - orthogonal to Core Discovery
 **Last updated:** 2026-04-25

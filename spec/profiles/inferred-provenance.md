@@ -8,7 +8,7 @@ description: AI inference must never be passed off as documented fact. Machine-a
 
 **Profile id:** `inferred-provenance`
 **Profile version:** 0.43.0
-**Spec version:** 0.43.0
+**Last revised in spec:** v0.43.0
 **Status:** Draft - open for comment
 **Dependencies:** None. Composes with any read/export profile - it adds a provenance overlay to whatever entities a server emits.
 **Last updated:** 2026-06-19

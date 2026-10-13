@@ -8,7 +8,7 @@ description: rico:Instantiation carriers (files, images, PDFs) and openricx:Func
 
 **Profile id:** `digital-object-linkage`
 **Profile version:** 0.6.0
-**Spec version:** 0.33.0
+**Last revised in spec:** v0.33.0
 **Status:** Normative
 **Dependencies:** None at the endpoint level. When combined with Graph Traversal, the `:InstantiationLinkedFromRecordShape` full-graph SHACL shape (defined there) additionally verifies that every Instantiation is referenced by at least one Record.
 **Last updated:** 2026-04-21
