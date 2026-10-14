@@ -1,0 +1,85 @@
+# Copyright (C) 2026 Johan Pieterse
+# Plain Sailing Information Systems
+# Email: johan@plainsailingisystems.co.za
+#
+# This file is part of OpenRiC. Licensed under AGPL-3.0-or-later.
+#
+# Conformance results for the public matrix on /status/ (plan V4, S2).
+#
+# Runs conformance/probe.sh against the reference service once per profile
+# the probe knows. Production runs are READ-ONLY: no API key is ever given, so
+# checks that need one are reported as skipped, never as passed. Mutating and
+# adversarial tests belong in a disposable environment, not here.
+#
+# Pull requests run the probe to prove it still works, and publish nothing.
+# The daily run on main writes latest.json and a dated copy to the
+# conformance-results branch, which the status page reads.
+
+name: Conformance
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "conformance/**"
+      - ".github/workflows/conformance.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    name: Read-only probe of the reference service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe each profile
+        env:
+          KEY: ""
+          BASE: https://ric.theahg.co.za/api/ric/v1
+        run: |
+          mkdir -p out
+          export PROBE_REVISION="$(git rev-parse --short HEAD)"
+          for p in core-discovery authority-context graph-traversal digital-object-linkage provenance-event round-trip-editing export-only; do
+            bash conformance/probe.sh --profile="$p" --json="out/$p.json" > "out/$p.txt" 2>&1 || true
+            test -s "out/$p.json" || { echo "probe wrote no result for $p"; cat "out/$p.txt"; exit 1; }
+            jq -r '"\(.profiles[0]): \(.verdict) (\(.counts.pass) pass, \(.counts.fail) fail, \(.counts.skip) skip)"' "out/$p.json"
+          done
+          jq -s '{schema: "openric-conformance-run/1",
+                  run_at: (now | todate),
+                  implementation: "OpenRiC reference service",
+                  base: .[0].base,
+                  probe_revision: .[0].probe_revision,
+                  read_only: true,
+                  runs: .}' out/*.json > out/latest.json
+
+      - name: Keep the run
+        uses: actions/upload-artifact@v4
+        with:
+          name: conformance-run
+          path: out
+          retention-days: 30
+
+      - name: Publish to the conformance-results branch
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          day="$(date -u +%Y-%m-%d)"
+          git config user.name "openric-conformance"
+          git config user.email "conformance@openric.org"
+          if git fetch --depth 1 origin conformance-results 2>/dev/null; then
+            git worktree add results FETCH_HEAD
+          else
+            git worktree add --detach results
+            git -C results checkout --orphan conformance-results
+            git -C results rm -rq .
+          fi
+          mkdir -p results/history
+          cp out/latest.json results/latest.json
+          cp out/latest.json "results/history/$day.json"
+          git -C results add latest.json history
+          git -C results commit -q -m "Conformance run $day" || echo "no change"
+          git -C results push origin HEAD:conformance-results

@@ -14,6 +14,12 @@
 #   KEY=xxxx BASE=... ./probe.sh                            # + write/delete
 #   ./probe.sh --profile=core-discovery                     # just that profile
 #   PROFILE=core-discovery,graph-traversal ./probe.sh       # multiple
+#   ./probe.sh --profile=core-discovery --json=result.json  # + machine-readable result
+#
+# --json writes the run as JSON (schema openric-probe-result/1): when, against
+# which server, which probe revision, the service's own declarations, counts,
+# a verdict, and every check. Without KEY the probe is read-only, and checks
+# that need a key are reported as skipped - never as passed.
 #
 # When --profile=PROFILE is set the probe:
 #   * runs only probes tagged for the named profile(s) (plus the always-on
@@ -37,15 +43,18 @@ BASE="${BASE:-https://ric.theahg.co.za/api/ric/v1}"
 KEY="${KEY:-}"
 VERBOSE="${VERBOSE:-0}"
 PROFILE="${PROFILE:-}"
+JSON_OUT="${JSON_OUT:-}"
 
 # --- argv parsing -----------------------------------------------
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --profile=*) PROFILE="${1#*=}" ;;
     --profile)   shift; PROFILE="${1:-}" ;;
+    --json=*)    JSON_OUT="${1#*=}" ;;
+    --json)      shift; JSON_OUT="${1:-}" ;;
     -v|--verbose) VERBOSE=1 ;;
     -h|--help)
-      sed -n '7,32p' "$0"
+      sed -n '7,38p' "$0"
       exit 0
       ;;
     *)
@@ -353,6 +362,36 @@ if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
 fi
 
 # ---- summary ---------------------------------------------------
+
+# write_json <verdict>: the run as JSON, for the published conformance matrix.
+write_json() {
+  [[ -z "$JSON_OUT" ]] && return 0
+  local svc writes
+  svc=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/" 2>/dev/null \
+    | jq -c '{name, version, spec_version: .openric_conformance.spec_version,
+              declared: [.openric_conformance.profiles[]? | {id, version, conformance}]}' 2>/dev/null)
+  [[ -z "$svc" ]] && svc=null
+  [[ -n "$KEY" ]] && writes=true || writes=false
+  printf '%s\n' "${RESULTS[@]}" | jq -R -s \
+    --arg base "$BASE" --arg profile "$PROFILE" --arg verdict "$1" \
+    --arg run_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+    --arg probe_revision "${PROBE_REVISION:-unknown}" \
+    --argjson pass "$PASS" --argjson fail "$FAIL" --argjson skip "$SKIP" \
+    --argjson writes "$writes" --argjson service "$svc" \
+    '{schema: "openric-probe-result/1", run_at: $run_at, probe_revision: $probe_revision,
+      base: $base, profiles: ($profile | split(",") | map(select(length > 0))),
+      writes_attempted: $writes, verdict: $verdict,
+      counts: {pass: $pass, fail: $fail, skip: $skip}, service: $service,
+      results: (split("\n") | map(select(length > 0))
+                | map(split("|") | {status: .[0], check: .[1], http: .[2]}))}' > "$JSON_OUT"
+}
+
+# pass: nothing failed and nothing skipped. pass-with-skips: nothing failed,
+# but some checks did not run (usually because there was no key).
+if [[ $FAIL -gt 0 ]]; then write_json fail
+elif [[ $SKIP -gt 0 ]]; then write_json pass-with-skips
+else write_json pass
+fi
 
 echo "----------------------------------------------------------------"
 echo "${B}Summary${Z}: ${G}${PASS} pass${Z}, ${R}${FAIL} fail${Z}, ${Y}${SKIP} skip${Z}"

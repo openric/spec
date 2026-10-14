@@ -194,6 +194,9 @@ openric-validate --help
         --title "OpenRiC ${TAG}" \
         --notes "${RELEASE_NOTES}" 2>/dev/null || echo "  Release may already exist"
 
+    # Attach the specification bundle and its SHA-256 checksum (plan V4, S4).
+    bin/release-bundle "${TAG}" || echo "  Warning: bundle not attached - run bin/release-bundle ${TAG}"
+
     # Update linked issues
     if [[ -n "$ISSUE_ARG" ]]; then
         echo ""

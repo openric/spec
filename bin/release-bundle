@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#
+# Copyright (C) 2026 Johan Pieterse
+# Plain Sailing Information Systems
+# Email: johan@plainsailingisystems.co.za
+#
+# This file is part of OpenRiC. Licensed under AGPL-3.0-or-later.
+#
+#===============================================================================
+# Build the specification bundle for a release tag and attach it, with its
+# SHA-256 checksum, to the GitHub release (plan V4, S4).
+#
+# The bundle is made with `git archive` from the tag itself, so it holds the
+# specification exactly as tagged, never the working tree. Anyone can check a
+# download against the .sha256 file published beside it.
+#
+# Usage: bin/release-bundle v0.43.15
+#        (bin/release calls this after creating the GitHub release)
+#===============================================================================
+set -euo pipefail
+
+TAG="${1:?usage: bin/release-bundle vX.Y.Z}"
+REPO="openric/spec"
+cd "$(dirname "$0")/.."
+
+git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null || { echo "No tag ${TAG}." >&2; exit 1; }
+
+# The normative content plus the data the site renders from. Paths a tag does
+# not contain (older tags predate some of them) are left out, not an error.
+WANTED=(spec schemas shapes fixtures ns vocab version.json _data CHANGELOG.md LICENSE)
+PRESENT=()
+for p in "${WANTED[@]}"; do
+    git cat-file -e "${TAG}:${p}" 2>/dev/null && PRESENT+=("$p")
+done
+
+NAME="openric-spec-${TAG}"
+mkdir -p dist
+git archive --format=tar.gz --prefix="${NAME}/" -o "dist/${NAME}.tar.gz" "${TAG}" -- "${PRESENT[@]}"
+( cd dist && sha256sum "${NAME}.tar.gz" > "${NAME}.tar.gz.sha256" )
+
+gh release upload "${TAG}" "dist/${NAME}.tar.gz" "dist/${NAME}.tar.gz.sha256" --repo "${REPO}" --clobber
+echo "Attached to ${TAG}:"
+cat "dist/${NAME}.tar.gz.sha256"
