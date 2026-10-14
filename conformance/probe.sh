@@ -359,6 +359,12 @@ if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
     printf '%s%-5s%s  POST %-49s  [--]\n' "$Y" "SKIP" "$Z" "/places scope enforcement (READ_KEY not set)"
     SKIP=$((SKIP+1))
   fi
+elif in_profile "round-trip-editing"; then
+  # Without a key the write surface cannot be tested. Record that as skipped,
+  # so a read-only run never reports Round-Trip Editing as a plain pass.
+  printf '%s%-5s%s  %-54s  [--]\n' "$Y" "SKIP" "$Z" "create/update/delete round trip (no KEY; read-only run)"
+  SKIP=$((SKIP+1))
+  RESULTS+=("SKIP|create/update/delete round trip|no-key")
 fi
 
 # ---- summary ---------------------------------------------------

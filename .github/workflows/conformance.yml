@@ -44,7 +44,13 @@ jobs:
         run: |
           mkdir -p out
           export PROBE_REVISION="$(git rev-parse --short HEAD)"
+          first=1
           for p in core-discovery authority-context graph-traversal digital-object-linkage provenance-event round-trip-editing export-only; do
+            # The service allows 60 requests a minute per address. Wait a full
+            # minute between profiles so its rate limiter does not turn a
+            # conformant endpoint into a 429 failure.
+            [ "$first" = 1 ] || sleep 65
+            first=0
             bash conformance/probe.sh --profile="$p" --json="out/$p.json" > "out/$p.txt" 2>&1 || true
             test -s "out/$p.json" || { echo "probe wrote no result for $p"; cat "out/$p.txt"; exit 1; }
             jq -r '"\(.profiles[0]): \(.verdict) (\(.counts.pass) pass, \(.counts.fail) fail, \(.counts.skip) skip)"' "out/$p.json"
