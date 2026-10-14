@@ -54,7 +54,9 @@ The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/reposit
 
 **Scenario:** a curator has a single archival record - *Egyptian Boat* (identifier BM-125320) - and wants it to appear in a third-party graph viewer, harvested by an OAI consumer, and validated against SHACL. Here is the path the OpenRiC contract defines for it.
 
-{% include evidence.html kind="synthetic" note="The Egyptian Boat record was assembled on the reference service for demonstration. Its holder in the data is the fictional Meridian Museum of Antiquities. It is not a British Museum record and does not involve the British Museum or imply its endorsement, whatever its identifier suggests. Its description was machine-generated from an image of the 3D model. The source and licence of that 3D model file are not yet documented." %}
+{% include evidence.html kind="synthetic" note="The catalogue record was assembled on the reference service for demonstration. Its holder in the data is the fictional Meridian Museum of Antiquities and its description was machine-generated from an image of the 3D model. It is not a British Museum catalogue record, and the British Museum has not reviewed or endorsed this demonstration." %}
+
+{% include evidence.html kind="derived" note="The attached 3D model appears to be <a href='https://sketchfab.com/3d-models/egyptian-boat-from-ancient-lives-cd65f231f70c4f258fe2f8a07979f9c7'><em>Egyptian Boat from Ancient Lives</em></a> by Miguel Bandera, licensed <a href='https://creativecommons.org/licenses/by-nc/4.0/'>CC BY-NC 4.0</a>, which he built from photographs the British Museum released for its Ancient Lives project (<a href='https://github.com/BritishMuseumDH/egyptianBoat'>source data</a> by Daniel Pett, The British Museum, <a href='https://creativecommons.org/licenses/by-sa/4.0/'>CC BY-SA 4.0</a>). The model may be used only with this attribution and not commercially." %}
 
 <div class="e2e-step">
   <div class="num">1</div>
