@@ -310,55 +310,116 @@ if in_profile "export-only"; then
 fi
 
 # ---- §6 Round-Trip Editing — write surface (needs KEY) ----
-# Write probes only run when KEY is set AND round-trip-editing is in-profile.
+# Follows round-trip-editing.md §6. Never point this at a production service:
+# it creates, changes and deletes data. Run it against a disposable server.
+#
+#   KEY             write + delete scopes (required for this section)
+#   WRITE_ONLY_KEY  write scope only - checks a delete is refused (§6.7)
+#
+# Covered: §6.1-6.4 for places, create/delete for agents and records, §6.6,
+# §6.7 (with WRITE_ONLY_KEY) and §6.9. Not yet covered: §6.5 for the other
+# entity types and relations, and §6.8 (409 on a referential conflict).
+
+# record <status> <label> <http-code>: one custom check into the counters.
+record() {
+  local status="$1" label="$2" code="$3" colour="$R"
+  case "$status" in
+    PASS) colour="$G"; PASS=$((PASS+1)) ;;
+    SKIP*) colour="$Y"; SKIP=$((SKIP+1)) ;;
+    *) FAIL=$((FAIL+1)) ;;
+  esac
+  printf '%s%-5s%s  %-59s  [%s]\n' "$colour" "${status%% *}" "$Z" "$label" "$code"
+  RESULTS+=("$status|$label|$code")
+}
+
+# http <method> <path> [key] [body]: prints "<code> <body>".
+http() {
+  local method="$1" path="$2" key="${3:-}" body="${4:-}" out
+  local args=(-s -w '\n%{http_code}' --max-time 15 -X "$method" -H 'Accept: application/json')
+  [[ -n "$key" ]] && args+=(-H "X-API-Key: ${key}")
+  [[ -n "$body" ]] && args+=(-H 'Content-Type: application/json' -d "$body")
+  out=$(curl "${args[@]}" "${BASE}${path}" 2>/dev/null)
+  printf '%s %s' "${out##*$'\n'}" "${out%$'\n'*}"
+}
 
 if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
-  # Create a throwaway Place, read it back, update it, delete it.
-  CREATED=$(curl -s -X POST "${BASE}/places" -H "X-API-Key: $KEY" \
-    -H 'Content-Type: application/json' \
-    -d '{"name":"Conformance probe place","description":"delete me"}')
-  NEW_ID=$(echo "$CREATED" | jq -r '.id // empty')
-  if [[ -n "$NEW_ID" ]]; then
-    printf '%s%-5s%s  POST %-49s  [%s]\n' "$G" "PASS" "$Z" "/places (created id=$NEW_ID)" "201"
-    PASS=$((PASS+1))
-    probe "show-place"   required GET "/places/${NEW_ID}"                   '.["@id"] != null'
-    probe "update-place" required PATCH "/places/${NEW_ID}"                 '.success == true' '{"description":"updated by probe"}'
-    probe "delete-place" required DELETE "/places/${NEW_ID}"                '.success == true'
-  else
-    printf '%s%-5s%s  POST %-49s  [FAIL]\n' "$R" "FAIL" "$Z" "/places (create)"
-    echo "  ↳ $(echo "$CREATED" | head -c 200)"
-    FAIL=$((FAIL+1))
-  fi
+  # §6.6 - a write without a key is refused.
+  read -r code _ <<<"$(http POST /places "" '{"name":"Probe place without a key"}')"
+  [[ "$code" == "401" ]] && record PASS "POST /places without a key is 401 (§6.6)" "$code" \
+                         || record "FAIL" "POST /places without a key is 401 (§6.6)" "$code"
 
-  probe "create-agent-probe"  required POST "/agents" '.id != null' '{"name":"Conformance Probe Agent"}'
-  AGENT_ID=$(curl -s -X POST "${BASE}/agents" -H "X-API-Key: $KEY" \
-    -H 'Content-Type: application/json' -d '{"name":"Probe Agent 2"}' | jq -r '.id // empty')
-  [[ -n "$AGENT_ID" ]] && probe "delete-agent-probe" required DELETE "/agents/${AGENT_ID}" '.success == true'
+  # §6.9 - a body that fails validation is refused.
+  read -r code _ <<<"$(http POST /places "$KEY" '{}')"
+  [[ "$code" == "422" ]] && record PASS "POST /places with no name is 422 (§6.9)" "$code" \
+                         || record "FAIL" "POST /places with no name is 422 (§6.9)" "$code"
 
-  probe "create-record-probe" required POST "/records" '.id != null' '{"title":"Conformance probe record"}'
-  REC_ID=$(curl -s -X POST "${BASE}/records" -H "X-API-Key: $KEY" \
-    -H 'Content-Type: application/json' -d '{"title":"Probe Record 2"}' | jq -r '.id // empty')
-  [[ -n "$REC_ID" ]] && probe "delete-record-probe" required DELETE "/records/${REC_ID}" '.success == true'
+  # §6.1 - create, and the href resolves.
+  read -r code body <<<"$(http POST /places "$KEY" '{"name":"Conformance probe place","description":"created by the probe"}')"
+  NEW_ID=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
+  HREF=$(jq -r '.href // empty' <<<"$body" 2>/dev/null)
+  if [[ "$code" == "201" && -n "$NEW_ID" ]]; then
+    record PASS "POST /places creates, with an id (§6.1)" "$code"
+    if [[ -n "$HREF" ]]; then
+      read -r hcode _ <<<"$(http GET "${HREF#*/api/ric/v1}")"
+      [[ "$hcode" == "200" ]] && record PASS "the create envelope's href resolves (§6.1)" "$hcode" \
+                              || record "FAIL" "the create envelope's href resolves (§6.1)" "$hcode"
+    fi
 
-  # ---- §7 scope enforcement -------------------------------------
-  # If READ_KEY is set, verify that a read-only-scoped key gets 403 on write
-  # routes. Catches regressions in the auth middleware scope gate.
-  if [[ -n "${READ_KEY:-}" ]]; then
-    code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 \
-      -X POST "${BASE}/places" \
-      -H "X-API-Key: $READ_KEY" -H 'Content-Type: application/json' \
-      -d '{"name":"Should be rejected — read-only key"}')
-    if [[ "$code" == "403" ]]; then
-      printf '%s%-5s%s  POST %-49s  [%s]\n' "$G" "PASS" "$Z" "/places (read-only key → 403)" "$code"
-      PASS=$((PASS+1))
+    # §6.2 - update, and the change is visible.
+    read -r code body <<<"$(http PATCH "/places/${NEW_ID}" "$KEY" '{"description":"updated by the probe"}')"
+    [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
+      && record PASS "PATCH /places/{id} succeeds (§6.2)" "$code" \
+      || record "FAIL" "PATCH /places/{id} succeeds (§6.2)" "$code"
+    read -r code body <<<"$(http GET "/places/${NEW_ID}")"
+    grep -q "updated by the probe" <<<"$body" \
+      && record PASS "GET /places/{id} shows the update (§6.2)" "$code" \
+      || record "FAIL" "GET /places/{id} shows the update (§6.2)" "$code"
+
+    # §6.7 - a write-only key cannot delete.
+    if [[ -n "${WRITE_ONLY_KEY:-}" ]]; then
+      read -r code _ <<<"$(http DELETE "/places/${NEW_ID}" "$WRITE_ONLY_KEY")"
+      [[ "$code" == "403" ]] && record PASS "DELETE with a write-only key is 403 (§6.7)" "$code" \
+                             || record "FAIL" "DELETE with a write-only key is 403 (§6.7)" "$code"
     else
-      printf '%s%-5s%s  POST %-49s  [%s]\n' "$R" "FAIL" "$Z" "/places (read-only key should have been 403)" "$code"
-      FAIL=$((FAIL+1))
+      record "SKIP (no WRITE_ONLY_KEY)" "DELETE with a write-only key is 403 (§6.7)" "--"
+    fi
+
+    # §6.3 - delete, then the entity is gone.
+    read -r code body <<<"$(http DELETE "/places/${NEW_ID}" "$KEY")"
+    [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
+      && record PASS "DELETE /places/{id} succeeds (§6.3)" "$code" \
+      || record "FAIL" "DELETE /places/{id} succeeds (§6.3)" "$code"
+    read -r code _ <<<"$(http GET "/places/${NEW_ID}")"
+    [[ "$code" == "404" ]] && record PASS "GET /places/{id} after delete is 404 (§6.3)" "$code" \
+                           || record "FAIL" "GET /places/{id} after delete is 404 (§6.3)" "$code"
+
+    # §6.4 - the revision list shows create, update and delete.
+    read -r code body <<<"$(http GET "/places/${NEW_ID}/revisions")"
+    if [[ "$code" == "200" ]] && jq -e '."@type" == "openric:RevisionList"
+          and ([.items[].action] | (index("create") != null and index("update") != null and index("delete") != null))' \
+          <<<"$body" >/dev/null 2>&1; then
+      record PASS "revisions list create, update and delete (§6.4)" "$code"
+    else
+      record "FAIL" "revisions list create, update and delete (§6.4)" "$code"
     fi
   else
-    printf '%s%-5s%s  POST %-49s  [--]\n' "$Y" "SKIP" "$Z" "/places scope enforcement (READ_KEY not set)"
-    SKIP=$((SKIP+1))
+    record "FAIL" "POST /places creates, with an id (§6.1)" "$code"
   fi
+
+  # §6.5, partly - the same create and delete for agents and records.
+  for t in agents records; do
+    case "$t" in agents) b='{"name":"Conformance probe agent"}' ;; records) b='{"title":"Conformance probe record"}' ;; esac
+    read -r code body <<<"$(http POST "/$t" "$KEY" "$b")"
+    id=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
+    if [[ "$code" == "201" && -n "$id" ]]; then
+      record PASS "POST /$t creates (§6.5)" "$code"
+      read -r code body <<<"$(http DELETE "/$t/${id}" "$KEY")"
+      [[ "$code" == "200" ]] && record PASS "DELETE /$t/{id} succeeds (§6.5)" "$code" \
+                             || record "FAIL" "DELETE /$t/{id} succeeds (§6.5)" "$code"
+    else
+      record "FAIL" "POST /$t creates (§6.5)" "$code"
+    fi
+  done
 elif in_profile "round-trip-editing"; then
   # Without a key the write surface cannot be tested. Record that as skipped,
   # so a read-only run never reports Round-Trip Editing as a plain pass.
