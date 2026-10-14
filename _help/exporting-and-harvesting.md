@@ -16,7 +16,7 @@ curl -s "https://ric.theahg.co.za/api/ric/v1/records/<slug>/export?format=ttl"
 curl -s "https://ric.theahg.co.za/api/ric/v1/records/<slug>/export?format=rdf"
 ```
 
-A record exported to JSON-LD or Turtle **re-imports to the same graph** - the round-trip guarantee of the draft [Portability profile](/spec/profiles/portability.html).
+The draft [Portability profile](/spec/profiles/portability.html) requires that a record exported to JSON-LD or Turtle **re-imports to the same graph**. The reference service does not yet declare that profile, so on this server it is a stated requirement, not a tested result.
 
 ## OAI-PMH harvest
 

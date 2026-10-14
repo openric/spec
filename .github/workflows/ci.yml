@@ -94,3 +94,31 @@ jobs:
 
       - name: Validate modelling-wizard scenarios
         run: node bin/validate-scenarios.mjs
+
+  site-build:
+    # The full Jekyll build, with the same builder GitHub Pages uses, so a
+    # Liquid or plugin error fails here on the pull request instead of first
+    # appearing as a broken Pages deployment of main.
+    name: Full site build (GitHub Pages builder)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Key pages exist in the build
+        run: |
+          for f in index.html status/index.html application/index.html spec/index.html spec/versions/index.html proof.html sitemap.xml; do
+            test -s "_site/$f" || { echo "missing from build: $f"; exit 1; }
+          done
+
+      - name: Keep the built site for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site
+          retention-days: 7

@@ -65,7 +65,7 @@ The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.da
 | **API Explorer** | Interactive Swagger UI - any reviewer can try every endpoint from a browser | Live at [/api-explorer/](/api-explorer/) |
 | **Viewer + Capture** | Two browser-based client apps that talk to any conformant server | Live at viewer.openric.org + capture.openric.org |
 | **OAI-PMH endpoint** | Standard archival harvest protocol - works with every OAI harvester (ArchiveSpace, DPLA hub, etc.) | Live at `ric.theahg.co.za/api/ric/v1/oai` |
-| **Operational consumer** | Heratio - a real GLAM platform - uses the API as its only write path, proving it's sufficient for production | Live at heratio.theahg.co.za |
+| **Related platform** | Heratio, a GLAM platform from the same maintainers, can read graph data from the API. It still writes through its own copy of the RiC routes on a shared database, so it is not independent proof that the API alone is enough for production. | Live at heratio.theahg.co.za |
 
 ---
 

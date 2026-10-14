@@ -1,0 +1,16 @@
+{%- comment -%}
+  Evidence label for data shown as proof. One of four kinds:
+    synthetic    - made up for demonstration
+    derived      - transformed from an external source (name it, with rights)
+    independent  - taken as-is from an independent source (name it, with rights)
+    institution  - held by a participating institution (name it)
+  Usage: {% include evidence.html kind="synthetic" note="What it is and where it came from." %}
+{%- endcomment -%}
+{%- case include.kind -%}
+  {%- when "synthetic" -%}{%- assign label = "Synthetic demonstration data" -%}
+  {%- when "derived" -%}{%- assign label = "Derived from an external source" -%}
+  {%- when "independent" -%}{%- assign label = "Independently sourced" -%}
+  {%- when "institution" -%}{%- assign label = "Participating institution" -%}
+  {%- else -%}{%- assign label = "Unlabelled evidence" -%}
+{%- endcase -%}
+<p class="evidence evidence-{{ include.kind | default: 'unknown' }}" role="note"><strong>{{ label }}.</strong> {{ include.note }}</p>

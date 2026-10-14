@@ -45,7 +45,7 @@ flowchart TB
     WIZ["🧙 Modelling wizard<br/>guided + AI-assisted"]:::client
   end
 
-  HER["🏛 Heratio<br/>production consumer"]:::consumer
+  HER["🏛 Heratio<br/>related platform, reads"]:::consumer
   AGG["📡 Aggregators / RAG agents"]:::consumer
 
   SPEC --> API

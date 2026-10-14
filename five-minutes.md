@@ -1,18 +1,20 @@
 ---
 layout: default
 title: OpenRiC in five minutes
-description: One 4,500-year-old object, followed end to end - from catalogue record, through the people, activities, places and laws around it, to a 3D file and a machine-readable export. Live data, six clicks.
+description: One object, followed end to end - from catalogue record, through the people, activities, places and laws around it, to a 3D file and a machine-readable export. Read live from the reference service's demonstration data, in six clicks.
 permalink: /five-minutes/
 ---
 
 # OpenRiC in five minutes
 
-One object, followed all the way through. Everything below is live data from the reference service - nothing is staged, and you can click every link.
+One object, followed all the way through. Everything below is read live from the reference service, and you can click every link.
 
-The object is a model funeral boat from ancient Egypt, British Museum number **BM-125320**. Roughly 4,500 years old. It is a good test case because almost nothing interesting about it fits in a catalogue record.
+The record describes a model funeral boat from ancient Egypt, identifier **BM-125320**. It is a good test case because almost nothing interesting about it fits in a catalogue record.
+
+{% include evidence.html kind="synthetic" note="This record was assembled on the reference service for demonstration. Its holder in the data is the fictional Meridian Museum of Antiquities. It is not a British Museum record and does not involve the British Museum or imply its endorsement, whatever its identifier suggests. Its description was machine-generated from an image of the 3D model. The source and licence of that 3D model file are not yet documented." %}
 
 <div class="flow">
-  <p class="flow-note"><strong>The question this demo answers.</strong> A traditional archival description can tell you the boat exists, who holds it, and what it looks like. It cannot easily tell you that the object was produced in Thebes, transferred into a London collection, governed today by a specific Egyptian antiquities statute, and now also exists as a downloadable 3D file - and that those four facts are connected to each other, not just to the record.</p>
+  <p class="flow-note"><strong>The question this demo answers.</strong> A traditional archival description can tell you the boat exists, who holds it, and what it looks like. It cannot easily tell you that the object was produced in Thebes, transferred into the collection that holds it now, governed today by a specific Egyptian antiquities statute, and now also exists as a downloadable 3D file - and that those four facts are connected to each other, not just to the record.</p>
 </div>
 
 ## Minute 1 - the record on its own
@@ -21,7 +23,7 @@ The object is a model funeral boat from ancient Egypt, British Museum number **B
 
 What you get is ordinary description: a title, the identifier `BM-125320`, a holder, a description. Useful, and roughly what any catalogue would give you.
 
-Notice what is already different: the holder is not the string "The British Museum". It is a link to the British Museum as a thing in its own right. That single difference is what the rest of this demo is built on.
+Notice what is already different: the holder is not a string of text. It is a link to the holding museum as a thing in its own right. That single difference is what the rest of this demo is built on.
 
 ## Minute 2 - follow the connections
 
@@ -29,7 +31,7 @@ Notice what is already different: the holder is not the string "The British Muse
 
 Twenty-one things, twenty connections. Two seconds to draw.
 
-Walk outwards from the boat and you pass through places (Egypt, Thebes, Giza), the repository holding it, four separate activities, two pieces of legislation, and two digital files. None of that is a search result. Every one of those is a stated, typed relationship that a machine can follow without guessing.
+Walk outwards from the boat and you pass through places (Africa, Egypt, Thebes), the repository holding it, several activities, two pieces of legislation, and two digital files. None of that is a search result. Every one of those is a stated, typed relationship that a machine can follow without guessing.
 
 The legend names the relationship types in plain language. Clicking any node re-centres the graph on it, and the trail along the top is your way back.
 

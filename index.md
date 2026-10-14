@@ -15,7 +15,7 @@ description: An open, free way to describe, explore and share archival records t
       <a class="btn-primary" href="{{ '/demo/browse/' | relative_url }}">Explore real records →</a>
       <a class="btn-ghost" href="{{ '/wizard/' | relative_url }}">Model something ↗</a>
     </div>
-    <p class="hero-sub">New here? <a href="{{ '/five-minutes/' | relative_url }}"><strong>OpenRiC in five minutes</strong></a> - one 4,500-year-old object followed end to end, on live data. Or <a href="{{ '/for-developers.html' | relative_url }}">build with OpenRiC</a>.</p>
+    <p class="hero-sub">New here? <a href="{{ '/five-minutes/' | relative_url }}"><strong>OpenRiC in five minutes</strong></a> - one object followed end to end, read live from the reference service. Or <a href="{{ '/for-developers.html' | relative_url }}">build with OpenRiC</a>.</p>
   </div>
 </div>
 
@@ -96,7 +96,7 @@ description: An open, free way to describe, explore and share archival records t
   <ul class="evidence-items">
     <li>Specification <strong>v{{ site.data.version.version }}</strong></li>
     <li>{{ site.data.profiles | size }} profiles, {{ site.data.profiles | where: "status", "normative" | size }} normative</li>
-    <li>RiC-O 1.1 conformant</li>
+    <li>Targets RiC-O 1.1 (<a href="{{ '/audit/ric-o-1.1-audit.html' | relative_url }}">namespace audit, April 2026</a>)</li>
     <li><a href="{{ '/ric-baseline.html' | relative_url }}">Standards baseline</a></li>
     <li><a href="{{ '/proof.html' | relative_url }}">Proof of implementation</a></li>
     <li><a href="{{ '/drift-log.html' | relative_url }}">Known drift</a></li>

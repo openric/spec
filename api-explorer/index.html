@@ -17,7 +17,8 @@
   <title>OpenRiC API Explorer</title>
   <meta name="description" content="Interactive API explorer for any OpenRiC-conformant server." />
   <link rel="canonical" href="https://openric.org/api-explorer/" />
-  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <!-- Swagger UI pinned to an exact version with integrity hashes: this page can hold an API key. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.29.1/swagger-ui.min.css" integrity="sha384-OFyZ/BC2LThtP2XDBMEhSMeKdG9gk7udSIr1NlawKM1XL1APWlsIi856OIALfO5Q" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     :root {
       --fg: #e5e7eb; --muted: #9ca3af; --bg: #111827; --panel: #1f2937;
@@ -117,8 +118,8 @@
     <p>Questions? <a href="https://github.com/openric/spec/discussions">Discussions</a>.</p>
   </section>
 
-  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.29.1/swagger-ui-bundle.min.js" integrity="sha384-o1NjSPoS/7sblYrybP8KfXpC7xOOIeuc538Mb1/4/307KIQPLwqmOWvrSS5e1T5s" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.29.1/swagger-ui-standalone-preset.min.js" integrity="sha384-TByQIwe2BhDZmqvvLKlhhGp6/rMrF26V+95Qvv/6kkSSmUjPOSXkvl/H5WLQ8I43" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     const STORAGE_KEY = 'openric-explorer';
     const $ = (id) => document.getElementById(id);
@@ -131,7 +132,10 @@
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
       if (saved.server) serverInput.value = saved.server;
-      if (saved.key)    keyInput.value = saved.key;
+      // The key is kept for this browser session only; drop any copy an earlier version left in localStorage.
+      if (saved.key) { delete saved.key; localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
+      const sessionKey = sessionStorage.getItem(STORAGE_KEY + '-key');
+      if (sessionKey) keyInput.value = sessionKey;
     } catch {}
 
     function setStatus(cls, html) {
@@ -143,7 +147,8 @@
       const server = serverInput.value.trim().replace(/\/$/, '');
       const key    = keyInput.value.trim();
       if (!server) { setStatus('err', 'Server URL is required.'); return; }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ server, key }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ server }));
+      if (key) sessionStorage.setItem(STORAGE_KEY + '-key', key); else sessionStorage.removeItem(STORAGE_KEY + '-key');
 
       setStatus('', `Fetching <code>${server}/openapi.json</code>…`);
       try {
@@ -163,7 +168,7 @@
           layout: 'BaseLayout',
           deepLinking: true,
           tryItOutEnabled: true,
-          persistAuthorization: true,
+          persistAuthorization: false, // true would make Swagger UI write the key to localStorage itself
           defaultModelsExpandDepth: 1,
           docExpansion: 'list',
           filter: true,

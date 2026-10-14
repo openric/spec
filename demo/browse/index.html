@@ -249,10 +249,10 @@
        closed drawer now. <details> rather than JS: it works without script,
        keyboard-operable and correct on touch. -->
   <details class="advanced" id="advanced">
-    <summary>Advanced - connect another OpenRiC server</summary>
+    <summary>Developer tools - connect another server, or edit with a key</summary>
     <div class="advanced-inner">
       <p class="advanced-note">
-        Browse is implementation-neutral: it reads any conformant OpenRiC server, not just the reference one. Leave these alone to explore the live reference dataset.
+        For implementers. Browse reads any conformant OpenRiC server, not just the reference one. Leave these alone to explore the reference data. An API key turns on editing; it is kept for this browser session only, so use a low-privilege key you can revoke.
       </p>
       <div class="controls">
         <div>
@@ -343,7 +343,11 @@
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
       if (saved.server) serverInput.value = saved.server;
-      if (saved.key)    keyInput.value    = saved.key;
+      // The API key is held for this browser session only, never in localStorage.
+      // Earlier versions stored it there; drop any such leftover.
+      if (saved.key) { delete saved.key; localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
+      const sessionKey = sessionStorage.getItem(STORAGE_KEY + '-key');
+      if (sessionKey) keyInput.value = sessionKey;
       if (saved.type)   state.typeId      = saved.type;
     } catch {}
 
@@ -370,8 +374,10 @@
 
     function persist() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        server: currentServer(), key: currentKey(), type: state.typeId,
+        server: currentServer(), type: state.typeId,
       }));
+      if (currentKey()) sessionStorage.setItem(STORAGE_KEY + '-key', currentKey());
+      else sessionStorage.removeItem(STORAGE_KEY + '-key');
     }
 
     function pathOf(uri) {

@@ -1,16 +1,16 @@
 ---
 layout: default
 title: OpenRiC - Proof of implementation
-description: Real data, real endpoints, real mappings. The evidence that the OpenRiC contract works in practice, not just on paper.
+description: Live endpoints, concrete mappings and labelled example data - the evidence that the OpenRiC contract works in practice, and what kind of evidence each part is.
 kind: current
 ---
 
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Proof of implementation</div>
-    <h1>Real data. Real endpoints. Real mappings.</h1>
+    <h1>Live endpoints. Concrete mappings. Labelled data.</h1>
     <p class="hero-lede">
-      OpenRiC is a contract. This page is the evidence that the contract works - a live reference implementation backed by real archival data, concrete ISAD(G)&nbsp;→&nbsp;RiC-O mappings, and end-to-end use cases you can follow with <code>curl</code>.
+      OpenRiC is a contract. This page is the evidence that the contract works - a live reference implementation, concrete ISAD(G)&nbsp;→&nbsp;RiC-O mappings, and end-to-end use cases you can follow with <code>curl</code>. Example data is labelled with what kind of evidence it is.
     </p>
     <div class="hero-cta">
       <a class="btn-primary" href="https://ric.theahg.co.za/api/ric/v1/">Live service root ↗</a>
@@ -20,24 +20,13 @@ kind: current
   </div>
 </div>
 
-## Reference implementation - live numbers
+## Reference implementation
 
-The OpenRiC reference API at <code><a href="https://ric.theahg.co.za/api/ric/v1/">ric.theahg.co.za</a></code> is backed by a real archival service (The Archive and Heritage Digital Commons Group) with multi-jurisdiction holdings and live digital objects.
+The OpenRiC reference API at <code><a href="https://ric.theahg.co.za/api/ric/v1/">ric.theahg.co.za</a></code> runs on the database of Heratio, the archival platform of The Archive and Heritage Digital Commons Group. Much of what it holds is demonstration material rather than an institution's holdings; the examples on this page say which is which.
 
-<div class="proof-stats">
-  <div class="proof-stat"><strong>713</strong><span>Records</span></div>
-  <div class="proof-stat"><strong>402</strong><span>Agents</span></div>
-  <div class="proof-stat"><strong>14</strong><span>Repositories</span></div>
-  <div class="proof-stat"><strong>183</strong><span>Places</span></div>
-  <div class="proof-stat"><strong>234</strong><span>Activities</span></div>
-  <div class="proof-stat"><strong>3</strong><span>Rules</span></div>
-  <div class="proof-stat"><strong>1,281</strong><span>Instantiations</span></div>
-  <div class="proof-stat"><strong>698</strong><span>Relations</span></div>
-  <div class="proof-stat"><strong>1,276</strong><span>Digital objects</span></div>
-  <div class="proof-stat"><strong>6</strong><span>Languages</span></div>
-</div>
+How many records, agents, places and other entities it holds right now is on the [current status]({{ '/status/' | relative_url }}) page, read live from the service each time you open it. This page does not repeat the figures, because typed-in counts go out of date.
 
-Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</code>, <code>/repositories</code>, <code>/places</code>, <code>/activities</code>, <code>/rules</code>, <code>/instantiations</code>, <code>/relations</code>. Everything you see is live, content-negotiated, CORS-open, and unauthenticated for reads.
+The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/repositories</code>, <code>/places</code>, <code>/activities</code>, <code>/rules</code>, <code>/instantiations</code>, <code>/relations</code> - are content-negotiated and open to every origin for reads, with no key needed.
 
 <style>
 .proof-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin: 1.25rem 0 2rem; }
@@ -63,7 +52,9 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
 
 ## End-to-end use case
 
-**Scenario:** a curator has a single archival record - *Egyptian Boat* (BM-125320, held by The British Museum) - and wants it to appear in a third-party graph viewer, harvested by an OAI consumer, and validated against SHACL. Here is the full trajectory the OpenRiC contract guarantees.
+**Scenario:** a curator has a single archival record - *Egyptian Boat* (identifier BM-125320) - and wants it to appear in a third-party graph viewer, harvested by an OAI consumer, and validated against SHACL. Here is the path the OpenRiC contract defines for it.
+
+{% include evidence.html kind="synthetic" note="The Egyptian Boat record was assembled on the reference service for demonstration. Its holder in the data is the fictional Meridian Museum of Antiquities. It is not a British Museum record and does not involve the British Museum or imply its endorsement, whatever its identifier suggests. Its description was machine-generated from an image of the 3D model. The source and licence of that 3D model file are not yet documented." %}
 
 <div class="e2e-step">
   <div class="num">1</div>
@@ -86,7 +77,7 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
   <div class="num">3</div>
   <div>
     <h4>Publishing - JSON-LD over HTTP</h4>
-    <p>The record is live at <a href="https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat"><code>/api/ric/v1/records/egyptian-boat</code></a>, content-negotiated, with an embedded <code>rico:hasOrHadHolder</code> link to the British Museum repository and a stable <code>@id</code> anyone can follow.</p>
+    <p>The record is live at <a href="https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat"><code>/api/ric/v1/records/egyptian-boat</code></a>, content-negotiated, with an embedded <code>rico:hasOrHadHolder</code> link to its holding repository and a stable <code>@id</code> anyone can follow.</p>
 <pre><code>curl https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat</code></pre>
   </div>
 </div>
@@ -126,7 +117,7 @@ Every counter maps to a real endpoint: <code>/records</code>, <code>/agents</cod
   </div>
 </div>
 
-That is the contract: one record, seven touchpoints, zero bespoke adapters. Every step has a live endpoint on this site.
+That is the contract: one record, seven touchpoints, zero bespoke adapters. Steps 3, 4 and 6 run live against the reference service with the commands shown; step 5 runs the validator from the specification repository.
 
 ## Example entities - one of each type
 
@@ -136,7 +127,7 @@ Each card links to a real JSON-LD document served by the reference API. Open any
   <div class="entity-card">
     <span class="type">rico:Record</span>
     <h4>Egyptian Boat</h4>
-    <p>Identifier <code>BM-125320</code>, held by The British Museum. Digital object attached. Multi-language descriptions.</p>
+    <p>Identifier <code>BM-125320</code>. A 3D model attached as an instantiation. Synthetic demonstration record - see the label above.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat"><code>/records/egyptian-boat</code></a></p>
   </div>
   <div class="entity-card">
@@ -147,14 +138,14 @@ Each card links to a real JSON-LD document served by the reference API. Open any
   </div>
   <div class="entity-card">
     <span class="type">rico:CorporateBody</span>
-    <h4>The British Museum</h4>
-    <p>ISDIAH repository. Holdings linked via <code>rico:isOrWasHolderOf</code>. Address and contact fields preserved.</p>
-    <p><a href="https://ric.theahg.co.za/api/ric/v1/repositories/the-british-museum"><code>/repositories/the-british-museum</code></a></p>
+    <h4>Meridian Museum of Antiquities</h4>
+    <p>ISDIAH repository holding the demonstration record above. Holdings linked via <code>rico:isOrWasHolderOf</code>. A fictional institution.</p>
+    <p><a href="https://ric.theahg.co.za/api/ric/v1/repositories/meridian-museum-of-antiquities"><code>/repositories/meridian-museum-of-antiquities</code></a></p>
   </div>
   <div class="entity-card">
     <span class="type">rico:Place</span>
     <h4>Egypt</h4>
-    <p>Place with GeoNames authority URI and coordinates. Used as <code>rico:hasOrHadSubject</code> target for the Egyptian Boat record.</p>
+    <p>A place entity; it appears in the Egyptian Boat record's graph.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/places"><code>/places</code></a></p>
   </div>
   <div class="entity-card">
@@ -185,7 +176,7 @@ Each card links to a real JSON-LD document served by the reference API. Open any
 
 ## Sample mapping - ISAD(G) → RiC-O
 
-This is the 1:1 mapping the reference implementation applies at read time. No transformation pipeline - just predicate translation.
+This is the mapping the reference implementation applies when it serialises a description.
 
 <table class="mapping-table">
   <thead>
@@ -213,19 +204,23 @@ This is the 1:1 mapping the reference implementation applies at read time. No tr
 
 The full canonical mapping (including ISAAR-CPF, ISDIAH, and ISDF) lives in <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3</a>. The fixture pack at <a href="{{ '/fixtures/' | relative_url }}">fixtures/</a> pins {{ site.data.inventory.fixtures }} concrete input/output pairs against this mapping.
 
-## Example dataset - the Egyptian Boat mini-fonds
+## Example dataset - a demonstration mini-fonds you can rebuild
 
-The reference implementation ships an <code>openric:seed-demo</code> Artisan command that populates a coherent mini-fonds for exactly this "proof" purpose. Running it creates:
+The Egyptian Boat above is not created by any command; it was assembled on the reference service by hand. To build a coherent example dataset on your own server, the reference implementation ships an <code>openric:seed-demo</code> Artisan command. It creates a small fonds about an imaginary Stellenbosch family, with every entity type the API serves:
 
-- 1 repository (The British Museum)
-- 1 fonds + 3 series + items (Egyptian antiquities)
-- 2 creator agents
-- 1 place (Egypt, with GeoNames URI)
-- 1 rule (Egyptian Antiquities Law 117/1983)
-- 1 activity linking creator → fonds
-- TIFF + PDF instantiations with SHA-256 checksums
+- 1 repository - OpenRiC Demo Archive
+- 1 place - Stellenbosch
+- 1 agent - Johanna le Roux
+- 1 rule - a family papers retention policy
+- 1 function - family correspondence
+- 1 fonds with 2 series - correspondence, and botanical field journals
+- 1 activity - field journaling
+- 1 item with 1 instantiation - a watercolour of *Protea neriifolia*, using a public-domain Wikimedia image
+- the relations that join them
 
-All browseable at <a href="{{ '/demo/browse/' | relative_url }}">openric.org/demo/browse/</a>. You can rebuild the same dataset on your own server in under a minute:
+{% include evidence.html kind="synthetic" note="Everything this command creates is invented for demonstration, and every name carries the suffix (OpenRiC demo). The one exception is the watercolour image, which is a public-domain upload from Wikimedia Commons." %}
+
+Run it on your own server:
 
 ```bash
 php artisan openric:seed-demo

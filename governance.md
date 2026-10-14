@@ -15,7 +15,7 @@ title: OpenRiC - Governance
 
 ## Current state
 
-OpenRiC is at **v{{ site.data.version.version }}** - a stable spec with one reference implementation, a live toolchain (viewer, capture, API explorer, conformance probe), and one operational consumer (Heratio). The spec is published under CC-BY 4.0; the reference code is AGPL-3.0.
+OpenRiC is at **v{{ site.data.version.version }}** - a stable spec with one reference implementation, a live toolchain (viewer, capture, API explorer, conformance probe), and one related platform from the same maintainers (Heratio) that reads from it. The spec is published under CC-BY 4.0; the reference code is AGPL-3.0.
 
 Governance is deliberately **lightweight** at this stage - the goal is to attract a second independent implementation before formalising. Heavy governance structures before that happens can deter the very contributors the project needs.
 
