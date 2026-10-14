@@ -45,7 +45,10 @@ jobs:
           mkdir -p out
           export PROBE_REVISION="$(git rev-parse --short HEAD)"
           first=1
-          for p in core-discovery authority-context graph-traversal digital-object-linkage provenance-event round-trip-editing export-only; do
+          # Only profiles the probe has checks for. Provenance & Event has none yet,
+          # so it is left out and the status page shows "no probe yet" for it,
+          # rather than a verdict built on nothing but the declaration check.
+          for p in core-discovery authority-context graph-traversal digital-object-linkage round-trip-editing export-only; do
             # The service allows 60 requests a minute per address. Wait a full
             # minute between profiles so its rate limiter does not turn a
             # conformant endpoint into a 429 failure.

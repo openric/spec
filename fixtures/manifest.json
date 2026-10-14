@@ -8,7 +8,14 @@
     "authority-context",
     "digital-object-linkage",
     "graph-traversal",
-    "round-trip-editing"
+    "round-trip-editing",
+    "export-only",
+    "provenance-event",
+    "sparql-access",
+    "governance",
+    "portability",
+    "inferred-provenance",
+    "graph-grounding"
   ],
   "fixtures": [
     {
@@ -356,6 +363,22 @@
       ],
       "status": "done",
       "purpose": "Per-record JSON-LD dump envelope with @graph wrapper"
+    },
+    {
+      "name": "sparql-construct",
+      "profiles": [
+        "sparql-access"
+      ],
+      "status": "done",
+      "purpose": "JSON-LD response shape for a CONSTRUCT/DESCRIBE result from the SPARQL Access (Draft) profile"
+    },
+    {
+      "name": "sparql-info",
+      "profiles": [
+        "sparql-access"
+      ],
+      "status": "done",
+      "purpose": "Minimum-viable /sparql/info void:Dataset description for the SPARQL Access (Draft) profile"
     }
   ]
 }
