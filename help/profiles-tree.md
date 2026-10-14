@@ -1,7 +1,7 @@
 ---
 layout: default
 title: OpenRiC profiles tree
-description: The OpenRiC conformance profiles as a capability tree - seven normative, five draft - each a named, bounded target a server can claim. Click any profile to read it.
+description: The OpenRiC conformance profiles as a capability tree, normative and draft, each a named, bounded target a server can claim. Click any profile to read it.
 permalink: /help/profiles-tree/
 ---
 

@@ -10,7 +10,7 @@
 
 ## Current version
 
-**v0.43.11** — 2026-10-13. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
+**v0.43.12** — 2026-10-14. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
 
 The v0.43 governance line added five draft profiles ported from the Heratio reference implementation — Governance, Portability, Inferred-Provenance, Graph-Grounding — plus the `/help` centre. Twelve profiles now: seven normative, five draft. See [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -33,29 +33,29 @@ The reference implementation is **live at [ric.theahg.co.za](https://ric.theahg.
 
 ```
 .
-├── index.md                 — site landing page (rendered at openric.org/)
-├── architecture.md          — how the four public deployments fit together
-├── for-institutions.md      — executive / institutional brief
-├── governance.md            — stewardship, change process, compatibility
-├── spec/                    — the four normative documents
-│   ├── mapping.md           — ISAD(G) / ISAAR(CPF) / ISDF / ISDIAH → RiC-CM / RiC-O
-│   ├── viewing-api.md       — HTTP contract: read, write, graph, harvest
-│   ├── graph-primitives.md  — node, edge, cluster, drill, layout-hint
-│   └── conformance.md       — four levels (L1–L4), JSON Schemas, fixtures
-├── schemas/                 — 19 JSON Schema files
-├── shapes/                  — SHACL shapes (openric.shacl.ttl + full-graph)
-├── fixtures/                — 27 end-to-end test cases
-├── conformance/             — probe.sh + README (pure bash + jq)
-├── api-explorer/            — Swagger UI over any OpenRiC server
-├── demo/                    — live graph demo
-│   └── browse/              — row-layout catalogue over any server
+├── index.md                 - site landing page (rendered at openric.org/)
+├── architecture.md          - how the four public deployments fit together
+├── for-institutions.md      - executive / institutional brief
+├── governance.md            - stewardship, change process, compatibility
+├── spec/                    - the four normative documents
+│   ├── mapping.md           - ISAD(G) / ISAAR(CPF) / ISDF / ISDIAH → RiC-CM / RiC-O
+│   ├── viewing-api.md       - HTTP contract: read, write, graph, harvest
+│   ├── graph-primitives.md  - node, edge, cluster, drill, layout-hint
+│   └── conformance.md       - four levels (L1–L4), JSON Schemas, fixtures
+├── schemas/                 - JSON Schema files
+├── shapes/                  - SHACL shapes (openric.shacl.ttl + full-graph)
+├── fixtures/                - 27 end-to-end test cases
+├── conformance/             - probe.sh + README (pure bash + jq)
+├── api-explorer/            - Swagger UI over any OpenRiC server
+├── demo/                    - live graph demo
+│   └── browse/              - row-layout catalogue over any server
 ├── guides/
-│   ├── getting-started.md   — 15-min walkthrough, zero to embed
-│   ├── api.md               — client guide: curl, Python, JS
-│   ├── viewer.md            — embedding the viewer library
-│   └── capture.md           — using the capture tool
-├── validator/               — pyshacl-based CLI validator
-└── CHANGELOG.md             — versioned change history
+│   ├── getting-started.md   - 15-min walkthrough, zero to embed
+│   ├── api.md               - client guide: curl, Python, JS
+│   ├── viewer.md            - embedding the viewer library
+│   └── capture.md           - using the capture tool
+├── validator/               - pyshacl-based CLI validator
+└── CHANGELOG.md             - versioned change history
 ```
 
 ## Quick start

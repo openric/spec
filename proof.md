@@ -2,6 +2,7 @@
 layout: default
 title: OpenRiC - Proof of implementation
 description: Real data, real endpoints, real mappings. The evidence that the OpenRiC contract works in practice, not just on paper.
+kind: current
 ---
 
 <div class="hero">
@@ -210,7 +211,7 @@ This is the 1:1 mapping the reference implementation applies at read time. No tr
   </tbody>
 </table>
 
-The full canonical mapping (including ISAAR-CPF, ISDIAH, and ISDF) lives in <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3</a>. The fixture pack at <a href="{{ '/fixtures/' | relative_url }}">fixtures/</a> pins 27 concrete input/output pairs against this mapping.
+The full canonical mapping (including ISAAR-CPF, ISDIAH, and ISDF) lives in <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3</a>. The fixture pack at <a href="{{ '/fixtures/' | relative_url }}">fixtures/</a> pins {{ site.data.inventory.fixtures }} concrete input/output pairs against this mapping.
 
 ## Example dataset - the Egyptian Boat mini-fonds
 
@@ -249,7 +250,7 @@ php artisan openric:rebuild-nested-set
 
 - Read the <a href="{{ '/spec/' | relative_url }}">spec</a> - four documents, <code>v{{ site.data.version.version }}</code> is current.
 - Run the <a href="{{ '/conformance/' | relative_url }}">conformance probe</a> against any server to check claims.
-- Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> - 27 input/output pairs covering every RiC-O type.
+- Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> - {{ site.data.inventory.fixtures }} input/output pairs across the mapped RiC-O entity types.
 - Follow the <a href="{{ '/guides/getting-started.html' | relative_url }}">15-minute getting-started guide</a> to point your own server at the same contract.
 
 *The strongest evidence that a spec is implementable is a spec that's implemented. Everything on this page is running right now. Change a record in the reference impl, and the responses above change in real time.*

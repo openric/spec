@@ -47,7 +47,7 @@ description: Short, concrete answers to the questions that come up most often. C
 <h4><a href="#conformance">Conformance &amp; profiles</a></h4>
 <ol start="14">
 <li><a href="#what-is-profile">What's a conformance profile?</a></li>
-<li><a href="#all-profiles">Do I have to implement all seven profiles?</a></li>
+<li><a href="#all-profiles">Do I have to implement every profile?</a></li>
 <li><a href="#claim-profile">How do I claim a profile on my server?</a></li>
 <li><a href="#conformance-badge">What does the conformance badge mean?</a></li>
 </ol>
@@ -117,7 +117,7 @@ description: Short, concrete answers to the questions that come up most often. C
 <p class="faq-a">No. There's a reference <em>implementation</em> at <a href="https://ric.theahg.co.za">ric.theahg.co.za</a> that runs the Laravel service in <a href="https://github.com/openric/service"><code>openric/service</code></a> - anyone can clone and run it - but the spec itself is deliberately implementation-neutral. A second, independent implementation in a different language is one of the v1.0 freeze criteria.</p>
 
 <p class="faq-q" id="state">What state is OpenRiC in today?</p>
-<p class="faq-a">Specification at <strong>v{{ site.data.version.version }}</strong> ({{ site.data.version.release_date }}). Twelve conformance profiles are defined - seven normative, five draft - each with probe coverage, SHACL shapes, and fixtures. The reference API tracks its own version line and is currently at v0.17.0; see the <a href="/drift-log.html">drift log</a> for where it lags the spec, and <a href="/proof.html">proof of implementation</a> for the evidence.</p>
+<p class="faq-a">Specification at <strong>v{{ site.data.version.version }}</strong> ({{ site.data.version.release_date }}). {{ site.data.profiles | size }} conformance profiles are defined - {{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft - each with probe coverage, SHACL shapes, and fixtures. The reference API tracks its own version line and is currently at v0.17.0; see the <a href="/drift-log.html">drift log</a> for where it lags the spec, and <a href="/proof.html">proof of implementation</a> for the evidence.</p>
 
 <p class="faq-q" id="browse-ric-cm">Can I browse the RiC-CM model in OpenRiC?</p>
 <p class="faq-a">Yes - the RiC-CM reference browser is at <a href="https://ric.theahg.co.za/reference/ric-cm/">ric.theahg.co.za/reference/ric-cm/</a>. It's a live, SPARQL-backed view of RiC-CM 1.0's 19 entities, 42 attributes, 151 relations, and 6 relation-attributes, served directly from the authoritative <strong>RiC-O v1.1 OWL</strong> (<a href="https://github.com/ICA-EGAD/RiC-O">ICA EGAD, CC BY 4.0</a>). Distinguishing features:</p>
@@ -212,7 +212,7 @@ description: Short, concrete answers to the questions that come up most often. C
 <p class="faq-q" id="what-is-profile">What's a conformance profile?</p>
 <p class="faq-a">A named, bounded subset of OpenRiC's endpoint surface. A server claiming <code>core-discovery</code> promises to serve those ten read endpoints correctly; claiming <code>round-trip-editing</code> additionally promises full CRUD. Profiles let implementers commit to what they can actually deliver without pretending to cover the whole spec. See <a href="/profiles.html">profiles</a>.</p>
 
-<p class="faq-q" id="all-profiles">Do I have to implement all seven profiles?</p>
+<p class="faq-q" id="all-profiles">Do I have to implement every profile?</p>
 <p class="faq-a">No. Implement the subset that matches your server's actual capabilities. The minimum useful claim is <code>core-discovery</code>; you add profiles (Authority &amp; Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Export-Only) as you implement their endpoint surfaces. A conformance probe run against your server with <code>--profile=&lt;id&gt;</code> verifies you deliver what you claim.</p>
 
 <p class="faq-q" id="claim-profile">How do I claim a profile on my server?</p>

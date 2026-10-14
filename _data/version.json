@@ -1,6 +1,6 @@
 {
   "name": "OpenRiC Specification",
-  "version": "0.43.11",
-  "release_date": "2026-10-13",
+  "version": "0.43.12",
+  "release_date": "2026-10-14",
   "description": "An open specification for Records in Contexts - implementation-neutral, IIIF-inspired."
 }

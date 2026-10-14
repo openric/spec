@@ -2,6 +2,7 @@
 layout: default
 title: OpenRiC Drift Log - Public known issues
 permalink: /drift-log.html
+kind: current
 ---
 
 # OpenRiC Drift Log
@@ -10,15 +11,19 @@ A public log of known drift between the OpenRiC specification and its public sur
 
 This page exists because the spec moves faster than the supporting implementations, and external reviewers need a single place to see *which* gaps are known, *where* they are, and *what's planned*. It is not a defect tracker - it tracks **deliberate** lag between the spec and downstream systems.
 
-**Last updated:** 2026-04-25.
+**Last updated:** 2026-10-14. For the live figures behind this page, see [current status](/status/).
 
 ---
 
 ## Open drift items
 
-### Reference API (`ric.theahg.co.za`) lag against spec v0.37.0
+### Reference API (`ric.theahg.co.za`) lag against the specification
 
-The reference Laravel service (openric/service v0.8.19) currently tracks spec v0.36.0. Migration to v0.37.0 is **Phase G**. Items pending in Phase G:
+Checked against the live service description on 2026-10-14. The reference service (openric/service, tag v0.17.0) verifies against **spec v0.38.2**; the specification is at **v{{ site.data.version.version }}**. It declares seven profiles: six normative ones in full (Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Export-Only) and SPARQL Access as a draft. It does **not** claim Provenance & Event (data gap, below) or any of the four v0.43 governance-line drafts.
+
+Two defects in the service description itself, logged 2026-10-14: it reports its version as `1.0` rather than its release tag, and it gives `latest_spec_version` as 0.43.10.
+
+The table below is the Phase G migration list as recorded on 2026-04-25. The service has since moved to spec v0.38.2, so some rows are likely resolved; they have not been re-verified item by item.
 
 | Item | Currently emits | Target (spec v0.37.0) | ETA |
 |---|---|---|---|
@@ -53,7 +58,7 @@ The reference Laravel service (openric/service v0.8.19) currently tracks spec v0
 | Item | Issue | Plan |
 |---|---|---|
 | Default probe checks `/sparql` | Spec v0.37 says SPARQL is optional under `sparql-access` profile | Skip `/sparql` checks unless server declares `sparql-access` |
-| Profile-based probe modes | Currently only the legacy L1-L4 mode | Add `--profile=<id>` for each of the 7 normative + 1 draft profile |
+| Profile-based probe modes | Currently only the legacy L1-L4 mode | Add `--profile=<id>` for each normative and draft profile |
 
 ### Documentation drift on the static site
 

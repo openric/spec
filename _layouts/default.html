@@ -225,6 +225,9 @@
     .phase-card.done { border-color: rgba(16, 185, 129, 0.35); background: linear-gradient(to bottom right, rgba(16, 185, 129, 0.03), transparent); }
     .phase-card.current { border-color: rgba(245, 158, 11, 0.35); background: linear-gradient(to bottom right, rgba(245, 158, 11, 0.04), transparent); }
 
+    /* ---- Page kind (spec / current / record), set in front matter or _config.yml defaults ---- */
+    .page-kind { font-size: .82rem; color: var(--muted, #6b7280); border-bottom: 1px solid var(--border); padding-bottom: .5rem; margin: 0 0 1.2rem; }
+
     /* ---- Callouts ---- */
     .callout {
       padding: 1rem 1.2rem;
@@ -502,6 +505,13 @@
   </div>
 
   <main>
+    {%- if page.kind == "spec" %}
+    <p class="page-kind">Part of specification v{{ site.data.version.version }}. Earlier versions are preserved as <a href="/spec/versions/">tagged releases</a>.</p>
+    {%- elsif page.kind == "current" %}
+    <p class="page-kind">Describes the current state. Live figures are on <a href="/status/">current status</a>.</p>
+    {%- elsif page.kind == "record" %}
+    <p class="page-kind">Historical record, kept as written. For the current state see <a href="/status/">current status</a>.</p>
+    {%- endif %}
     {{ content }}
   </main>
 

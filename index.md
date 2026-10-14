@@ -95,7 +95,7 @@ description: An open, free way to describe, explore and share archival records t
   <h2>Technical state</h2>
   <ul class="evidence-items">
     <li>Specification <strong>v{{ site.data.version.version }}</strong></li>
-    <li>12 profiles, 7 normative</li>
+    <li>{{ site.data.profiles | size }} profiles, {{ site.data.profiles | where: "status", "normative" | size }} normative</li>
     <li>RiC-O 1.1 conformant</li>
     <li><a href="{{ '/ric-baseline.html' | relative_url }}">Standards baseline</a></li>
     <li><a href="{{ '/proof.html' | relative_url }}">Proof of implementation</a></li>

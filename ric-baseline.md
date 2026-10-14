@@ -30,7 +30,7 @@ The per-term disposition, with confidence flags, is in the [RiC-O 1.1 conformanc
 
 ## What conformance means here
 
-Conformance is claimed **per profile**, not as a single overall level. OpenRiC defines twelve profiles - seven normative, five draft - and an implementation declares each one it supports, with its own version and conformance degree. See the [profile index](/spec/profiles/) and the [conformance specification](/spec/conformance.html).
+Conformance is claimed **per profile**, not as a single overall level. OpenRiC defines {{ site.data.profiles | size }} profiles - {{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft - and an implementation declares each one it supports, with its own version and conformance degree. See the [profile index](/spec/profiles/) and the [conformance specification](/spec/conformance.html).
 
 The older `L1`-`L4` level vocabulary is legacy. It survives as a `level` field in responses for compatibility, but it no longer frames conformance and should not be used in new material.
 

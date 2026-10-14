@@ -179,7 +179,7 @@ The HTTP contract - paths, JSON-LD shapes, SHACL validation, conformance-profile
 ## How to choose
 
 - **No legacy system to accommodate?** Topology A. Simplest, cleanest, green-field.
-- **Running AtoM and can't stop?** Topology B, Phase 1 this quarter. The only risk is schema drift if AtoM gets updated independently - monitor that.
+- **Running AtoM and can't stop?** Topology B, starting with Phase 1. The only risk is schema drift if AtoM gets updated independently - monitor that.
 - **Have your own admin UI you want to keep?** Topology C. Make peace with the HTTP round-trip cost on writes; it's the price of single-source-of-truth correctness.
 - **Green field but want future optionality?** Topology A, but design the write path behind a thin `RicWriteService` interface so swapping in HTTP-to-another-OpenRiC-server later is trivial. Means you *could* become a Topology C consumer of someone else's OpenRiC deployment if federation plans firm up.
 
@@ -205,7 +205,7 @@ OpenRiC doesn't prescribe:
   </a>
   <a class="spec-doc" href="profiles.html">
     <strong>Profiles</strong>
-    <span>The seven conformance profiles that scope what a given server claims to implement. Data management is orthogonal to profile.</span>
+    <span>The {{ site.data.profiles | size }} conformance profiles ({{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft) that scope what a given server claims to implement. Data management is orthogonal to profile.</span>
   </a>
   <a class="spec-doc" href="spec/">
     <strong>Specification</strong>

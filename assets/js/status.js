@@ -1,0 +1,94 @@
+/*
+ * Copyright (C) 2026 Johan Pieterse
+ * Plain Sailing Information Systems
+ * Email: johan@plainsailingisystems.co.za
+ *
+ * This file is part of OpenRiC. Licensed under AGPL-3.0-or-later.
+ *
+ * /status/ - reads the reference service's description and list totals in the
+ * browser, so the page never carries hand-typed live figures. If the service
+ * cannot be reached the page says so and keeps the specification figures,
+ * which are rendered at build time.
+ */
+(function () {
+  "use strict";
+
+  var API = "https://ric.theahg.co.za/api/ric/v1";
+  var HOLDINGS = [
+    ["records", "Records"],
+    ["agents", "Agents"],
+    ["places", "Places"],
+    ["activities", "Activities"],
+    ["rules", "Rules"],
+    ["instantiations", "Instantiations"]
+  ];
+
+  function el(id) { return document.getElementById(id); }
+
+  function getJson(url) {
+    return fetch(url, { headers: { Accept: "application/json" } }).then(function (r) {
+      if (!r.ok) throw new Error(url + " returned " + r.status);
+      return r.json();
+    });
+  }
+
+  // The list endpoints do not agree on the key name (ric:total, openric:total, total).
+  function totalOf(body) {
+    if (!body || typeof body !== "object") return null;
+    for (var key in body) {
+      if (/(^|:)total$/i.test(key) && typeof body[key] === "number") return body[key];
+    }
+    return null;
+  }
+
+  function showService(desc) {
+    var conf = desc.openric_conformance || {};
+    el("svc-name").textContent = desc.name || "-";
+    el("svc-version").textContent = desc.version || "-";
+    el("svc-spec").textContent = conf.spec_version ? "v" + conf.spec_version : "not declared";
+    el("svc-time").textContent = new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC";
+    el("service-facts").hidden = false;
+
+    var declared = {};
+    (conf.profiles || []).forEach(function (p) { declared[p.id] = p; });
+    document.querySelectorAll("#conformance-matrix td[data-profile]").forEach(function (cell) {
+      var p = declared[cell.getAttribute("data-profile")];
+      cell.textContent = p
+        ? "declared " + (p.conformance || "") + " · v" + p.version + (p.status ? " (" + p.status + ")" : "")
+        : "not declared";
+    });
+
+    el("status-note").textContent =
+      "Read live from " + API + "/ just now. The service verifies against specification v" +
+      (conf.spec_version || "?") + ".";
+  }
+
+  function showHoldings() {
+    var body = el("holdings").querySelector("tbody");
+    return Promise.all(HOLDINGS.map(function (h) {
+      return getJson(API + "/" + h[0] + "?limit=1").then(totalOf, function () { return null; });
+    })).then(function (totals) {
+      totals.forEach(function (n, i) {
+        if (n === null) return;
+        var row = document.createElement("tr");
+        var name = document.createElement("td");
+        var count = document.createElement("td");
+        name.textContent = HOLDINGS[i][1];
+        count.textContent = n.toLocaleString("en-ZA");
+        row.appendChild(name);
+        row.appendChild(count);
+        body.appendChild(row);
+      });
+      if (body.children.length) el("holdings").hidden = false;
+    });
+  }
+
+  getJson(API + "/")
+    .then(showService)
+    .then(showHoldings)
+    .catch(function () {
+      el("status-note").textContent =
+        "The reference service could not be reached from your browser just now, so its live figures are not shown. " +
+        "Its service description is at " + API + "/.";
+    });
+})();

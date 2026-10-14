@@ -2,7 +2,7 @@
 title: Conformance & profiles
 category: Conformance & profiles
 order: 1
-summary: How OpenRiC conformance works - the profile model, the four levels, the 12 profiles, declaring what you support, and running the conformance probe. With a sample run.
+summary: How OpenRiC conformance works - the profile model, the legacy levels, the profiles, declaring what you support, and running the conformance probe. With a sample run.
 ---
 
 OpenRiC conformance is **profile-based**: a server declares which named capabilities it supports, and consumers know exactly what to expect - no all-or-nothing claim.
@@ -16,10 +16,11 @@ Two independent dimensions:
 
 A server declares one or more profiles and the level it meets for each, e.g. *"Core Discovery at L2, Authority & Context at L1."*
 
-## The 12 profiles
+## The {{ site.data.profiles | size }} profiles
 
-**Seven normative:** Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only.
-**Five draft:** SPARQL Access, and the v0.43 governance line - [Governance](/spec/profiles/governance.html), [Portability](/spec/profiles/portability.html), [Inferred-Provenance](/spec/profiles/inferred-provenance.html), [Graph-Grounding](/spec/profiles/graph-grounding.html).
+{%- assign p_norm = site.data.profiles | where: "status", "normative" -%}{%- assign p_draft = site.data.profiles | where: "status", "draft" -%}
+**{{ p_norm.size }} normative:** {% for p in p_norm %}[{{ p.title }}](/spec/profiles/{{ p.id }}.html){% unless forloop.last %}, {% endunless %}{% endfor %}.  
+**{{ p_draft.size }} draft:** {% for p in p_draft %}[{{ p.title }}](/spec/profiles/{{ p.id }}.html){% unless forloop.last %}, {% endunless %}{% endfor %}.
 
 Full catalogue: [/spec/profiles/](/spec/profiles/).
 

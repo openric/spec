@@ -2,12 +2,14 @@
 layout: default
 title: OpenRiC - Specification
 ---
+{%- assign p_norm = site.data.profiles | where: "status", "normative" -%}
+{%- assign p_draft = site.data.profiles | where: "status", "draft" -%}
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">Specification · v{{ site.data.version.version }} · 7 normative profiles + 5 draft</div>
+    <div class="hero-eyebrow">Specification · v{{ site.data.version.version }} · {{ p_norm.size }} normative profiles + {{ p_draft.size }} draft</div>
     <h1>The spec - base documents + profiles</h1>
-    <p class="hero-lede">OpenRiC is an open, implementation-neutral specification for serving ICA's Records in Contexts (RiC-CM / RiC-O 1.1) over HTTP. The spec is layered: four base documents define the contract, seven normative profiles target specific implementation surfaces, and one draft profile (SPARQL Access) extends the linked-data publication story.</p>
+    <p class="hero-lede">OpenRiC is an open, implementation-neutral specification for serving ICA's Records in Contexts (RiC-CM / RiC-O 1.1) over HTTP. The spec is layered: four base documents define the contract, {{ p_norm.size }} normative profiles target specific implementation surfaces, and {{ p_draft.size }} draft profiles, open for comment, extend it: SPARQL Access and the v0.43 governance line.</p>
   </div>
 </div>
 
@@ -36,14 +38,9 @@ title: OpenRiC - Specification
 
 | Profile | Status | Profile version | Last revised in spec |
 |---|---|---|---|
-| [`core-discovery`](profiles/core-discovery.html) | Normative | 0.3.0 | 0.30.0 |
-| [`authority-context`](profiles/authority-context.html) | Normative | 0.4.0 | 0.31.0 |
-| [`graph-traversal`](profiles/graph-traversal.html) | Normative | 0.5.0 | 0.32.0 |
-| [`digital-object-linkage`](profiles/digital-object-linkage.html) | Normative | 0.6.0 | 0.33.0 |
-| [`round-trip-editing`](profiles/round-trip-editing.html) | Normative | 0.7.0 | 0.34.0 |
-| [`provenance-event`](profiles/provenance-event.html) | Normative | 0.8.0 | 0.35.0 |
-| [`export-only`](profiles/export-only.html) | Normative | 0.9.0 | 0.36.0 |
-| [`sparql-access`](profiles/sparql-access.html) | Draft | 0.1.0 | 0.37.0 |
+{% for p in site.data.profiles -%}
+| [`{{ p.id }}`](profiles/{{ p.id }}.html) | {{ p.status | capitalize }} | {{ p.version }} | {{ p.revised }} |
+{% endfor %}
 
 ## Status
 
@@ -51,7 +48,7 @@ title: OpenRiC - Specification
 |---|---|---|
 | Base spec (mapping + viewing API + graph primitives + conformance) | **v{{ site.data.version.version }}** | Active - RiC-O 1.1 namespace remediation complete (see [audit](../audit/ric-o-1.1-audit.html)) |
 | Mapping spec | last revised in v0.38.1 | Active |
-| Profiles | per table above | 7 normative + 1 draft |
+| Profiles | per table above | {{ p_norm.size }} normative + {{ p_draft.size }} draft |
 | RiC-O ontology target | 1.1 (2025-05-22) | Tracked |
 | Extension namespace | `openricx: <https://openric.org/ns/ext/v1#>` | Declared, ontology stub at [/ns/ext/v1.html](/ns/ext/v1.html) |
 

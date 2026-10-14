@@ -3,6 +3,7 @@ layout: default
 title: About OpenRiC
 description: What OpenRiC is for, who runs it, how decisions get made, what it does not replace, and what an institution is actually committing to.
 permalink: /about.html
+kind: current
 ---
 
 # About OpenRiC
@@ -44,7 +45,7 @@ Worth stating plainly, because an access contract is easy to mistake for a land 
 
 ## Honest state of things
 
-One reference implementation, live and operating against a real archive. One operational consumer. Twelve profiles defined, seven of them normative. A conformance probe, a validator, JSON Schemas, SHACL shapes and a fixture pack.
+One reference implementation, live and operating against a real archive. One operational consumer. {{ site.data.profiles | size }} profiles defined, {{ site.data.profiles | where: "status", "normative" | size }} of them normative. A conformance probe, a validator, JSON Schemas, SHACL shapes and a fixture pack.
 
 What is missing is the thing that matters most for a standard: **a second independent implementation**, and an external institution committing to deploy. Those are explicit gates on v1.0 rather than aspirations, and they are written into [governance](/governance.html). The [drift log](/drift-log.html) records where the reference service currently lags the specification, including the parts that are awkward to admit.
 

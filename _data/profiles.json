@@ -1,0 +1,129 @@
+[
+  {
+    "id": "core-discovery",
+    "title": "Core Discovery",
+    "status": "normative",
+    "version": "0.3.0",
+    "revised": "0.30.0",
+    "icon": "🔍",
+    "surface": "Records · Agents · Repositories · Vocabulary · Autocomplete",
+    "scope": "Read-only Records, Agents, Repositories, vocabulary, autocomplete. The minimum \"I can be queried\" claim.",
+    "card": "The minimum \"I can be queried\" claim. Ten read-only endpoints, three entity types, no graph traversal. Every OpenRiC server starts here."
+  },
+  {
+    "id": "authority-context",
+    "title": "Authority & Context",
+    "status": "normative",
+    "version": "0.4.0",
+    "revised": "0.31.0",
+    "icon": "🏛",
+    "surface": "Places · Rules · Activities as first-class",
+    "scope": "Places, Rules, Activities as first-class entities with reconciliation-friendly identifiers.",
+    "card": "Reconciliation-friendly identifiers for places, rules, and activities. The profile that turns a catalogue into a knowledge graph."
+  },
+  {
+    "id": "graph-traversal",
+    "title": "Graph Traversal",
+    "status": "normative",
+    "version": "0.5.0",
+    "revised": "0.32.0",
+    "icon": "🕸",
+    "surface": "/graph · /relations · /hierarchy",
+    "scope": "`/graph`, `/relations`, `/hierarchy` - cross-entity walks plus full-graph SHACL hygiene shapes.",
+    "card": "Cross-entity walks keyed to a root URI + depth. Plus full-graph SHACL shapes for hygiene: orphaned records, unlinked agents, duplicate identifiers, typed-link mismatches."
+  },
+  {
+    "id": "digital-object-linkage",
+    "title": "Digital Object Linkage",
+    "status": "normative",
+    "version": "0.6.0",
+    "revised": "0.33.0",
+    "icon": "🗄",
+    "surface": "Instantiations · MIME · checksums · Functions",
+    "scope": "Instantiation carriers (MIME, checksums, extent, record-backlinks) plus ISDF Functions. Optional `POST /upload` + thumbnail derivative.",
+    "card": "Concrete carriers of records - digital files, physical copies, checksums, MIME types - plus ISDF Functions. Optional <code>POST /upload</code> + thumbnail derivative for working catalogues."
+  },
+  {
+    "id": "round-trip-editing",
+    "title": "Round-Trip Editing",
+    "status": "normative",
+    "version": "0.7.0",
+    "revised": "0.34.0",
+    "icon": "✍",
+    "surface": "POST · PATCH · DELETE · /revisions",
+    "scope": "Full write surface - POST/PATCH/DELETE on every entity + relations, gated by API-key scopes, with a public audit trail via `/{type}/{id}/revisions`.",
+    "card": "Write surface gated by API-key scopes (<code>write</code>, <code>delete</code>) with a public audit trail via <code>/{type}/{id}/revisions</code>. A client that mutated an entity can verify its own change landed."
+  },
+  {
+    "id": "provenance-event",
+    "title": "Provenance & Event",
+    "status": "normative",
+    "version": "0.8.0",
+    "revised": "0.35.0",
+    "icon": "📜",
+    "surface": "Production · Accumulation · full event model",
+    "scope": "Tightened Activity shapes - Production/Accumulation/Activity with required results, participants, dates. Depends on Authority & Context.",
+    "card": "Tightened Activity shapes: Production MUST carry results + participants + dates. Who did what to which record, when. Depends on Authority &amp; Context."
+  },
+  {
+    "id": "export-only",
+    "title": "Export-Only",
+    "status": "normative",
+    "version": "0.9.0",
+    "revised": "0.36.0",
+    "icon": "📦",
+    "surface": "OAI-PMH · JSON-LD / Turtle / RDF-XML dumps",
+    "scope": "OAI-PMH v2.0 harvest (`oai_dc` + `rico_ld`) plus content-negotiated per-record JSON-LD / Turtle / RDF-XML dumps.",
+    "card": "OAI-PMH v2.0 harvest (with the <code>rico_ld</code> prefix carrying full RiC-O JSON-LD) plus content-negotiated per-record dumps. Built for aggregators that already speak OAI-PMH."
+  },
+  {
+    "id": "sparql-access",
+    "title": "SPARQL Access",
+    "status": "draft",
+    "version": "0.1.0",
+    "revised": "0.37.0",
+    "icon": "❓",
+    "surface": "/sparql · /sparql/info",
+    "scope": "Read-only SPARQL 1.1 query endpoint (`/sparql`, `/sparql/info`), public-read, rate-limited, Update rejected."
+  },
+  {
+    "id": "governance",
+    "title": "Governance",
+    "status": "draft",
+    "version": "0.43.0",
+    "revised": "0.43.0",
+    "icon": "⚖",
+    "surface": "Pinned standards · IRI policy · change process",
+    "scope": "The meaning layer - pinned standards, two-layer IRI policy, deprecate-not-delete stable IRIs, SHACL as a merge gate, versioned change process."
+  },
+  {
+    "id": "portability",
+    "title": "Portability",
+    "status": "draft",
+    "version": "0.43.0",
+    "revised": "0.43.0",
+    "icon": "🚚",
+    "surface": "Round-trip · DCAT/VoID · /changelog",
+    "scope": "Anti-lock-in - lossless JSON-LD/Turtle round-trip (proven by test), DCAT/VoID dataset descriptor + `/changelog`, optional validate-on-export."
+  },
+  {
+    "id": "inferred-provenance",
+    "title": "Inferred-Provenance",
+    "status": "draft",
+    "version": "0.43.0",
+    "revised": "0.43.0",
+    "icon": "🧭",
+    "surface": "prov:wasGeneratedBy · assertionStatus · confidence",
+    "scope": "AI inference is never passed off as fact - `prov:wasGeneratedBy` + `assertionStatus`/confidence/receipt on machine assertions; absence ⇒ asserted fact."
+  },
+  {
+    "id": "graph-grounding",
+    "title": "Graph-Grounding",
+    "status": "draft",
+    "version": "0.43.0",
+    "revised": "0.43.0",
+    "icon": "⚓",
+    "surface": "GET /ground",
+    "scope": "Read-only `GET /ground` so any agent/RAG disambiguates against the graph; vector↔graph join on the public entity IRI; fail-open."
+  }
+]

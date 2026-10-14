@@ -2,6 +2,7 @@
 layout: default
 title: Related Implementations & Reference Projects
 permalink: /related-implementations.html
+kind: current
 ---
 
 # Related Implementations and Reference Projects

@@ -88,7 +88,7 @@ Every endpoint response MUST validate against its JSON Schema. Schemas are JSON 
 
 ### 3.3 Fixture pack - `fixtures/`
 
-The fixture pack is a directory of ~20 cases. Each case is a folder containing:
+The fixture pack is a directory of {{ site.data.inventory.fixtures }} cases. Each case is a folder containing:
 
 ```
 fixtures/fonds-with-series/
@@ -225,7 +225,7 @@ The minimum to claim L1 conformance:
 1. Clone `https://github.com/openric/spec` (this repo).
 2. For each fixture in `fixtures/`, feed `input.json` through your mapping.
 3. Compare your output against `expected.jsonld` using the validator's graph-equality mode.
-4. Fix discrepancies until all 20 fixtures pass.
+4. Fix discrepancies until every fixture passes.
 
 L2 additionally requires a running HTTP endpoint. L3 additionally requires graph responses that satisfy the six invariants in [Graph Primitives](graph-primitives.html) §6. L4 additionally requires round-trip preservation.
 

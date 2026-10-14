@@ -22,6 +22,6 @@ A rico:Activity activity (type_id=production) with a date range. Exercises: prod
 
 ## See also
 
-- [All fixtures](../) — the 27-case conformance pack
+- [All fixtures](../) - the {{ site.data.inventory.fixtures }}-case conformance pack
 - [Conformance probe](/conformance/) — runs this fixture against a server
 - [Proof of implementation](/proof.html) — where this fixture is cited

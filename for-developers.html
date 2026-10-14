@@ -2,11 +2,12 @@
 layout: default
 title: OpenRiC - For developers & implementers
 description: Read the specification, try the API, run the conformance probe, and build a conformant OpenRiC server or client.
+kind: current
 ---
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">For developers &amp; implementers · v{{ site.data.version.version }} · 7 normative profiles + 5 draft · RiC-O 1.1 conformant</div>
+    <div class="hero-eyebrow">For developers &amp; implementers · v{{ site.data.version.version }} · {{ site.data.profiles | where: "status", "normative" | size }} normative profiles + {{ site.data.profiles | where: "status", "draft" | size }} draft · RiC-O 1.1 conformant</div>
     <h1>Records in Contexts, served over HTTP - implementation-neutral, IIIF-inspired.</h1>
     <p class="hero-lede">
       OpenRiC is an open specification for how archival descriptions map to RiC-CM / RiC-O, how that data is served over HTTP for both reading and writing, and how graph-based interfaces can render it consistently across any conformant server. Not a product. A contract anyone can implement.
@@ -44,7 +45,7 @@ description: Read the specification, try the API, run the conformance probe, and
   <div class="boundary-cell spec">
     <div class="boundary-label">Specification</div>
     <div class="boundary-title">OpenRiC</div>
-    <p>Four base documents, seven normative profiles (one draft), JSON Schemas, SHACL shapes, a 27-case fixture pack, an OpenAPI 3.0 contract, and a black-box conformance probe. CC-BY 4.0. Versioned; <code>v{{ site.data.version.version }}</code> is current (RiC-O 1.1 conformant).</p>
+    <p>Four base documents, {{ site.data.profiles | where: "status", "normative" | size }} normative and {{ site.data.profiles | where: "status", "draft" | size }} draft profiles, {{ site.data.inventory.schemas }} JSON Schemas, SHACL shapes, a {{ site.data.inventory.fixtures }}-case fixture pack, an OpenAPI 3.0 contract, and a black-box conformance probe. CC-BY 4.0. Versioned; <code>v{{ site.data.version.version }}</code> is current (RiC-O 1.1 conformant).</p>
     <div class="boundary-where"><a href="https://openric.org/">openric.org</a></div>
   </div>
   <div class="boundary-cell impl">
@@ -115,7 +116,7 @@ description: Read the specification, try the API, run the conformance probe, and
     <span class="surface-icon">📖</span>
     <h3>Specification <span class="status-pill live">live</span></h3>
     <div class="url">openric.org</div>
-    <p>Four documents, 19 JSON Schemas, SHACL shapes, 27-case fixture pack, validator CLI, conformance probe, OpenAPI 3.0 contract. CC-BY 4.0.</p>
+    <p>Four documents, {{ site.data.inventory.schemas }} JSON Schemas, SHACL shapes, {{ site.data.inventory.fixtures }}-case fixture pack, validator CLI, conformance probe, OpenAPI 3.0 contract. CC-BY 4.0.</p>
   </a>
   <a class="surface-card" href="https://viewer.openric.org">
     <span class="surface-icon">🗺</span>
@@ -180,7 +181,7 @@ description: Read the specification, try the API, run the conformance probe, and
   <div class="phase-card done">
     <div class="phase-num">Phase 1</div>
     <h4>Spec v0.1.0 frozen <span class="status-pill live">done</span></h4>
-    <p>Four documents, 12 JSON Schemas, 20-case fixture pack, validator CLI, CI green. Tagged &amp; published.</p>
+    <p>Four documents, 12 JSON Schemas, 20-case fixture pack, validator CLI, CI green. Tagged &amp; published.</p> <!-- count-history -->
   </div>
   <div class="phase-card done">
     <div class="phase-num">Phase 2</div>
@@ -215,7 +216,7 @@ description: Read the specification, try the API, run the conformance probe, and
   <div class="phase-card done">
     <div class="phase-num">Phase 7</div>
     <h4>v0.32.0 - Graph Traversal <span class="status-pill live">done</span></h4>
-    <p>Third normative profile. <a href="spec/profiles/graph-traversal.html">Graph Traversal</a> defines <code>/graph?uri=&amp;depth=</code>, <code>/relations</code>, <code>/relations-for/{id}</code>, <code>/hierarchy/{id}</code> - cross-entity walks keyed to the <a href="spec/graph-primitives.html">Graph Primitives</a> vocabulary, plus six full-graph SHACL shapes for store-wide hygiene (orphaned records, unlinked agents, duplicate identifiers). Five of seven fixtures shipped. Also: corrected "six profiles" → "seven profiles" across FAQ, data-management, and profile index - the spec has always declared seven. Tagged 2026-04-21.</p>
+    <p>Third normative profile. <a href="spec/profiles/graph-traversal.html">Graph Traversal</a> defines <code>/graph?uri=&amp;depth=</code>, <code>/relations</code>, <code>/relations-for/{id}</code>, <code>/hierarchy/{id}</code> - cross-entity walks keyed to the <a href="spec/graph-primitives.html">Graph Primitives</a> vocabulary, plus six full-graph SHACL shapes for store-wide hygiene (orphaned records, unlinked agents, duplicate identifiers). Five of seven fixtures shipped. Also: corrected "six profiles" → "seven profiles" across FAQ, data-management, and profile index - the spec has always declared seven. Tagged 2026-04-21.</p> <!-- count-history -->
   </div>
   <div class="phase-card done">
     <div class="phase-num">Phase 8</div>
@@ -240,7 +241,7 @@ description: Read the specification, try the API, run the conformance probe, and
   <div class="phase-card">
     <div class="phase-num">Phase 12+</div>
     <h4>v1.0 freeze <span class="status-pill draft">planned</span></h4>
-    <p>The profile matrix is complete. Remaining path to <strong>v1.0</strong> is governance-bound per <a href="governance.html">governance §117, §125-129</a>: a second independent implementation passing conformance on any profile; at least one external institution committing to deploy; 2-3 active non-maintainer contributors. Plus the data-side close of the Provenance &amp; Event backfill so the reference server claims all seven profiles rather than six.</p>
+    <p>The normative profile set is stable. The remaining path to <strong>v1.0</strong> is governance-bound per <a href="governance.html">governance §117, §125-129</a>: a second independent implementation passing conformance on any profile; at least one external institution committing to deploy; 2-3 active non-maintainer contributors. Plus the data-side close of the Provenance &amp; Event backfill so the reference server can claim every normative profile, including Provenance &amp; Event, which it does not claim today. See <a href="{{ '/status/' | relative_url }}">current status</a>.</p>
   </div>
   <div class="phase-card">
     <div class="phase-num">Beyond v1.0</div>

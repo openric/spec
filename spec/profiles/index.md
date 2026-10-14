@@ -3,6 +3,8 @@ layout: default
 title: OpenRiC Profiles
 description: Profiles are named, bounded conformance targets. A server declares which profiles it supports; consumers know exactly what to expect.
 ---
+{%- assign p_norm = site.data.profiles | where: "status", "normative" -%}
+{%- assign p_draft = site.data.profiles | where: "status", "draft" -%}
 
 # OpenRiC Profiles
 
@@ -74,24 +76,15 @@ Servers declare supported profiles in the service description at `GET /`:
 
 Consumers MUST read this field before issuing any requests that depend on a specific profile's endpoints.
 
-## 6. The seven profiles
+## 6. The profiles
 
 | Profile | Status | Scope |
 |---|---|---|
-| [**Core Discovery**](core-discovery.html) | **v0.30.0 normative** | Read-only Records, Agents, Repositories, vocabulary, autocomplete. The minimum "I can be queried" claim. |
-| [**Authority & Context**](authority-context.html) | **v0.31.0 normative** | Places, Rules, Activities as first-class entities with reconciliation-friendly identifiers. |
-| [**Graph Traversal**](graph-traversal.html) | **v0.32.0 normative** | `/graph`, `/relations`, `/hierarchy` - cross-entity walks plus full-graph SHACL hygiene shapes. |
-| [**Digital Object Linkage**](digital-object-linkage.html) | **v0.33.0 normative** | Instantiation carriers (MIME, checksums, extent, record-backlinks) plus ISDF Functions. Optional `POST /upload` + thumbnail derivative. |
-| [**Round-Trip Editing**](round-trip-editing.html) | **v0.34.0 normative** | Full write surface - POST/PATCH/DELETE on every entity + relations, gated by API-key scopes, with a public audit trail via `/{type}/{id}/revisions`. |
-| [**Provenance & Event**](provenance-event.html) | **v0.35.0 normative** | Tightened Activity shapes - Production/Accumulation/Activity with required results, participants, dates. Depends on Authority & Context. |
-| [**Export-Only**](export-only.html) | **v0.36.0 normative** | OAI-PMH v2.0 harvest (`oai_dc` + `rico_ld`) plus content-negotiated per-record JSON-LD / Turtle / RDF-XML dumps. |
-| [**SPARQL Access**](sparql-access.html) | **v0.1.0 draft** | Read-only SPARQL 1.1 query endpoint (`/sparql`, `/sparql/info`), public-read, rate-limited, Update rejected. |
-| [**Governance**](governance.html) | **v0.43.0 draft** | The meaning layer - pinned standards, two-layer IRI policy, deprecate-not-delete stable IRIs, SHACL as a merge gate, versioned change process. |
-| [**Portability**](portability.html) | **v0.43.0 draft** | Anti-lock-in - lossless JSON-LD/Turtle round-trip (proven by test), DCAT/VoID dataset descriptor + `/changelog`, optional validate-on-export. |
-| [**Inferred-Provenance**](inferred-provenance.html) | **v0.43.0 draft** | AI inference is never passed off as fact - `prov:wasGeneratedBy` + `assertionStatus`/confidence/receipt on machine assertions; absence ⇒ asserted fact. |
-| [**Graph-Grounding**](graph-grounding.html) | **v0.43.0 draft** | Read-only `GET /ground` so any agent/RAG disambiguates against the graph; vector↔graph join on the public entity IRI; fail-open. |
+{% for p in site.data.profiles -%}
+| [**{{ p.title }}**]({{ p.id }}.html) | **{{ p.status }}** · v{{ p.version }} | {{ p.scope }} |
+{% endfor %}
 
-**Seven profiles normative (v0.36.0); five in draft.** Normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. Draft (open for comment): SPARQL Access, and the v0.43 governance line - Governance, Portability, Inferred-Provenance, Graph-Grounding - each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
+**{{ p_norm.size }} profiles normative, {{ p_draft.size }} in draft.** Normative: {{ p_norm | map: "title" | join: ", " }}. Draft, open for comment: {{ p_draft | map: "title" | join: ", " }}. The v0.43 governance-line drafts were each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
 
 <!-- TK Q1: confirm "profile" vs "level" naming. Profile chosen because our six axes are orthogonal, not a strict progression. -->
 

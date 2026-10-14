@@ -1,6 +1,7 @@
 ---
 layout: default
 title: OpenRiC - Architecture
+kind: current
 ---
 
 # Architecture
@@ -107,14 +108,13 @@ Shared MySQL with Heratio. Phase 4.3 Option A (shared DB); separate-DB migration
 
 ### heratio.theahg.co.za - operational platform + API client
 
-Full-stack archival-management platform. Three weeks ago (pre-split), Heratio exposed `/api/ric/v1/*` as in-process Laravel routes. Today:
+Full-stack GLAM platform. Before the April 2026 split, Heratio served `/api/ric/v1/*` only as in-process Laravel routes. Since the split, as checked against the Heratio source on 2026-10-14:
 
-- Those routes are no longer loaded in Heratio (`AhgRicServiceProvider` skips `api.php` when `RIC_API_URL` is set).
-- Every admin action - create Place, edit Rule, delete Relation - goes through `RicApiClient`, which makes HTTPS calls to `ric.theahg.co.za/api/ric/v1/*` with `X-API-Key`.
-- `/ric-capture` is a 302 redirect to `capture.openric.org`.
-- Embedded Blade partials that fetch via JS (`_ric-entities-panel`, `_relation-editor`, etc.) hit `window.RIC_API_BASE` which resolves to the external service URL from config.
+- Heratio still loads its own `/api/ric/v1/*` routes (`AhgRicServiceProvider::boot`). Its admin write surfaces, such as the modal entity create and the relation editor, call them with the admin's session cookie, so no API key is shipped to the browser.
+- Reads such as graph traversal can go to the reference service, through `RicApiClient` and `RIC_API_BASE` (`config('ric.api_url')`).
+- Both applications read and write the same MySQL database (see Boundaries below).
 
-This means the reference implementation of OpenRiC consumes its own public API, the same way any external client would. There is no privileged internal path.
+So Heratio is not a pure HTTP client of the reference service: it keeps an in-process write path over a shared database. Removing that coupling is planned work, not a current property.
 
 ---
 

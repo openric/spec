@@ -30,6 +30,15 @@ defaults:
       type: help
     values:
       layout: help
+  # Page kinds drive the one-line banner in _layouts/default.html.
+  - scope:
+      path: "spec"
+    values:
+      kind: spec
+  - scope:
+      path: "audit"
+    values:
+      kind: record
 
 exclude:
   - README.md

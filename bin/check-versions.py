@@ -38,7 +38,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # Files and directories that are historical by purpose. A changelog is
 # supposed to name old versions.
-HISTORICAL_FILES = {"CHANGELOG.md", "drift-log.md", "SETUP_GITHUB.md"}
+HISTORICAL_FILES = {"CHANGELOG.md", "drift-log.md", "SETUP_GITHUB.md", "CLAUDE.md"}
 HISTORICAL_DIRS = {"docs", "audit", "node_modules", "validator", "_site", "vendor"}
 
 # Phrases that assert "this is the current version". A version string on one
@@ -71,6 +71,46 @@ RETIRED_OK = re.compile(
 )
 
 VERSION_RE = re.compile(r"\bv?(\d+\.\d+\.\d+)\b")
+
+INVENTORY_FILE = ROOT / "_data" / "inventory.json"
+PROFILES_FILE = ROOT / "_data" / "profiles.json"
+
+NUMBER_WORDS = {
+    w: i for i, w in enumerate(
+        "zero one two three four five six seven eight nine ten eleven twelve"
+        " thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split()
+    )
+}
+
+# A count of profiles, schemas or fixtures typed into prose. It must match the
+# inventory unless the line renders it ({{ ... }}) or is plainly historical.
+# Narrow on purpose, like CURRENCY_CLAIM: per-profile fixture lists ("these
+# seven fixtures are normative for X"), "at least one profile" and version
+# strings such as 0.1.0-draft are not inventory claims and must not match.
+_N = r"(?<![\d.])(\d+|" + "|".join(NUMBER_WORDS) + r")"
+COUNT_CLAIM = re.compile(
+    _N + r"(?:\s+|-(?=case))"
+    r"(normative(?!\s+documents?)|draft(?=\b(?:\s+profiles?|\s*[),.;|]|$))"
+    r"|(?:named |conformance )?profiles|(?:JSON )?schemas"
+    r"|case(?=\s+(?:conformance|fixture))|cases(?=\s+cover|\b(?:\s*[),.;|]|$))|(?:input/output )?pairs)\b",
+    re.IGNORECASE,
+)
+FIXTURE_TOTAL = re.compile(r"\ball " + _N + r" (fixtures)\b", re.IGNORECASE)
+COUNT_KIND = {
+    "normative": "normative", "draft": "draft", "profile": "profile",
+    "schema": "schema", "fixture": "fixture", "case": "fixture", "pair": "fixture",
+}
+# Legacy level rows, roadmap history and "Earlier, vX" notes name the counts
+# of their time. Roadmap cards in HTML can opt out with <!-- count-history -->.
+COUNT_HISTORY_OK = re.compile(
+    r"\bL2-(?:core|graph|full)\b|\bv\d+\.\d+\.x\b|^Earlier, v|count-history", re.IGNORECASE
+)
+
+RELATIVE_TIME = re.compile(
+    r"\b(?:\w+ (?:days?|weeks?|months?) ago|last (?:week|month|quarter)|"
+    r"this (?:week|month|quarter)|next (?:week|month|quarter)|yesterday|recently)\b",
+    re.IGNORECASE,
+)
 
 README_BANNER = re.compile(
     r"^\*\*v(\d+\.\d+\.\d+)\*\* — (\d{4}-\d{2}-\d{2})\. The canonical", re.MULTILINE
@@ -125,11 +165,101 @@ def check_readme(current: str, released: str, problems: list) -> None:
         )
 
 
+def compute_inventory() -> dict:
+    """Count what the repository actually holds. bin/release writes this to
+    _data/inventory.json so pages can render the numbers instead of typing them."""
+    manifest = json.loads((ROOT / "fixtures" / "manifest.json").read_text())
+    statuses = [f.get("status") for f in manifest["fixtures"]]
+    return {
+        "schemas": len(list((ROOT / "schemas").glob("*.schema.json"))),
+        "fixtures": statuses.count("done"),
+        "fixtures_planned": statuses.count("planned"),
+    }
+
+
+def check_inventory(problems: list) -> dict:
+    expected = compute_inventory()
+    if not INVENTORY_FILE.exists():
+        problems.append("  _data/inventory.json is missing - run bin/check-versions.py --write-inventory")
+    elif json.loads(INVENTORY_FILE.read_text()) != expected:
+        problems.append(
+            "  _data/inventory.json is out of date - run bin/check-versions.py --write-inventory\n"
+            f"      file:   {INVENTORY_FILE.read_text().strip()}\n"
+            f"      actual: {json.dumps(expected)}"
+        )
+    return expected
+
+
+def check_profiles(problems: list) -> list:
+    """_data/profiles.json is the profile inventory. Every profile page must
+    have an entry, and the page's own header must agree with it."""
+    profiles = json.loads(PROFILES_FILE.read_text())
+    by_id = {p["id"]: p for p in profiles}
+    pages = {p.stem: p for p in (ROOT / "spec" / "profiles").glob("*.md") if p.stem != "index"}
+
+    for missing in sorted(set(pages) - set(by_id)):
+        problems.append(f"  spec/profiles/{missing}.md has no entry in _data/profiles.json")
+    for extra in sorted(set(by_id) - set(pages)):
+        problems.append(f"  _data/profiles.json lists '{extra}' but spec/profiles/{extra}.md does not exist")
+
+    for pid in sorted(set(pages) & set(by_id)):
+        entry, text = by_id[pid], pages[pid].read_text(encoding="utf-8")
+        header = {
+            "status": re.search(r"^\*\*Status:\*\*\s*\**(\w+)", text, re.MULTILINE),
+            "version": re.search(r"^\*\*Profile version:\*\*\s*(\S+)", text, re.MULTILINE),
+            "revised": re.search(r"^\*\*Last revised in spec:\*\*\s*v?(\S+)", text, re.MULTILINE),
+        }
+        for field, match in header.items():
+            found = match.group(1).lower() if match and field == "status" else (match.group(1) if match else None)
+            if found != entry[field]:
+                problems.append(
+                    f"  spec/profiles/{pid}.md header {field} is {found!r}, _data/profiles.json says {entry[field]!r}"
+                )
+    return profiles
+
+
+def count_value(token: str):
+    return int(token) if token.isdigit() else NUMBER_WORDS.get(token.lower())
+
+
+def check_drift_log(problems: list) -> None:
+    """The drift log's "Last updated" date must not be older than the newest
+    dated entry inside it."""
+    path = ROOT / "drift-log.md"
+    if not path.exists():
+        return
+    text = path.read_text(encoding="utf-8")
+    stamp = re.search(r"\*\*Last updated:\*\*\s*(\d{4}-\d{2}-\d{2})", text)
+    if not stamp:
+        problems.append("  drift-log.md has no '**Last updated:** YYYY-MM-DD' line")
+        return
+    newest = max(re.findall(r"\b(20\d\d-\d\d-\d\d)\b", text))
+    if newest > stamp.group(1):
+        problems.append(
+            f"  drift-log.md says Last updated {stamp.group(1)} but contains an entry dated {newest}"
+        )
+
+
 def main() -> int:
+    if "--write-inventory" in sys.argv:
+        INVENTORY_FILE.write_text(json.dumps(compute_inventory(), indent=2) + "\n")
+        print(f"  wrote {INVENTORY_FILE.relative_to(ROOT)}")
+        return 0
+
     current, released = load_version()
     problems: list = []
 
     check_readme(current, released, problems)
+    inventory = check_inventory(problems)
+    profiles = check_profiles(problems)
+    check_drift_log(problems)
+    expected_counts = {
+        "normative": sum(p["status"] == "normative" for p in profiles),
+        "draft": sum(p["status"] == "draft" for p in profiles),
+        "profile": len(profiles),
+        "schema": inventory["schemas"],
+        "fixture": inventory["fixtures"],
+    }
 
     for path in sorted(ROOT.rglob("*")):
         if not path.is_file() or path.suffix not in {".md", ".html"}:
@@ -151,6 +281,26 @@ def main() -> int:
                     f"      {line.strip()[:110]}\n"
                     "      Use the profile-based model, or mark it legacy explicitly."
                 )
+
+            if RELATIVE_TIME.search(line):
+                problems.append(
+                    f"  {rel}:{lineno} uses a relative time that will go stale\n"
+                    f"      {line.strip()[:110]}\n"
+                    "      State the date instead."
+                )
+
+            # Only typed counts matter; a count rendered from site data is right by construction.
+            typed = re.sub(r"\{\{.*?\}\}", "", line)
+            if not COUNT_HISTORY_OK.search(line):
+                for token, noun in COUNT_CLAIM.findall(typed) + FIXTURE_TOTAL.findall(typed):
+                    kind = COUNT_KIND[noun.lower().split()[-1].rstrip("s")]
+                    value = count_value(token)
+                    if value is not None and value != expected_counts[kind]:
+                        problems.append(
+                            f"  {rel}:{lineno} says {token} {noun}, the inventory says {expected_counts[kind]}\n"
+                            f"      {line.strip()[:110]}\n"
+                            "      Render it from site.data.profiles / site.data.inventory."
+                        )
 
             if not CURRENCY_CLAIM.search(line):
                 continue
