@@ -21,7 +21,7 @@ No - pick a [profile](/help/profiles-tree/). Core Discovery (read-only) is the m
 Yes, under the SPARQL Access profile - read-only `/sparql`. See [SPARQL queries](/help/sparql/).
 
 **Can I write data, not just read it?**
-Yes - the Round-Trip Editing profile covers POST/PATCH/DELETE with an audit trail. See [Creating entities](/help/creating-data/). On the reference server, creation is currently open (no key); edits/deletes need a key.
+Yes - the Round-Trip Editing profile covers POST/PATCH/DELETE with an audit trail. See [Creating entities](/help/creating-data/). On the reference server every write, including creation, needs an API key.
 
 **How is AI-suggested data handled?**
 The [modelling wizard](/help/the-modelling-wizard/) can propose models, validated against RiC-CM before display. The draft [Inferred-Provenance profile](/spec/profiles/inferred-provenance.html) requires any machine-asserted data to be visibly distinguishable from documented fact (`prov:wasGeneratedBy`; absence ⇒ asserted fact).

@@ -21,7 +21,7 @@ The **[modelling wizard](/wizard/)** (openric.org/wizard) teaches RiC by doing. 
 
 ## Live creation
 
-The wizard's captures create real entities against the configured server (default `ric.theahg.co.za`, currently open for input - no key). Created entities are sandbox-isolated from the live catalogue, so the demo doesn't pollute the archive.
+The wizard shows, for every step, the exact requests that would create the records. Since 14 October 2026 it no longer sends them to the public reference service (`ric.theahg.co.za`): anonymous saving there was switched off, because entities created that way were written into a production database rather than an isolated sandbox. Use **Copy the requests** to keep your model, or set the server field to your own OpenRiC server and the wizard will create the records there.
 
 ## Accuracy
 

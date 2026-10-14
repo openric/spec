@@ -2,10 +2,10 @@
 title: Creating entities
 category: Using the API
 order: 2
-summary: Create records, record parts, record sets, agents, places and relations with POST - the request shapes, how parts and relations work, and the current open-write access. With curl samples.
+summary: Create records, record parts, record sets, agents, places and relations with POST - the request shapes, how parts and relations work, and the API key they need. With curl samples.
 ---
 
-Writes are `POST` to the same `/api/ric/v1` base. Reads are public; writes are **scoped** - but the reference server currently runs an **open-write window** (anonymous creation, no key) so you can try them and so the [modelling wizard](/wizard/) works for everyone. On your own server, a write-scoped `X-API-Key` is required.
+Writes are `POST` to the same `/api/ric/v1` base. Reads are public; writes need a write-scoped `X-API-Key`, on the reference server as on your own. The reference server ran an anonymous open-write window until 14 October 2026; it was closed because entities created that way landed in a production database. You can request a key from the reference service, or run the [modelling wizard](/wizard/) and copy the requests it builds.
 
 ## Create a record
 

@@ -184,14 +184,40 @@
         el("div", { class: "wiz-call-result", id: "wiz-result-" + idx })
       ]));
     });
+    wrap.appendChild(el("p", { class: "wiz-comment", role: "note", text:
+      "Saving to the public reference service (" + REFERENCE_SERVER + ") is switched off. " +
+      "The requests above are exactly what would be sent: copy them to keep your model, or point " +
+      "the server field at your own OpenRiC server to create the records there." }));
     wrap.appendChild(el("div", { class: "wiz-run-row" }, [
+      el("button", { class: "wiz-btn", onclick: function (ev) { copyRequests(step, ev.currentTarget); } }, ["Copy the requests"]),
       el("button", { class: "wiz-btn wiz-run", onclick: function () { runCreate(step); } }, ["Create it ▶"])
     ]));
     return wrap;
   }
 
+  // Anonymous saving on the public reference service was switched off on
+  // 14 October 2026: it wrote into a production database. The wizard no longer
+  // sends creates there; anyone running their own server still can.
+  var REFERENCE_SERVER = "ric.theahg.co.za";
+
+  function copyRequests(step, btn) {
+    var text = step.capture.map(function (c, idx) { return preText(c, idx); }).join("\n\n");
+    var done = function () { btn.textContent = "Copied ✓"; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { window.prompt("Copy the requests:", text); });
+    } else {
+      window.prompt("Copy the requests:", text);
+    }
+  }
+
   function runCreate(step) {
     var base = serverBase(), calls = step.capture.slice();
+    if (base.indexOf("//" + REFERENCE_SERVER) !== -1) {
+      var first = document.getElementById("wiz-result-0");
+      first.className = "wiz-call-result err";
+      first.textContent = "Not sent. Saving to the public reference service is switched off - use \"Copy the requests\", or set the server field to your own OpenRiC server.";
+      return;
+    }
     (function chain(i) {
       if (i >= calls.length) return;
       var call = calls[i], body = buildBody(call, i);
@@ -213,7 +239,9 @@
           chain(i + 1);
         } else {
           slot.className = "wiz-call-result err";
-          slot.textContent = "✗ " + res.status + " — " + (res.j && (res.j.detail || res.j.title || res.j.message || JSON.stringify(res.j)) || "error");
+          slot.textContent = res.status === 401
+            ? "✗ 401 - this server needs an API key, and the wizard does not send one. Copy the request and run it with your key."
+            : "✗ " + res.status + " — " + (res.j && (res.j.detail || res.j.title || res.j.message || JSON.stringify(res.j)) || "error");
         }
       }).catch(function (e) {
         slot.className = "wiz-call-result err";
