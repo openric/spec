@@ -11,7 +11,7 @@ backend breaks the recording - check the links the morning you record.
 
 | Item | Value |
 |---|---|
-| Subject | Model funeral boat, ancient Egypt, British Museum `BM-125320` |
+| Subject | Model funeral boat, ancient Egypt, identifier `BM-125320` - a synthetic demonstration record; the 3D model is credited below |
 | Record | `https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat` |
 | Graph | `https://viewer.openric.org/?start=/informationobject/egyptian-boat` |
 | Turtle | `https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat/export?format=ttl` |
@@ -28,10 +28,10 @@ people remember better than the content.
 
 No browser yet. Title card, or just the object.
 
-> "This is a model funeral boat from ancient Egypt. About four and a half
-> thousand years old, British Museum number BM-125320. A catalogue record can
+> "This is a demonstration record of a model funeral boat from ancient Egypt,
+> identifier BM-125320. A catalogue record can
 > tell you it exists, who holds it, and what it looks like. It cannot easily
-> tell you that it was made in Thebes, moved to London, is governed today by a
+> tell you that it was made in Thebes, moved into the collection that holds it now, is governed today by a
 > specific Egyptian statute, and now also exists as a downloadable 3D file -
 > and that those facts are connected to each other."
 
@@ -44,8 +44,8 @@ Open the record URL. Let the JSON-LD sit on screen for a beat before speaking.
 
 Highlight two things only: the identifier `BM-125320`, and `rico:hasOrHadHolder`.
 
-> "Ordinary description so far. One difference: the holder isn't the text 'The
-> British Museum'. It's a link to the British Museum as a thing in its own
+> "Ordinary description so far. One difference: the holder isn't a string of
+> text. It's a link to the holding museum as a thing in its own
 > right. Everything else follows from that."
 
 Resist reading fields aloud. The viewer can read.
@@ -88,6 +88,8 @@ Hover the two Rule nodes, then the glTF instantiation.
 > becomes a query instead of a research project."
 
 Then the instantiation:
+
+On-screen credit whenever the 3D model is visible (its licence requires it): "3D model: Egyptian Boat from Ancient Lives by Miguel Bandera, CC BY-NC 4.0, from British Museum photographs (Daniel Pett, CC BY-SA 4.0)." Non-commercial licence: do not use this footage in paid or promotional material without permission.
 
 > "And the 3D file is distinct from the record. Which is how an archive holds
 > six versions of a file without pretending it has six records."
