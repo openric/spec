@@ -17,6 +17,11 @@ title: OpenRiC - Guides
     <h3>Getting started</h3>
     <p>Zero-to-working in 15 minutes. Read, request a key, write, link, probe, embed, harvest. Start here if OpenRiC is new to you.</p>
   </a>
+  <a class="surface-card" href="implement-a-server.html">
+    <span class="surface-icon">🛠</span>
+    <h3>Implement a server</h3>
+    <p>From nothing to a server that passes Core Discovery, with a one-file standard-library example, the JSON Schemas and the conformance probe. No Heratio, no account.</p>
+  </a>
   <a class="surface-card" href="viewer.html">
     <span class="surface-icon">🗺</span>
     <h3>Viewer guide</h3>
@@ -43,7 +48,7 @@ title: OpenRiC - Guides
 
 If you haven't yet, the two-page orientation pieces are [**Home**](../) (what OpenRiC is + live status) and [**Architecture**](../architecture.html) (where the four public deployments fit and how they talk to each other). Read those first if you're new.
 
-For evidence that the contract actually works in production - live numbers, a real end-to-end use case, and one example of every RiC-O type - see [**Proof of implementation**](../proof.html).
+For evidence that the contract works - an end-to-end use case, one example of every RiC-O type, and labels saying which examples are demonstration data - see [**Proof of implementation**](../proof.html). Live figures are on [**current status**](../status/).
 
 ## Reference material, not step-by-step
 

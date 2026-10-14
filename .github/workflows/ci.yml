@@ -122,3 +122,34 @@ jobs:
           name: site
           path: _site
           retention-days: 7
+
+  minimal-server:
+    # The implementer quick-start, proven on every change: a standard-library
+    # server with its own data and identifiers (no Heratio, no production
+    # service) must validate against the JSON Schemas and pass the conformance
+    # probe for Core Discovery. Runs entirely inside the CI runner.
+    name: Minimal server passes Core Discovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the schema validator library
+        run: python -m pip install --quiet jsonschema
+
+      - name: Start the minimal server
+        run: |
+          PORT=8080 python examples/minimal-server/server.py &
+          for i in $(seq 1 30); do curl -sf http://localhost:8080/health >/dev/null && exit 0; sleep 1; done
+          echo "server did not start"; exit 1
+
+      - name: Responses validate against the JSON Schemas
+        run: BASE=http://localhost:8080 python examples/minimal-server/check.py
+
+      - name: Conformance probe passes Core Discovery
+        run: |
+          BASE=http://localhost:8080 KEY="" bash conformance/probe.sh --profile=core-discovery --json=probe.json
+          jq -e '.verdict == "pass"' probe.json
