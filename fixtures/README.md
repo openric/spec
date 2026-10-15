@@ -52,6 +52,24 @@ servers and the `--profile=` flag on the conformance probe. The special id
 **`always-on`** covers fixtures that apply regardless of which profile a
 server claims (service description, error envelopes, SHACL validation).
 
+## Provenance and licence
+
+Every fixture marked `done` in the manifest also says where its data came
+from, and CI fails if one does not (`validator/tests/test_manifest.py`):
+
+- **`data`**: `synthetic` (made up for demonstration), `derived` (transformed
+  from a real source) or `independent` (supplied by an institution outside
+  AHG). Today every fixture is `synthetic`; there is no independent data yet.
+- **`origin`**: `captured` (a real response saved from a server; its URL is in
+  `source-url.txt`) or `authored` (written by hand). 31 are captured from the
+  reference service's demonstration data and 5 are authored.
+- **`real_world_references`**: `true` when the data names real places, laws or
+  institutions, such as a GeoNames URI or Egypt's Law 117/1983. These are names
+  and identifiers only; no third-party text, image or model is copied in.
+- **`licence`** and **`rights_reviewed`**: every fixture is published under
+  CC BY 4.0, like the rest of the specification; rights were reviewed on
+  15 October 2026.
+
 ## Current fixtures
 
 The reference host is `https://ric.theahg.co.za/api/ric/v1/` (OpenRiC reference

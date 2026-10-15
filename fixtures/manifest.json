@@ -24,7 +24,11 @@
         "always-on"
       ],
       "status": "done",
-      "purpose": "Service description root document with openric_conformance declaration"
+      "purpose": "Service description root document with openric_conformance declaration",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "error-not-found",
@@ -32,7 +36,11 @@
         "always-on"
       ],
       "status": "done",
-      "purpose": "Canonical 404 error envelope"
+      "purpose": "Canonical 404 error envelope",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "fonds-minimal",
@@ -40,7 +48,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Smallest valid record \u2014 title + creator"
+      "purpose": "Smallest valid record \u2014 title + creator",
+      "data": "synthetic",
+      "origin": "authored",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "fonds-with-children",
@@ -48,7 +60,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Hierarchy: fonds + children records"
+      "purpose": "Hierarchy: fonds + children records",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "record-multilingual",
@@ -56,7 +72,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Multiple @language titles on a record"
+      "purpose": "Multiple @language titles on a record",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "record-list",
@@ -64,7 +84,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Record list endpoint shape"
+      "purpose": "Record list endpoint shape",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "agent-person-simple",
@@ -72,7 +96,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Minimal Person agent"
+      "purpose": "Minimal Person agent",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "agent-corporate-body",
@@ -80,7 +108,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "CorporateBody agent"
+      "purpose": "CorporateBody agent",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "agent-family",
@@ -88,7 +120,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Family agent"
+      "purpose": "Family agent",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "autocomplete-egypt",
@@ -96,7 +132,12 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Cross-entity prefix autocomplete"
+      "purpose": "Cross-entity prefix autocomplete",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "vocabulary",
@@ -104,7 +145,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "RiC-O vocabulary listing"
+      "purpose": "RiC-O vocabulary listing",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "entity-info-place",
@@ -112,7 +157,11 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Minimal entity info card (for popovers / tooltips)"
+      "purpose": "Minimal entity info card (for popovers / tooltips)",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "place-country",
@@ -120,7 +169,12 @@
         "authority-context"
       ],
       "status": "done",
-      "purpose": "Place with GeoNames authority URI, lat/long"
+      "purpose": "Place with GeoNames authority URI, lat/long",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "place-with-parent",
@@ -128,7 +182,12 @@
         "authority-context"
       ],
       "status": "done",
-      "purpose": "Place nested under a parent place"
+      "purpose": "Place nested under a parent place",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "place-list",
@@ -136,7 +195,11 @@
         "authority-context"
       ],
       "status": "done",
-      "purpose": "Place list endpoint shape"
+      "purpose": "Place list endpoint shape",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "rule-law",
@@ -144,7 +207,12 @@
         "authority-context"
       ],
       "status": "done",
-      "purpose": "Rule \u2014 law/mandate"
+      "purpose": "Rule \u2014 law/mandate",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "activity-production",
@@ -152,7 +220,11 @@
         "authority-context"
       ],
       "status": "done",
-      "purpose": "Creation/production event"
+      "purpose": "Creation/production event",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "activity-accumulation",
@@ -160,7 +232,11 @@
         "authority-context"
       ],
       "status": "done",
-      "purpose": "Accumulation event"
+      "purpose": "Accumulation event",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "activity-production-full",
@@ -168,7 +244,12 @@
         "provenance-event"
       ],
       "status": "done",
-      "purpose": "Full-context Production \u2014 results + participant + dates + location"
+      "purpose": "Full-context Production \u2014 results + participant + dates + location",
+      "data": "synthetic",
+      "origin": "authored",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "activity-custody",
@@ -176,7 +257,12 @@
         "provenance-event"
       ],
       "status": "done",
-      "purpose": "Generic Activity fallback \u2014 custody transfer with date + location"
+      "purpose": "Generic Activity fallback \u2014 custody transfer with date + location",
+      "data": "synthetic",
+      "origin": "authored",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "instantiation-tiff",
@@ -184,7 +270,11 @@
         "digital-object-linkage"
       ],
       "status": "done",
-      "purpose": "Instantiation \u2014 TIFF carrier"
+      "purpose": "Instantiation \u2014 TIFF carrier",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "instantiation-application",
@@ -192,7 +282,11 @@
         "digital-object-linkage"
       ],
       "status": "done",
-      "purpose": "Instantiation \u2014 application/pdf etc."
+      "purpose": "Instantiation \u2014 application/pdf etc.",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "hierarchy-with-children",
@@ -200,7 +294,11 @@
         "graph-traversal"
       ],
       "status": "done",
-      "purpose": "3-axis nested-set hierarchy walk (parent + children + siblings)"
+      "purpose": "3-axis nested-set hierarchy walk (parent + children + siblings)",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "relation-list",
@@ -208,7 +306,11 @@
         "graph-traversal"
       ],
       "status": "done",
-      "purpose": "Relation list endpoint shape"
+      "purpose": "Relation list endpoint shape",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "relations-for-place",
@@ -216,7 +318,11 @@
         "graph-traversal"
       ],
       "status": "done",
-      "purpose": "Relations filtered to one subject entity"
+      "purpose": "Relations filtered to one subject entity",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "subgraph-depth-1",
@@ -224,7 +330,12 @@
         "graph-traversal"
       ],
       "status": "done",
-      "purpose": "Rooted subgraph exercising the six graph invariants"
+      "purpose": "Rooted subgraph exercising the six graph invariants",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "subgraph-depth-2",
@@ -232,7 +343,12 @@
         "graph-traversal"
       ],
       "status": "done",
-      "purpose": "Graph: 2-hop BFS"
+      "purpose": "Graph: 2-hop BFS",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "entity-write-place",
@@ -240,7 +356,12 @@
         "round-trip-editing"
       ],
       "status": "done",
-      "purpose": "Entity write \u2014 create Place"
+      "purpose": "Entity write \u2014 create Place",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "write-response-success",
@@ -248,7 +369,11 @@
         "round-trip-editing"
       ],
       "status": "done",
-      "purpose": "Canonical success envelope for PATCH / DELETE (status 200)"
+      "purpose": "Canonical success envelope for PATCH / DELETE (status 200)",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "revision-list",
@@ -256,7 +381,12 @@
         "round-trip-editing"
       ],
       "status": "done",
-      "purpose": "openric:RevisionList \u2014 per-entity audit trail"
+      "purpose": "openric:RevisionList \u2014 per-entity audit trail",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "write-response-create",
@@ -264,7 +394,11 @@
         "round-trip-editing"
       ],
       "status": "done",
-      "purpose": "Canonical write-response envelope"
+      "purpose": "Canonical write-response envelope",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "agent-with-relations",
@@ -346,7 +480,11 @@
         "export-only"
       ],
       "status": "done",
-      "purpose": "OAI-PMH Identify verb \u2014 repository metadata"
+      "purpose": "OAI-PMH Identify verb \u2014 repository metadata",
+      "data": "synthetic",
+      "origin": "authored",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "oai-list-metadata-formats",
@@ -354,7 +492,11 @@
         "export-only"
       ],
       "status": "done",
-      "purpose": "OAI-PMH ListMetadataFormats \u2014 oai_dc + rico_ld advertised"
+      "purpose": "OAI-PMH ListMetadataFormats \u2014 oai_dc + rico_ld advertised",
+      "data": "synthetic",
+      "origin": "authored",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "record-export-jsonld",
@@ -362,7 +504,11 @@
         "export-only"
       ],
       "status": "done",
-      "purpose": "Per-record JSON-LD dump envelope with @graph wrapper"
+      "purpose": "Per-record JSON-LD dump envelope with @graph wrapper",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "sparql-construct",
@@ -370,7 +516,12 @@
         "sparql-access"
       ],
       "status": "done",
-      "purpose": "JSON-LD response shape for a CONSTRUCT/DESCRIBE result from the SPARQL Access (Draft) profile"
+      "purpose": "JSON-LD response shape for a CONSTRUCT/DESCRIBE result from the SPARQL Access (Draft) profile",
+      "data": "synthetic",
+      "origin": "captured",
+      "real_world_references": true,
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     },
     {
       "name": "sparql-info",
@@ -378,7 +529,11 @@
         "sparql-access"
       ],
       "status": "done",
-      "purpose": "Minimum-viable /sparql/info void:Dataset description for the SPARQL Access (Draft) profile"
+      "purpose": "Minimum-viable /sparql/info void:Dataset description for the SPARQL Access (Draft) profile",
+      "data": "synthetic",
+      "origin": "captured",
+      "licence": "CC-BY-4.0",
+      "rights_reviewed": "2026-10-15"
     }
   ]
 }

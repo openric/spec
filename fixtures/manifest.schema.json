@@ -64,8 +64,33 @@
                     "purpose": {
                         "type": "string",
                         "description": "One-line summary, typically taken from the case's notes.md or the table in fixtures/README.md."
+                    },
+                    "data": {
+                        "type": "string",
+                        "enum": ["synthetic", "derived", "independent"],
+                        "description": "Where the data comes from (plan V4, S2.1): synthetic = made up for demonstration; derived = transformed from a real source; independent = supplied by an institution outside AHG."
+                    },
+                    "origin": {
+                        "type": "string",
+                        "enum": ["captured", "authored"],
+                        "description": "captured = a real response saved from a server (see source-url.txt); authored = written by hand."
+                    },
+                    "real_world_references": {
+                        "type": "boolean",
+                        "description": "True when the data names real places, laws or institutions (for example GeoNames URIs or a statute). Names and identifiers only; no third-party content is copied."
+                    },
+                    "licence": {
+                        "type": "string",
+                        "description": "SPDX identifier of the licence the fixture is published under."
+                    },
+                    "rights_reviewed": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date the fixture's source and rights were last reviewed."
                     }
-                }
+                },
+                "if": { "properties": { "status": { "const": "done" } } },
+                "then": { "required": ["data", "origin", "licence", "rights_reviewed"] }
             }
         }
     }

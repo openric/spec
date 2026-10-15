@@ -72,7 +72,7 @@ Every mapping row in this document is made against these editions. A newer editi
 
 - **No ICA endorsement.** OpenRiC is independent of the ICA and EGAD, which have not reviewed or endorsed this mapping ([RiC baseline](../ric-baseline.html#openric-and-the-ica)). Where it disagrees with an ICA text, the ICA text is right.
 - **No lossless round trip from the legacy standards.** Some source fields have no RiC-O 1.1 property and land in `openricx:` terms or in notes; a consumer that reads only `rico:` terms will not see them. The Portability profile's round-trip guarantee is about OpenRiC exports, not about ISAD(G) or EAD input.
-- **Agreement with RiC-AG and the Converter is partial and stated.** The property choices listed in §1.1 have been checked against the Converter. The tables in §6 and §7 are meant to agree with RiC-AG's crosswalk, but they have not yet been compared with it row by row; until they are, a difference between the two is a question to raise, not a deliberate divergence.
+- **Agreement with RiC-AG and the Converter is partial and stated.** The property choices listed in §1.1 have been checked against the Converter. The tables in §7 were compared with RiC-AG's crosswalk row by row on 15 October 2026 ([comparison](../audit/ric-ag-crosswalk-comparison.html)): of 107 elements, 55 are mapped here, and the differences found are listed there and in O-8.
 - **OpenRiC conformance is not RiC conformance.** Passing an OpenRiC profile shows a server exposes this contract. RiC itself defines no conformance test, and nothing here should be read as certifying RiC compliance.
 
 **What OpenRiC adds on top of RiC.** None of the following is part of Records in Contexts.
@@ -249,7 +249,7 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 | 3.2.4 Immediate source of acquisition | `rico:hasOrganicProvenance` → `rico:Agent` | |
 | 3.3.1 Scope and content | `openricx:description` | |
 | 3.3.2 Appraisal, destruction, scheduling | `openricx:hasAppraisalInformation` | |
-| 3.3.3 Accruals | `openricx:accrualsNote` | No direct RiC-O 1.1 predicate |
+| 3.3.3 Accruals | `rico:accruals` | RiC-O 1.1 property; `openricx:accrualsNote` (v0.44.0) is deprecated |
 | 3.3.4 System of arrangement | `openricx:arrangement` | |
 | 3.4.1 Conditions governing access | `rico:conditionsOfAccess` | |
 | 3.4.2 Conditions governing reproduction | `rico:conditionsOfUse` | |
@@ -310,7 +310,7 @@ Dates are emitted as `openricx:DateRange` objects:
 |---|---|
 | 5.1.2 Authorized form of name | `rico:name` |
 | 5.1.3 Parallel / other forms | `openricx:alternativeForm`, `openricx:otherName` |
-| 5.1.4 Institution type | `openricx:institutionType` |
+| 5.1.5 Type of institution | `openricx:institutionType` |
 | 5.2.1 Location and address | `rico:isAssociatedWithPlace` → `rico:Place` with `openricx:streetAddress` |
 | 5.2.2 Telephone, fax, email | `openricx:contact` → `openricx:ContactPoint` |
 | 5.3.1 History of the institution | `rico:history` |
@@ -529,6 +529,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 - **O-5 - Thing / container modelling.** RiC-O does not have a native `Container` or `StorageLocation` class; we map to `rico:Thing` with `openric:localType`. May warrant an OpenRiC-Storage extension.
 - **O-6 - `openric:` terms with no definition (resolved 2026-10-15).** §4 bound `openric:` for viewing hints, yet the profiles, schemas, fixtures and the reference service also used it for list envelopes, errors, the service description and the `localType`, `jurisdiction` and `role` annotations, and no vocabulary at `https://openric.org/ns/v1#` defined any of them. The [OpenRiC API vocabulary](../ns/v1.html) now defines every `openric:` term in use, so no response changed. The four terms only this mapping named and nothing emitted (`accrualsNote`, `institutionType`, `openingHours`, `accessibility`) moved to `openricx:`. `openricx:jurisdiction`, defined but never emitted, is deprecated in favour of `openric:jurisdiction`. Five fixtures that used `openric:` without binding it now bind it, as the service does, and `bin/check-vocab.py` fails CI on any undefined or unbound term.
 - **O-7 - Pinned RiC-O version disagreed (resolved 2026-10-15).** The draft [Governance profile](profiles/governance.html) §2 pinned RiC-O 1.0.2, carried over from the Heratio implementation; it now pins 1.1, the version this mapping and every normative profile target.
+- **O-8 - Differences from RiC-AG.** The [row-by-row comparison](../audit/ric-ag-crosswalk-comparison.html) found OpenRiC using extension terms where RiC-O 1.1 has a property (`rico:scopeAndContent`, `rico:structure`, `rico:generalDescription`), `rico:hasOrganicProvenance` for the immediate source of acquisition, a carrier type for physical characteristics, `dcterms:conformsTo` for rules or conventions, and no row at all for 52 elements, including every ISDF element. Each change alters emitted data, so each goes through [change control](change-control.html) with a deprecation period.
 
 ---
 
@@ -536,7 +537,8 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
-| next release | 2026-10-15 | Add §1.3: the editions every row is made against, what the mapping does not claim (ICA endorsement, lossless legacy round trip, full RiC-AG agreement, RiC conformance), and what OpenRiC adds on top of RiC. Register and resolve O-6 (publish the `openric:` API vocabulary; four mapping-only terms move to `openricx:`) and O-7 (Governance profile pin brought to RiC-O 1.1). |
+| next release | 2026-10-15 | Compared row by row with RiC-AG (audit page; O-8 registered); 3.3.3 maps to `rico:accruals`; ISDIAH type of institution renumbered 5.1.5. |
+| v0.44.0 | 2026-10-15 | Add §1.3: the editions every row is made against, what the mapping does not claim (ICA endorsement, lossless legacy round trip, full RiC-AG agreement, RiC conformance), and what OpenRiC adds on top of RiC. Register and resolve O-6 (publish the `openric:` API vocabulary; four mapping-only terms move to `openricx:`) and O-7 (Governance profile pin brought to RiC-O 1.1). |
 | 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) - treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
 | 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A-E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `ahg-ric` reference implementation. |

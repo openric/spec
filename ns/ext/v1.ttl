@@ -219,9 +219,11 @@ openricx:checksumValue a owl:DatatypeProperty ; rdfs:label "checksum value"@en ;
 # API and viewing terms; no implementation emitted them under that name.
 
 openricx:accrualsNote a owl:DatatypeProperty ; rdfs:label "accruals note"@en ;
-    rdfs:comment "ISAD(G) 3.3.3 Accruals: expected additions to the unit of description. RiC-O 1.1 has no direct property."@en .
+    rdfs:comment "ISAD(G) 3.3.3 Accruals. Added in error on 2026-10-15: RiC-O 1.1 defines rico:accruals. Deprecated the same day, never emitted."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#accruals> .
 openricx:institutionType a owl:DatatypeProperty ; rdfs:label "institution type"@en ;
-    rdfs:comment "ISDIAH 5.1.4 Type of the institution holding archives, as free text or a local term."@en .
+    rdfs:comment "ISDIAH 5.1.5 Type of the institution holding archives, as free text or a local term."@en .
 openricx:openingHours a owl:DatatypeProperty ; rdfs:label "opening hours"@en ;
     rdfs:comment "ISDIAH 5.4.1 Opening times of a repository."@en .
 openricx:accessibility a owl:DatatypeProperty ; rdfs:label "accessibility"@en ;
