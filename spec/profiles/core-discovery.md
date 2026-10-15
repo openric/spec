@@ -357,16 +357,16 @@ The manifest declares these eleven fixtures as normative for `core-discovery`. F
 
 A server implementer works through:
 
-- [ ] Implement or expose the ten required endpoints under a single base URL
-- [ ] Emit `openric_conformance` in the service description with `profiles: [{id: "core-discovery", ...}]`
-- [ ] Ensure responses satisfy the minimum-field requirements in §3
-- [ ] Remove or gate forbidden predicates (see §2.2 and §3.4)
-- [ ] Return RFC 7807 errors with `application/problem+json` content type
-- [ ] Support content negotiation; set `Vary: Accept`
-- [ ] Enable CORS for reads: `Access-Control-Allow-Origin: *`
-- [ ] Paginate list responses with `page` and `limit`, and the `openric:` envelope keys in §3.3
-- [ ] Run `./probe.sh --profile core-discovery {base-url}` - all tests pass
-- [ ] Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
+- Implement or expose the ten required endpoints under a single base URL
+- Emit `openric_conformance` in the service description with `profiles: [{id: "core-discovery", ...}]`
+- Ensure responses satisfy the minimum-field requirements in §3
+- Remove or gate forbidden predicates (see §2.2 and §3.4)
+- Return RFC 7807 errors with `application/problem+json` content type
+- Support content negotiation; set `Vary: Accept`
+- Enable CORS for reads: `Access-Control-Allow-Origin: *`
+- Paginate list responses with `page` and `limit`, and the `openric:` envelope keys in §3.3
+- Run `./probe.sh --profile core-discovery {base-url}` - all tests pass
+- Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
 ## 9. Migration
 

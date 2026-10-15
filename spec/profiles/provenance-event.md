@@ -193,17 +193,17 @@ Fixtures `activity-production` and `activity-accumulation` remain tagged for **`
 
 ## 8. Implementation checklist
 
-- [ ] Type every event as `rico:Activity` (never a custom subclass) and emit `rico:hasActivityType` with an IRI from `https://openric.org/vocab/activity-type/`
-- [ ] Production-typed Activities: include `rico:resultsOrResultedIn` (Record stub) AND `rico:hasOrHadParticipant` (Agent stub) AND `rico:isAssociatedWithDate` (`openricx:DateRange`)
-- [ ] Accumulation-typed Activities: include `rico:resultsOrResultedIn` AND `rico:isAssociatedWithDate` (participant optional)
-- [ ] Generic Activities (custody, publication, etc.): include `rico:isAssociatedWithDate` - results + participants + location all optional
-- [ ] Embed cross-entity links as `{@id, @type, rico:name}` stubs - not bare URI strings
-- [ ] `@type` on participants always resolves to Person / CorporateBody / Family / Agent
-- [ ] `@type` on results always resolves to RecordSet / Record / RecordPart
-- [ ] `rico:hasActivityType` emitted on generic Activities so consumers can dispatch on `custody` / `publication` / `reproduction`
-- [ ] Add `provenance-event` to `openric_conformance.profiles` in `GET /` - only after `authority-context` is already declared
-- [ ] Run the conformance probe with `--profile=provenance-event` - both shipped fixtures pass
-- [ ] `/conformance/badge?profile=provenance-event` returns shields.io JSON
+- Type every event as `rico:Activity` (never a custom subclass) and emit `rico:hasActivityType` with an IRI from `https://openric.org/vocab/activity-type/`
+- Production-typed Activities: include `rico:resultsOrResultedIn` (Record stub) AND `rico:hasOrHadParticipant` (Agent stub) AND `rico:isAssociatedWithDate` (`openricx:DateRange`)
+- Accumulation-typed Activities: include `rico:resultsOrResultedIn` AND `rico:isAssociatedWithDate` (participant optional)
+- Generic Activities (custody, publication, etc.): include `rico:isAssociatedWithDate` - results + participants + location all optional
+- Embed cross-entity links as `{@id, @type, rico:name}` stubs - not bare URI strings
+- `@type` on participants always resolves to Person / CorporateBody / Family / Agent
+- `@type` on results always resolves to RecordSet / Record / RecordPart
+- `rico:hasActivityType` emitted on generic Activities so consumers can dispatch on `custody` / `publication` / `reproduction`
+- Add `provenance-event` to `openric_conformance.profiles` in `GET /` - only after `authority-context` is already declared
+- Run the conformance probe with `--profile=provenance-event` - both shipped fixtures pass
+- `/conformance/badge?profile=provenance-event` returns shields.io JSON
 
 ## 9. Design decisions
 

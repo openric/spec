@@ -38,7 +38,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 <div class="demo-stage">
   <div id="openric-graph"></div>
 
-  <aside class="demo-side-panel">
+  <aside class="demo-side-panel" tabindex="0" aria-label="Entity details">
     <h3>About this view</h3>
     <p>
       A 2-hop subgraph rooted at the URI you selected, served by

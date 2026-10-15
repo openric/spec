@@ -36,7 +36,7 @@ This page is generated, not written. The specification figures come from the rel
 
 Two columns per implementation, kept apart on purpose. **Declared** is what the implementation claims in its own service description. **Tested** is the result of the [conformance probe](/conformance/) run against it, with the date of the run. The probe runs daily against the reference service and is read-only: checks that would need to write are skipped, and a profile with skipped checks is never shown as a plain pass. A declaration without a test result is a claim to check, not a verified pass. You can run the probe against any server yourself.
 
-<table id="conformance-matrix">
+<table id="conformance-matrix-table">
   <thead>
     <tr>
       <th>Profile</th><th>Status in the spec</th><th>Reference service: declared</th><th>Reference service: tested</th>

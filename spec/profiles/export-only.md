@@ -208,21 +208,21 @@ Fixtures outside this list are NOT required for profile conformance.
 
 ## 8. Implementation checklist
 
-- [ ] Implement `/api/ric/v1/oai` accepting both GET and POST
-- [ ] Handle all six OAI-PMH verbs per §4 of the OAI-PMH v2.0 spec
-- [ ] Advertise at least `oai_dc` and `rico_ld` in ListMetadataFormats
-- [ ] Wrap `rico_ld` metadata in CDATA inside `<metadata>`
-- [ ] Set `granularity: YYYY-MM-DDThh:mm:ssZ` in Identify (fine grain)
-- [ ] Set `protocolVersion: 2.0` in Identify
-- [ ] Return `<error code="...">` (not problem+json) on OAI-PMH errors
-- [ ] Implement `/api/ric/v1/records/{slug}/export`
-- [ ] Default to JSON-LD; honour `?format=ttl` and `?format=rdf`
-- [ ] Emit `Content-Disposition: attachment` on exports
-- [ ] Emit lossless round-trips across JSON-LD / Turtle / RDF-XML (triple-set parity)
-- [ ] 404 (not empty envelope) for non-existent slug on `/export`
-- [ ] Add `export-only` to `openric_conformance.profiles` in `GET /`
-- [ ] Run the conformance probe with `--profile=export-only` - all 3 shipped fixtures pass
-- [ ] `/conformance/badge?profile=export-only` returns shields.io JSON
+- Implement `/api/ric/v1/oai` accepting both GET and POST
+- Handle all six OAI-PMH verbs per §4 of the OAI-PMH v2.0 spec
+- Advertise at least `oai_dc` and `rico_ld` in ListMetadataFormats
+- Wrap `rico_ld` metadata in CDATA inside `<metadata>`
+- Set `granularity: YYYY-MM-DDThh:mm:ssZ` in Identify (fine grain)
+- Set `protocolVersion: 2.0` in Identify
+- Return `<error code="...">` (not problem+json) on OAI-PMH errors
+- Implement `/api/ric/v1/records/{slug}/export`
+- Default to JSON-LD; honour `?format=ttl` and `?format=rdf`
+- Emit `Content-Disposition: attachment` on exports
+- Emit lossless round-trips across JSON-LD / Turtle / RDF-XML (triple-set parity)
+- 404 (not empty envelope) for non-existent slug on `/export`
+- Add `export-only` to `openric_conformance.profiles` in `GET /`
+- Run the conformance probe with `--profile=export-only` - all 3 shipped fixtures pass
+- `/conformance/badge?profile=export-only` returns shields.io JSON
 
 ## 9. Design decisions
 

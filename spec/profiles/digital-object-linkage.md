@@ -236,18 +236,18 @@ Fixtures outside this list are NOT required for profile conformance.
 
 ## 8. Implementation checklist
 
-- [ ] Expose the four required endpoints from §2.1
-- [ ] Emit `@type: rico:Instantiation` on every instantiation response
-- [ ] Emit at least one of `hasCarrierType` / `hasMimeType` / `hasContentOfType` / `hasProductionTechnique` per Instantiation
-- [ ] Emit `rico:isOrWasInstantiationOf` pointing at a real Record (stub with `@id` + `@type` + `rico:title`)
-- [ ] Validate Instantiation responses against `:InstantiationShape` - 0 Violations
-- [ ] Emit `@type: openricx:Function` on every function response
-- [ ] Emit a name (`rico:name` or `rico:hasOrHadName`) on every Function
-- [ ] Add `digital-object-linkage` to `openric_conformance.profiles` in `GET /`
-- [ ] Run the conformance probe with `--profile=digital-object-linkage` - all shipped fixtures pass
-- [ ] Emit `/conformance/badge?profile=digital-object-linkage` returning shields.io JSON
-- [ ] *(optional)* Implement `POST /upload` - handle all four error paths (`no_file`, `invalid_file`, `too_large`, auth)
-- [ ] *(optional)* Implement `GET /thumbnail/{id}` - handle `not_found`, `source_missing`, `not_an_image`
+- Expose the four required endpoints from §2.1
+- Emit `@type: rico:Instantiation` on every instantiation response
+- Emit at least one of `hasCarrierType` / `hasMimeType` / `hasContentOfType` / `hasProductionTechnique` per Instantiation
+- Emit `rico:isOrWasInstantiationOf` pointing at a real Record (stub with `@id` + `@type` + `rico:title`)
+- Validate Instantiation responses against `:InstantiationShape` - 0 Violations
+- Emit `@type: openricx:Function` on every function response
+- Emit a name (`rico:name` or `rico:hasOrHadName`) on every Function
+- Add `digital-object-linkage` to `openric_conformance.profiles` in `GET /`
+- Run the conformance probe with `--profile=digital-object-linkage` - all shipped fixtures pass
+- Emit `/conformance/badge?profile=digital-object-linkage` returning shields.io JSON
+- *(optional)* Implement `POST /upload` - handle all four error paths (`no_file`, `invalid_file`, `too_large`, auth)
+- *(optional)* Implement `GET /thumbnail/{id}` - handle `not_found`, `source_missing`, `not_an_image`
 
 ## 9. Design decisions
 

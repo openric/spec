@@ -260,15 +260,15 @@ Fixtures outside this list are NOT required for profile conformance.
 
 A server implementer works through:
 
-- [ ] Expose the six required endpoints from §2.1
-- [ ] Emit `@type: rico:Place | rico:Rule | rico:Activity` and add `rico:hasActivityType <…vocab IRI…>` for events with a canonical type
-- [ ] Validate each response against `shapes/profiles/authority-context.shacl.ttl`
-- [ ] Emit `owl:sameAs` for every entity whose backing row has an authority URI
-- [ ] Preserve place hierarchy via `rico:isOrWasPartOf` stubs
-- [ ] Emit date ranges on activities as `openricx:DateRange` structured objects (not loose `xsd:date` strings)
-- [ ] Update `GET /` to include `authority-context` in `openric_conformance.profiles`
-- [ ] Run the conformance probe with `--profile=authority-context` - all 6 shipped fixtures pass
-- [ ] Emit badge URL `/conformance/badge?profile=authority-context` that returns shields.io-compatible JSON
+- Expose the six required endpoints from §2.1
+- Emit `@type: rico:Place | rico:Rule | rico:Activity` and add `rico:hasActivityType <…vocab IRI…>` for events with a canonical type
+- Validate each response against `shapes/profiles/authority-context.shacl.ttl`
+- Emit `owl:sameAs` for every entity whose backing row has an authority URI
+- Preserve place hierarchy via `rico:isOrWasPartOf` stubs
+- Emit date ranges on activities as `openricx:DateRange` structured objects (not loose `xsd:date` strings)
+- Update `GET /` to include `authority-context` in `openric_conformance.profiles`
+- Run the conformance probe with `--profile=authority-context` - all 6 shipped fixtures pass
+- Emit badge URL `/conformance/badge?profile=authority-context` that returns shields.io-compatible JSON
 
 ## 9. Design decisions
 
