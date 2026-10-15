@@ -42,9 +42,12 @@
     "rico:type":        { "type": "string" },
     "rico:identifier":  { "type": "string", "minLength": 1 },
     "rico:title":       { "$ref": "#/$defs/langString" },
-    "openricx:description": { "$ref": "#/$defs/langString" },
+    "rico:scopeAndContent": { "$ref": "#/$defs/langString" },
+    "openricx:description": { "$ref": "#/$defs/langString", "description": "Deprecated for scope and content in favour of rico:scopeAndContent; servers send both until v0.47.0." },
     "rico:history":     { "$ref": "#/$defs/langString" },
-    "openricx:arrangement": { "$ref": "#/$defs/langString" },
+    "rico:structure":   { "$ref": "#/$defs/langString" },
+    "rico:generalDescription": { "$ref": "#/$defs/langString" },
+    "openricx:arrangement": { "$ref": "#/$defs/langString", "description": "Deprecated: use rico:structure." },
 
     "openricx:hasDateRangeSet": {
       "oneOf": [

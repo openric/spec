@@ -129,7 +129,9 @@ openricx:generalContext a owl:DatatypeProperty ; rdfs:label "general context"@en
     rdfs:comment "ISAAR(CPF) 5.2.8 general-context field — the broad social, political, or institutional context surrounding an Agent."@en .
 
 openricx:arrangement a owl:DatatypeProperty ; rdfs:label "arrangement"@en ;
-    rdfs:comment "ISAD(G) 3.3.4 system-of-arrangement field on a RecordSet."@en .
+    rdfs:comment "ISAD(G) 3.3.4 system-of-arrangement field on a RecordSet. Deprecated 2026-10-15: RiC-O 1.1 defines rico:structure (RiC-AG comparison, mapping O-8)."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#structure> .
 
 openricx:publicationInformation a owl:DatatypeProperty ; rdfs:label "publication information"@en ;
     rdfs:comment "ISAD(G) 3.5.4 publication note."@en .

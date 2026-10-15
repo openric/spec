@@ -240,29 +240,29 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 |---|---|---|
 | 3.1.1 Reference code | `rico:identifier` | |
 | 3.1.2 Title | `rico:title` | Language-tagged per `culture` |
-| 3.1.3 Date(s) | `openricx:hasDateRangeSet` → `openricx:DateRange` | See §7.2 |
-| 3.1.4 Level of description | *(drives class, see §6.1)* | Not emitted as a separate property |
+| 3.1.3 Date(s) | `openricx:hasDateRangeSet` → `openricx:DateRange` | See §7.2. The API shape; in RDF it expands to `rico:hasCreationDate`, `rico:hasBeginningDate` and `rico:hasEndDate` → `rico:Date` (RiC-AG) |
+| 3.1.4 Level of description | *(drives class, see §6.1)*, and `rico:hasRecordSetType` → `rico:RecordSetType` on a RecordSet | The class alone loses the level name; RiC-AG §5.3.1 |
 | 3.1.5 Extent and medium | `rico:hasExtent` → `rico:Extent` with `rico:hasExtentType` | |
 | 3.2.1 Name of creator(s) | `rico:hasCreator` → `rico:Agent` | |
 | 3.2.2 Administrative / biographical history | `rico:history` | On the Agent, not the Record |
 | 3.2.3 Archival history | `rico:history` on the Record | Free-text |
-| 3.2.4 Immediate source of acquisition | `rico:hasOrganicProvenance` → `rico:Agent` | |
-| 3.3.1 Scope and content | `openricx:description` | |
+| 3.2.4 Immediate source of acquisition | `rico:isOrWasAffectedBy` → `rico:Activity` (activity type `transfer`) with `rico:hasOrHadParticipant` → the source `rico:Agent` | Was `rico:hasOrganicProvenance`, which names the creator or accumulator, not the source (RiC-AG) |
+| 3.3.1 Scope and content | `rico:scopeAndContent` | Was `openricx:description`; servers that sent it SHOULD send both until v0.47.0 |
 | 3.3.2 Appraisal, destruction, scheduling | `openricx:hasAppraisalInformation` | |
 | 3.3.3 Accruals | `rico:accruals` | RiC-O 1.1 property; `openricx:accrualsNote` (v0.44.0) is deprecated |
-| 3.3.4 System of arrangement | `openricx:arrangement` | |
+| 3.3.4 System of arrangement | `rico:structure` | Was `openricx:arrangement` (deprecated) |
 | 3.4.1 Conditions governing access | `rico:conditionsOfAccess` | |
 | 3.4.2 Conditions governing reproduction | `rico:conditionsOfUse` | |
 | 3.4.3 Language/scripts of material | `rico:hasOrHadLanguage` → ISO 639-3 code | |
-| 3.4.4 Physical characteristics | `rico:hasCarrierType` | |
+| 3.4.4 Physical characteristics | `rico:physicalCharacteristicsNote` on the record's `rico:Instantiation` | Was `rico:hasCarrierType`, which names the carrier, not its condition |
 | 3.4.5 Finding aids | `rico:isOrWasDescribedBy` → finding-aid Record (which carries `rico:hasDocumentaryFormType <https://www.ica.org/standards/RiC/ontology#FindingAid>`) | Canonical RiC-O 1.1 pattern per Florence Clavaud (RiC user group) - `FindingAid` is a `DocumentaryFormType` individual, not a separate property |
 | 3.5.1 Existence and location of originals | `rico:hasOrHadLocation` | |
 | 3.5.2 Existence and location of copies | `rico:hasOrHadInstantiation` | |
 | 3.5.3 Related units of description | `rico:isRelatedTo` | |
 | 3.5.4 Publication note | `openricx:publicationInformation` | |
-| 3.6.1 Note | `rdfs:comment` | |
+| 3.6.1 Note | `rico:generalDescription` | Was `rdfs:comment` |
 | 3.7.1 Archivist's note | `openricx:descriptiveNote` | |
-| 3.7.2 Rules or conventions | `dcterms:conformsTo` → `rico:Rule` | Links to ISAD/RAD/DACS record |
+| 3.7.2 Rules or conventions | `rico:isOrWasRegulatedBy` → `rico:Rule` | Links to the ISAD/RAD/DACS rule; `dcterms:conformsTo` MAY also be sent |
 | 3.7.3 Dates of description | `openricx:hasDateRangeSet` (descriptive) | Distinct from record dates |
 | *(Subjects / access points)* | `rico:hasOrHadSubject` | |
 | *(Parent)* | `rico:isOrWasIncludedIn` | Inverse: `rico:includesOrIncluded` |
@@ -289,12 +289,13 @@ Dates are emitted as `openricx:DateRange` objects:
 
 | ISAAR(CPF) element | RiC predicate |
 |---|---|
+| 5.1.1 Type of entity | *(drives class: `rico:Person`, `rico:CorporateBody` or `rico:Family`, see §6.2)* |
 | 5.1.2 Authorised form of name | `rico:name`, also `openricx:normalizedForm` |
 | 5.1.3 Parallel forms of name | `openricx:alternativeForm` |
 | 5.1.4 Standardised forms (other rules) | `openricx:alternativeForm` |
 | 5.1.5 Other forms of name | `openricx:otherName` |
 | 5.1.6 Identifiers | `rico:identifier` |
-| 5.2.1 Dates of existence | `openricx:hasDateRangeSet` with `dateType=existence` |
+| 5.2.1 Dates of existence | `openricx:hasDateRangeSet` with `dateType=existence`; in RDF `rico:hasBirthDate` / `rico:hasDeathDate` (persons) or `rico:hasBeginningDate` / `rico:hasEndDate` → `rico:Date` |
 | 5.2.2 History | `rico:history` |
 | 5.2.3 Places | `rico:isAssociatedWithPlace` → `rico:Place` |
 | 5.2.4 Legal status | `rico:hasOrHadLegalStatus` |
@@ -303,15 +304,17 @@ Dates are emitted as `openricx:DateRange` objects:
 | 5.2.7 Internal structures / genealogy | `openricx:hasInternalStructure` |
 | 5.2.8 General context | `openricx:generalContext` |
 | 5.3.x Relationships | `isOrWas...Of` property family (e.g. `rico:isOrWasOwnerOf`, `rico:isOrWasHolderOf`) - see §8 |
+| 5.4.x Control area | See §7.5 |
 
 ### 7.4 Repository (ISDIAH)
 
 | ISDIAH element | RiC predicate |
 |---|---|
+| 5.1.1 Identifier | `rico:identifier` |
 | 5.1.2 Authorized form of name | `rico:name` |
 | 5.1.3 Parallel / other forms | `openricx:alternativeForm`, `openricx:otherName` |
 | 5.1.5 Type of institution | `openricx:institutionType` |
-| 5.2.1 Location and address | `rico:isAssociatedWithPlace` → `rico:Place` with `openricx:streetAddress` |
+| 5.2.1 Location and address | `rico:hasOrHadLocation` → `rico:Place` with `openricx:streetAddress` |
 | 5.2.2 Telephone, fax, email | `openricx:contact` → `openricx:ContactPoint` |
 | 5.3.1 History of the institution | `rico:history` |
 | 5.3.2 Geographical and cultural context | `openricx:generalContext` |
@@ -324,8 +327,47 @@ Dates are emitted as `openricx:DateRange` objects:
 | 5.4.1 Opening times | `openricx:openingHours` |
 | 5.4.2 Conditions and requirements for access | `rico:conditionsOfAccess` |
 | 5.4.3 Accessibility | `openricx:accessibility` |
+| 5.2.3 Contact persons | `openricx:contact` → `openricx:ContactPoint`; a named person as `rico:Person` with `rico:hasOrHadPosition` |
+| 5.5.1 Research services | `rico:performsOrPerformed` → `rico:Activity`, or text in `rico:generalDescription` |
+| 5.5.2 Reproduction services | As 5.5.1 |
+| 5.5.3 Public areas | `rico:hasOrHadLocation` → `rico:Place`, with `rico:generalDescription` |
+| 5.6.x Control area | See §7.5 |
 
 ---
+
+### 7.5 Control areas (ISAAR(CPF) 5.4, ISDF 5.4, ISDIAH 5.6)
+
+Following RiC-AG §5.3.4, a description is itself a `rico:Record` that `rico:describesOrDescribed` the entity and `rico:resultsOrResultedFrom` the `rico:Activity` that produced it.
+
+| Element | RiC-O 1.1 |
+|---|---|
+| Description identifier (5.4.1 / 5.6.1) | `rico:identifier` on the describing Record |
+| Institution identifier (5.4.2 / 5.6.2) | The describing Record `rico:resultsOrResultedFrom` an Activity that `rico:isOrWasPerformedBy` the institution |
+| Rules and/or conventions (5.4.3 / 5.6.3) | `rico:isOrWasRegulatedBy` → `rico:Rule` |
+| Status (5.4.4 / 5.6.4) | No RiC-O 1.1 property; text in `rico:generalDescription` |
+| Level of detail (5.4.5 / 5.6.5) | `rico:generalDescription` |
+| Dates of creation, revision or deletion (5.4.6 / 5.6.6) | `rico:hasCreationDate` and `rico:hasModificationDate` → `rico:Date` |
+| Language(s) and script(s) (5.4.7 / 5.6.7) | `rico:hasOrHadLanguage` → `rico:Language` |
+| Sources (5.4.8 / 5.6.8) | `rico:generalDescription` |
+| Maintenance notes (5.4.9 / 5.6.9) | `rico:generalDescription` |
+
+### 7.6 Function (ISDF)
+
+OpenRiC serves functions as `openricx:Function` (§6.4). RiC-AG maps ISDF to `rico:Activity`; the properties below apply to either.
+
+| ISDF element | RiC predicate |
+|---|---|
+| 5.1.1 Type | `rico:hasActivityType` |
+| 5.1.2 Authorised form(s) of name | `rico:name` |
+| 5.1.3 Parallel form(s) of name | `openricx:alternativeForm` |
+| 5.1.4 Other form(s) of name | `openricx:otherName` |
+| 5.1.5 Classification | `rico:classification` |
+| 5.2.1 Dates | `rico:hasBeginningDate` / `rico:hasEndDate` → `rico:Date`; free text in `rico:date` |
+| 5.2.2 Description | `rico:generalDescription` |
+| 5.2.3 History | `rico:history` |
+| 5.2.4 Legislation | `rico:isOrWasRegulatedBy` → `rico:Rule` |
+| 5.3.x Related functions | `rico:isRelatedTo`, or `rico:followsInTime` / `rico:isOrWasPartOf` where the relation is known |
+| 5.4.x Control area | See §7.5 |
 
 ## 8. Relationships
 
@@ -529,7 +571,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 - **O-5 - Thing / container modelling.** RiC-O does not have a native `Container` or `StorageLocation` class; we map to `rico:Thing` with `openric:localType`. May warrant an OpenRiC-Storage extension.
 - **O-6 - `openric:` terms with no definition (resolved 2026-10-15).** §4 bound `openric:` for viewing hints, yet the profiles, schemas, fixtures and the reference service also used it for list envelopes, errors, the service description and the `localType`, `jurisdiction` and `role` annotations, and no vocabulary at `https://openric.org/ns/v1#` defined any of them. The [OpenRiC API vocabulary](../ns/v1.html) now defines every `openric:` term in use, so no response changed. The four terms only this mapping named and nothing emitted (`accrualsNote`, `institutionType`, `openingHours`, `accessibility`) moved to `openricx:`. `openricx:jurisdiction`, defined but never emitted, is deprecated in favour of `openric:jurisdiction`. Five fixtures that used `openric:` without binding it now bind it, as the service does, and `bin/check-vocab.py` fails CI on any undefined or unbound term.
 - **O-7 - Pinned RiC-O version disagreed (resolved 2026-10-15).** The draft [Governance profile](profiles/governance.html) §2 pinned RiC-O 1.0.2, carried over from the Heratio implementation; it now pins 1.1, the version this mapping and every normative profile target.
-- **O-8 - Differences from RiC-AG.** The [row-by-row comparison](../audit/ric-ag-crosswalk-comparison.html) found OpenRiC using extension terms where RiC-O 1.1 has a property (`rico:scopeAndContent`, `rico:structure`, `rico:generalDescription`), `rico:hasOrganicProvenance` for the immediate source of acquisition, a carrier type for physical characteristics, `dcterms:conformsTo` for rules or conventions, and no row at all for 52 elements, including every ISDF element. Each change alters emitted data, so each goes through [change control](change-control.html) with a deprecation period.
+- **O-8 - Differences from RiC-AG (resolved in the mapping 2026-10-15).** The [row-by-row comparison](../audit/ric-ag-crosswalk-comparison.html) found extension terms used where RiC-O 1.1 has a property, four semantic mismatches and 52 elements with no row. §7 now uses `rico:scopeAndContent`, `rico:structure`, `rico:generalDescription`, `rico:isOrWasRegulatedBy`, `rico:physicalCharacteristicsNote` and an acquisition Activity, states the RiC-O expansion of date range sets, adds `rico:hasRecordSetType`, and covers the control areas (§7.5) and ISDF (§7.6). Only scope and content was emitted by the reference service; it sends both forms until v0.47.0.
 
 ---
 
@@ -537,7 +579,8 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
-| next release | 2026-10-15 | Compared row by row with RiC-AG (audit page; O-8 registered); 3.3.3 maps to `rico:accruals`; ISDIAH type of institution renumbered 5.1.5. |
+| next release | 2026-10-15 | O-8 resolved: §7 rows follow RiC-AG with RiC-O 1.1 terms (scope and content, structure, notes, rules, physical characteristics, acquisition, date expansion, record set type); new §7.5 control areas and §7.6 ISDF. |
+| v0.45.0 | 2026-10-15 | Compared row by row with RiC-AG (audit page; O-8 registered); 3.3.3 maps to `rico:accruals`; ISDIAH type of institution renumbered 5.1.5. |
 | v0.44.0 | 2026-10-15 | Add §1.3: the editions every row is made against, what the mapping does not claim (ICA endorsement, lossless legacy round trip, full RiC-AG agreement, RiC conformance), and what OpenRiC adds on top of RiC. Register and resolve O-6 (publish the `openric:` API vocabulary; four mapping-only terms move to `openricx:`) and O-7 (Governance profile pin brought to RiC-O 1.1). |
 | 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) - treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
 | 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A-E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
