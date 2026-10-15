@@ -25,9 +25,11 @@ cd "$(dirname "$0")/.."
 
 git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null || { echo "No tag ${TAG}." >&2; exit 1; }
 
-# The normative content plus the data the site renders from. Paths a tag does
+# The normative content, the API contract, the probe, validator, minimal server
+# and guides an implementer needs offline, and the data the site renders from
+# (S-GATE: implementable without the live service). Paths a tag does
 # not contain (older tags predate some of them) are left out, not an error.
-WANTED=(spec schemas shapes fixtures ns vocab version.json _data CHANGELOG.md LICENSE)
+WANTED=(spec contract schemas shapes fixtures ns vocab conformance validator examples guides version.json release.json _data CHANGELOG.md LICENSE SECURITY.md)
 PRESENT=()
 for p in "${WANTED[@]}"; do
     git cat-file -e "${TAG}:${p}" 2>/dev/null && PRESENT+=("$p")
