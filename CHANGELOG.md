@@ -6,6 +6,8 @@ Newest first. From the release after v0.43.14, `bin/release` writes each entry, 
 
 Part I corrections: data-driven site and release manifest, status and versions pages, evidence labels; API contract (OpenAPI 3.1) checked in CI; crosswalk editions and change-control policy; openric: API vocabulary published; Core Discovery 0.4.0 list envelope; conformance probe gains round-trip editing and provenance and event checks; implementer quickstart
 
+Migration: Core Discovery 0.3.0 to 0.4.0 is breaking for list responses. Servers send `openric:total`, `openric:page`, `openric:limit` and `openric:items` (integers and an array) and page by `page` and `limit`; `offset` is gone; the old `ric:*` keys may stay as aliases. Clients read the `openric:` keys. Full table: [Core Discovery §9](spec/profiles/core-discovery.md).
+
 Approved by: Dr Johan Pieterse, 2026-10-15
 
 ## v0.43.14 - 2026-10-14
