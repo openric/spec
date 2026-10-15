@@ -80,7 +80,7 @@ Servers MUST set `Vary: Accept` on every response that content-negotiates.
   "name": "string, human-readable service name",
   "version": "string, implementation version",
   "openric_conformance": {
-    "spec_version": "string, the specification version the server verifies against, e.g. \"{{ site.data.version.version }}\"",
+    "spec_version": "string, e.g. \"{{ site.data.version.version }}\"",
     "profiles": [
       {
         "id": "core-discovery",

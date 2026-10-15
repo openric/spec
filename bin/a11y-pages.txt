@@ -12,3 +12,5 @@
 /spec/profiles/round-trip-editing.html
 /spec/change-control.html
 /demo/
+/spec/conformance.html
+/spec/viewing-api.html
