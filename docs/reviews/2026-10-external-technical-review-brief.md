@@ -21,7 +21,7 @@ Terms, including any payment and how the reviewer is credited, are agreed with D
 
 ## Part 1 - specification and profiles
 
-Read against **specification v0.45.0** (git tag `v0.45.0`, <https://github.com/openric/spec/tree/v0.45.0>). The two profiles chosen for close review are:
+Read against **specification v0.46.0** (git tag `v0.46.0`, <https://github.com/openric/spec/tree/v0.46.0>), with the reference service at **v0.17.11**. The two profiles chosen for close review are:
 
 - **Core Discovery 0.4.0** (`spec/profiles/core-discovery.md`) - the entry profile most implementers start with; its list envelope changed in 0.4.0.
 - **Round-Trip Editing 0.7.0** (`spec/profiles/round-trip-editing.md`) - the write surface, where mistakes cost data.
@@ -33,7 +33,7 @@ Questions we would like answered:
 1. Using only the documents, could you build a server that passes Core Discovery? Where did you have to guess?
 2. Is every MUST in the two profiles testable? Which ones does the probe (`conformance/probe.sh`) not test, or test wrongly?
 3. Do the profile text, the JSON Schemas, the SHACL shapes, the fixtures and the OpenAPI contract say the same thing? List every disagreement you find.
-4. Are the RiC-O terms used correctly? In particular, review the open findings in the RiC-AG comparison (mapping issue O-8) and say which you would fix first.
+4. Are the RiC-O terms used correctly? In particular, check how the RiC-AG comparison's findings F-1 to F-7 were resolved in v0.46.0 (mapping issue O-8, `spec/mapping.md` §7, §7.5 and §7.6), and say where you disagree.
 5. Is the line between RiC itself and what OpenRiC adds (`openric:`, `openricx:`) clear enough that nobody would mistake OpenRiC terms for RiC?
 6. Is the change-control policy workable for an outside implementer: would you know when a release can break your server?
 
@@ -43,7 +43,7 @@ Running the probe against the reference service is welcome (`bash conformance/pr
 
 Context: on 14 October 2026 anonymous writes to the production database were found to be possible through an open-write setting. The response (S0) is recorded in `docs/plans/2026-10-15-s0-closure-record.md` in openric/service. Scope for review:
 
-- Service releases v0.17.1 to v0.17.10 (openric/service tags): delete scope enforced per route, CORS allow-list for writes, key revocation, status-row allocation, input validation on writes.
+- Service releases v0.17.1 to v0.17.11 (openric/service tags): delete scope enforced per route, CORS allow-list for writes, key revocation, status-row allocation, input validation on writes.
 - The Content-Security-Policy on ric.theahg.co.za, enforcing since 15 October.
 - API key handling in the browser: Browse and the API explorer on openric.org, capture.openric.org and the service's `/api/ric/v1/docs` page keep keys for the browser session only.
 - The tests that cover these: `ApiSecurityTest`, `ListEnvelopeTest`, `StatusRowTest`.
