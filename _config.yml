@@ -46,6 +46,8 @@ include:
 
 exclude:
   - README.md
+  - SETUP_GITHUB.md
+  - CLAUDE.md
   - .gitignore
   - Gemfile
   - Gemfile.lock

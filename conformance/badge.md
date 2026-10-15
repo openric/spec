@@ -10,7 +10,7 @@ An OpenRiC server's conformance is public information by design — anyone can `
 
 ## Endpoint
 
-A conformant server MUST expose:
+A conformant server MAY expose:
 
 ```
 GET {base}/conformance/badge[?profile=<id>]

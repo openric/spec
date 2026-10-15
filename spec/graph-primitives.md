@@ -5,9 +5,7 @@ title: OpenRiC Graph Primitives
 
 # OpenRiC Graph Primitives
 
-**Last revised in:** v0.37.0
-**Status:** Active - RiC-O 1.1 namespace remediation complete
-**Last updated:** 2026-04-25
+**Last revised in:** v0.46.1
 
 ---
 
@@ -17,7 +15,7 @@ Defines the **abstract viewing model** - the minimum vocabulary a server emits a
 
 A server-produced subgraph described in these primitives can be rendered as a 2D force-directed graph, a 3D WebGL graph, a timeline, a matrix, a Sankey, or a form of visualisation not yet invented. The spec is deliberately minimal: **it describes what data travels, not what the screen looks like.**
 
-The reference implementation lives in Heratio's `buildGraphFromDatabase` and the 2D/3D viewer JavaScript that consumes it. The `@openric/viewer` package (pending extraction) will be the canonical viewer-side reference.
+The reference server is [openric/service](https://github.com/openric/service), whose `/graph` endpoint emits these primitives. The canonical viewer-side reference is the [`@openric/viewer`](https://www.npmjs.com/package/@openric/viewer) package on npm.
 
 ## 2. Namespace
 
@@ -238,6 +236,7 @@ Why so minimal? Because IIIF's biggest win was deciding what *not* to specify. A
 | Version | Date | Notes |
 |---|---|---|
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `buildGraphFromDatabase` and the 2D/3D viewer. |
+| v0.46.1 | 2026-10-15 | Reference implementation and viewer package pointers brought up to date. |
 
 ---
 

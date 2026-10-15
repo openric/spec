@@ -5,7 +5,7 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.38.1
+**Last revised in:** v0.46.0
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
 **Last updated:** 2026-10-15
 
@@ -562,11 +562,11 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 ---
 
-## 11. Open issues
+## 12. Open issues
 
 - **O-1 - Level-to-class flexibility.** The `file` level maps to `rico:RecordSet`, following Heratio's implementation. Some communities prefer `file` → `rico:Record`. Under discussion.
 - **O-2 - Rights statements.** RiC-O's rights vocabulary is thin. A separate OpenRiC-Rights spec is likely, building on ODRL.
-- **O-3 - Preservation events.** RiC-CM covers preservation; the predicate set in RiC-O 1.1 is incomplete for fine-grained PREMIS-equivalent events. Deferred to v0.2.
+- **O-3 - Preservation events.** RiC-CM covers preservation; the predicate set in RiC-O 1.1 is incomplete for fine-grained PREMIS-equivalent events. Open; no release targeted.
 - **O-4 - Multilinguality of `rico:title` and `openricx:description`.** Whether to emit one triple per culture with `@language`, or a single JSON-LD object with `@value`/`@language` pairs. Current recommendation: array of language-tagged strings. Under review.
 - **O-5 - Thing / container modelling.** RiC-O does not have a native `Container` or `StorageLocation` class; we map to `rico:Thing` with `openric:localType`. May warrant an OpenRiC-Storage extension.
 - **O-6 - `openric:` terms with no definition (resolved 2026-10-15).** §4 bound `openric:` for viewing hints, yet the profiles, schemas, fixtures and the reference service also used it for list envelopes, errors, the service description and the `localType`, `jurisdiction` and `role` annotations, and no vocabulary at `https://openric.org/ns/v1#` defined any of them. The [OpenRiC API vocabulary](../ns/v1.html) now defines every `openric:` term in use, so no response changed. The four terms only this mapping named and nothing emitted (`accrualsNote`, `institutionType`, `openingHours`, `accessibility`) moved to `openricx:`. `openricx:jurisdiction`, defined but never emitted, is deprecated in favour of `openric:jurisdiction`. Five fixtures that used `openric:` without binding it now bind it, as the service does, and `bin/check-vocab.py` fails CI on any undefined or unbound term.
@@ -575,11 +575,11 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 ---
 
-## 12. Change log
+## 13. Change log
 
 | Version | Date | Notes |
 |---|---|---|
-| next release | 2026-10-15 | O-8 resolved: §7 rows follow RiC-AG with RiC-O 1.1 terms (scope and content, structure, notes, rules, physical characteristics, acquisition, date expansion, record set type); new §7.5 control areas and §7.6 ISDF. |
+| v0.46.0 | 2026-10-15 | O-8 resolved: §7 rows follow RiC-AG with RiC-O 1.1 terms (scope and content, structure, notes, rules, physical characteristics, acquisition, date expansion, record set type); new §7.5 control areas and §7.6 ISDF. |
 | v0.45.0 | 2026-10-15 | Compared row by row with RiC-AG (audit page; O-8 registered); 3.3.3 maps to `rico:accruals`; ISDIAH type of institution renumbered 5.1.5. |
 | v0.44.0 | 2026-10-15 | Add §1.3: the editions every row is made against, what the mapping does not claim (ICA endorsement, lossless legacy round trip, full RiC-AG agreement, RiC conformance), and what OpenRiC adds on top of RiC. Register and resolve O-6 (publish the `openric:` API vocabulary; four mapping-only terms move to `openricx:`) and O-7 (Governance profile pin brought to RiC-O 1.1). |
 | 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) - treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |

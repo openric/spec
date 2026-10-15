@@ -13,8 +13,8 @@ It is **not a product**. It is a *contract* anyone can implement - the way [IIIF
 
 | Surface | What it is | Where |
 |---|---|---|
-| **Specification** | Four documents, JSON Schemas, SHACL shapes, [profiles](/spec/profiles/), a conformance probe | openric.org |
-| **Reference API** | A Laravel service implementing the contract over real archival data - 8-entity CRUD, SPARQL, OAI-PMH | [ric.theahg.co.za](https://ric.theahg.co.za/) |
+| **Specification** | The base documents, JSON Schemas, SHACL shapes, [profiles](/spec/profiles/), a conformance probe | openric.org |
+| **Reference API** | A Laravel service implementing the contract over a demonstration archival dataset - 8-entity CRUD, SPARQL, OAI-PMH | [ric.theahg.co.za](https://ric.theahg.co.za/) |
 | **Clients** | Pure-browser apps: [viewer](https://viewer.openric.org/), [capture](https://capture.openric.org/), the [modelling wizard](/wizard/) | openric.org / subdomains |
 | **Model navigator** | The RiC-CM model, browsable | [ric.theahg.co.za/reference/ric-cm](https://ric.theahg.co.za/reference/ric-cm/) |
 

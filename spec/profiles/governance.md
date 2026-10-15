@@ -99,4 +99,4 @@ A server claims the Governance Profile when:
 - SHACL validation gates merges in CI.
 - A public, versioned change log exists.
 
-Declared in the service description as `{ "id": "governance", "version": "0.43.0", "conformance": "full" }`.
+Declared in the service description as `{ "id": "governance", "version": "0.44.0", "conformance": "full" }`.

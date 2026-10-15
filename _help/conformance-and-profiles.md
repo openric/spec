@@ -7,14 +7,9 @@ summary: How OpenRiC conformance works - the profile model, the legacy levels, t
 
 OpenRiC conformance is **profile-based**: a server declares which named capabilities it supports, and consumers know exactly what to expect - no all-or-nothing claim.
 
-## Profiles and levels
+## Profiles, not levels
 
-Two independent dimensions:
-
-- **Profile** - *which* endpoints/entities are exposed (Core Discovery, Authority & Context, …). See the [profiles tree](/help/profiles-tree/).
-- **Level** - *how rigorously* (L1 mapping → L2 API → L3 graph → L4 full).
-
-A server declares one or more profiles and the level it meets for each, e.g. *"Core Discovery at L2, Authority & Context at L1."*
+A **profile** says *which* endpoints and entities a server exposes (Core Discovery, Authority & Context, and so on); see the [profiles tree](/help/profiles-tree/). A server declares the profiles it supports, each at a profile version. Older material talks about four conformance levels, L1 to L4; they are legacy and no longer part of a claim.
 
 ## The {{ site.data.profiles | size }} profiles
 
@@ -32,9 +27,9 @@ A server advertises its profiles in the service description at `GET /api/ric/v1/
 {
   "name": "Example Archive Catalogue",
   "openric_conformance": {
-    "spec_version": "0.42.x",
+    "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.3.0", "conformance": "full" }
+      { "id": "core-discovery", "version": "0.4.0", "conformance": "full" }
     ]
   }
 }
@@ -46,12 +41,12 @@ The conformance probe is pure bash + jq - point it at any server:
 
 ```bash
 BASE=https://ric.theahg.co.za/api/ric/v1 ./conformance/probe.sh
-# → PASS GET /records [200] … Summary: 30 pass, 0 fail, 0 skip
+# → one PASS, FAIL or SKIP line per check, then a summary
 # Scope to one profile:
 BASE=https://ric.theahg.co.za/api/ric/v1 ./conformance/probe.sh --profile=core-discovery
 ```
 
-It checks every documented endpoint and reports pass/fail; exit code 0 = conformant. With a `KEY=` it also exercises the write surface.
+It checks every documented endpoint and reports pass/fail; exit code 0 = conformant. With a `KEY=` it also exercises the write surface, so only add a key for a server whose data you may change - never the public reference service.
 
 ## SHACL
 

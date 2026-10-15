@@ -11,15 +11,13 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
 > **Prefer a catalogue view?** [/demo/browse/](browse/) renders the same data as a responsive card grid with per-type filters - useful for evaluating the shape of a dataset before drilling into the graph.
 
-> **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. Heratio itself is a consumer of this API - every mutating admin action calls `/api/ric/v1/*` with an `X-API-Key`, same surface you're using here. No privileged shortcut.
+> **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. The data is a demonstration set, reset every night. Heratio shares the database and writes through its own routes; see [Architecture](../architecture.html).
 
 <div class="demo-controls">
   <label for="demo-example">Try:</label>
   <select id="demo-example">
     <option value="https://heratio.theahg.co.za/informationobject/egyptian-boat">Egyptian Boat - RecordSet w/ subjects</option>
     <option value="https://heratio.theahg.co.za/informationobject/cat-in-arms">Cat in Arms - multilingual Record</option>
-    <option value="https://heratio.theahg.co.za/actor/binneman-family">Binneman Family - Agent w/ creator events</option>
-    <option value="https://heratio.theahg.co.za/actor/mobrey-family">Mobrey Family - Agent</option>
     <option value="https://heratio.theahg.co.za/place/912150">Egypt - Place</option>
   </select>
 

@@ -25,9 +25,9 @@ Governance is deliberately **lightweight** at this stage - the goal is to attrac
 
 ### Maintainer
 
-Currently: **Johan Pieterse** ([johan@theahg.co.za](mailto:johan@theahg.co.za)) - The Archive and Heritage Digital Commons Group (Pty) Ltd. Wrote the initial spec + reference implementation; operates `ric.theahg.co.za`; merges changes.
+Currently: **Dr Johan Pieterse** ([johan@theahg.co.za](mailto:johan@theahg.co.za)) - The Archive and Heritage Digital Commons Group (Pty) Ltd. Wrote the initial spec + reference implementation; operates `ric.theahg.co.za`; merges changes.
 
-This is a **single-maintainer-for-now** model. It will change once additional stewards are invited (see Phase 3 below).
+This is a **single-maintainer-for-now** model. It will change once additional stewards are invited (see the governance roadmap below).
 
 ### Implementers
 
@@ -39,7 +39,7 @@ Anyone who opens an issue, a discussion, or a pull request against the spec or a
 
 ### Reviewers (planned)
 
-The goal for **Phase 3** is to invite 2-3 external spec editors - people with standing in the archival standards community (ideally EGAD-adjacent or running another implementation) - to form a small review group. Until that happens, major changes are circulated via Discussions before being merged.
+The next step in the governance roadmap is to invite 2-3 external spec editors - people with standing in the archival standards community (ideally EGAD-adjacent or running another implementation) - to form a small review group. Until that happens, major changes are circulated via Discussions before being merged.
 
 ---
 
@@ -55,7 +55,7 @@ Minor spec changes (new optional endpoint, new SHACL warning, relaxed constraint
 
 1. **GitHub Discussion** with a concrete proposal (what changes, why, migration note if any).
 2. At least **one week** of visibility before merge, so implementers can object.
-3. Merged to the `main` branch if no objection; labelled in the changelog with the target minor version.
+3. Merged to the `main` branch if no objection, and released with the maintainer's approval line in the changelog, as [change control](spec/change-control.html#approval-and-the-signed-change-log) requires.
 
 Major changes (breaking shape change, new required endpoint, new conformance level) require:
 
@@ -76,7 +76,7 @@ PRs against `openric/service` (reference API) or any of `openric/viewer`, `openr
 
 The full policy is [Change control](spec/change-control.html): what carries a version, what each kind of change bumps, deprecation periods, migration notes, release approval and the signed change log, and which releases are supported. In short:
 
-- **`v0.x` series** - Breaking changes bump the minor version and need a migration note. Implementations advertise what they support per profile, each carrying its own version (e.g. `{ "id": "core-discovery", "version": "0.3.0", "conformance": "full" }`), so a profile can stabilise without waiting for the spec as a whole.
+- **`v0.x` series** - Breaking changes bump the minor version and need a migration note. Implementations advertise what they support per profile, each carrying its own version (e.g. `{ "id": "core-discovery", "version": "0.4.0", "conformance": "full" }`), so a profile can stabilise without waiting for the spec as a whole.
 - **`v1.0` onward** - Breaking changes only on major version bumps. Deprecated items stay until the next major release.
 - **JSON Schemas, SHACL shapes, the API contract** - versioned with the spec. A server claiming conformance to a given spec version MUST validate against that version's shape files.
 
@@ -102,11 +102,12 @@ You don't need permission - run the conformance probe:
 ```bash
 git clone https://github.com/openric/spec
 BASE=https://your.server/api/ric/v1 \
-KEY=your-write-key \
-bash spec/conformance/probe.sh
+bash conformance/probe.sh
 ```
 
-If it passes, you can publicly claim `OpenRiC v{{ site.data.version.version }}` conformance for the profiles the probe covered. If you'd like your server **listed on openric.org** as a known implementation, open a Discussion with the URL and a one-paragraph context note - that triggers the (planned) implementation registry (see the [roadmap](/)).
+Add `KEY=your-write-key` to test the write surface too, on a server whose data you may change.
+
+If it passes, you can publicly claim `OpenRiC v{{ site.data.version.version }}` conformance for the profiles the probe covered. If you'd like your server **listed on openric.org** as a known implementation, open a Discussion with the URL and a one-paragraph context note - and we review it for listing on [related implementations](/related-implementations.html).
 
 ---
 
@@ -114,8 +115,8 @@ If it passes, you can publicly claim `OpenRiC v{{ site.data.version.version }}` 
 
 | Phase | When | What |
 |---|---|---|
-| **Now** | v0.30.x-v0.35.x | Single maintainer; Discussions-based spec changes; lightweight policy. Six of seven profiles normative. |
-| **Next** | v0.35.0 → v1.0 | Invite 2-3 external spec editors. Formalise proposal-template. Add implementation registry. Move to a `MAINTAINERS.md` file. |
+| **Now** | to the Standard Acceptance Gate | Single maintainer; [change control](spec/change-control.html) in force since 2026-10-15; an external technical review of the specification before the gate is signed. |
+| **Next** | after the gate, to v1.0 | Invite 2-3 external spec editors. Formalise a proposal template. Add an implementation registry. Move to a `MAINTAINERS.md` file. |
 | **v1.0** | when a second implementation exists and passes conformance | Cut `v1.0`. Freeze the core contract. Major changes only on major bumps. |
 | **Post-v1.0** | later | Move governance to a working group or steering committee if community size warrants. Adopt a CoC if the contributor base grows beyond a handful. |
 
@@ -141,4 +142,4 @@ Contributors retain copyright in their contributions. By opening a PR you agree 
 ## Contact
 
 - Mailing list: currently via [GitHub Discussions](https://github.com/openric/spec/discussions)
-- Maintainer: Johan Pieterse - [johan@theahg.co.za](mailto:johan@theahg.co.za)
+- Maintainer: Dr Johan Pieterse - [johan@theahg.co.za](mailto:johan@theahg.co.za)

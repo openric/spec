@@ -140,11 +140,14 @@ curl -X POST https://ric.theahg.co.za/api/ric/v1/relations \
 
 ## Error shapes
 
-All errors are JSON with a predictable shape:
+Errors are [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) problem documents with `Content-Type: application/problem+json`, as Core Discovery requires:
 
 ```json
-{ "error": "forbidden", "message": "API key is missing the 'write' scope" }
+{ "type": "https://openric.org/errors/not-found", "title": "Not Found", "status": 404,
+  "detail": "Record not found", "instance": "/api/ric/v1/records/does-not-exist" }
 ```
+
+One exception on the reference server: a write refused for a missing or invalid key (401) still comes back as `{"success": false, "error": "Unauthorized", "message": "..."}`. It is listed in the [drift log](/drift-log.html).
 
 Common status codes:
 
@@ -237,8 +240,8 @@ curl -s "https://ric.theahg.co.za/api/ric/v1/places?per_page=1" | jq '."openric:
 
 The reference server caps at 60 requests / minute per IP. Higher-volume workloads should:
 
-1. Batch - there's no bulk endpoint in v0.1, but a tight loop with sleeps is fine up to the limit.
-2. Ask the operator for a key with a higher rate limit (the `ahg_api_key.rate_limit` column can be bumped per key).
+1. Batch - there is no bulk endpoint, but a tight loop with sleeps is fine up to the limit.
+2. Ask the operator for a key with a higher rate limit; limits are set per key.
 
 ## CORS
 

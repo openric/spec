@@ -80,12 +80,11 @@ Servers MUST set `Vary: Accept` on every response that content-negotiates.
   "name": "string, human-readable service name",
   "version": "string, implementation version",
   "openric_conformance": {
-    "spec_version": "0.35.0",
+    "spec_version": "string, the specification version the server verifies against, e.g. \"{{ site.data.version.version }}\"",
     "profiles": [
       {
         "id": "core-discovery",
-        "version": "0.3.0",
-        "level": "L2",
+        "version": "0.4.0",
         "conformance": "full"
       }
     ]
@@ -331,9 +330,9 @@ The probe MUST:
 5. Verify no forbidden predicates appear in responses
 6. Verify pagination links on list endpoints
 7. Verify RFC 7807 error shape on a deliberate 404
-8. Emit a JSON report - `{"profile":"core-discovery", "level":"L2", "pass":true, "tests":[...]}`
+8. Emit a JSON report (`--json=`, schema `openric-probe-result/1`) with the profile, a `verdict` and every check
 
-A server passes Core Discovery conformance when all tests pass. A server may pass at `level: L1` (mapping only) or `L2` (full API); higher levels require graph-primitives support, which is out of scope for this profile.
+A server passes Core Discovery conformance when all tests pass.
 
 ## 7. Fixture pack
 
@@ -467,4 +466,4 @@ Comments on any of these - including arguments to reverse a draft resolution - a
 
 ---
 
-*Copyright © 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Editor: Johan Pieterse ([johan@plainsailingisystems.co.za](mailto:johan@plainsailingisystems.co.za)).*
+*Copyright © 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Editor: Dr Johan Pieterse ([johan@theahg.co.za](mailto:johan@theahg.co.za)).*

@@ -18,6 +18,8 @@ The **OpenRiC spec is storage-agnostic.** Endpoints, JSON-LD shapes, SHACL shape
 
 Pick by operational fit, not semantic purity.
 
+On this page "the OpenRiC server" means any server that implements the OpenRiC contract. PostgreSQL and Fuseki are examples, not requirements. These are design patterns: none of them describes a product that exists today. The reference service runs on a database it shares with Heratio ([known issue K-9](spec/known-issues.html)), and [OpenRiC Workspace](application/), the planned archival application, will choose its own storage.
+
 ---
 
 ## What "RiC data" actually is
@@ -44,11 +46,11 @@ For any production archive with 10k+ records, **the hybrid pattern is where the 
 
 ## Topology A - Green-field standalone
 
-Small-to-medium archive with no legacy system. OpenRiC is the only platform.
+Small-to-medium archive with no legacy system. The OpenRiC server is the only platform.
 
 ```
 ┌───────────────────────┐   writes    ┌─────────────────┐
-│  OpenRiC admin UI     │────────────▶│  PostgreSQL     │
+│  Server admin UI      │────────────▶│  PostgreSQL     │
 │  or capture.openric   │             │  normalised     │
 └───────────────────────┘             │  RiC schema     │
         ▲                             └────────┬────────┘
@@ -70,7 +72,7 @@ Small-to-medium archive with no legacy system. OpenRiC is the only platform.
 
 **SHACL validation** runs at commit time against the about-to-materialise entity. A shape failure rolls back the SQL commit.
 
-This is the topology [ric.theahg.co.za](https://ric.theahg.co.za) will migrate to once a PostgreSQL backend is in place; current deployment is a Phase 1 variant of Topology B.
+The reference service does not use this topology: it reads and writes a database shared with Heratio.
 
 ---
 
@@ -105,16 +107,16 @@ AtoM stays authoritative. OpenRiC reads AtoM's MySQL directly and serialises as 
 │              │                                                   │ + Fuseki
 │              │  ┌──────────────────┐                             ▼
 │              │─▶│  AtoM MySQL DB   │                    ┌──────────────────┐
-│              │  │  (legacy data)   │                    │  OpenRiC UI +    │
+│              │  │  (legacy data)   │                    │  Server UI +     │
 └──────────────┘  └──────────────────┘                    │  capture client  │
                                                           └──────────────────┘
 ```
 
-New accessions / catalogues are entered via OpenRiC's UI (or [capture.openric.org](https://capture.openric.org)). Writes land in OpenRiC's PostgreSQL. A back-sync populates AtoM's MySQL so AtoM's search index and reports continue to cover all records, old and new, for users still on the AtoM side.
+New accessions / catalogues are entered through the server's own UI (or [capture.openric.org](https://capture.openric.org)). Writes land in the server's PostgreSQL. A back-sync populates AtoM's MySQL so AtoM's search index and reports continue to cover all records, old and new, for users still on the AtoM side.
 
 ### Phase 3 - AtoM decommissioned
 
-Historical AtoM records migrated into OpenRiC PostgreSQL (one-off ETL). AtoM UI retired. OpenRiC is authoritative for everything.
+Historical AtoM records migrated into the server's PostgreSQL (one-off ETL). AtoM UI retired. The OpenRiC server is authoritative for everything.
 
 Typical timeline: **6 to 18 months**, depending on catalogue size and institutional change-appetite.
 
@@ -124,11 +126,11 @@ Typical timeline: **6 to 18 months**, depending on catalogue size and institutio
 
 An existing platform has its own modern admin UI and its own database. It wants to keep its UX - forms, workflows, reports, compliance modules - while delegating RiC data ownership to OpenRiC.
 
-Heratio is the canonical example; any GLAM platform (Access to Memory 3.x, ArchivesSpace, or a custom Laravel app) could adopt the same shape.
+Heratio is the platform this pattern was drawn from, but it does not follow it today: it writes through its own in-process routes to a database shared with the reference service (see [Architecture](architecture.html)). Any GLAM platform (Access to Memory 3.x, ArchivesSpace, or a custom Laravel app) could adopt the shape.
 
 ```
 ┌─────────────────────┐   HTTP   ┌──────────────────────┐
-│ Consumer admin UI   │─────────▶│  OpenRiC Reference   │
+│ Consumer admin UI   │─────────▶│  OpenRiC server      │
 │ (Bootstrap, React,  │  writes  │  API                 │
 │  whatever - stays   │          │  (PostgreSQL +       │
 │  unchanged)         │          │   Fuseki)            │
@@ -167,10 +169,10 @@ Same OpenRiC server, three deployment plumbings:
 
 | Deployment | Source of truth | Fuseki | Legacy DB | Primary UI |
 |---|---|---|---|---|
-| **A. Green-field standalone** | OpenRiC PostgreSQL | projection | - | OpenRiC admin / Capture |
+| **A. Green-field standalone** | Server PostgreSQL | projection | - | Server admin UI / Capture |
 | **B.1 AtoM retrofit, Phase 1** | AtoM MySQL | projection of AtoM | authoritative | AtoM UI (unchanged) + OpenRiC API readers |
-| **B.2 AtoM retrofit, Phase 2-3** | OpenRiC PostgreSQL | projection | read-only, syncing back | AtoM (read-only) + OpenRiC UI |
-| **C. Heratio-style consumer** | OpenRiC PostgreSQL | projection | read-cache, synced from HTTP | Consumer's own UI |
+| **B.2 AtoM retrofit, Phase 2-3** | Server PostgreSQL | projection | read-only, syncing back | AtoM (read-only) + server UI |
+| **C. Consumer with its own UI** | Server PostgreSQL | projection | read-cache, synced from HTTP | Consumer's own UI |
 
 The HTTP contract - paths, JSON-LD shapes, SHACL validation, conformance-profile declaration - is identical in all four.
 
@@ -189,10 +191,10 @@ The HTTP contract - paths, JSON-LD shapes, SHACL validation, conformance-profile
 
 OpenRiC doesn't prescribe:
 
-- **The PostgreSQL schema.** Implementations are free to shape their relational model however they like. Several reference schemas are planned in the [spec](spec/) but none is normative.
+- **The PostgreSQL schema.** Implementations are free to shape their relational model however they like. No schema is normative.
 - **The materialisation mechanism.** Background worker, DB triggers, post-commit hooks, message queues - all fine. The only contract is that the triplestore catches up in reasonable time.
 - **The webhook format.** When the reference API fires write webhooks, their shape is implementation-defined for now. A standardised `openric:EntityChanged` webhook format is on the post-v1.0 roadmap.
-- **SPARQL update.** The spec currently lists `/sparql` as experimental. Most implementations read-only. Write-through-SPARQL may be formalised in a future profile; today, writes are HTTP-only.
+- **SPARQL update.** SPARQL reads are covered by the draft [SPARQL Access](spec/profiles/sparql-access.html) profile, which is read-only. Write-through-SPARQL may be formalised in a future profile; today, writes are HTTP-only.
 
 ---
 

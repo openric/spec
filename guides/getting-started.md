@@ -63,7 +63,7 @@ Two in-browser tools:
 - **[API Explorer](/api-explorer/)** (this site) - Swagger UI over any OpenRiC server. Paste a base URL + optional API key, click `Try it out`.
 - **[Viewer](https://viewer.openric.org)** - 2D + 3D graph viewer. Pick a starting entity and drill through the RiC graph visually. Supports both the reference API and a bundled static fixture backend so you can see it working offline.
 
-The viewer has a **Browse ▾** button that lists real entities from whichever server you connect to. Use it when you don't know where to start.
+The viewer has a **Browse ▾** button that lists entities from whichever server you connect to. Use it when you don't know where to start.
 
 ---
 
@@ -79,11 +79,13 @@ Fill in your email + organization + a sentence describing what you plan to do wi
 
 Keys carry scopes (`read`, `write`, `delete`) and a rate limit. You can always ask for a scope bump later.
 
-Running your own OpenRiC server? The exact same page ships on every conformant deployment - just swap the host.
+Running your own copy of the reference implementation ([openric/service](https://github.com/openric/service))? The same page ships with it - just swap the host. Other OpenRiC servers issue keys their own way.
 
 ---
 
 ## Step 4 - Write your first entity
+
+The reference service holds a demonstration dataset that is reset every night, so anything you create here is gone the next morning. Keep to small test entities, delete what you create, and do not use the reference service for security or load testing ([SECURITY.md](https://github.com/openric/spec/blob/main/SECURITY.md)).
 
 Once you have a key, export it:
 

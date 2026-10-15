@@ -28,7 +28,7 @@ OpenRiC is an independent project. It is not issued, reviewed or endorsed by the
 
 **OpenRiC never mints a term in the RiC-O namespace.** Where an implementation needs a concept RiC-O 1.1 does not define, the term goes in the OpenRiC extension namespace `https://openric.org/ns/ext/v1#`, prefix `openricx`, published as [an ontology page and Turtle file](/ns/ext/v1.html).
 
-That namespace currently holds 48 terms in three groups: response-envelope classes that are protocol concerns rather than archival semantics; pragmatic API shortcuts that have a clean canonical expansion in RiC-O 1.1; and a small set of genuine archival concepts that RiC-O 1.1 does not yet model. Only the third group is a candidate for going upstream, and those are [drafted as proposals](https://github.com/openric/spec/tree/main/docs/upstream-proposals) to ICA-EGAD.
+That namespace holds the terms listed on its [vocabulary page](/ns/ext/v1.html), in three groups: response-envelope classes that are protocol concerns rather than archival semantics; pragmatic API shortcuts that have a clean canonical expansion in RiC-O 1.1; and a small set of genuine archival concepts that RiC-O 1.1 does not yet model. Only the third group is a candidate for going upstream, and those are [drafted as proposals](https://github.com/openric/spec/tree/main/docs/upstream-proposals) to ICA-EGAD.
 
 The per-term disposition, with confidence flags, is in the [RiC-O 1.1 conformance audit](/audit/ric-o-1.1-audit.html).
 

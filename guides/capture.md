@@ -19,13 +19,13 @@ title: OpenRiC - Capture guide
 
 1. **A server URL.** The base of an OpenRiC API - e.g. `https://ric.theahg.co.za/api/ric/v1`. The reference API is pre-filled as a default.
 2. **An API key with `write` scope.** The server operator gives you one. See [Getting a key](#getting-a-key) below.
-3. A modern browser. The tool uses `fetch()`, `localStorage`, and ES6 - works everywhere current.
+3. A modern browser. The tool uses `fetch()`, `sessionStorage`, `localStorage` and ES6 - works everywhere current.
 
 ## First use
 
 1. Visit **[capture.openric.org](https://capture.openric.org)**.
-2. **Settings panel at the top** - confirm the server URL, paste your API key, hit **Save**. The tool runs `/health` against the server as a sanity check. If it returns 200, you're connected; the key is stored in your browser's `localStorage` and never leaves that origin except to talk to the server you configured.
-3. **Pick a tile** - Place, Rule, Activity, Instantiation, or Relation. A form opens below.
+2. **Settings panel at the top** - confirm the server URL, paste your API key, hit **Save**. The tool runs `/health` against the server as a sanity check. If it returns 200, you're connected. The key is kept in `sessionStorage` for this tab only, is gone when the tab closes, and is sent only to the server you configured.
+3. **Pick a tile** - Record, Agent, Repository, Function, Place, Rule, Activity, Instantiation, Relation, or attach a file. A form opens below.
 4. **Fill fields and submit.** Type pickers (Place Type, Carrier Type, Relation Type, etc.) are populated live from the server's `/vocabulary/{taxonomy}` endpoint - so you always pick from whatever vocabulary the target server actually publishes, not a stale bundled list.
 
 On success, the entity appears in the **Recent captures** log at the bottom (last 20, localStorage-backed). Click its label to open its JSON-LD representation on the server.
@@ -34,7 +34,7 @@ On success, the entity appears in the **Recent captures** log at the bottom (las
 
 The tool doesn't issue keys - the server operator does. For the reference instance at `ric.theahg.co.za`:
 
-- Email [johan@theahg.co.za](mailto:johan@theahg.co.za) with a short note about what you're building.
+- Request one with the form at [`/api/ric/v1/keys/request`](https://ric.theahg.co.za/api/ric/v1/keys/request), saying briefly what you are building. Keys for the reference instance are for testing against data that is reset nightly.
 
 For your own server, see the reference implementation's mint command:
 
@@ -128,11 +128,11 @@ The server knows each relation type's domain and range - if you try to link (say
 - **Search before you create.** The top-bar search hits `/autocomplete` - finds matching entities across all types. Avoid duplicates.
 - **Link as you go.** When you create a Place, immediately create an Activity at that Place (you'll need the Place's numeric id - it appears in the Recent captures log or via the search bar).
 - **Bulk imports via curl, not this UI.** For more than ~20 entries, use the API directly with a script. This tool is optimised for careful single-entity capture, not batch.
-- **The key is per-browser.** If you want to capture from a colleague's laptop they need their own key - or their own browser profile with the key saved there.
+- **The key is per-tab.** Paste it again in a new tab or after closing the browser. A colleague needs their own key.
 
 ## Privacy
 
-- API key lives only in your browser's `localStorage`. Never transmitted anywhere except the server URL you configured.
+- The API key is kept in `sessionStorage` for the tab only. It is never sent anywhere except the server URL you configured.
 - Recent-captures log is browser-local. Clearing site data wipes it.
 - The tool makes no analytics calls, no third-party requests except to the server you pointed it at and to the CDN serving the page itself.
 
