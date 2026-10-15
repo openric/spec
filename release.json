@@ -1,0 +1,35 @@
+---
+layout: null
+permalink: /release.json
+---
+{%- comment -%}
+  The machine-readable manifest of the current specification release (plan V4,
+  S1.1). Generated at build time from version.json, _data/profiles.json and
+  _data/inventory.json - the same data every page renders from - so it cannot
+  disagree with the site.
+{%- endcomment -%}
+{
+  "schema": "openric-release/1",
+  "specification": {
+    "name": {{ site.data.version.name | jsonify }},
+    "version": {{ site.data.version.version | jsonify }},
+    "release_date": {{ site.data.version.release_date | jsonify }},
+    "tag": {{ site.data.version.version | prepend: "v" | jsonify }},
+    "source": {{ site.data.version.version | prepend: "https://github.com/openric/spec/tree/v" | jsonify }}
+  },
+  "profiles": [
+{%- for p in site.data.profiles %}
+    {"id": {{ p.id | jsonify }}, "title": {{ p.title | jsonify }}, "status": {{ p.status | jsonify }}, "version": {{ p.version | jsonify }}, "last_revised_in": {{ p.revised | jsonify }}, "document": {{ p.id | prepend: "https://openric.org/spec/profiles/" | append: ".html" | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor %}
+  ],
+  "counts": {
+    "profiles": {{ site.data.profiles | size }},
+    "normative": {{ site.data.profiles | where: "status", "normative" | size }},
+    "draft": {{ site.data.profiles | where: "status", "draft" | size }},
+    "json_schemas": {{ site.data.inventory.schemas }},
+    "fixtures": {{ site.data.inventory.fixtures }},
+    "fixtures_planned": {{ site.data.inventory.fixtures_planned }}
+  },
+  "status_page": "https://openric.org/status/",
+  "conformance_results": "https://raw.githubusercontent.com/openric/spec/conformance-results/latest.json"
+}

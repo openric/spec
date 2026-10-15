@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openric.org/schemas/v0.1.0/list.schema.json",
   "title": "OpenRiC List response",
-  "description": "Validates a paginated list response from a /records, /agents, /repositories, /places, /activities, /rules, /instantiations endpoint. Accepts both legacy ric: and canonical openric: prefixes.",
+  "description": "Validates a paginated list response from a /records, /agents, /repositories, /places, /activities, /rules, /instantiations endpoint. The openric: keys are required (Core Discovery 0.4.0 §3.3); the deprecated ric: aliases are still accepted alongside them.",
 
   "type": "object",
-  "required": ["@type"],
+  "required": ["@type", "openric:total", "openric:page", "openric:limit", "openric:items"],
 
   "properties": {
     "@context": {

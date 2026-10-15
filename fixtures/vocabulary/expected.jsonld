@@ -3,7 +3,8 @@
     "rico": "https://www.ica.org/standards/RiC/ontology#",
     "openricx": "https://openric.org/ns/ext/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "ric": "https://openric.org/ns/v1#"
   },
   "@type": "ric:Vocabulary",
   "classes": [

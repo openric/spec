@@ -1,0 +1,77 @@
+# OpenRiC API Vocabulary v1
+# =========================
+# Terms OpenRiC responses use for the API itself - list envelopes, the service
+# description, errors, revision lists and the graph-primitives viewing layer -
+# plus the entity annotations the profiles define (localType, jurisdiction,
+# role). Archival meaning that RiC-O 1.1 lacks goes in the extension ontology
+# (https://openric.org/ns/ext/v1#), not here.
+#
+# Namespace IRI: https://openric.org/ns/v1#
+# Issued:        2026-10-15. Every term below was already in use; this file
+#                publishes what the profiles and schemas emitted undefined.
+# Licence:       CC-BY 4.0
+
+@prefix openric:  <https://openric.org/ns/v1#> .
+@prefix rico:     <https://www.ica.org/standards/RiC/ontology#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix vann:     <http://purl.org/vocab/vann/> .
+
+<https://openric.org/ns/v1#> a owl:Ontology ;
+    dcterms:title "OpenRiC API Vocabulary v1"@en ;
+    dcterms:issued "2026-10-15" ;
+    owl:versionInfo "1.0.0" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    vann:preferredNamespacePrefix "openric" ;
+    vann:preferredNamespaceUri "https://openric.org/ns/v1#" ;
+    rdfs:seeAlso <https://openric.org/ns/ext/v1#> , <https://openric.org/spec/graph-primitives.html> .
+
+# 1. Entity annotations (Authority & Context, Provenance & Event, Digital Object Linkage)
+
+openric:localType a owl:DatatypeProperty ; rdfs:label "local type"@en ;
+    rdfs:comment "The implementation's own subtype for an entity (e.g. 'country', 'law', 'production', 'box'), alongside the canonical rico:* type. Consumers without the local vocabulary can still dispatch on it; it never replaces a rico:* type."@en .
+openric:jurisdiction a owl:DatatypeProperty ; rdfs:label "jurisdiction"@en ;
+    rdfs:domain rico:Rule ;
+    rdfs:comment "Free-text jurisdiction of a rico:Rule (e.g. 'Egypt'). Where the jurisdiction is a known place, rico:hasOrHadJurisdiction to a rico:Place is preferred."@en .
+openric:role a owl:DatatypeProperty ; rdfs:label "role"@en ;
+    rdfs:comment "Viewer convenience annotation on a rico:CorporateBody, e.g. 'repository' (ISDIAH)."@en .
+
+# 2. List envelopes (Core Discovery §3.3)
+
+openric:items a rdf:Property ; rdfs:label "items"@en ; rdfs:comment "The entries of one page of a list response."@en .
+openric:total a owl:DatatypeProperty ; rdfs:label "total"@en ; rdfs:comment "Number of entries across all pages."@en .
+openric:limit a owl:DatatypeProperty ; rdfs:label "limit"@en ; rdfs:comment "Page size of this response."@en .
+openric:page a owl:DatatypeProperty ; rdfs:label "page"@en ; rdfs:comment "1-based page number of this response."@en .
+openric:next a owl:ObjectProperty ; rdfs:label "next"@en ; rdfs:comment "URL of the next page, or null."@en .
+openric:prev a owl:ObjectProperty ; rdfs:label "previous"@en ; rdfs:comment "URL of the previous page, or null."@en .
+openric:Vocabulary a owl:Class ; rdfs:label "Vocabulary"@en ; rdfs:comment "The rico: term catalogue returned at GET /vocabulary (Core Discovery §3.2). Emitted as ric:Vocabulary through the ric: alias."@en .
+openric:RevisionList a owl:Class ; rdfs:label "Revision list"@en ; rdfs:comment "The revision history of one entity (Round-Trip Editing)."@en .
+
+# 3. Service description (Core Discovery §3.1)
+
+openric:Service a owl:Class ; rdfs:label "Service"@en ; rdfs:comment "The service description returned at GET /."@en .
+openric:version a owl:DatatypeProperty ; rdfs:label "version"@en .
+openric:implementation a rdf:Property ; rdfs:label "implementation"@en ; rdfs:comment "Name and version of the software behind the service."@en .
+openric:conformance a rdf:Property ; rdfs:label "conformance"@en ; rdfs:comment "The profiles the service declares, each with its version and conformance level."@en .
+openric:endpoints a rdf:Property ; rdfs:label "endpoints"@en .
+
+# 4. Errors (Core Discovery §4)
+
+openric:Error a owl:Class ; rdfs:label "Error"@en .
+openric:status a owl:DatatypeProperty ; rdfs:label "status"@en ; rdfs:comment "HTTP status code, 400-599."@en .
+openric:code a owl:DatatypeProperty ; rdfs:label "code"@en ; rdfs:comment "Machine-readable error code."@en .
+openric:message a owl:DatatypeProperty ; rdfs:label "message"@en .
+openric:detail a owl:DatatypeProperty ; rdfs:label "detail"@en .
+
+# 5. Graph primitives (viewing layer; https://openric.org/spec/graph-primitives.html)
+
+openric:Subgraph a owl:Class ; rdfs:label "Subgraph"@en ; rdfs:comment "Nodes and edges around one root entity, for viewers."@en .
+openric:root a owl:ObjectProperty ; rdfs:label "root"@en .
+openric:depth a owl:DatatypeProperty ; rdfs:label "depth"@en .
+openric:nodes a rdf:Property ; rdfs:label "nodes"@en .
+openric:edges a rdf:Property ; rdfs:label "edges"@en .
+openric:clusters a rdf:Property ; rdfs:label "clusters"@en .
+openric:hints a rdf:Property ; rdfs:label "hints"@en .
+openric:layoutHint a rdf:Property ; rdfs:label "layout hint"@en .

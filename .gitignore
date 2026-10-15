@@ -23,3 +23,6 @@ validator/dist/
 .claude/
 .mcp.json
 CLAUDE.md
+
+# Release bundles built by bin/release-bundle
+/dist/

@@ -32,6 +32,14 @@ title: OpenRiC - Specification
     <strong>4 · Conformance</strong>
     <span>Profile-based conformance (L1-L4 retained as legacy). JSON Schemas, SHACL shape set, fixture pack, validator CLI.</span>
   </a>
+  <a class="spec-doc" href="/contract/openapi.json">
+    <strong>5 · API contract</strong>
+    <span>OpenAPI 3.1, version {{ site.data.version.version }}: every operation the profiles define, tagged with its profile, typed by the JSON Schemas and illustrated by the fixtures. CI validates each example against its schema.</span>
+  </a>
+  <a class="spec-doc" href="change-control.html">
+    <strong>6 · Change control</strong>
+    <span>Versioning, what each change bumps, deprecation, migration notes, release approval, signed tags and support.</span>
+  </a>
 </div>
 
 ### Profiles

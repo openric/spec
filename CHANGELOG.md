@@ -1,5 +1,31 @@
 # OpenRiC Specification — Changelog
 
+Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
+
+## v0.43.14 - 2026-10-14
+
+Wizard no longer saves to the public reference service; help pages say every write needs a key.
+
+Approved by: Dr Johan Pieterse, 2026-10-14 (release confirmation; entry backfilled 2026-10-15)
+
+## v0.43.13 - 2026-10-14
+
+Version bump only: re-release of v0.43.12 with the same content and message. No other file changed.
+
+Approved by: Dr Johan Pieterse, 2026-10-14 (release confirmation; entry backfilled 2026-10-15)
+
+## v0.43.12 - 2026-10-14
+
+Profile inventory, schema and fixture counts render from `_data/` and CI rejects hand-typed ones; a generated `/status/` page with the conformance matrix; the `/spec/versions/` page; page-kind banners; drift log and architecture page corrected.
+
+Approved by: Dr Johan Pieterse, 2026-10-14 (release confirmation; entry backfilled 2026-10-15)
+
+## v0.43.11 - 2026-10-13
+
+Sitemap, and spec pages say which release last revised them, so version headers no longer read as the current release; the drift check covers them. Also released in this tag: the shared presentation shell and task-first navigation (#10, #11), Browse as a catalogue (#12), wizard branching (#15), site-wide search (#17), "OpenRiC in five minutes", three cross-cutting wizard scenarios, and the single version source with the drift guard and RiC baseline page.
+
+Approved by: Dr Johan Pieterse, 2026-10-13 (release confirmation; entry backfilled 2026-10-15)
+
 ## v0.43.1 - v0.43.10 - 2026-06-20 to 2026-06-22
 
 Backfilled 2026-09-28. Ten patch releases shipped after v0.43.0 without changelog entries, which is why pages still quoting v0.37.0 went unnoticed for three months. Recorded here in groups.

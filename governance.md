@@ -15,7 +15,7 @@ title: OpenRiC - Governance
 
 ## Current state
 
-OpenRiC is at **v{{ site.data.version.version }}** - a stable spec with one reference implementation, a live toolchain (viewer, capture, API explorer, conformance probe), and one operational consumer (Heratio). The spec is published under CC-BY 4.0; the reference code is AGPL-3.0.
+OpenRiC is at **v{{ site.data.version.version }}** - a stable spec with one reference implementation, a live toolchain (viewer, capture, API explorer, conformance probe), and one related platform from the same maintainers (Heratio) that reads from it. The spec is published under CC-BY 4.0; the reference code is AGPL-3.0.
 
 Governance is deliberately **lightweight** at this stage - the goal is to attract a second independent implementation before formalising. Heavy governance structures before that happens can deter the very contributors the project needs.
 
@@ -74,9 +74,11 @@ PRs against `openric/service` (reference API) or any of `openric/viewer`, `openr
 
 ## Compatibility policy
 
-- **`v0.x` series** - Breaking changes allowed between minor versions, but must be documented in the changelog and announced ahead of time. Implementations advertise what they support per profile, each carrying its own version (e.g. `{ "id": "core-discovery", "version": "0.3.0", "conformance": "full" }`), so a profile can stabilise without waiting for the spec as a whole.
-- **`v1.0` onward** - Breaking changes only on major version bumps. Deprecations announced at least one minor version before removal.
-- **JSON Schemas, SHACL shapes, OpenAPI** - versioned with the spec. A server claiming conformance to a given spec version MUST validate against that version's shape files.
+The full policy is [Change control](spec/change-control.html): what carries a version, what each kind of change bumps, deprecation periods, migration notes, release approval and the signed change log, and which releases are supported. In short:
+
+- **`v0.x` series** - Breaking changes bump the minor version and need a migration note. Implementations advertise what they support per profile, each carrying its own version (e.g. `{ "id": "core-discovery", "version": "0.3.0", "conformance": "full" }`), so a profile can stabilise without waiting for the spec as a whole.
+- **`v1.0` onward** - Breaking changes only on major version bumps. Deprecated items stay until the next major release.
+- **JSON Schemas, SHACL shapes, the API contract** - versioned with the spec. A server claiming conformance to a given spec version MUST validate against that version's shape files.
 
 ---
 

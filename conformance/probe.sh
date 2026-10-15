@@ -14,6 +14,13 @@
 #   KEY=xxxx BASE=... ./probe.sh                            # + write/delete
 #   ./probe.sh --profile=core-discovery                     # just that profile
 #   PROFILE=core-discovery,graph-traversal ./probe.sh       # multiple
+#   ./probe.sh --profile=core-discovery --json=result.json  # + machine-readable result
+#   PE_MAX=50 ./probe.sh --profile=provenance-event         # activities to read (25)
+#
+# --json writes the run as JSON (schema openric-probe-result/1): when, against
+# which server, which probe revision, the service's own declarations, counts,
+# a verdict, and every check. Without KEY the probe is read-only, and checks
+# that need a key are reported as skipped - never as passed.
 #
 # When --profile=PROFILE is set the probe:
 #   * runs only probes tagged for the named profile(s) (plus the always-on
@@ -37,15 +44,18 @@ BASE="${BASE:-https://ric.theahg.co.za/api/ric/v1}"
 KEY="${KEY:-}"
 VERBOSE="${VERBOSE:-0}"
 PROFILE="${PROFILE:-}"
+JSON_OUT="${JSON_OUT:-}"
 
 # --- argv parsing -----------------------------------------------
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --profile=*) PROFILE="${1#*=}" ;;
     --profile)   shift; PROFILE="${1:-}" ;;
+    --json=*)    JSON_OUT="${1#*=}" ;;
+    --json)      shift; JSON_OUT="${1:-}" ;;
     -v|--verbose) VERBOSE=1 ;;
     -h|--help)
-      sed -n '7,32p' "$0"
+      sed -n '7,38p' "$0"
       exit 0
       ;;
     *)
@@ -86,6 +96,28 @@ in_profile() {
     [[ "$entry" == "$p" ]] && return 0
   done
   return 1
+}
+
+# record <status> <label> <http-code>: one custom check into the counters.
+record() {
+  local status="$1" label="$2" code="$3" colour="$R"
+  case "$status" in
+    PASS) colour="$G"; PASS=$((PASS+1)) ;;
+    SKIP*) colour="$Y"; SKIP=$((SKIP+1)) ;;
+    *) FAIL=$((FAIL+1)) ;;
+  esac
+  printf '%s%-5s%s  %-59s  [%s]\n' "$colour" "${status%% *}" "$Z" "$label" "$code"
+  RESULTS+=("$status|$label|$code")
+}
+
+# http <method> <path> [key] [body]: prints "<code> <body>".
+http() {
+  local method="$1" path="$2" key="${3:-}" body="${4:-}" out
+  local args=(-s -w '\n%{http_code}' --max-time 15 -X "$method" -H 'Accept: application/json')
+  [[ -n "$key" ]] && args+=(-H "X-API-Key: ${key}")
+  [[ -n "$body" ]] && args+=(-H 'Content-Type: application/json' -d "$body")
+  out=$(curl "${args[@]}" "${BASE}${path}" 2>/dev/null)
+  printf '%s %s' "${out##*$'\n'}" "${out%$'\n'*}"
 }
 
 # probe_profile_declared <profile-id>
@@ -219,10 +251,11 @@ fi
 # ---- §1 Core Discovery — records, agents, repositories, vocab, autocomplete ----
 # Maps to core-discovery.md §2.1 (ten endpoints).
 
-LIST_SHAPE='(."@type" | test("List$")) and ((."ric:items" // ."openric:items") | type == "array")'
+# Core Discovery 0.4.0 §3.3: openric:items plus integer total, page and limit.
+LIST_SHAPE='(."@type" | test("List$")) and (."openric:items" | type == "array") and ([."openric:total", ."openric:page", ."openric:limit"] | all(type == "number"))'
 
 if in_profile "core-discovery"; then
-  probe "vocabulary"   required GET "/vocabulary"              '."@type" == "ric:Vocabulary"'
+  probe "vocabulary"   required GET "/vocabulary"              '.classes | type == "array"'
   probe "autocomplete" required GET "/autocomplete?q=a&limit=1" '(type == "array") or (.results | type == "array")'
 
   probe "list-records"      required GET "/records"      "$LIST_SHAPE"
@@ -244,6 +277,72 @@ if in_profile "authority-context"; then
   probe "list-activities" required GET "/activities" "$LIST_SHAPE"
   probe_show_first "show-activity" "/activities" "/activities"
   probe "places-flat"     optional GET "/places/flat" '.items | type == "array"'
+fi
+
+# ---- §2b Provenance & Event - activity bodies (provenance-event.md §6) ----
+# Read-only. Checks the list and up to PE_MAX activities (default 25) against
+# §6 rules 1-6 in jq, which approximates the profile's SHACL shapes; rule 7
+# needs a graph walk and is reported as skipped.
+if in_profile "provenance-event"; then
+  PE_MAX="${PE_MAX:-25}"
+  PE_DIR=$(mktemp -d)
+  code=$(curl -s -o "$PE_DIR/list.json" -w '%{http_code}' --max-time 15 \
+    -H 'Accept: application/json' "${BASE}/activities?limit=${PE_MAX}" 2>/dev/null)
+  ids=$(jq -r '(."openric:items" // ."ric:items" // [])[]["@id"] // empty' "$PE_DIR/list.json" 2>/dev/null | sed 's|.*/||')
+  n=0
+  for id in $ids; do
+    curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/activities/${id}" >"$PE_DIR/a-${id}.json" 2>/dev/null
+    n=$((n+1)); sleep "${PE_PAUSE:-1}"
+  done
+
+  # One line per broken rule: "<rule> <activity id>". Targets may be one stub or
+  # an array; @type may be a string or an array.
+  PE_RULES='
+    def many: if type == "array" then .[] else . end;
+    def types: [."@type"? // empty | many];
+    def kind: ((."rico:hasActivityType" // empty | many | (."@id"? // .)) // "") | tostring;
+    def dated: [."rico:isAssociatedWithDate" // empty | many | select(type == "object" and (types | index("openricx:DateRange")))] | length > 0;
+    def results: [(."rico:resultsOrResultedIn", ."rico:affectsOrAffected") // empty | many];
+    def agents: [(."rico:hasOrHadParticipant", ."rico:isOrWasPerformedBy") // empty | many];
+    ."@id" as $id
+    | (if types != ["rico:Activity"] then "1 \($id)" else empty end),
+      (if (kind | test("/production$")) and ((results | length) == 0 or (agents | length) == 0 or (dated | not)) then "2 \($id)" else empty end),
+      (if (kind | test("/accumulation$")) and ((results | length) == 0 or (dated | not)) then "3 \($id)" else empty end),
+      (if dated | not then "4 \($id)" else empty end),
+      (agents[] | select((types | length) == 0 or ((types - ["rico:Person","rico:CorporateBody","rico:Family","rico:Mechanism","rico:Agent"]) | length) > 0) | "5 \($id)"),
+      (results[] | select((types | length) == 0 or ((types - ["rico:RecordSet","rico:Record","rico:RecordPart"]) | length) > 0) | "6 \($id)")'
+  : >"$PE_DIR/broken"
+  jq -r '(."openric:items" // ."ric:items" // [])[] | ."@id" as $id | [."@type" // empty] | flatten | select(. != ["rico:Activity"]) | "1 \($id) (list)"' \
+    "$PE_DIR/list.json" >>"$PE_DIR/broken" 2>/dev/null
+  for f in "$PE_DIR"/a-*.json; do
+    [[ -e "$f" ]] || continue
+    jq -r "$PE_RULES" "$f" >>"$PE_DIR/broken" 2>/dev/null || echo "0 ${f##*/a-}" >>"$PE_DIR/broken"
+  done
+  has_kind() { jq -e --arg k "$1" '[(."rico:hasActivityType" // empty) | if type == "array" then .[] else . end | (."@id"? // .) | tostring | select(test("/" + $k + "$"))] | length > 0' "$PE_DIR"/a-*.json 2>/dev/null | grep -q true; }
+
+  if [[ "$n" == 0 ]]; then
+    record "SKIP (no activities)" "activity bodies follow §6 (none to check)" "$code"
+  else
+    pe_rule() {  # pe_rule <rule> <label> [kind that must exist]
+      local first; first=$(awk -v r="$1" '$1 == r {print $2, $3; exit}' "$PE_DIR/broken")
+      if [[ -n "${3:-}" ]] && ! has_kind "$3"; then
+        record "SKIP (no $3 activity in sample)" "$2" "n=$n"
+      elif [[ -n "$first" ]]; then
+        record "FAIL" "$2 - e.g. ${first##*/}" "n=$n"
+      else
+        record PASS "$2" "n=$n"
+      fi
+    }
+    pe_rule 0 "every activity body is JSON (§6)"
+    pe_rule 1 "@type is rico:Activity, in the list too (§6.1)"
+    pe_rule 2 "production: results, participant, DateRange (§6.2)" production
+    pe_rule 3 "accumulation: results and DateRange (§6.3)" accumulation
+    pe_rule 4 "every activity has a DateRange (§6.4)"
+    pe_rule 5 "participants are Agent types (§6.5)"
+    pe_rule 6 "results are Record types (§6.6)"
+  fi
+  record "SKIP (needs a graph walk)" "activity reachable from a record (§6.7)" "--"
+  rm -rf "$PE_DIR"
 fi
 
 # ---- §3 Digital Object Linkage — instantiations, functions ----
@@ -301,58 +400,133 @@ if in_profile "export-only"; then
 fi
 
 # ---- §6 Round-Trip Editing — write surface (needs KEY) ----
-# Write probes only run when KEY is set AND round-trip-editing is in-profile.
+# Follows round-trip-editing.md §6. Never point this at a production service:
+# it creates, changes and deletes data. Run it against a disposable server.
+#
+#   KEY             write + delete scopes (required for this section)
+#   WRITE_ONLY_KEY  write scope only - checks a delete is refused (§6.7)
+#
+# Covered: §6.1-6.4 for places, create/delete for agents and records, §6.6,
+# §6.7 (with WRITE_ONLY_KEY) and §6.9. Not yet covered: §6.5 for the other
+# entity types and relations, and §6.8 (409 on a referential conflict).
 
 if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
-  # Create a throwaway Place, read it back, update it, delete it.
-  CREATED=$(curl -s -X POST "${BASE}/places" -H "X-API-Key: $KEY" \
-    -H 'Content-Type: application/json' \
-    -d '{"name":"Conformance probe place","description":"delete me"}')
-  NEW_ID=$(echo "$CREATED" | jq -r '.id // empty')
-  if [[ -n "$NEW_ID" ]]; then
-    printf '%s%-5s%s  POST %-49s  [%s]\n' "$G" "PASS" "$Z" "/places (created id=$NEW_ID)" "201"
-    PASS=$((PASS+1))
-    probe "show-place"   required GET "/places/${NEW_ID}"                   '.["@id"] != null'
-    probe "update-place" required PATCH "/places/${NEW_ID}"                 '.success == true' '{"description":"updated by probe"}'
-    probe "delete-place" required DELETE "/places/${NEW_ID}"                '.success == true'
-  else
-    printf '%s%-5s%s  POST %-49s  [FAIL]\n' "$R" "FAIL" "$Z" "/places (create)"
-    echo "  ↳ $(echo "$CREATED" | head -c 200)"
-    FAIL=$((FAIL+1))
-  fi
+  # §6.6 - a write without a key is refused.
+  read -r code _ <<<"$(http POST /places "" '{"name":"Probe place without a key"}')"
+  [[ "$code" == "401" ]] && record PASS "POST /places without a key is 401 (§6.6)" "$code" \
+                         || record "FAIL" "POST /places without a key is 401 (§6.6)" "$code"
 
-  probe "create-agent-probe"  required POST "/agents" '.id != null' '{"name":"Conformance Probe Agent"}'
-  AGENT_ID=$(curl -s -X POST "${BASE}/agents" -H "X-API-Key: $KEY" \
-    -H 'Content-Type: application/json' -d '{"name":"Probe Agent 2"}' | jq -r '.id // empty')
-  [[ -n "$AGENT_ID" ]] && probe "delete-agent-probe" required DELETE "/agents/${AGENT_ID}" '.success == true'
+  # §6.9 - a body that fails validation is refused.
+  read -r code _ <<<"$(http POST /places "$KEY" '{}')"
+  [[ "$code" == "422" ]] && record PASS "POST /places with no name is 422 (§6.9)" "$code" \
+                         || record "FAIL" "POST /places with no name is 422 (§6.9)" "$code"
 
-  probe "create-record-probe" required POST "/records" '.id != null' '{"title":"Conformance probe record"}'
-  REC_ID=$(curl -s -X POST "${BASE}/records" -H "X-API-Key: $KEY" \
-    -H 'Content-Type: application/json' -d '{"title":"Probe Record 2"}' | jq -r '.id // empty')
-  [[ -n "$REC_ID" ]] && probe "delete-record-probe" required DELETE "/records/${REC_ID}" '.success == true'
+  # §6.1 - create, and the href resolves.
+  read -r code body <<<"$(http POST /places "$KEY" '{"name":"Conformance probe place","description":"created by the probe"}')"
+  NEW_ID=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
+  HREF=$(jq -r '.href // empty' <<<"$body" 2>/dev/null)
+  if [[ "$code" == "201" && -n "$NEW_ID" ]]; then
+    record PASS "POST /places creates, with an id (§6.1)" "$code"
+    if [[ -n "$HREF" ]]; then
+      read -r hcode _ <<<"$(http GET "${HREF#*/api/ric/v1}")"
+      [[ "$hcode" == "200" ]] && record PASS "the create envelope's href resolves (§6.1)" "$hcode" \
+                              || record "FAIL" "the create envelope's href resolves (§6.1)" "$hcode"
+    fi
 
-  # ---- §7 scope enforcement -------------------------------------
-  # If READ_KEY is set, verify that a read-only-scoped key gets 403 on write
-  # routes. Catches regressions in the auth middleware scope gate.
-  if [[ -n "${READ_KEY:-}" ]]; then
-    code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 \
-      -X POST "${BASE}/places" \
-      -H "X-API-Key: $READ_KEY" -H 'Content-Type: application/json' \
-      -d '{"name":"Should be rejected — read-only key"}')
-    if [[ "$code" == "403" ]]; then
-      printf '%s%-5s%s  POST %-49s  [%s]\n' "$G" "PASS" "$Z" "/places (read-only key → 403)" "$code"
-      PASS=$((PASS+1))
+    # §6.2 - update, and the change is visible.
+    read -r code body <<<"$(http PATCH "/places/${NEW_ID}" "$KEY" '{"description":"updated by the probe"}')"
+    [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
+      && record PASS "PATCH /places/{id} succeeds (§6.2)" "$code" \
+      || record "FAIL" "PATCH /places/{id} succeeds (§6.2)" "$code"
+    read -r code body <<<"$(http GET "/places/${NEW_ID}")"
+    grep -q "updated by the probe" <<<"$body" \
+      && record PASS "GET /places/{id} shows the update (§6.2)" "$code" \
+      || record "FAIL" "GET /places/{id} shows the update (§6.2)" "$code"
+
+    # §6.7 - a write-only key cannot delete.
+    if [[ -n "${WRITE_ONLY_KEY:-}" ]]; then
+      read -r code _ <<<"$(http DELETE "/places/${NEW_ID}" "$WRITE_ONLY_KEY")"
+      [[ "$code" == "403" ]] && record PASS "DELETE with a write-only key is 403 (§6.7)" "$code" \
+                             || record "FAIL" "DELETE with a write-only key is 403 (§6.7)" "$code"
     else
-      printf '%s%-5s%s  POST %-49s  [%s]\n' "$R" "FAIL" "$Z" "/places (read-only key should have been 403)" "$code"
-      FAIL=$((FAIL+1))
+      record "SKIP (no WRITE_ONLY_KEY)" "DELETE with a write-only key is 403 (§6.7)" "--"
+    fi
+
+    # §6.3 - delete, then the entity is gone.
+    read -r code body <<<"$(http DELETE "/places/${NEW_ID}" "$KEY")"
+    [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
+      && record PASS "DELETE /places/{id} succeeds (§6.3)" "$code" \
+      || record "FAIL" "DELETE /places/{id} succeeds (§6.3)" "$code"
+    read -r code _ <<<"$(http GET "/places/${NEW_ID}")"
+    [[ "$code" == "404" ]] && record PASS "GET /places/{id} after delete is 404 (§6.3)" "$code" \
+                           || record "FAIL" "GET /places/{id} after delete is 404 (§6.3)" "$code"
+
+    # §6.4 - the revision list shows create, update and delete.
+    read -r code body <<<"$(http GET "/places/${NEW_ID}/revisions")"
+    if [[ "$code" == "200" ]] && jq -e '."@type" == "openric:RevisionList"
+          and ([.items[].action] | (index("create") != null and index("update") != null and index("delete") != null))' \
+          <<<"$body" >/dev/null 2>&1; then
+      record PASS "revisions list create, update and delete (§6.4)" "$code"
+    else
+      record "FAIL" "revisions list create, update and delete (§6.4)" "$code"
     fi
   else
-    printf '%s%-5s%s  POST %-49s  [--]\n' "$Y" "SKIP" "$Z" "/places scope enforcement (READ_KEY not set)"
-    SKIP=$((SKIP+1))
+    record "FAIL" "POST /places creates, with an id (§6.1)" "$code"
   fi
+
+  # §6.5, partly - the same create and delete for agents and records.
+  for t in agents records; do
+    case "$t" in agents) b='{"name":"Conformance probe agent"}' ;; records) b='{"title":"Conformance probe record"}' ;; esac
+    read -r code body <<<"$(http POST "/$t" "$KEY" "$b")"
+    id=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
+    if [[ "$code" == "201" && -n "$id" ]]; then
+      record PASS "POST /$t creates (§6.5)" "$code"
+      read -r code body <<<"$(http DELETE "/$t/${id}" "$KEY")"
+      [[ "$code" == "200" ]] && record PASS "DELETE /$t/{id} succeeds (§6.5)" "$code" \
+                             || record "FAIL" "DELETE /$t/{id} succeeds (§6.5)" "$code"
+    else
+      record "FAIL" "POST /$t creates (§6.5)" "$code"
+    fi
+  done
+elif in_profile "round-trip-editing"; then
+  # Without a key the write surface cannot be tested. Record that as skipped,
+  # so a read-only run never reports Round-Trip Editing as a plain pass.
+  printf '%s%-5s%s  %-54s  [--]\n' "$Y" "SKIP" "$Z" "create/update/delete round trip (no KEY; read-only run)"
+  SKIP=$((SKIP+1))
+  RESULTS+=("SKIP|create/update/delete round trip|no-key")
 fi
 
 # ---- summary ---------------------------------------------------
+
+# write_json <verdict>: the run as JSON, for the published conformance matrix.
+write_json() {
+  [[ -z "$JSON_OUT" ]] && return 0
+  local svc writes
+  svc=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/" 2>/dev/null \
+    | jq -c '{name, version, spec_version: .openric_conformance.spec_version,
+              declared: [.openric_conformance.profiles[]? | {id, version, conformance}]}' 2>/dev/null)
+  [[ -z "$svc" ]] && svc=null
+  [[ -n "$KEY" ]] && writes=true || writes=false
+  printf '%s\n' "${RESULTS[@]}" | jq -R -s \
+    --arg base "$BASE" --arg profile "$PROFILE" --arg verdict "$1" \
+    --arg run_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+    --arg probe_revision "${PROBE_REVISION:-unknown}" \
+    --argjson pass "$PASS" --argjson fail "$FAIL" --argjson skip "$SKIP" \
+    --argjson writes "$writes" --argjson service "$svc" \
+    '{schema: "openric-probe-result/1", run_at: $run_at, probe_revision: $probe_revision,
+      base: $base, profiles: ($profile | split(",") | map(select(length > 0))),
+      writes_attempted: $writes, verdict: $verdict,
+      counts: {pass: $pass, fail: $fail, skip: $skip}, service: $service,
+      results: (split("\n") | map(select(length > 0))
+                | map(split("|") | {status: .[0], check: .[1], http: .[2]}))}' > "$JSON_OUT"
+}
+
+# pass: nothing failed and nothing skipped. pass-with-skips: nothing failed,
+# but some checks did not run (usually because there was no key).
+if [[ $FAIL -gt 0 ]]; then write_json fail
+elif [[ $SKIP -gt 0 ]]; then write_json pass-with-skips
+else write_json pass
+fi
 
 echo "----------------------------------------------------------------"
 echo "${B}Summary${Z}: ${G}${PASS} pass${Z}, ${R}${FAIL} fail${Z}, ${Y}${SKIP} skip${Z}"

@@ -7,7 +7,7 @@ kind: current
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">For developers &amp; implementers · v{{ site.data.version.version }} · {{ site.data.profiles | where: "status", "normative" | size }} normative profiles + {{ site.data.profiles | where: "status", "draft" | size }} draft · RiC-O 1.1 conformant</div>
+    <div class="hero-eyebrow">For developers &amp; implementers · v{{ site.data.version.version }} · {{ site.data.profiles | where: "status", "normative" | size }} normative profiles + {{ site.data.profiles | where: "status", "draft" | size }} draft · targets RiC-O 1.1</div>
     <h1>Records in Contexts, served over HTTP - implementation-neutral, IIIF-inspired.</h1>
     <p class="hero-lede">
       OpenRiC is an open specification for how archival descriptions map to RiC-CM / RiC-O, how that data is served over HTTP for both reading and writing, and how graph-based interfaces can render it consistently across any conformant server. Not a product. A contract anyone can implement.
@@ -45,7 +45,7 @@ kind: current
   <div class="boundary-cell spec">
     <div class="boundary-label">Specification</div>
     <div class="boundary-title">OpenRiC</div>
-    <p>Four base documents, {{ site.data.profiles | where: "status", "normative" | size }} normative and {{ site.data.profiles | where: "status", "draft" | size }} draft profiles, {{ site.data.inventory.schemas }} JSON Schemas, SHACL shapes, a {{ site.data.inventory.fixtures }}-case fixture pack, an OpenAPI 3.0 contract, and a black-box conformance probe. CC-BY 4.0. Versioned; <code>v{{ site.data.version.version }}</code> is current (RiC-O 1.1 conformant).</p>
+    <p>Four base documents, {{ site.data.profiles | where: "status", "normative" | size }} normative and {{ site.data.profiles | where: "status", "draft" | size }} draft profiles, {{ site.data.inventory.schemas }} JSON Schemas, SHACL shapes, a {{ site.data.inventory.fixtures }}-case fixture pack, an OpenAPI 3.0 contract, and a black-box conformance probe. CC-BY 4.0. Versioned; <code>v{{ site.data.version.version }}</code> is current. It targets RiC-O 1.1; the <a href="{{ '/audit/ric-o-1.1-audit.html' | relative_url }}">namespace audit</a> of April 2026 found no unsupported RiC-O terms in what the reference implementation emits.</p>
     <div class="boundary-where"><a href="https://openric.org/">openric.org</a></div>
   </div>
   <div class="boundary-cell impl">
@@ -61,9 +61,9 @@ kind: current
     <div class="boundary-where"><a href="https://viewer.openric.org">viewer</a> · <a href="https://capture.openric.org">capture</a> · <a href="api-explorer/">api-explorer</a></div>
   </div>
   <div class="boundary-cell consumer">
-    <div class="boundary-label">Operational consumer</div>
+    <div class="boundary-label">Related platform</div>
     <div class="boundary-title">Heratio</div>
-    <p>An existing GLAM platform that consumes the Reference API over HTTP for every mutating admin action - no special shortcut. Proves the contract is sufficient for a real, production archive. Independent AGPL project.</p>
+    <p>An existing GLAM platform from the same maintainers, with RiC built in. It can read graph data from the Reference API over HTTP, but it still writes through its own copy of the RiC routes on a database it shares with the reference service. So it is not independent evidence that the contract alone is enough for a production archive. AGPL.</p>
     <div class="boundary-where"><a href="https://heratio.theahg.co.za/">heratio.theahg.co.za</a></div>
   </div>
 </div>

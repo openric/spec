@@ -20,6 +20,10 @@ Records in Contexts is four documents, not one, and OpenRiC targets a specific v
 
 OpenRiC itself is at **v{{ site.data.version.version }}** ({{ site.data.version.release_date }}). That version line describes the OpenRiC contract - the HTTP API, the profiles, the schemas and shapes - and moves independently of the RiC versions above.
 
+## OpenRiC and the ICA
+
+OpenRiC is an independent project. It is not issued, reviewed or endorsed by the International Council on Archives or its Expert Group on Archival Description (EGAD), and it does not replace or amend any part of Records in Contexts. It is one way of implementing RiC over HTTP. Where this site and an ICA text disagree, the ICA text is authoritative and the disagreement is a defect in OpenRiC, to be reported on the [specification repository](https://github.com/openric/spec/issues).
+
 ## The rule about namespaces
 
 **OpenRiC never mints a term in the RiC-O namespace.** Where an implementation needs a concept RiC-O 1.1 does not define, the term goes in the OpenRiC extension namespace `https://openric.org/ns/ext/v1#`, prefix `openricx`, published as [an ontology page and Turtle file](/ns/ext/v1.html).

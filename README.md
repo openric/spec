@@ -25,7 +25,7 @@ Earlier, v0.37.0 — 2026-04-25. RiC-O 1.1 namespace remediation complete (all 5
 | **[openric/viewer](https://github.com/openric/viewer)** | `@openric/viewer` on npm — 2D + 3D graph rendering library | AGPL-3.0 |
 | **[openric/capture](https://github.com/openric/capture)** | Pure-browser data-entry client; talks to any conformant server | AGPL-3.0 |
 
-The reference implementation is **live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health)**, with ~40 endpoints across read, write, graph walk, OAI-PMH, and file upload. It's backed by real archival data via [Heratio](https://heratio.theahg.co.za), which is an **operational consumer of the same public API** — no privileged shortcut.
+The reference implementation is **live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health)**, with ~40 endpoints across read, write, graph walk, OAI-PMH, and file upload. It runs on the database of [Heratio](https://heratio.theahg.co.za), the maintainers' archival platform. Heratio can read from the public API, but it still writes through its own copy of the RiC routes on that shared database, so it is not independent evidence that the API alone is enough for production.
 
 ---
 

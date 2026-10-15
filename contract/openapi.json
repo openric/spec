@@ -1,0 +1,3920 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "OpenRiC API contract",
+    "version": "0.43.14",
+    "summary": "The HTTP surface the OpenRiC profiles define, as one machine-readable document.",
+    "description": "The profiles are normative; this document indexes them. Where the two disagree, the profile wins and this document is the bug. Each operation names its profile in x-openric-profile and that profile's status in x-openric-status. A server implements the operations of the profiles it declares at GET /, and nothing in this document requires the others.\n\nIdentifiers in paths are opaque strings: a server may use slugs, numbers or anything else, and a client takes them from responses. Paths are relative to the server's base URL; the reference service's is https://ric.theahg.co.za/api/ric/v1.\n\nResponse bodies are defined by the JSON Schemas under /schemas/ and illustrated by the fixtures under /fixtures/; CI validates every example here against the schema of its operation.",
+    "license": {
+      "name": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "servers": [
+    {
+      "url": "{base}",
+      "variables": {
+        "base": {
+          "default": "https://ric.theahg.co.za/api/ric/v1"
+        }
+      }
+    }
+  ],
+  "externalDocs": {
+    "url": "https://openric.org/spec/"
+  },
+  "tags": [
+    {
+      "name": "core-discovery",
+      "description": "Core Discovery 0.4.0 (normative)"
+    },
+    {
+      "name": "authority-context",
+      "description": "Authority & Context 0.4.0 (normative)"
+    },
+    {
+      "name": "graph-traversal",
+      "description": "Graph Traversal 0.5.0 (normative)"
+    },
+    {
+      "name": "digital-object-linkage",
+      "description": "Digital Object Linkage 0.6.0 (normative)"
+    },
+    {
+      "name": "round-trip-editing",
+      "description": "Round-Trip Editing 0.7.0 (normative)"
+    },
+    {
+      "name": "provenance-event",
+      "description": "Provenance & Event 0.8.0 (normative)"
+    },
+    {
+      "name": "export-only",
+      "description": "Export-Only 0.9.0 (normative)"
+    },
+    {
+      "name": "sparql-access",
+      "description": "SPARQL Access 0.1.0 (draft)"
+    },
+    {
+      "name": "portability",
+      "description": "Portability 0.43.0 (draft)"
+    },
+    {
+      "name": "graph-grounding",
+      "description": "Graph-Grounding 0.43.0 (draft)"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Service description with the openric_conformance declaration",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.1",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/service-description.schema.json"
+                },
+                "examples": {
+                  "service-description": {
+                    "externalValue": "../fixtures/service-description/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/activities": {
+      "get": {
+        "summary": "List activities, with their dates, agents and outputs",
+        "tags": [
+          "provenance-event"
+        ],
+        "x-openric-profile": "provenance-event",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Provenance & Event §2",
+          "url": "https://openric.org/spec/profiles/provenance-event.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/list.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create in activities",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/activity"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/activities/{id}": {
+      "get": {
+        "summary": "One activity",
+        "tags": [
+          "authority-context"
+        ],
+        "x-openric-profile": "authority-context",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Authority & Context §2",
+          "url": "https://openric.org/spec/profiles/authority-context.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/activity.schema.json"
+                },
+                "examples": {
+                  "activity-production": {
+                    "externalValue": "../fixtures/activity-production/expected.jsonld"
+                  },
+                  "activity-accumulation": {
+                    "externalValue": "../fixtures/activity-accumulation/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of activities (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/activity"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of activities",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/agents": {
+      "get": {
+        "summary": "List agents; pagination is required",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.3",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/list.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create in agents",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/agents/{id}": {
+      "get": {
+        "summary": "One agent",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.4.2",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/agent.schema.json"
+                },
+                "examples": {
+                  "agent-person-simple": {
+                    "externalValue": "../fixtures/agent-person-simple/expected.jsonld"
+                  },
+                  "agent-corporate-body": {
+                    "externalValue": "../fixtures/agent-corporate-body/expected.jsonld"
+                  },
+                  "agent-family": {
+                    "externalValue": "../fixtures/agent-family/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of agents (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                },
+                "examples": {
+                  "write-response-success": {
+                    "externalValue": "../fixtures/write-response-success/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of agents",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/autocomplete": {
+      "get": {
+        "summary": "Cross-entity prefix search",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.5",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/autocomplete.schema.json"
+                },
+                "examples": {
+                  "autocomplete-egypt": {
+                    "externalValue": "../fixtures/autocomplete-egypt/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "types",
+            "in": "query",
+            "description": "Comma-separated, from record, agent, repository",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10
+            }
+          }
+        ]
+      }
+    },
+    "/changelog": {
+      "get": {
+        "summary": "Changes since a point in time",
+        "tags": [
+          "portability"
+        ],
+        "x-openric-profile": "portability",
+        "x-openric-status": "draft",
+        "externalDocs": {
+          "description": "Portability §4",
+          "url": "https://openric.org/spec/profiles/portability.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dataset": {
+      "get": {
+        "summary": "Whole-dataset export",
+        "tags": [
+          "portability"
+        ],
+        "x-openric-profile": "portability",
+        "x-openric-status": "draft",
+        "externalDocs": {
+          "description": "Portability §3",
+          "url": "https://openric.org/spec/profiles/portability.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/dataset.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/functions": {
+      "post": {
+        "summary": "Create in functions",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/functions/{id}": {
+      "get": {
+        "summary": "One function",
+        "tags": [
+          "digital-object-linkage"
+        ],
+        "x-openric-profile": "digital-object-linkage",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Digital Object Linkage §2",
+          "url": "https://openric.org/spec/profiles/digital-object-linkage.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of functions (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of functions",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/graph": {
+      "get": {
+        "summary": "Subgraph around one entity",
+        "tags": [
+          "graph-traversal"
+        ],
+        "x-openric-profile": "graph-traversal",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Graph Traversal §2",
+          "url": "https://openric.org/spec/profiles/graph-traversal.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/subgraph.schema.json"
+                },
+                "examples": {
+                  "subgraph-depth-1": {
+                    "externalValue": "../fixtures/subgraph-depth-1/expected.jsonld"
+                  },
+                  "subgraph-depth-2": {
+                    "externalValue": "../fixtures/subgraph-depth-2/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "depth above 3",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uri",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3,
+              "default": 1
+            }
+          }
+        ]
+      }
+    },
+    "/ground": {
+      "get": {
+        "summary": "Graph context to ground an answer to a question",
+        "tags": [
+          "graph-grounding"
+        ],
+        "x-openric-profile": "graph-grounding",
+        "x-openric-status": "draft",
+        "externalDocs": {
+          "description": "Graph-Grounding §2",
+          "url": "https://openric.org/spec/profiles/graph-grounding.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/ground.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Liveness probe",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §2.1",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "const": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hierarchy/{id}": {
+      "get": {
+        "summary": "Parent and children of one entity",
+        "tags": [
+          "graph-traversal"
+        ],
+        "x-openric-profile": "graph-traversal",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Graph Traversal §2",
+          "url": "https://openric.org/spec/profiles/graph-traversal.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/hierarchy.schema.json"
+                },
+                "examples": {
+                  "hierarchy-with-children": {
+                    "externalValue": "../fixtures/hierarchy-with-children/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/instantiations": {
+      "post": {
+        "summary": "Create in instantiations",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/instantiation"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/instantiations/{id}": {
+      "get": {
+        "summary": "One instantiation",
+        "tags": [
+          "digital-object-linkage"
+        ],
+        "x-openric-profile": "digital-object-linkage",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Digital Object Linkage §2",
+          "url": "https://openric.org/spec/profiles/digital-object-linkage.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/instantiation.schema.json"
+                },
+                "examples": {
+                  "instantiation-tiff": {
+                    "externalValue": "../fixtures/instantiation-tiff/expected.jsonld"
+                  },
+                  "instantiation-application": {
+                    "externalValue": "../fixtures/instantiation-application/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of instantiations (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/instantiation"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of instantiations",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/oai": {
+      "get": {
+        "summary": "OAI-PMH 2.0 endpoint",
+        "tags": [
+          "export-only"
+        ],
+        "x-openric-profile": "export-only",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Export-Only §2",
+          "url": "https://openric.org/spec/profiles/export-only.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OAI-PMH response",
+            "content": {
+              "text/xml": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "verb",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Identify",
+                "ListMetadataFormats",
+                "ListSets",
+                "ListIdentifiers",
+                "ListRecords",
+                "GetRecord"
+              ]
+            }
+          },
+          {
+            "name": "metadataPrefix",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resumptionToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/places": {
+      "get": {
+        "summary": "List places",
+        "tags": [
+          "authority-context"
+        ],
+        "x-openric-profile": "authority-context",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Authority & Context §2",
+          "url": "https://openric.org/spec/profiles/authority-context.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/list.schema.json"
+                },
+                "examples": {
+                  "place-list": {
+                    "externalValue": "../fixtures/place-list/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create in places",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                },
+                "examples": {
+                  "write-response-create": {
+                    "externalValue": "../fixtures/write-response-create/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/place"
+              },
+              "examples": {
+                "entity-write-place": {
+                  "externalValue": "../fixtures/entity-write-place/request.json"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/places/{id}": {
+      "get": {
+        "summary": "One place",
+        "tags": [
+          "authority-context"
+        ],
+        "x-openric-profile": "authority-context",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Authority & Context §2",
+          "url": "https://openric.org/spec/profiles/authority-context.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/place.schema.json"
+                },
+                "examples": {
+                  "place-country": {
+                    "externalValue": "../fixtures/place-country/expected.jsonld"
+                  },
+                  "place-with-parent": {
+                    "externalValue": "../fixtures/place-with-parent/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of places (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/place"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of places",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/records": {
+      "get": {
+        "summary": "List records; pagination is required",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.3",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/list.schema.json"
+                },
+                "examples": {
+                  "record-list": {
+                    "externalValue": "../fixtures/record-list/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create in records",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/records/{id}": {
+      "get": {
+        "summary": "One record",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.4.1",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/record.schema.json"
+                },
+                "examples": {
+                  "fonds-with-children": {
+                    "externalValue": "../fixtures/fonds-with-children/expected.jsonld"
+                  },
+                  "record-multilingual": {
+                    "externalValue": "../fixtures/record-multilingual/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of records (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of records",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/records/{id}/export": {
+      "get": {
+        "summary": "One record and its context as RiC-O",
+        "tags": [
+          "export-only"
+        ],
+        "x-openric-profile": "export-only",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Export-Only §2",
+          "url": "https://openric.org/spec/profiles/export-only.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/relations": {
+      "get": {
+        "summary": "List relations",
+        "tags": [
+          "graph-traversal"
+        ],
+        "x-openric-profile": "graph-traversal",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Graph Traversal §2",
+          "url": "https://openric.org/spec/profiles/graph-traversal.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/relation-list.schema.json"
+                },
+                "examples": {
+                  "relation-list": {
+                    "externalValue": "../fixtures/relation-list/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create in relations",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/relation"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/relations-for/{id}": {
+      "get": {
+        "summary": "Relations touching one entity",
+        "tags": [
+          "graph-traversal"
+        ],
+        "x-openric-profile": "graph-traversal",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Graph Traversal §2",
+          "url": "https://openric.org/spec/profiles/graph-traversal.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/relations-for.schema.json"
+                },
+                "examples": {
+                  "relations-for-place": {
+                    "externalValue": "../fixtures/relations-for-place/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/relations/{id}": {
+      "patch": {
+        "summary": "Update one of relations (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/relation"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of relations",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/repositories": {
+      "get": {
+        "summary": "List repositories; pagination is required",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.3",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/list.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create in repositories",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/repositories/{id}": {
+      "get": {
+        "summary": "One repository",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.4.3",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/repository.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of repositories (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "No JSON Schema yet for this type's body; see the profile."
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of repositories",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/rules": {
+      "post": {
+        "summary": "Create in rules",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/rule"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/rules/{id}": {
+      "get": {
+        "summary": "One rule",
+        "tags": [
+          "authority-context"
+        ],
+        "x-openric-profile": "authority-context",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Authority & Context §2",
+          "url": "https://openric.org/spec/profiles/authority-context.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/rule.schema.json"
+                },
+                "examples": {
+                  "rule-law": {
+                    "externalValue": "../fixtures/rule-law/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update one of rules (partial body)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The body fails validation",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the write scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/entity-write.schema.json#/$defs/rule"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete one of rules",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/write-response.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Other entities still refer to this one",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No key, or the key is not valid",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The key lacks the delete scope",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKey": [
+              "delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/sparql": {
+      "get": {
+        "summary": "SPARQL 1.1 query (read-only)",
+        "tags": [
+          "sparql-access"
+        ],
+        "x-openric-profile": "sparql-access",
+        "x-openric-status": "draft",
+        "externalDocs": {
+          "description": "SPARQL Access §2",
+          "url": "https://openric.org/spec/profiles/sparql-access.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/sparql-results+json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "SPARQL 1.1 query (read-only), query in the body",
+        "tags": [
+          "sparql-access"
+        ],
+        "x-openric-profile": "sparql-access",
+        "x-openric-status": "draft",
+        "externalDocs": {
+          "description": "SPARQL Access §2",
+          "url": "https://openric.org/spec/profiles/sparql-access.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/sparql-results+json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/sparql-query": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sparql/info": {
+      "get": {
+        "summary": "Dataset description",
+        "tags": [
+          "sparql-access"
+        ],
+        "x-openric-profile": "sparql-access",
+        "x-openric-status": "draft",
+        "externalDocs": {
+          "description": "SPARQL Access §2",
+          "url": "https://openric.org/spec/profiles/sparql-access.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/thumbnail/{id}": {
+      "get": {
+        "summary": "Thumbnail image for an instantiation",
+        "tags": [
+          "digital-object-linkage"
+        ],
+        "x-openric-profile": "digital-object-linkage",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Digital Object Linkage §2",
+          "url": "https://openric.org/spec/profiles/digital-object-linkage.html"
+        },
+        "responses": {
+          "200": {
+            "description": "Image",
+            "content": {
+              "image/*": {}
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/vocabulary": {
+      "get": {
+        "summary": "rico:* term catalogue",
+        "tags": [
+          "core-discovery"
+        ],
+        "x-openric-profile": "core-discovery",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Core Discovery §3.2",
+          "url": "https://openric.org/spec/profiles/core-discovery.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "$ref": "../schemas/vocabulary.schema.json"
+                },
+                "examples": {
+                  "vocabulary": {
+                    "externalValue": "../fixtures/vocabulary/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{type}/{id}/revisions": {
+      "get": {
+        "summary": "Revision history of one entity",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §3",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "agents",
+                "records",
+                "repositories",
+                "functions",
+                "places",
+                "rules",
+                "activities",
+                "instantiations",
+                "relations"
+              ]
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "Scopes: write (create, update) and delete. Reads need no key."
+      }
+    }
+  }
+}

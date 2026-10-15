@@ -27,7 +27,12 @@
                     "graph-traversal",
                     "round-trip-editing",
                     "export-only",
-                    "provenance-event"
+                    "provenance-event",
+                    "sparql-access",
+                    "governance",
+                    "portability",
+                    "inferred-provenance",
+                    "graph-grounding"
                 ]
             },
             "minItems": 1,

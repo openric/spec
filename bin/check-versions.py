@@ -218,6 +218,42 @@ def check_profiles(problems: list) -> list:
     return profiles
 
 
+def check_profile_artefacts(profiles: list, problems: list) -> None:
+    """Every artefact that names profiles must agree with _data/profiles.json:
+    the fixture manifest's profile list and tags, the fixture folders, and the
+    SHACL shapes. A normative profile needs at least one done fixture and its
+    own shape file; a draft may still lack them."""
+    ids = {p["id"] for p in profiles}
+    manifest = json.loads((ROOT / "fixtures" / "manifest.json").read_text())
+    declared = set(manifest.get("profile_ids", []))
+    fixtures = manifest["fixtures"]
+
+    for missing in sorted(ids - declared):
+        problems.append(f"  fixtures/manifest.json profile_ids lacks '{missing}'")
+    for extra in sorted(declared - ids - {"always-on"}):
+        problems.append(f"  fixtures/manifest.json profile_ids has '{extra}', which is not a profile")
+    for f in fixtures:
+        for tag in f.get("profiles", []):
+            if tag not in declared:
+                problems.append(f"  fixture '{f['name']}' is tagged '{tag}', which profile_ids does not list")
+
+    folders = {p.name for p in (ROOT / "fixtures").iterdir() if p.is_dir()}
+    registered = {f["name"] for f in fixtures}
+    for name in sorted(folders - registered):
+        problems.append(f"  fixtures/{name}/ exists but is not registered in fixtures/manifest.json")
+    for f in fixtures:
+        if f.get("status") == "done" and f["name"] not in folders:
+            problems.append(f"  fixture '{f['name']}' is marked done but fixtures/{f['name']}/ does not exist")
+
+    for p in profiles:
+        if p["status"] != "normative":
+            continue
+        if not any(p["id"] in f.get("profiles", []) and f.get("status") == "done" for f in fixtures):
+            problems.append(f"  normative profile '{p['id']}' has no done fixture")
+        if not (ROOT / "shapes" / "profiles" / f"{p['id']}.shacl.ttl").exists():
+            problems.append(f"  normative profile '{p['id']}' has no shapes/profiles/{p['id']}.shacl.ttl")
+
+
 def count_value(token: str):
     return int(token) if token.isdigit() else NUMBER_WORDS.get(token.lower())
 
@@ -240,6 +276,17 @@ def check_drift_log(problems: list) -> None:
         )
 
 
+def check_changelog(current: str, problems: list) -> None:
+    """spec/change-control.md: every release has a CHANGELOG.md entry, newest
+    first, that names who approved it."""
+    path = ROOT / "CHANGELOG.md"
+    entries = re.split(r"(?m)^## ", path.read_text(encoding="utf-8"))[1:]
+    if not entries or not re.match(rf"v{re.escape(current)}\b", entries[0]):
+        problems.append(f"  CHANGELOG.md does not start with an entry for v{current} (bin/release writes it)")
+    elif not re.search(r"(?m)^Approved by: \S", entries[0]):
+        problems.append(f"  CHANGELOG.md entry for v{current} has no 'Approved by:' line")
+
+
 def main() -> int:
     if "--write-inventory" in sys.argv:
         INVENTORY_FILE.write_text(json.dumps(compute_inventory(), indent=2) + "\n")
@@ -252,7 +299,9 @@ def main() -> int:
     check_readme(current, released, problems)
     inventory = check_inventory(problems)
     profiles = check_profiles(problems)
+    check_profile_artefacts(profiles, problems)
     check_drift_log(problems)
+    check_changelog(current, problems)
     expected_counts = {
         "normative": sum(p["status"] == "normative" for p in profiles),
         "draft": sum(p["status"] == "draft" for p in profiles),

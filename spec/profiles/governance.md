@@ -7,11 +7,11 @@ description: The meaning-layer contract - pinned standards, the two-layer IRI po
 # Governance Profile
 
 **Profile id:** `governance`
-**Profile version:** 0.43.0
-**Last revised in spec:** v0.43.0
+**Profile version:** 0.44.0
+**Last revised in spec:** v0.44.0
 **Status:** Draft - open for comment
 **Dependencies:** None. Orthogonal to every read/write profile - it governs *meaning and change*, not the endpoint surface.
-**Last updated:** 2026-06-19
+**Last updated:** 2026-10-15
 **Reference implementation:** Heratio ([ArchiveHeritageGroup/heratio#1319](https://github.com/ArchiveHeritageGroup/heratio)) - `RicGraphManifest`, `ShaclValidationService`, `RicConformanceCommand`, `docs/reference/ontology-governance-pin.md`.
 
 ---
@@ -36,7 +36,7 @@ A conformant server publishes a governance-pin document declaring the sanctioned
 
 | Layer | Standard | Pinned version | Role |
 |---|---|---|---|
-| Records model | RiC-O | **1.0.2** | Canonical entity/relationship target. |
+| Records model | RiC-O | **1.1** (2025-05-22) | Canonical entity/relationship target. Was 1.0.2 until profile 0.44.0, carried over from the Heratio implementation; every normative profile and the [mapping](../mapping.html) target 1.1. |
 | Thesauri / controlled vocab | SKOS | W3C Rec (2009) | Terms, subjects, places, authorities. |
 | Provenance | PROV-O | W3C Rec (2013) | Who asserted this, when, how, on what basis (see [Inferred-Provenance](inferred-provenance.html)). |
 | Museum bridge | CIDOC-CRM | **7.1.3** | Optional cross-walk for museum/object data. |

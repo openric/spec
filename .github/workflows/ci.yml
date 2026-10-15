@@ -36,6 +36,9 @@ jobs:
         working-directory: validator
         run: pytest tests/ -v --tb=short
 
+      - name: Check the API contract (version, profiles, string ids, examples against schemas)
+        run: python3 bin/check-contract.py
+
       - name: Verify schemas are valid JSON Schema 2020-12
         run: |
           python -c "
@@ -70,6 +73,9 @@ jobs:
           sys.exit(1 if errors else 0)
           "
 
+      - name: Check every openric and openricx term in use is defined and bound
+        run: python bin/check-vocab.py
+
   site-links:
     name: Spec site link check
     runs-on: ubuntu-latest
@@ -94,3 +100,62 @@ jobs:
 
       - name: Validate modelling-wizard scenarios
         run: node bin/validate-scenarios.mjs
+
+  site-build:
+    # The full Jekyll build, with the same builder GitHub Pages uses, so a
+    # Liquid or plugin error fails here on the pull request instead of first
+    # appearing as a broken Pages deployment of main.
+    name: Full site build (GitHub Pages builder)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Key pages exist in the build
+        run: |
+          for f in index.html status/index.html application/index.html spec/index.html spec/versions/index.html proof.html sitemap.xml release.json .well-known/security.txt; do
+            test -s "_site/$f" || { echo "missing from build: $f"; exit 1; }
+          done
+
+      - name: Keep the built site for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site
+          retention-days: 7
+
+  minimal-server:
+    # The implementer quick-start, proven on every change: a standard-library
+    # server with its own data and identifiers (no Heratio, no production
+    # service) must validate against the JSON Schemas and pass the conformance
+    # probe for Core Discovery. Runs entirely inside the CI runner.
+    name: Minimal server passes Core Discovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the schema validator library
+        run: python -m pip install --quiet jsonschema
+
+      - name: Start the minimal server
+        run: |
+          PORT=8080 python examples/minimal-server/server.py &
+          for i in $(seq 1 30); do curl -sf http://localhost:8080/health >/dev/null && exit 0; sleep 1; done
+          echo "server did not start"; exit 1
+
+      - name: Responses validate against the JSON Schemas
+        run: BASE=http://localhost:8080 python examples/minimal-server/check.py
+
+      - name: Conformance probe passes Core Discovery
+        run: |
+          BASE=http://localhost:8080 KEY="" bash conformance/probe.sh --profile=core-discovery --json=probe.json
+          jq -e '.verdict == "pass"' probe.json

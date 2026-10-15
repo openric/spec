@@ -4,11 +4,11 @@
   "scenes": [
     {
       "id": "01-title",
-      "text": "This is a model funeral boat from ancient Egypt. About four and a half thousand years old, British Museum number BM-125320. A catalogue record can tell you it exists, who holds it, and what it looks like. It cannot easily tell you that it was made in Thebes, moved to London, is governed today by a specific Egyptian statute, and now also exists as a downloadable three-D file. And it certainly cannot tell you that those four facts are connected to each other, rather than just to the record."
+      "text": "This is a demonstration record of a model funeral boat from ancient Egypt, identifier BM-125320. A catalogue record can tell you it exists, who holds it, and what it looks like. It cannot easily tell you that it was made in Thebes, moved into the collection that holds it now, is governed today by a specific Egyptian statute, and now also exists as a downloadable three-D file. And it certainly cannot tell you that those four facts are connected to each other, rather than just to the record."
     },
     {
       "id": "02-record",
-      "text": "Here is the record on its own. A title, an identifier, a holder, a description. Useful, and roughly what any catalogue would give you. But look at the holder. It is not the text, The British Museum. It is a link, to the British Museum as a thing in its own right. Everything that follows comes from that one difference."
+      "text": "Here is the record on its own. A title, an identifier, a holder, a description. Useful, and roughly what any catalogue would give you. But look at the holder. It is not a string of text. It is a link, to the holding museum as a thing in its own right. Everything that follows comes from that one difference."
     },
     {
       "id": "03-graph",

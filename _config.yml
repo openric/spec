@@ -40,6 +40,10 @@ defaults:
     values:
       kind: record
 
+# Dot-folders are skipped by default; security.txt lives in one (RFC 9116).
+include:
+  - .well-known
+
 exclude:
   - README.md
   - .gitignore

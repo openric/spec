@@ -228,6 +228,12 @@
     /* ---- Page kind (spec / current / record), set in front matter or _config.yml defaults ---- */
     .page-kind { font-size: .82rem; color: var(--muted, #6b7280); border-bottom: 1px solid var(--border); padding-bottom: .5rem; margin: 0 0 1.2rem; }
 
+    /* ---- Evidence labels (_includes/evidence.html) ---- */
+    .evidence { font-size: .9rem; padding: .6rem .9rem; border-left: 3px solid var(--muted); background: var(--surface); border-radius: 0 var(--radius) var(--radius) 0; margin: .8rem 0; }
+    .evidence-synthetic { border-left-color: #d97706; }
+    .evidence-derived { border-left-color: #2563eb; }
+    .evidence-independent, .evidence-institution { border-left-color: #059669; }
+
     /* ---- Callouts ---- */
     .callout {
       padding: 1rem 1.2rem;
@@ -486,8 +492,10 @@
            Search landed with #17 and covers the whole site, not just help. -->
       <div class="nav-links">
         <a href="{{ '/explore.html' | relative_url }}">Explore</a>
-        <a href="{{ '/learn.html' | relative_url }}">Learn &amp; Model</a>
-        <a href="{{ '/for-developers.html' | relative_url }}">Build</a>
+        <a href="{{ '/learn.html' | relative_url }}">Learn RiC</a>
+        <a href="{{ '/application/' | relative_url }}">Application</a>
+        <a href="{{ '/for-developers.html' | relative_url }}">Developers</a>
+        <a href="{{ '/spec/' | relative_url }}">Specification</a>
         <a href="{{ '/about.html' | relative_url }}">About</a>
         <span class="sep">·</span>
         <a href="{{ '/search/' | relative_url }}">Search</a>
