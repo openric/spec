@@ -73,6 +73,9 @@ jobs:
           sys.exit(1 if errors else 0)
           "
 
+      - name: Check every openric and openricx term in use is defined and bound
+        run: python bin/check-vocab.py
+
   site-links:
     name: Spec site link check
     runs-on: ubuntu-latest

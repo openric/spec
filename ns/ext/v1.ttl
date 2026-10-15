@@ -27,6 +27,7 @@
 @prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms:  <http://purl.org/dc/terms/> .
 @prefix vann:     <http://purl.org/vocab/vann/> .
+@prefix openric:  <https://openric.org/ns/v1#> .
 
 <https://openric.org/ns/ext/v1>
     a owl:Ontology ;
@@ -39,7 +40,7 @@
     vann:preferredNamespaceUri "https://openric.org/ns/ext/v1#" ;
     rdfs:seeAlso <https://openric.org/spec/mapping.html> ,
                  <https://openric.org/audit/ric-o-1.1-audit.html> ;
-    owl:versionInfo "1.0.0" .
+    owl:versionInfo "1.1.0" .
 
 # =====================================================================
 # 1. Classes
@@ -148,7 +149,9 @@ openricx:hasNarrowerGeographicalContext a owl:ObjectProperty ;
     rdfs:label "has narrower geographical context"@en ;
     rdfs:domain rico:Place ; rdfs:range rico:Place .
 openricx:jurisdiction a owl:DatatypeProperty ; rdfs:label "jurisdiction"@en ;
-    rdfs:comment "Free-text jurisdiction marker on a rico:Rule (e.g. 'Egypt'). Canonical alternative: link to a rico:Place via rico:hasOrHadJurisdiction."@en .
+    rdfs:comment "Free-text jurisdiction marker on a rico:Rule (e.g. 'Egypt'). Canonical alternative: link to a rico:Place via rico:hasOrHadJurisdiction. Deprecated 2026-10-15 without ever being emitted: the Authority & Context profile and every implementation use openric:jurisdiction."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy openric:jurisdiction .
 
 # 2.6 Names / labels (auxiliary forms)
 
@@ -208,3 +211,28 @@ openricx:algorithm a owl:DatatypeProperty ; rdfs:label "algorithm"@en ;
 openricx:checksumValue a owl:DatatypeProperty ; rdfs:label "checksum value"@en ;
     rdfs:domain openricx:Checksum ; rdfs:range xsd:string ;
     rdfs:comment "Hex-encoded checksum value."@en .
+
+# 2.12 Source-standard notes with no RiC-O 1.1 property (mapping §7.1, §7.4)
+# Added 2026-10-15. The mapping named these openric:*, a namespace reserved for
+# API and viewing terms; no implementation emitted them under that name.
+
+openricx:accrualsNote a owl:DatatypeProperty ; rdfs:label "accruals note"@en ;
+    rdfs:comment "ISAD(G) 3.3.3 Accruals: expected additions to the unit of description. RiC-O 1.1 has no direct property."@en .
+openricx:institutionType a owl:DatatypeProperty ; rdfs:label "institution type"@en ;
+    rdfs:comment "ISDIAH 5.1.4 Type of the institution holding archives, as free text or a local term."@en .
+openricx:openingHours a owl:DatatypeProperty ; rdfs:label "opening hours"@en ;
+    rdfs:comment "ISDIAH 5.4.1 Opening times of a repository."@en .
+openricx:accessibility a owl:DatatypeProperty ; rdfs:label "accessibility"@en ;
+    rdfs:comment "ISDIAH 5.4.3 Accessibility: how to reach the repository and the access it offers to people with disabilities."@en .
+
+# 2.13 SPARQL endpoint description (SPARQL Access draft profile, GET /sparql/info)
+# Added 2026-10-15; already emitted by the reference service and the sparql-info fixture.
+
+openricx:accessPolicy a owl:DatatypeProperty ; rdfs:label "access policy"@en ;
+    rdfs:comment "Who may query the SPARQL endpoint, e.g. 'public-read'."@en .
+openricx:rateLimit a owl:DatatypeProperty ; rdfs:label "rate limit"@en ;
+    rdfs:comment "Request limit applied to the endpoint, e.g. '60/minute/IP'."@en .
+openricx:maxQueryTimeSeconds a owl:DatatypeProperty ; rdfs:label "maximum query time in seconds"@en ;
+    rdfs:range xsd:integer .
+openricx:exampleQueriesUrl a owl:DatatypeProperty ; rdfs:label "example queries URL"@en ;
+    rdfs:comment "Where the endpoint publishes example queries."@en .
