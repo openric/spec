@@ -46,6 +46,7 @@ openric:limit a owl:DatatypeProperty ; rdfs:label "limit"@en ; rdfs:comment "Pag
 openric:page a owl:DatatypeProperty ; rdfs:label "page"@en ; rdfs:comment "1-based page number of this response."@en .
 openric:next a owl:ObjectProperty ; rdfs:label "next"@en ; rdfs:comment "URL of the next page, or null."@en .
 openric:prev a owl:ObjectProperty ; rdfs:label "previous"@en ; rdfs:comment "URL of the previous page, or null."@en .
+openric:Vocabulary a owl:Class ; rdfs:label "Vocabulary"@en ; rdfs:comment "The rico: term catalogue returned at GET /vocabulary (Core Discovery §3.2). Emitted as ric:Vocabulary through the ric: alias."@en .
 openric:RevisionList a owl:Class ; rdfs:label "Revision list"@en ; rdfs:comment "The revision history of one entity (Round-Trip Editing)."@en .
 
 # 3. Service description (Core Discovery §3.1)

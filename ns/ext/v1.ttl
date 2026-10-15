@@ -66,6 +66,8 @@ openricx:InstantiationList  a owl:Class ; rdfs:label "Instantiation List"@en ;
     rdfs:comment "Response envelope wrapping a paginated list of rico:Instantiation entities."@en .
 openricx:FunctionList       a owl:Class ; rdfs:label "Function List"@en ;
     rdfs:comment "Response envelope wrapping a paginated list of openricx:Function entities."@en .
+openricx:RepositoryList     a owl:Class ; rdfs:label "Repository List"@en ;
+    rdfs:comment "Response envelope wrapping a list of repositories (rico:CorporateBody, ISDIAH). Added 2026-10-15; GET /repositories already returned it."@en .
 
 # 1.2 Semantic extension classes (candidate-upstream)
 

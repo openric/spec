@@ -1,5 +1,10 @@
 {
-  "@context": "https://www.ica.org/standards/RiC/ontology",
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "openric": "https://openric.org/ns/v1#",
+    "openricx": "https://openric.org/ns/ext/v1#",
+    "ric": "https://openric.org/ns/v1#"
+  },
   "@type": "openricx:RecordList",
   "ric:total": 714,
   "ric:page": 1,

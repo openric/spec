@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """Every openric: and openricx: term the schemas and fixtures use must be
 defined in the published vocabulary (ns/v1.ttl, ns/ext/v1.ttl), and every
-fixture that uses a prefix must bind it in its @context.
+fixture must bind the prefixes it uses in an inline @context (no context
+document is published, so a URL @context expands nothing).
 
 Needs rdflib. Exit 0 clean, 1 on any problem.
 """
@@ -40,6 +41,12 @@ def main() -> int:
         if f.suffix == ".jsonld":
             doc = json.loads(text)
             ctx = doc.get("@context", {}) if isinstance(doc, dict) else {}
+            if isinstance(ctx, str):
+                # A URL context only works if a JSON-LD context is published there;
+                # none is, so every prefixed term in the document fails to expand.
+                problems.append(f"{rel}: @context is the URL {ctx}, which serves no JSON-LD context; bind the prefixes inline")
+            if '"ric:' in text and isinstance(ctx, dict) and ctx.get("ric") != VOCABS["openric"][0]:
+                problems.append(f"{rel}: uses ric: list keys but does not bind ric to {VOCABS['openric'][0]} (ns/v1, the ric: alias)")
             for prefix in sorted({p for p, _ in used}):
                 if isinstance(ctx, dict) and ctx and ctx.get(prefix) != VOCABS[prefix][0]:
                     problems.append(f"{rel}: uses {prefix}: but its @context does not bind it to {VOCABS[prefix][0]}")
