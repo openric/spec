@@ -83,7 +83,7 @@ jobs:
           else
             git worktree add --detach results
             git -C results checkout --orphan conformance-results
-            git -C results rm -rq .
+            git -C results rm -rqf .
           fi
           mkdir -p results/history
           cp out/latest.json results/latest.json
