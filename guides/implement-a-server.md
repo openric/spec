@@ -56,6 +56,8 @@ The minimal server shows the contract; your server keeps your data. Four things 
 3. **Honest declarations.** The service description at `/` lists the profiles you claim. Claim a profile only once the probe passes it. The [status page](/status/) shows how the reference service's declarations compare with its test results.
 4. **The next profile.** [Authority & Context](/spec/profiles/authority-context.html) adds places, rules and activities; [Graph Traversal](/spec/profiles/graph-traversal.html) adds relationship walks. Each profile lists its endpoints, its required fields and the fixtures that pin the expected output.
 
+The same surface is in one machine-readable file, the [API contract](/contract/openapi.json) (OpenAPI 3.1). It tags every operation with its profile, so you can filter it down to the profiles you declare and generate a client or server stub from it. Path identifiers in it are opaque strings: use slugs, numbers or anything else your catalogue already has. Where the contract and a profile page disagree, the profile is right and the contract is the bug.
+
 ## What this server does not do
 
 It is read-only, keeps everything in memory, has no authentication and no search beyond a substring match. It implements one profile. That is deliberate: it is the smallest thing that is honestly conformant, so you can see where the contract ends and your own design choices begin.

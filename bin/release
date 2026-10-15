@@ -102,6 +102,12 @@ mv "$TMP" "$VERSION_FILE"
 mkdir -p _data
 cp "$VERSION_FILE" _data/version.json
 
+# The API contract carries the release version too; bin/check-contract.py
+# fails CI when the two differ.
+TMP=$(mktemp)
+jq --arg v "$NEW_VERSION" '.info.version = $v' contract/openapi.json > "$TMP"
+mv "$TMP" contract/openapi.json
+
 # The README banner is outside the Jekyll build, so it cannot use Liquid.
 sed -i -E "s/^\*\*v[0-9]+\.[0-9]+\.[0-9]+\*\* — [0-9]{4}-[0-9]{2}-[0-9]{2}\. The canonical/**v${NEW_VERSION}** — ${DATE}. The canonical/" README.md
 
@@ -110,7 +116,7 @@ sed -i -E "s/^\*\*v[0-9]+\.[0-9]+\.[0-9]+\*\* — [0-9]{4}-[0-9]{2}-[0-9]{2}\. T
 python3 bin/check-versions.py --write-inventory
 if ! python3 bin/check-versions.py; then
     echo -e "${RED}Drift against version.json or the inventory - fix it, then release again${NC}"
-    git checkout -- "$VERSION_FILE" _data/version.json README.md
+    git checkout -- "$VERSION_FILE" _data/version.json README.md contract/openapi.json
     exit 1
 fi
 

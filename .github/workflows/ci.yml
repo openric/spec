@@ -36,6 +36,9 @@ jobs:
         working-directory: validator
         run: pytest tests/ -v --tb=short
 
+      - name: Check the API contract (version, profiles, string ids, examples against schemas)
+        run: python3 bin/check-contract.py
+
       - name: Verify schemas are valid JSON Schema 2020-12
         run: |
           python -c "

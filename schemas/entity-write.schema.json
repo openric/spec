@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openric.org/schemas/entity-write.schema.json",
   "title": "OpenRiC entity write request",
-  "description": "Request body for POST /api/ric/v1/{type} and PATCH /api/ric/v1/{type}/{id}. Fields vary by entity type; this is the per-type union. Unknown properties accepted (forward-compatible).",
-  "oneOf": [
+  "description": "Request body for POST /api/ric/v1/{type} and PATCH /api/ric/v1/{type}/{id}. Fields vary by entity type; this is the per-type union. A body may satisfy more than one branch (a Place and an Activity both need only a name), so the union is anyOf, and a client picks the branch by the endpoint it posts to. Unknown properties accepted (forward-compatible).",
+  "anyOf": [
     { "$ref": "#/$defs/place" },
     { "$ref": "#/$defs/rule" },
     { "$ref": "#/$defs/activity" },
