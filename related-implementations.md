@@ -90,7 +90,7 @@ RiC-AG is the EGAD-authored practical guide to applying RiC-CM and RiC-O. v0.1 s
 
 ### Why OpenRiC tracks RiC-AG
 
-The four ICA-standard crosswalks in RiC-AG are exactly the same source-standard set OpenRiC's [mapping specification](spec/mapping.html) covers (ISAD(G), ISAAR(CPF), ISDF, ISDIAH). RiC-AG is the **authoritative reference** for that crosswalk; OpenRiC's mapping spec now [cross-references RiC-AG §1.2](spec/mapping.html) and treats RiC-AG as the upstream-of-truth where the two agree. Differences (intentional or accidental) will be tracked in [drift-log](drift-log.html) and proposed back to EGAD where appropriate.
+The four ICA-standard crosswalks in RiC-AG are exactly the same source-standard set OpenRiC's [mapping specification](spec/mapping.html) covers (ISAD(G), ISAAR(CPF), ISDF, ISDIAH). RiC-AG is the **authoritative reference** for that crosswalk; OpenRiC's mapping spec now [cross-references RiC-AG §1.2](spec/mapping.html) and treats RiC-AG as the upstream-of-truth where the two agree. The differences are recorded row by row in the [RiC-AG comparison](audit/ric-ag-crosswalk-comparison.html) (mapping issue O-8, resolved in v0.46.0) and proposed back to EGAD where appropriate.
 
 ### How OpenRiC uses RiC-AG
 
@@ -137,7 +137,7 @@ OpenRiC tracks Sparnatural as a **complementary client surface** to the OpenRiC 
 **Project URL:** [`github.com/ArchivesNationalesFR/rico-converter`](https://github.com/ArchivesNationalesFR/rico-converter)
 **Lead:** Sparna + AnF Lab. **Latest:** v3.0 (March 2025).
 
-The canonical EAD 2002 / EAC-CPF → RiC-O 1.1 converter. OpenRiC's [mapping spec](spec/mapping.html) documents the same direction at a higher level (ISAD(G) / ISAAR(CPF) / ISDIAH / ISDF source schemas → RiC-O / openricx output). The OpenRiC mapping is **consistent with RiC-O Converter v3.0 conventions** as of spec v0.38.0; institutions migrating existing EAD finding aids can use the Converter to bootstrap their corpus and an OpenRiC server to expose it over HTTP.
+The canonical EAD 2002 / EAC-CPF → RiC-O 1.1 converter. OpenRiC's [mapping spec](spec/mapping.html) documents the same direction at a higher level (ISAD(G) / ISAAR(CPF) / ISDIAH / ISDF source schemas → RiC-O / openricx output). The OpenRiC mapping was checked as **consistent with RiC-O Converter v3.0 conventions** at spec v0.38.0 (May 2026) and has not been re-checked since the v0.46.0 mapping changes; institutions migrating existing EAD finding aids can use the Converter to bootstrap their corpus and an OpenRiC server to expose it over HTTP.
 
 ---
 
@@ -146,7 +146,7 @@ The canonical EAD 2002 / EAC-CPF → RiC-O 1.1 converter. OpenRiC's [mapping spe
 **Project URLs:**
 - [RiC-CM NavTool](https://dlib-ionian-university.github.io/ric-cm-nav/) (2026)
 - [Corfu Criminal Court Archives RiC-CM application](https://dlib-ionian-university.github.io/) (2025-09)
-- [RiC-CM ↔ CIDOC-CRM mapping paper](https://link.springer.com/) (Damigos et al., ICADL 2023)
+- RiC-CM ↔ CIDOC-CRM mapping paper (Damigos et al., ICADL 2023)
 
 **Lead:** Matthew Damigos and the Laboratory on Digital Libraries and Electronic Publishing, Ionian University. Listed in the official ICA RiC ResourceList.
 
@@ -168,8 +168,8 @@ These are listed for visibility - OpenRiC tracks them as potential second-implem
 | [Holocaust Archival Material Knowledge Graph](https://www.ushmm.org/) | Garcia-Gonzalez & Bryant (2023-10) | Live RiC-O knowledge graph; conformance-probe candidate. |
 | RiC-O for art records search | Min-ji Kim (2024-12) | Domain-specific extension parallel to ICIP/Spectrum. |
 | Description-logic analysis of archival ontologies | Arian Rajh (2024-11) | Theoretical/critical work; useful for academic citing. |
-| [draw.io shape library](https://github.com/) for RiC-O | Richard Williamson (2024-03/04) | Visual modelling tool. |
-| ["Learn About RiC" webinar series](https://www.ica.org/) | EGAD (2025-03) | Official EGAD onboarding; cross-referenced from openric.org's "for archivists" track. |
+| draw.io shape library for RiC-O | Richard Williamson (2024-03/04) | Visual modelling tool. |
+| "Learn About RiC" webinar series | EGAD (2025-03) | Official EGAD onboarding. |
 
 ---
 

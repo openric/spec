@@ -51,7 +51,7 @@ Institutions that adopt RiC-native description formats now will not need to re-d
 
 ### 5. Implementation flexibility
 
-The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft - and an implementation claims each one independently. An institution does not have to support the full semantic range on day one. A server conforming to [Core Discovery](/spec/profiles/core-discovery.html) alone - basic read-only mapped endpoints - is useful immediately and can be deployed with a weekend of developer effort against an existing catalogue. (The older L1-L4 level vocabulary is legacy; it survives as a `level` field in responses but no longer frames conformance.)
+The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft - and an implementation claims each one independently. An institution does not have to support the full semantic range on day one. A server conforming to [Core Discovery](/spec/profiles/core-discovery.html) alone - basic read-only mapped endpoints - is useful immediately and can be deployed with a weekend of developer effort against an existing catalogue. (The older L1-L4 level vocabulary is legacy and no longer part of a conformance claim.)
 
 ---
 
@@ -59,8 +59,8 @@ The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.da
 
 | Component | What it is | Status |
 |---|---|---|
-| **Specification** (v{{ site.data.version.version }}) | Four documents, {{ site.data.inventory.schemas }} JSON Schemas, SHACL shapes, {{ site.data.inventory.fixtures }}-case fixture pack | Tagged release, under [openric.org](/spec/) |
-| **Reference API** | ~40 endpoints covering read, write, graph, harvest (OAI-PMH), validation | Live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health) |
+| **Specification** (v{{ site.data.version.version }}) | The base documents, {{ site.data.inventory.schemas }} JSON Schemas, SHACL shapes, {{ site.data.inventory.fixtures }}-case fixture pack | Tagged release, under [openric.org](/spec/) |
+| **Reference API** | Endpoints covering read, write, graph, harvest (OAI-PMH), validation | Live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health) |
 | **Conformance probe** | Pure bash + jq; points at any server, returns pass/fail across every required endpoint | Live at [/conformance/](/conformance/) |
 | **API Explorer** | Interactive Swagger UI - any reviewer can try every endpoint from a browser | Live at [/api-explorer/](/api-explorer/) |
 | **Viewer + Capture** | Two browser-based client apps that talk to any conformant server | Live at viewer.openric.org + capture.openric.org |
@@ -85,7 +85,7 @@ Honesty matters for institutional evaluation:
 |---|---|
 | What does OpenRiC cost? | **Nothing.** The spec is CC-BY 4.0; the reference implementation is AGPL-3.0; running your own server requires only standard web hosting. |
 | What if the maintainer disappears? | The spec is self-contained and published under a permissive content licence. A successor maintainer can fork and continue. See the [governance page](/governance.html). |
-| Can we be locked in? | No. The spec explicitly requires that reads and writes use the same HTTP contract any client uses - no privileged backdoor for the reference implementation. Data and credentials can be exported to any other OpenRiC server. |
+| Can we be locked in? | No. The contract is open, and a conformant server exports its data as JSON-LD, Turtle and OAI-PMH, which any other OpenRiC server or RDF tool can read. |
 | What's the audit story? | Every write action is logged in an audit table with timestamp, actor (API key id), IP, and payload. The `/{type}/{id}/revisions` endpoint exposes this. |
 | What about sensitive data? | The spec supports access restrictions, personal-data flags, and ODRL policy extensions. The reference implementation respects them. Per-institution extensions (GDPR, POPIA, PAIA, etc.) ship as separate shape files, not in the core. |
 
@@ -117,6 +117,6 @@ If your institution wants to publicly support OpenRiC - formally or informally -
 
 ## Contact
 
-Johan Pieterse · [johan@theahg.co.za](mailto:johan@theahg.co.za) · The Archive and Heritage Digital Commons Group (Pty) Ltd · South Africa.
+Dr Johan Pieterse · [johan@theahg.co.za](mailto:johan@theahg.co.za) · The Archive and Heritage Digital Commons Group (Pty) Ltd · South Africa.
 
 Available to present OpenRiC to archival institutions, standards bodies, or technical working groups on request.

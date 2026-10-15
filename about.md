@@ -57,4 +57,4 @@ Other RiC implementations, the ICA-EGAD tooling OpenRiC tracks, and the upstream
 
 Questions about the spec, the API, conformance or modelling go to [Ask a question](/ask/), which reaches the maintainers directly. Anything that belongs in the open goes to [the specification repository](https://github.com/openric/spec).
 
-Maintained by Johan Pieterse, The Archive and Heritage Digital Commons Group, South Africa.
+Maintained by Dr Johan Pieterse, The Archive and Heritage Digital Commons Group, South Africa.

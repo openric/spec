@@ -9,7 +9,7 @@ kind: current
 
 Last updated 2026-10-15, against specification v{{ site.data.version.version }}.
 
-This is the known-issues log the Standard Acceptance Gate (S-GATE, programme plan V4) asks for: problems we know about and have not fixed, why, and what closes each. When the external technical review reports, every finding we decide not to fix is added here with the reason, so this page is also the residual issue register. Modelling questions that are still open are kept in the mapping's [open issues](mapping.html#11-open-issues), not repeated here. Security problems are not listed here; report them privately as [SECURITY.md](https://github.com/openric/spec/blob/main/SECURITY.md) describes.
+This is the known-issues log the Standard Acceptance Gate (S-GATE, programme plan V4) asks for: problems we know about and have not fixed, why, and what closes each. When the external technical review reports, every finding we decide not to fix is added here with the reason, so this page is also the residual issue register. Modelling questions that are still open are kept in the mapping's [open issues](mapping.html#12-open-issues), not repeated here. Security problems are not listed here; report them privately as [SECURITY.md](https://github.com/openric/spec/blob/main/SECURITY.md) describes.
 
 Owner of every entry, unless it says otherwise: Dr Johan Pieterse, Standard owner.
 
@@ -22,6 +22,7 @@ Owner of every entry, unless it says otherwise: Dr Johan Pieterse, Standard owne
 | K-3 | Only v0.46.0 has a downloadable bundle with a SHA-256 checksum. Earlier GitHub releases have none; their content is still fixed by the git tag. | 2026-10-15 | Not planned for older releases. Every release from v0.46.0 carries one. |
 | K-4 | The v0.46.0 changelog and mapping issue O-8 said `openricx:description` stays "until v0.47.0". [Change control](change-control.html#deprecation) keeps a deprecated item for at least one further minor release, so the earliest removal is v0.48.0. The changelog, O-8, the mapping row for ISAD(G) 3.3.1 and the record schema are corrected. | 2026-10-15 | Fixed in the text; recorded here so nobody plans on the earlier date. |
 | K-5 | The licence review of specification artefacts, copied code, fixtures, images and example datasets has not been done (plan V4, S4). Fixtures carry rights labels, reviewed on 2026-10-15. | 2026-10-14 | A recorded licence review. |
+| K-12 | `schemas/service-description.schema.json` still accepts the legacy `openric:Service` envelope with L1 to L4 levels, and does not require `openric_conformance`. Every current page, profile and the reference service use `openric_conformance.profiles`. | 2026-10-15 | The next minor release tightens the schema, with a migration note, as change control requires for a breaking change. |
 
 ## Evidence and adoption
 

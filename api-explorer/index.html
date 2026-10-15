@@ -100,7 +100,7 @@
       <li><strong>Try endpoints directly</strong> from the browser — paste an API key into <em>Authorize</em> and the explorer signs every write request with <code>X-API-Key</code>.</li>
     </ul>
     <h2>How does it work?</h2>
-    <p>Every OpenRiC server serves a live OpenAPI 3.0 spec at
+    <p>Every OpenRiC server serves a live OpenAPI 3.x description at
     <code>{base}/openapi.json</code>. The explorer fetches that document
     from whatever server you point it at — no build step, no server-side
     rendering on openric.org, no API key ever leaves your browser.</p>
@@ -108,11 +108,11 @@
     <p>Reads are public — no key required. Writes need one. The reference
     server ships a self-service request form at
     <a href="https://ric.theahg.co.za/api/ric/v1/keys/request" target="_blank" rel="noopener">ric.theahg.co.za/api/ric/v1/keys/request</a>
-    — fill the form, an admin reviews and emails you the key. Every
-    OpenRiC-conformant server exposes this same path.</p>
+    — fill the form, an admin reviews and emails you the key. Other
+    OpenRiC servers issue keys their own way.</p>
     <h2>What next?</h2>
-    <p>If you're integrating, bookmark your server's <code>{base}/docs</code>
-    — every OpenRiC server ships the explorer under that path too. This
+    <p>If you're integrating, check whether your server offers its own
+    explorer; the reference server has one at <code>{base}/docs</code>. This
     standalone page at openric.org is for evaluating multiple servers
     without having to hit <code>/docs</code> on each.</p>
     <p>Questions? <a href="https://github.com/openric/spec/discussions">Discussions</a>.</p>

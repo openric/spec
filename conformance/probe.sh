@@ -353,7 +353,7 @@ if in_profile "digital-object-linkage"; then
   probe_show_first "show-function"      "/functions"      "/functions"
 fi
 
-# ---- §4 Graph Traversal — graph, relation-types, sparql ----
+# ---- §4 Graph Traversal — graph, relation-types ----
 if in_profile "graph-traversal"; then
   probe "relation-types" required GET "/relation-types" '.items | type == "array"'
 
@@ -375,6 +375,14 @@ if in_profile "graph-traversal"; then
     SKIP=$((SKIP+1))
     RESULTS+=("SKIP|GET /graph|no-seed")
   fi
+fi
+
+# ---- SPARQL Access (draft profile) ----
+# Required when the run asks for sparql-access by name; optional in a full
+# run, because servers that do not offer SPARQL legitimately 404 here.
+if in_profile "sparql-access"; then
+  SPARQL_LEVEL=optional
+  [[ ",${PROFILE}," == *",sparql-access,"* ]] && SPARQL_LEVEL=required
 
   # SPARQL probe — URL-encode the query body via jq @uri to avoid curl
   # globbing the `{...}` and to escape `?` in variables (`?s ?p ?o`).
@@ -382,12 +390,10 @@ if in_profile "graph-traversal"; then
   # so a server wrapping the result in a non-canonical envelope is
   # caught here, not silently passed.
   SPARQL_Q=$(printf '%s' 'SELECT * WHERE { ?s ?p ?o } LIMIT 1' | jq -sRr @uri)
-  probe "sparql (experimental)" optional GET "/sparql?query=${SPARQL_Q}" '(.head.vars | type) == "array"'
+  probe "sparql"      "$SPARQL_LEVEL" GET "/sparql?query=${SPARQL_Q}" '(.head.vars | type) == "array"'
 
-  # SPARQL dataset description — void:Dataset endpoint at /sparql/info.
-  # Optional because sparql-access is a Draft profile; servers without
-  # SPARQL legitimately 404 here.
-  probe "sparql-info"           optional GET "/sparql/info"          '.'
+  # SPARQL dataset description: the void:Dataset endpoint at /sparql/info.
+  probe "sparql-info" "$SPARQL_LEVEL" GET "/sparql/info"                '.'
 fi
 
 # ---- §5 Export-Only (OAI-PMH) ----

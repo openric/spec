@@ -47,7 +47,6 @@ The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/reposit
 .mapping-table th, .mapping-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; text-align: left; }
 .mapping-table th { background: var(--surface-2); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-2); }
 .mapping-table code { font-size: 0.85rem; }
-.screenshot-placeholder { background: var(--surface-2); border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; color: #475569; font-size: 0.9rem; margin: 0.75rem 0; }
 </style>
 
 ## End-to-end use case
@@ -69,7 +68,7 @@ The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/reposit
   <div class="num">2</div>
   <div>
     <h4>Mapping - ISAD(G) → RiC-O</h4>
-    <p>The producer maps ISAD(G) fields into RiC-O classes and predicates (see the mapping table below) and exposes each entity at a stable HTTP URL. Heratio does this automatically; other producers can follow <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3 - Canonical mapping</a>.</p>
+    <p>The producer maps ISAD(G) fields into RiC-O classes and predicates (see the mapping table below) and exposes each entity at a stable HTTP URL. The reference service does this automatically; other producers can follow the <a href="{{ '/spec/mapping.html#7-property-mapping' | relative_url }}">canonical mapping, §7</a>.</p>
   </div>
 </div>
 
@@ -182,33 +181,36 @@ Each card links to a real JSON-LD document served by the reference API. Open any
 
 ## Sample mapping - ISAD(G) → RiC-O
 
-This is the mapping the reference implementation applies when it serialises a description.
+An excerpt of the ISAD(G) rows of the mapping. The authoritative table is <a href="{{ '/spec/mapping.html#71-information-object-isadg' | relative_url }}">mapping §7.1</a>, which also covers ISAAR(CPF), ISDIAH and ISDF; where this excerpt and the mapping differ, the mapping is right. The reference service emits a subset of these rows.
 
 <table class="mapping-table">
   <thead>
     <tr><th>ISAD(G) element</th><th>RiC-O predicate</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>3.1.1 Reference code</td><td><code>rico:identifier</code></td><td>String, one per record; registrar-assigned.</td></tr>
-    <tr><td>3.1.2 Title</td><td><code>rico:title</code></td><td>Multi-language via <code>@language</code> tags.</td></tr>
-    <tr><td>3.1.3 Dates</td><td><code>rico:hasBeginningDate</code>, <code>rico:hasEndDate</code></td><td>xsd:gYear, xsd:date, or xsd:dateTime.</td></tr>
-    <tr><td>3.1.4 Level of description</td><td><code>rico:hasRecordSetType</code></td><td>fonds / subfonds / series / file / item.</td></tr>
-    <tr><td>3.1.5 Extent and medium</td><td><code>rico:hasExtent</code></td><td>Free-text on the record; structured extent on Instantiation.</td></tr>
-    <tr><td>3.2.1 Name of creator</td><td><code>rico:hasCreator</code></td><td>Link to a <code>rico:Agent</code>; inverse <code>rico:isCreatorOf</code>.</td></tr>
-    <tr><td>3.2.2 Administrative/biographical history</td><td><code>rico:history</code> on the linked Agent</td><td>Not a predicate on the Record itself.</td></tr>
-    <tr><td>3.2.3 Archival history</td><td><code>rico:history</code></td><td>Custody + transfer chain.</td></tr>
-    <tr><td>3.2.4 Immediate source of acquisition</td><td><code>rico:hasOrganicProvenance</code></td><td>Link to the donor/transferor Agent.</td></tr>
-    <tr><td>3.3.1 Scope and content</td><td><code>openricx:description</code></td><td>Long-form prose.</td></tr>
-    <tr><td>3.4.1 Conditions governing access</td><td><code>rico:isOrWasRegulatedBy</code></td><td>Link to a <code>rico:Rule</code> when the restriction is formal.</td></tr>
-    <tr><td>3.4.3 Language</td><td><code>rico:hasOrHadLanguage</code></td><td>ISO 639 code.</td></tr>
-    <tr><td>3.4.4 Physical characteristics</td><td><code>openricx:hasPhysicalCharacteristics</code></td><td>Condition, binding, material.</td></tr>
-    <tr><td>3.5.1 Existence of originals</td><td><code>rico:hasOrHadInstantiation</code></td><td>Each copy / format is its own <code>rico:Instantiation</code>.</td></tr>
-    <tr><td>3.5.3 Related descriptions</td><td><code>rico:isRelatedTo</code> (symmetric)</td><td>Falls back to <code>rico:isOrWasSubjectOf</code> where typed.</td></tr>
-    <tr><td>Repository</td><td><code>rico:hasOrHadHolder</code></td><td>Link to a <code>rico:CorporateBody</code> playing the Repository role.</td></tr>
+    <tr><td>3.1.1 Reference code</td><td><code>rico:identifier</code></td><td></td></tr>
+    <tr><td>3.1.2 Title</td><td><code>rico:title</code></td><td>Language-tagged.</td></tr>
+    <tr><td>3.1.3 Dates</td><td><code>openricx:hasDateRangeSet</code></td><td>The API shape; in RDF it expands to <code>rico:hasCreationDate</code>, <code>rico:hasBeginningDate</code> and <code>rico:hasEndDate</code>.</td></tr>
+    <tr><td>3.1.4 Level of description</td><td>the class, and <code>rico:hasRecordSetType</code></td><td>fonds, series, file and so on.</td></tr>
+    <tr><td>3.1.5 Extent and medium</td><td><code>rico:hasExtent</code></td><td>A <code>rico:Extent</code> with <code>rico:hasExtentType</code>.</td></tr>
+    <tr><td>3.2.1 Name of creator</td><td><code>rico:hasCreator</code></td><td>Link to a <code>rico:Agent</code>.</td></tr>
+    <tr><td>3.2.2 Administrative/biographical history</td><td><code>rico:history</code> on the Agent</td><td>Not on the record itself.</td></tr>
+    <tr><td>3.2.3 Archival history</td><td><code>rico:history</code> on the record</td><td></td></tr>
+    <tr><td>3.2.4 Immediate source of acquisition</td><td><code>rico:isOrWasAffectedBy</code> a transfer <code>rico:Activity</code></td><td>With <code>rico:hasOrHadParticipant</code> pointing to the source Agent.</td></tr>
+    <tr><td>3.3.1 Scope and content</td><td><code>rico:scopeAndContent</code></td><td>Servers that sent <code>openricx:description</code> send both until at least v0.48.0.</td></tr>
+    <tr><td>3.3.4 System of arrangement</td><td><code>rico:structure</code></td><td></td></tr>
+    <tr><td>3.4.1 Conditions governing access</td><td><code>rico:conditionsOfAccess</code></td><td></td></tr>
+    <tr><td>3.4.3 Language</td><td><code>rico:hasOrHadLanguage</code></td><td>ISO 639-3 code.</td></tr>
+    <tr><td>3.4.4 Physical characteristics</td><td><code>rico:physicalCharacteristicsNote</code></td><td>On the record's <code>rico:Instantiation</code>.</td></tr>
+    <tr><td>3.5.1 Existence and location of originals</td><td><code>rico:hasOrHadLocation</code></td><td></td></tr>
+    <tr><td>3.5.2 Existence and location of copies</td><td><code>rico:hasOrHadInstantiation</code></td><td>Each copy or format is its own <code>rico:Instantiation</code>.</td></tr>
+    <tr><td>3.5.3 Related units of description</td><td><code>rico:isRelatedTo</code></td><td></td></tr>
+    <tr><td>3.7.2 Rules or conventions</td><td><code>rico:isOrWasRegulatedBy</code></td><td>Link to a <code>rico:Rule</code>.</td></tr>
+    <tr><td>Repository</td><td><code>rico:hasOrHadHolder</code></td><td>Link to a <code>rico:CorporateBody</code> holding the material.</td></tr>
   </tbody>
 </table>
 
-The full canonical mapping (including ISAAR-CPF, ISDIAH, and ISDF) lives in <a href="{{ '/spec/mapping.html' | relative_url }}">spec §3</a>. The fixture pack at <a href="{{ '/fixtures/' | relative_url }}">fixtures/</a> pins {{ site.data.inventory.fixtures }} concrete input/output pairs against this mapping.
+The fixture pack at <a href="{{ '/fixtures/' | relative_url }}">fixtures/</a> pins {{ site.data.inventory.fixtures }} concrete input/output pairs.
 
 ## Example dataset - a demonstration mini-fonds you can rebuild
 
@@ -233,25 +235,15 @@ php artisan openric:seed-demo
 php artisan openric:rebuild-nested-set
 ```
 
-## Screenshots
+## See it running
 
-<div class="screenshot-placeholder">
-  Live surfaces you can capture right now - no static images needed:
-  <br><br>
-  <a href="{{ '/demo/browse/' | relative_url }}">Browse view</a>
-  &nbsp;·&nbsp;
-  <a href="{{ '/demo/' | relative_url }}">Graph viewer</a>
-  &nbsp;·&nbsp;
-  <a href="{{ '/api-explorer/' | relative_url }}">API Explorer (Swagger UI)</a>
-  &nbsp;·&nbsp;
-  <a href="https://capture.openric.org">Capture client</a>
-</div>
+<a href="{{ '/demo/browse/' | relative_url }}">Browse view</a> · <a href="{{ '/demo/' | relative_url }}">Graph viewer</a> · <a href="{{ '/api-explorer/' | relative_url }}">API Explorer (Swagger UI)</a> · <a href="https://capture.openric.org">Capture client</a>
 
 ## Going further
 
-- Read the <a href="{{ '/spec/' | relative_url }}">spec</a> - four documents, <code>v{{ site.data.version.version }}</code> is current.
+- Read the <a href="{{ '/spec/' | relative_url }}">specification</a>; <code>v{{ site.data.version.version }}</code> is current.
 - Run the <a href="{{ '/conformance/' | relative_url }}">conformance probe</a> against any server to check claims.
 - Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> - {{ site.data.inventory.fixtures }} input/output pairs across the mapped RiC-O entity types.
 - Follow the <a href="{{ '/guides/getting-started.html' | relative_url }}">15-minute getting-started guide</a> to point your own server at the same contract.
 
-*The strongest evidence that a spec is implementable is a spec that's implemented. Everything on this page is running right now. Change a record in the reference impl, and the responses above change in real time.*
+*The strongest evidence that a spec is implementable is a spec that's implemented. Everything on this page is running now, against a demonstration database that is reset every night.*

@@ -9,7 +9,7 @@ title: OpenRiC - Specification
   <div class="hero-inner">
     <div class="hero-eyebrow">Specification · v{{ site.data.version.version }} · {{ p_norm.size }} normative profiles + {{ p_draft.size }} draft</div>
     <h1>The spec - base documents + profiles</h1>
-    <p class="hero-lede">OpenRiC is an open, implementation-neutral specification for serving ICA's Records in Contexts (RiC-CM / RiC-O 1.1) over HTTP. The spec is layered: four base documents define the contract, {{ p_norm.size }} normative profiles target specific implementation surfaces, and {{ p_draft.size }} draft profiles, open for comment, extend it: SPARQL Access and the v0.43 governance line.</p>
+    <p class="hero-lede">OpenRiC is an open, implementation-neutral specification for serving ICA's Records in Contexts (RiC-CM / RiC-O 1.1) over HTTP. The spec is layered: the base documents define the contract, {{ p_norm.size }} normative profiles target specific implementation surfaces, and {{ p_draft.size }} draft profiles, open for comment, extend it: SPARQL Access and the v0.43 governance line.</p>
   </div>
 </div>
 
@@ -22,7 +22,7 @@ title: OpenRiC - Specification
   </a>
   <a class="spec-doc" href="viewing-api.html">
     <strong>2 · Viewing API</strong>
-    <span>REST + JSON-LD contract. 46 endpoints, auth model, pagination policy, content-negotiation roadmap.</span>
+    <span>REST + JSON-LD contract: endpoints, auth model, pagination policy, content-negotiation roadmap.</span>
   </a>
   <a class="spec-doc" href="graph-primitives.html">
     <strong>3 · Graph Primitives</strong>
@@ -59,7 +59,7 @@ title: OpenRiC - Specification
 | Layer | Current version | Status |
 |---|---|---|
 | Base spec (mapping + viewing API + graph primitives + conformance) | **v{{ site.data.version.version }}** | Active - RiC-O 1.1 namespace remediation complete (see [audit](../audit/ric-o-1.1-audit.html)) |
-| Mapping spec | last revised in v0.38.1 | Active |
+| Mapping spec | last revised in v0.46.0 | Active |
 | Profiles | per table above | {{ p_norm.size }} normative + {{ p_draft.size }} draft |
 | RiC-O ontology target | 1.1 (2025-05-22) | Tracked |
 | Extension namespace | `openricx: <https://openric.org/ns/ext/v1#>` | Declared, ontology stub at [/ns/ext/v1.html](/ns/ext/v1.html) |

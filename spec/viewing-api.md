@@ -5,9 +5,7 @@ title: OpenRiC Viewing API
 
 # OpenRiC Viewing API
 
-**Last revised in:** v0.37.0
-**Status:** Active - RiC-O 1.1 namespace remediation complete
-**Last updated:** 2026-04-25
+**Last revised in:** v0.46.1
 
 ---
 
@@ -17,7 +15,7 @@ The Viewing API defines a **REST + JSON-LD** contract that any OpenRiC-conforman
 
 Design inspiration: the [IIIF Presentation API](https://iiif.io/api/presentation/3.0/). The server decides what to surface; the viewer decides how to render it. The contract between them is narrow and stable.
 
-A reference implementation exists in the Heratio `ahg-ric` package's `LinkedDataApiController`. Where this spec and the reference implementation diverge, this spec is authoritative.
+The reference implementation is [openric/service](https://github.com/openric/service), at `ric.theahg.co.za`. Where this spec and the reference implementation diverge, this spec is authoritative, and the divergence is listed in the [drift log](../drift-log.html).
 
 ## 2. Conformance levels
 
@@ -95,23 +93,20 @@ Returns a JSON description of the server's capabilities, conformance level, and 
 
 ```json
 {
-  "@context": "https://openric.org/ns/v1/context.jsonld",
-  "@type": "openric:Service",
-  "openric:version": "0.1.0",
-  "openric:conformance": ["L2-core", "L2-graph"],
-  "openric:endpoints": {
-    "records": "/api/ric/v1/records",
-    "agents":  "/api/ric/v1/agents",
-    "graph":   "/api/ric/v1/graph",
-    "sparql":  "/api/ric/v1/sparql"
-  },
-  "openric:implementation": {
-    "name": "Heratio",
-    "version": "0.93.119",
-    "url": "https://github.com/ArchiveHeritageGroup/heratio"
+  "name": "Example Archive Catalogue",
+  "version": "2.4.1",
+  "openapi": "https://archives.example.org/api/ric/v1/openapi.json",
+  "openric_conformance": {
+    "spec_version": "{{ site.data.version.version }}",
+    "profiles": [
+      { "id": "core-discovery", "version": "0.4.0", "conformance": "full" },
+      { "id": "graph-traversal", "version": "0.5.0", "conformance": "full" }
+    ]
   }
 }
 ```
+
+`version` is the implementation's own release. `openric_conformance` is the conformance claim; [Conformance](conformance.html) §2 describes it.
 
 ### 4.2 Vocabulary
 
@@ -222,18 +217,9 @@ Parameters:
 | `direction` | `in`, `out`, `both` | `both` | - |
 | `types` | Comma-separated filter of node RiC types | - | - |
 
-### 4.8 SPARQL (non-normative - outside the OpenRiC contract)
+### 4.8 SPARQL
 
-> **Status as of v0.36.0:** SPARQL is **not part of the OpenRiC conformance contract**, by design. OpenRiC is a purpose-built API for working archives (like IIIF for images); exposing SPARQL directly duplicates `/graph?uri=…&depth=N` for the common case, opens a DoS surface that's expensive to harden, and competes with the backing triplestore's own SPARQL endpoint for no net gain to an OpenRiC client. Clients that need SPARQL have better tools: run queries against the Turtle dump from `/export?format=ttl` in an offline processor, or talk directly to the implementation's triplestore if it exposes one.
-
-Implementations **MAY** expose a SPARQL endpoint at an implementation-specific path (for example `/sparql-direct`, `/admin/sparql`, or directly at their Fuseki / GraphDB / Oxigraph host). This is entirely out of scope for OpenRiC:
-
-- The path, format negotiation, auth model, and rate-limiting of such an endpoint are implementation choices.
-- The OpenRiC conformance probe will not test it.
-- No OpenRiC client should assume its presence.
-- No OpenRiC profile can be satisfied by exposing only a SPARQL endpoint.
-
-The reference implementation historically carried `/api/ric/v1/sparql` as a stub; that route is retained for backwards compatibility with any consumer that wired to it, but it is not and will not become part of the normative surface unless a future `sparql-query` profile is defined in response to concrete implementer demand. See [`guides/triplestore-choice.md`](../guides/triplestore-choice.html) for a comparison of backing stores implementers may choose.
+SPARQL is not required by any normative profile. A server that offers it does so under the draft [SPARQL Access](profiles/sparql-access.html) profile, which defines `/sparql`, `/sparql/info`, the access posture, rate limits and read-only behaviour, and which the conformance probe tests when a server declares it. A server that does not declare the profile need not expose `/sparql`, and no client should assume it. See [`guides/triplestore-choice.md`](../guides/triplestore-choice.html) for backing stores.
 
 **For the common graph-walk case, use `/graph?uri=…&depth=N`** - it's stable across every conformant server, SHACL-validated under Graph Traversal, and never degrades into an unbounded query.
 
@@ -358,7 +344,7 @@ PUT    /api/ric/v1/{type}/{id}         scope: write  (alias of PATCH)
 DELETE /api/ric/v1/{type}/{id}         scope: delete
 ```
 
-`{type}` ∈ `places | rules | activities | instantiations`. Body keys match the DB schema for the entity (e.g. for Place: `name`, `type_id`, `latitude`, `longitude`, `authority_uri`, `parent_id`, `address`, `description`). Type picker values come from `/vocabulary/{taxonomy}`.
+`{type}` ∈ `agents | records | repositories | functions | places | rules | activities | instantiations`. Body keys match the DB schema for the entity (e.g. for Place: `name`, `type_id`, `latitude`, `longitude`, `authority_uri`, `parent_id`, `address`, `description`). Type picker values come from `/vocabulary/{taxonomy}`.
 
 Success responses:
 
@@ -462,19 +448,17 @@ All list endpoints use the same pattern:
 
 ## 8. Error responses
 
-Errors MUST use HTTP status codes correctly and return a JSON error body:
+Errors MUST use HTTP status codes correctly and return an [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) problem document with `Content-Type: application/problem+json`, as Core Discovery §4 requires:
 
 ```json
 {
-  "@type": "openric:Error",
-  "openric:status": 404,
-  "openric:code": "not-found",
-  "openric:message": "No record with identifier 'AHG-XYZ' exists.",
-  "openric:detail": ".../records/AHG-XYZ"
+  "type": "https://openric.org/errors/not-found",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "No record with identifier 'AHG-XYZ' exists.",
+  "instance": "/api/ric/v1/records/AHG-XYZ"
 }
 ```
-
-Codes: `not-found`, `forbidden`, `bad-request`, `rate-limited`, `unavailable`, `internal`.
 
 ## 8.5 Pagination envelope policy
 
@@ -501,19 +485,20 @@ Servers SHOULD rate-limit. The reference implementation uses `60 requests / minu
 
 ## 10. OpenAPI description
 
-Every conformant server MUST expose a valid OpenAPI 3.0 description at:
+Every conformant server MUST expose a valid OpenAPI 3.x description of its own surface at:
 
 ```
 GET /api/ric/v1/openapi.json
 ```
 
-This enables auto-generated clients, Postman collections, and CI validation.
+This enables auto-generated clients, Postman collections, and CI validation. The specification's own [API contract](/contract/openapi.json) is OpenAPI 3.1.
 
 ## 11. Change log
 
 | Version | Date | Notes |
 |---|---|---|
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `LinkedDataApiController`. |
+| v0.46.1 | 2026-10-15 | Service description example in the current `openric_conformance` shape; errors are RFC 7807, as Core Discovery has required since v0.30.0; SPARQL points to the SPARQL Access draft profile; writes listed for every entity type. |
 
 ---
 

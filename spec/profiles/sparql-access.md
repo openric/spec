@@ -1,7 +1,7 @@
 ---
 layout: default
 title: OpenRiC - SPARQL Access Profile
-description: Optional 8th profile. SPARQL 1.1 query endpoint over the canonical RDF graph backing an OpenRiC server. Draft.
+description: Optional draft profile. SPARQL 1.1 query endpoint over the canonical RDF graph backing an OpenRiC server. Draft.
 ---
 
 # SPARQL Access Profile
@@ -123,14 +123,14 @@ When `Accept: application/ld+json`, CONSTRUCT and DESCRIBE results MUST emit JSO
 
 ## 5. SHACL shapes
 
-Responses validate against `shapes/profiles/sparql-access.shacl.ttl` (planned, v0.7+):
+Responses validate against `shapes/profiles/sparql-access.shacl.ttl`:
 
 | Shape | Target | Severity model |
 |---|---|---|
 | `:SparqlInfoShape` | `/sparql/info` response root | `sh:Violation` on missing `void:Dataset`, `void:sparqlEndpoint`, `void:triples`; `sh:Warning` on missing `dcterms:license` |
 | `:SparqlConstructShape` | CONSTRUCT response when `Accept: application/ld+json` | `sh:Violation` if `@context` is absent or doesn't bind `rico` and `openricx` |
 
-Shape file is not yet shipped - this is a Draft profile.
+The shape file ships with the specification.
 
 ## 6. Conformance testing
 
@@ -142,16 +142,16 @@ A server claims `sparql-access` when:
 4. Update operations (`INSERT DATA` etc.) are rejected per §2.3.
 5. Errors (malformed query, rate limit, auth failure) follow RFC 7807 per Core Discovery §4.
 
-The conformance probe with `--profile=sparql-access` exercises checks 1-4 against a live server.
+The conformance probe with `--profile=sparql-access` tests checks 1 and 2 against a live server; checks 3 to 5 are not yet automated.
 
 ## 7. Fixture pack
 
-Two fixtures planned for v0.8 of this profile (currently absent):
+Two fixtures pin the expected shapes:
 
 | Fixture | Status | What it pins |
 |---|---|---|
-| `sparql-info` | **planned** | Minimum-viable `/sparql/info` `void:Dataset` description |
-| `sparql-construct` | **planned** | CONSTRUCT result emitted as JSON-LD with full `@context` binding |
+| `sparql-info` | done | Minimum-viable `/sparql/info` `void:Dataset` description |
+| `sparql-construct` | done | CONSTRUCT result emitted as JSON-LD with full `@context` binding |
 
 ## 8. Implementation checklist
 
@@ -192,4 +192,4 @@ Two fixtures planned for v0.8 of this profile (currently absent):
 3. Two fixtures (§7) are shipped.
 4. Community feedback on the access-policy taxonomy (§3) settles.
 
-Until then, implementations MAY claim this profile but the shape file and fixtures are not yet load-bearing.
+Conditions 2 and 3 are met: the shape file and both fixtures ship with the specification. Conditions 1 and 4 are open, so the profile stays Draft; implementations MAY claim it.

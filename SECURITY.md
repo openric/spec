@@ -13,6 +13,6 @@ Please include what you found, where, how to reproduce it, and what you think th
 
 **What happens next:** we acknowledge reports within five working days, tell you what we intend to do, and credit you when a fix is published unless you would rather not be named. Please give us a reasonable time to fix the problem before you disclose it publicly.
 
-**Testing:** read-only checks against the public services are fine. Do not create, change or delete data on the reference service, do not run load tests against it, and do not try to reach data that is not public. If a test needs to write, ask us for a disposable environment.
+**Testing:** read-only checks against the public services are fine. Security tests must not create, change or delete data on the reference service; do not run load tests against it, and do not try to reach data that is not public. If a security test needs to write, ask us for a disposable environment. Ordinary use of the write API with an issued key, as in the [getting-started guide](https://openric.org/guides/getting-started.html), is not a security test.
 
 **Specification issues** that are not security problems, such as ambiguous wording or a profile that cannot be implemented as written, belong in the public issue tracker of [openric/spec](https://github.com/openric/spec/issues).

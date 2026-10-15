@@ -40,7 +40,7 @@ Nothing in the contract is deleted without first being deprecated.
 
 - **Marking.** A deprecated endpoint or field says so in its profile, with the release that deprecated it and what replaces it. In the API contract the operation or property carries `deprecated: true`. A deprecated term carries `owl:deprecated true` and `dcterms:isReplacedBy` in its vocabulary.
 - **Period.** Before 1.0, a deprecated item stays for at least one further minor release. From 1.0 it stays until the next major release.
-- **Servers during the period.** Where a term moves (for example the `openric:` data terms in [mapping O-6](mapping.html#11-open-issues)), servers SHOULD emit both the old and the new term until the old one is removed, so that clients can move at their own pace.
+- **Servers during the period.** Where a term moves (for example the `openric:` data terms in [mapping O-6](mapping.html#12-open-issues)), servers SHOULD emit both the old and the new term until the old one is removed, so that clients can move at their own pace.
 
 ## Migration notes
 
@@ -50,11 +50,11 @@ Every breaking change ships with a migration note in its changelog entry. The no
 
 - **Who approves.** The maintainer, Dr Johan Pieterse, approves every release until the reviewer role in [Governance](/governance.html#roles) is filled.
 - **The change log.** Every release has an entry in [`CHANGELOG.md`](https://github.com/openric/spec/blob/main/CHANGELOG.md), newest first, giving the version, the date, what changed, any migration note, and an `Approved by:` line with the approver's name and date. `bin/release` writes the entry, and CI fails when the newest entry does not match the current version or has no approval line.
-- **Signed tags.** Each release is an annotated git tag, signed with the maintainer's key, so that `git tag -v v<version>` shows who released it. Release tags are protected on GitHub: they cannot be moved or deleted. Tags up to and including v0.43.14 are annotated but not signed; signing starts with the first release made after the maintainer's signing key is registered.
+- **Signed tags.** Each release is an annotated git tag, signed with the maintainer's key, so that `git tag -v v<version>` shows who released it. Release tags are protected on GitHub: they cannot be moved or deleted. Tags up to and including v0.46.0 are annotated but not signed ([known issue K-2](known-issues.html)); signing starts with the first release made after the maintainer's signing key is set up.
 
 ## Support
 
 - **Only the current release is supported.** Corrections go into a new release; a published tag is never changed.
-- **Earlier releases stay readable.** Every tag is listed on [Specification versions](/spec/versions/), linked to the repository as it stood at that tag.
+- **Earlier releases stay readable.** [Specification versions](/spec/versions/) links to every tag, each showing the repository as it stood at that tag.
 - **Servers say what they implement.** A server declares each profile with its version at `GET /`, so a client can tell which profile version it is talking to, whatever the current release is.
 - **Security reports** follow [SECURITY.md](https://github.com/openric/spec/blob/main/SECURITY.md), not this process.

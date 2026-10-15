@@ -9,7 +9,7 @@ The fastest way to understand OpenRiC is to poke at the live surfaces. None of t
 
 ## 1. Model something in the wizard
 
-Open the **[modelling wizard](/wizard/)**, pick a scenario (or describe your own material), and walk the decisions. It explains *why* each RiC entity fits, and creates the entities live. Start here - it teaches the model by doing.
+Open the **[modelling wizard](/wizard/)**, pick a scenario (or describe your own material), and walk the decisions. It explains *why* each RiC entity fits, and shows the exact API requests that would create the entities. Start here - it teaches the model by doing.
 
 ## 2. Explore the model
 
@@ -17,7 +17,7 @@ Open the **[RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/)** and 
 
 ## 3. Walk the live graph
 
-Open the **[viewer](https://viewer.openric.org/)** against a real archival dataset. Click any node to expand its neighbourhood - same data, visual.
+Open the **[viewer](https://viewer.openric.org/)** against a demonstration archival dataset. Click any node to expand its neighbourhood - same data, visual.
 
 ## 4. Call the API
 

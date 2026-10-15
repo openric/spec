@@ -65,12 +65,12 @@ sitemap: false
   var gmsg = document.getElementById("st-gate-msg");
 
   function esc(s) { return (s || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-  function token() { return localStorage.getItem(KEY) || ""; }
+  function token() { return sessionStorage.getItem(KEY) || ""; }
 
   function showGate(m) { app.style.display = "none"; gate.style.display = "block"; gmsg.textContent = m || ""; }
   function showApp() { gate.style.display = "none"; app.style.display = "block"; }
 
-  window.__stForget = function () { localStorage.removeItem(KEY); showGate(""); };
+  window.__stForget = function () { sessionStorage.removeItem(KEY); showGate(""); };
   window.__stCsv = function (which) {
     fetch(API + "?days=" + days + "&format=csv&export=" + which, { headers: { "Authorization": "Bearer " + token() } })
       .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.blob(); })
@@ -83,7 +83,7 @@ sitemap: false
   };
   window.__stLoad = function () {
     var t = document.getElementById("st-token").value.trim();
-    if (t) localStorage.setItem(KEY, t);
+    if (t) sessionStorage.setItem(KEY, t);
     load();
   };
 
@@ -140,7 +140,7 @@ sitemap: false
     if (!token()) { showGate(""); return; }
     fetch(API + "?days=" + days, { headers: { "Authorization": "Bearer " + token() } })
       .then(function (r) {
-        if (r.status === 401) { localStorage.removeItem(KEY); throw new Error("Invalid or missing token."); }
+        if (r.status === 401) { sessionStorage.removeItem(KEY); throw new Error("Invalid or missing token."); }
         if (!r.ok) throw new Error("Server error " + r.status);
         return r.json();
       })

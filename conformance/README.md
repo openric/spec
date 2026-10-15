@@ -70,9 +70,11 @@ the matching tags plus the always-on service-description + health checks.
 | `core-discovery` | `/vocabulary`, `/autocomplete`, `/records` + `/records/{key}`, `/agents` + `/agents/{key}`, `/repositories` + `/repositories/{key}` |
 | `authority-context` | `/places`, `/rules`, `/activities`, `/places/flat` |
 | `digital-object-linkage` | `/instantiations`, `/functions` |
-| `graph-traversal` | `/relation-types`, `/graph`, `/sparql` (experimental) |
+| `graph-traversal` | `/relation-types`, `/graph` |
+| `provenance-event` | Each activity in `/activities` (up to `PE_MAX`, default 25) read back and checked for results, participants and dates |
+| `sparql-access` (draft) | `/sparql`, `/sparql/info`: required when asked for by name, optional in a full run |
 | `export-only` | OAI-PMH — `Identify`, `ListMetadataFormats`, `ListSets`, `ListIdentifiers`, `ListRecords` |
-| `round-trip-editing` (needs `KEY`) | `/places` + `/agents` + `/records` create/update/delete round-trip; scope enforcement via `READ_KEY` |
+| `round-trip-editing` (needs `KEY`) | Create, read, update and delete for every entity type and for relations; 422 on a missing required field; 409 on deleting a record that has children; scope enforcement via `READ_KEY` |
 
 Each probe checks **both** the HTTP status code **and** the JSON shape
 (via a `jq` expression). A 200 with the wrong shape still fails.

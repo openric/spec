@@ -26,7 +26,7 @@ title: OpenRiC - Viewer guide
 <script src="https://unpkg.com/3d-force-graph@1"></script>
 
 <!-- The viewer itself -->
-<script src="https://unpkg.com/@openric/viewer@0.1/dist/openric-viewer.umd.js"></script>
+<script src="https://unpkg.com/@openric/viewer@0.2.0/dist/openric-viewer.umd.js"></script>
 
 <div id="my-graph" style="width:100%; height:500px;"></div>
 
@@ -142,7 +142,7 @@ The viewer package exposes the underlying cytoscape/ForceGraph3D instance (retur
 
 - `0.1.0` - initial npm release
 - `0.1.1` - fix `fetchSubgraph` for relative server bases
-- Next (`0.1.2` or `0.2.0`) - pending tag; tracks `main` at [github.com/openric/viewer](https://github.com/openric/viewer)
+- `0.2.0` - current npm release (2026-04-18). Later work is on `main` at [github.com/openric/viewer](https://github.com/openric/viewer); the repository is tagged `v0.3.0`, which is not on npm.
 
 Breaking changes bump the minor; API stability is informally maintained within a minor line.
 

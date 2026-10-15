@@ -74,9 +74,9 @@ flowchart TB
 ## In words
 
 - The **Specification** (openric.org) defines the contract: the mapping documents, the [profiles](/spec/profiles/), and the JSON Schemas + SHACL shapes that make conformance testable.
-- The **Reference API** (ric.theahg.co.za) implements that contract over real archival data - read/write CRUD for all eight RiC entity types, SPARQL, OAI-PMH, and the SPARQL-backed [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/).
+- The **Reference API** (ric.theahg.co.za) implements that contract over a demonstration archival dataset - read/write CRUD for all eight RiC entity types, SPARQL, OAI-PMH, and the SPARQL-backed [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/).
 - The **clients** - [viewer](https://viewer.openric.org/), [capture](https://capture.openric.org/), and the [modelling wizard](/wizard/) - are pure-browser apps that talk to *any* conformant server, not just the reference.
-- **Consumers** - Heratio (a production GLAM platform) and aggregators / RAG agents - use the same public contract; no privileged back door.
+- **Consumers** - aggregators, RAG agents and the viewer read the same public contract. Heratio, a GLAM platform from the same maintainers, reads graph data from it but writes through its own routes on a shared database.
 
 The point of the diagram: every box can be replaced by a third-party implementation of the same contract without touching the others.
 

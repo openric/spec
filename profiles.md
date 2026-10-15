@@ -32,7 +32,7 @@ This is the pattern that turned IIIF from aspirational spec to eight-hundred-ins
 {%- for p in site.data.profiles %}
   <a class="surface-card" href="{{ '/spec/profiles/' | append: p.id | append: '.html' | relative_url }}">
     <span class="surface-icon">{{ p.icon }}</span>
-    <h3>{{ p.title | replace: '&', '&amp;' }} <span class="status-pill {% if p.status == 'normative' %}live{% else %}draft{% endif %}">v{{ p.revised }} {{ p.status }}</span></h3>
+    <h3>{{ p.title | replace: '&', '&amp;' }} <span class="status-pill {% if p.status == 'normative' %}live{% else %}draft{% endif %}">v{{ p.version }} {{ p.status }}</span></h3>
     <div class="url">{{ p.surface }}</div>
     <p>{% if p.card %}{{ p.card }}{% else %}{{ p.scope | markdownify | remove: '<p>' | remove: '</p>' | strip }}{% endif %}</p>
   </a>
@@ -43,8 +43,6 @@ This is the pattern that turned IIIF from aspirational spec to eight-hundred-ins
 
 Profiles are **orthogonal**, not hierarchical. A server can claim any subset - there is no "you must implement Core Discovery before you can claim Export-Only." Some profiles have **dependencies** (Provenance depends on Authority & Context because activities reference agents), but within the dependency graph any combination is valid.
 
-Profiles are also **independent from conformance levels**. A server can be Level 2 (API conformance) on Core Discovery and Level 1 (mapping conformance only) on Authority & Context. See [Conformance §2](spec/conformance.html#2-conformance-levels) for levels.
-
 ## Declaring a profile
 
 Servers advertise supported profiles in the service description at `GET /`:
@@ -52,11 +50,11 @@ Servers advertise supported profiles in the service description at `GET /`:
 ```json
 {
   "name": "Your Service",
-  "version": "1.0",
+  "version": "2.4.1",
   "openric_conformance": {
-    "spec_version": "0.3.0",
+    "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.3.0", "level": "L2", "conformance": "full" }
+      { "id": "core-discovery", "version": "0.4.0", "conformance": "full" }
     ]
   }
 }
@@ -65,7 +63,7 @@ Servers advertise supported profiles in the service description at `GET /`:
 The conformance probe reads this field, runs the profile-specific test subset, and emits a pass/fail report:
 
 ```bash
-./probe.sh --profile core-discovery https://your-server/api/ric/v1
+BASE=https://your-server/api/ric/v1 bash conformance/probe.sh --profile=core-discovery
 ```
 
 See [Conformance](spec/conformance.html) for the full testing model.
@@ -75,4 +73,4 @@ See [Conformance](spec/conformance.html) for the full testing model.
 {%- assign p_norm = site.data.profiles | where: "status", "normative" -%}{%- assign p_draft = site.data.profiles | where: "status", "draft" -%}
 **{{ p_norm.size }} profiles are normative and {{ p_draft.size }} are in draft.** Normative: {{ p_norm | map: "title" | join: ", " }}. Draft, open for comment: {{ p_draft | map: "title" | join: ", " }}. The normative set is stable; the drafts are open for comment. The path to v1.0 runs through the governance gates (a second independent implementation, an external institution committing to deploy, sustained non-maintainer contributors), not through more profile definitions. Provenance & Event is the one profile where the reference implementation's serializer can emit the required shape but the backing data has gaps; see its §9 Q5 and the drift log for the honest accounting.
 
-Comments on the profile framework or the Core Discovery draft are welcome at the [GitHub Discussions](https://github.com/ArchiveHeritageGroup/openric-spec/discussions).
+Comments on the profile framework or any profile are welcome at the [GitHub Discussions](https://github.com/openric/spec/discussions).

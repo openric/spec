@@ -8,9 +8,7 @@ description: Profiles are named, bounded conformance targets. A server declares 
 
 # OpenRiC Profiles
 
-**Profile framework version:** 0.3.0-draft
-**Status:** Draft - open for comment
-**Last updated:** 2026-04-19
+**Last revised in:** v0.46.1
 
 ---
 
@@ -20,16 +18,9 @@ A **profile** is a named subset of the OpenRiC spec a server can claim conforman
 
 Design inspiration: the way [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) separates into Level 0 / 1 / 2, and the way [OGC WMS](https://www.ogc.org/standards/wms) defines named conformance classes. Both patterns have the same effect - they let implementations opt in at their current capability without over-claiming.
 
-## 2. Profiles and levels are orthogonal
+## 2. Profiles are the conformance unit
 
-OpenRiC has two independent dimensions:
-
-| Dimension | Meaning | Values |
-|---|---|---|
-| **Profile** | *Which* endpoints and entity types are exposed | Core Discovery, Authority & Context, Provenance & Event, Digital Object Linkage, Export-Only, Round-Trip Editing |
-| **Level** | *How rigorously* those endpoints conform (see [Conformance](../conformance.html) §2) | L1 mapping, L2 API, L3 graph, L4 full |
-
-A server declares one or more profiles and the level it meets for each. Example: "Core Discovery at L2, Authority & Context at L1 (validation-only)".
+A server declares the profiles it supports, each at a profile version. There is no second dimension: the four conformance levels (L1 to L4) of earlier versions are legacy, described only in the appendix of [Conformance](../conformance.html#appendix---legacy-conformance-levels). The {{ site.data.profiles | size }} profiles are listed in §6.
 
 ## 3. Composition rules
 
@@ -39,11 +30,7 @@ A server declares one or more profiles and the level it meets for each. Example:
 
 ## 4. Versioning
 
-Profile versions track the spec version that last modified the profile. If Core Discovery v0.3 is unchanged in spec v0.4, the profile stays at v0.3. When the profile changes, it bumps to the releasing spec version.
-
-Minor-version changes within the same major are additive and optional. Major-version changes (v0.x → v1.0, v1.x → v2.0) may remove or reshape fields; implementations declare the major they target.
-
-<!-- Q8 resolved: profile and spec versions are independent; see core-discovery.md Q8. -->
+Each profile has its own version, independent of the specification version (Core Discovery Q8). A profile's version changes only when the profile changes; the profile page and §6 show both the profile version and the specification release that last revised it. What a change bumps, and when a release may break a conformant server, is set by [change control](../change-control.html).
 
 ## 5. Declaration
 
@@ -52,14 +39,13 @@ Servers declare supported profiles in the service description at `GET /`:
 ```json
 {
   "name": "Example Archive Catalogue",
-  "version": "1.0",
+  "version": "2.4.1",
   "openric_conformance": {
-    "spec_version": "0.35.0",
+    "spec_version": "{{ site.data.version.version }}",
     "profiles": [
       {
         "id": "core-discovery",
-        "version": "0.3.0",
-        "level": "L2",
+        "version": "0.4.0",
         "conformance": "full"
       }
     ]
@@ -71,7 +57,6 @@ Servers declare supported profiles in the service description at `GET /`:
 |---|---|
 | `id` | Profile identifier, kebab-case, from the profile catalogue below |
 | `version` | Profile version the server targets |
-| `level` | Legacy conformance level (L1-L4) per [Conformance §2](../conformance.html#2-conformance-levels), retained for compatibility |
 | `conformance` | `"full"` or `"partial"`; if partial, a `"notes"` field is required |
 
 Consumers MUST read this field before issuing any requests that depend on a specific profile's endpoints.
@@ -86,14 +71,12 @@ Consumers MUST read this field before issuing any requests that depend on a spec
 
 **{{ p_norm.size }} profiles normative, {{ p_draft.size }} in draft.** Normative: {{ p_norm | map: "title" | join: ", " }}. Draft, open for comment: {{ p_draft | map: "title" | join: ", " }}. The v0.43 governance-line drafts were each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
 
-<!-- TK Q1: confirm "profile" vs "level" naming. Profile chosen because our six axes are orthogonal, not a strict progression. -->
-
 ## 7. Conformance testing
 
 The `conformance/probe.sh` script (shipped in this repo) supports profile-scoped testing:
 
 ```bash
-./probe.sh --profile core-discovery https://ric.theahg.co.za/api/ric/v1
+BASE=https://ric.theahg.co.za/api/ric/v1 bash conformance/probe.sh --profile=core-discovery
 ```
 
 The probe reads the server's declared profiles at `GET /`, runs the endpoint-specific checks for each, and emits a pass/fail report per profile per endpoint. A server that declares a profile but fails any of its required endpoints fails conformance for that profile, regardless of what it does elsewhere.
@@ -106,4 +89,4 @@ With profiles, OpenRiC becomes a growth path. An institution with a legacy catal
 
 ---
 
-*Copyright © 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Editor: Johan Pieterse ([johan@plainsailingisystems.co.za](mailto:johan@plainsailingisystems.co.za)).*
+*Copyright © 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors. Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Editor: Dr Johan Pieterse ([johan@theahg.co.za](mailto:johan@theahg.co.za)).*

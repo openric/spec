@@ -12,7 +12,7 @@ description: An open, free way to describe, explore and share archival records t
       OpenRiC connects archival records to the people and organisations behind them, the activities that created them, and the places and dates that tie them together - so those connections can be followed across tools and institutions instead of living in one catalogue.
     </p>
     <div class="hero-cta">
-      <a class="btn-primary" href="{{ '/demo/browse/' | relative_url }}">Explore real records →</a>
+      <a class="btn-primary" href="{{ '/demo/browse/' | relative_url }}">Explore the demonstration records →</a>
       <a class="btn-ghost" href="{{ '/wizard/' | relative_url }}">Model something ↗</a>
     </div>
     <p class="hero-sub">New here? <a href="{{ '/five-minutes/' | relative_url }}"><strong>OpenRiC in five minutes</strong></a> - one object followed end to end, read live from the reference service. Or <a href="{{ '/for-developers.html' | relative_url }}">build with OpenRiC</a>.</p>
@@ -40,7 +40,7 @@ description: An open, free way to describe, explore and share archival records t
   <a class="task-card" href="{{ '/demo/browse/' | relative_url }}">
     <div class="task-card-icon">📚</div>
     <div class="task-card-title">Browse a collection</div>
-    <p>A real archival dataset as a catalogue. Search it, filter by type, open any record. No account, no server address, no API key.</p>
+    <p>A demonstration archival dataset as a catalogue. Search it, filter by type, open any record. No account, no server address, no API key.</p>
     <span class="task-card-go">Open Browse →</span>
   </a>
   <a class="task-card" href="https://viewer.openric.org/">
