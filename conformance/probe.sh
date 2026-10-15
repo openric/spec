@@ -15,6 +15,7 @@
 #   ./probe.sh --profile=core-discovery                     # just that profile
 #   PROFILE=core-discovery,graph-traversal ./probe.sh       # multiple
 #   ./probe.sh --profile=core-discovery --json=result.json  # + machine-readable result
+#   PE_MAX=50 ./probe.sh --profile=provenance-event         # activities to read (25)
 #
 # --json writes the run as JSON (schema openric-probe-result/1): when, against
 # which server, which probe revision, the service's own declarations, counts,
@@ -95,6 +96,28 @@ in_profile() {
     [[ "$entry" == "$p" ]] && return 0
   done
   return 1
+}
+
+# record <status> <label> <http-code>: one custom check into the counters.
+record() {
+  local status="$1" label="$2" code="$3" colour="$R"
+  case "$status" in
+    PASS) colour="$G"; PASS=$((PASS+1)) ;;
+    SKIP*) colour="$Y"; SKIP=$((SKIP+1)) ;;
+    *) FAIL=$((FAIL+1)) ;;
+  esac
+  printf '%s%-5s%s  %-59s  [%s]\n' "$colour" "${status%% *}" "$Z" "$label" "$code"
+  RESULTS+=("$status|$label|$code")
+}
+
+# http <method> <path> [key] [body]: prints "<code> <body>".
+http() {
+  local method="$1" path="$2" key="${3:-}" body="${4:-}" out
+  local args=(-s -w '\n%{http_code}' --max-time 15 -X "$method" -H 'Accept: application/json')
+  [[ -n "$key" ]] && args+=(-H "X-API-Key: ${key}")
+  [[ -n "$body" ]] && args+=(-H 'Content-Type: application/json' -d "$body")
+  out=$(curl "${args[@]}" "${BASE}${path}" 2>/dev/null)
+  printf '%s %s' "${out##*$'\n'}" "${out%$'\n'*}"
 }
 
 # probe_profile_declared <profile-id>
@@ -255,6 +278,72 @@ if in_profile "authority-context"; then
   probe "places-flat"     optional GET "/places/flat" '.items | type == "array"'
 fi
 
+# ---- §2b Provenance & Event - activity bodies (provenance-event.md §6) ----
+# Read-only. Checks the list and up to PE_MAX activities (default 25) against
+# §6 rules 1-6 in jq, which approximates the profile's SHACL shapes; rule 7
+# needs a graph walk and is reported as skipped.
+if in_profile "provenance-event"; then
+  PE_MAX="${PE_MAX:-25}"
+  PE_DIR=$(mktemp -d)
+  code=$(curl -s -o "$PE_DIR/list.json" -w '%{http_code}' --max-time 15 \
+    -H 'Accept: application/json' "${BASE}/activities?limit=${PE_MAX}" 2>/dev/null)
+  ids=$(jq -r '(."openric:items" // ."ric:items" // [])[]["@id"] // empty' "$PE_DIR/list.json" 2>/dev/null | sed 's|.*/||')
+  n=0
+  for id in $ids; do
+    curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/activities/${id}" >"$PE_DIR/a-${id}.json" 2>/dev/null
+    n=$((n+1)); sleep "${PE_PAUSE:-1}"
+  done
+
+  # One line per broken rule: "<rule> <activity id>". Targets may be one stub or
+  # an array; @type may be a string or an array.
+  PE_RULES='
+    def many: if type == "array" then .[] else . end;
+    def types: [."@type"? // empty | many];
+    def kind: ((."rico:hasActivityType" // empty | many | (."@id"? // .)) // "") | tostring;
+    def dated: [."rico:isAssociatedWithDate" // empty | many | select(type == "object" and (types | index("openricx:DateRange")))] | length > 0;
+    def results: [(."rico:resultsOrResultedIn", ."rico:affectsOrAffected") // empty | many];
+    def agents: [(."rico:hasOrHadParticipant", ."rico:isOrWasPerformedBy") // empty | many];
+    ."@id" as $id
+    | (if types != ["rico:Activity"] then "1 \($id)" else empty end),
+      (if (kind | test("/production$")) and ((results | length) == 0 or (agents | length) == 0 or (dated | not)) then "2 \($id)" else empty end),
+      (if (kind | test("/accumulation$")) and ((results | length) == 0 or (dated | not)) then "3 \($id)" else empty end),
+      (if dated | not then "4 \($id)" else empty end),
+      (agents[] | select((types | length) == 0 or ((types - ["rico:Person","rico:CorporateBody","rico:Family","rico:Mechanism","rico:Agent"]) | length) > 0) | "5 \($id)"),
+      (results[] | select((types | length) == 0 or ((types - ["rico:RecordSet","rico:Record","rico:RecordPart"]) | length) > 0) | "6 \($id)")'
+  : >"$PE_DIR/broken"
+  jq -r '(."openric:items" // ."ric:items" // [])[] | ."@id" as $id | [."@type" // empty] | flatten | select(. != ["rico:Activity"]) | "1 \($id) (list)"' \
+    "$PE_DIR/list.json" >>"$PE_DIR/broken" 2>/dev/null
+  for f in "$PE_DIR"/a-*.json; do
+    [[ -e "$f" ]] || continue
+    jq -r "$PE_RULES" "$f" >>"$PE_DIR/broken" 2>/dev/null || echo "0 ${f##*/a-}" >>"$PE_DIR/broken"
+  done
+  has_kind() { jq -e --arg k "$1" '[(."rico:hasActivityType" // empty) | if type == "array" then .[] else . end | (."@id"? // .) | tostring | select(test("/" + $k + "$"))] | length > 0' "$PE_DIR"/a-*.json 2>/dev/null | grep -q true; }
+
+  if [[ "$n" == 0 ]]; then
+    record "SKIP (no activities)" "activity bodies follow §6 (none to check)" "$code"
+  else
+    pe_rule() {  # pe_rule <rule> <label> [kind that must exist]
+      local first; first=$(awk -v r="$1" '$1 == r {print $2, $3; exit}' "$PE_DIR/broken")
+      if [[ -n "${3:-}" ]] && ! has_kind "$3"; then
+        record "SKIP (no $3 activity in sample)" "$2" "n=$n"
+      elif [[ -n "$first" ]]; then
+        record "FAIL" "$2 - e.g. ${first##*/}" "n=$n"
+      else
+        record PASS "$2" "n=$n"
+      fi
+    }
+    pe_rule 0 "every activity body is JSON (§6)"
+    pe_rule 1 "@type is rico:Activity, in the list too (§6.1)"
+    pe_rule 2 "production: results, participant, DateRange (§6.2)" production
+    pe_rule 3 "accumulation: results and DateRange (§6.3)" accumulation
+    pe_rule 4 "every activity has a DateRange (§6.4)"
+    pe_rule 5 "participants are Agent types (§6.5)"
+    pe_rule 6 "results are Record types (§6.6)"
+  fi
+  record "SKIP (needs a graph walk)" "activity reachable from a record (§6.7)" "--"
+  rm -rf "$PE_DIR"
+fi
+
 # ---- §3 Digital Object Linkage — instantiations, functions ----
 if in_profile "digital-object-linkage"; then
   probe "list-instantiations" required GET "/instantiations" "$LIST_SHAPE"
@@ -319,28 +408,6 @@ fi
 # Covered: §6.1-6.4 for places, create/delete for agents and records, §6.6,
 # §6.7 (with WRITE_ONLY_KEY) and §6.9. Not yet covered: §6.5 for the other
 # entity types and relations, and §6.8 (409 on a referential conflict).
-
-# record <status> <label> <http-code>: one custom check into the counters.
-record() {
-  local status="$1" label="$2" code="$3" colour="$R"
-  case "$status" in
-    PASS) colour="$G"; PASS=$((PASS+1)) ;;
-    SKIP*) colour="$Y"; SKIP=$((SKIP+1)) ;;
-    *) FAIL=$((FAIL+1)) ;;
-  esac
-  printf '%s%-5s%s  %-59s  [%s]\n' "$colour" "${status%% *}" "$Z" "$label" "$code"
-  RESULTS+=("$status|$label|$code")
-}
-
-# http <method> <path> [key] [body]: prints "<code> <body>".
-http() {
-  local method="$1" path="$2" key="${3:-}" body="${4:-}" out
-  local args=(-s -w '\n%{http_code}' --max-time 15 -X "$method" -H 'Accept: application/json')
-  [[ -n "$key" ]] && args+=(-H "X-API-Key: ${key}")
-  [[ -n "$body" ]] && args+=(-H 'Content-Type: application/json' -d "$body")
-  out=$(curl "${args[@]}" "${BASE}${path}" 2>/dev/null)
-  printf '%s %s' "${out##*$'\n'}" "${out%$'\n'*}"
-}
 
 if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
   # §6.6 - a write without a key is refused.
