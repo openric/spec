@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.45.0 - 2026-10-15
+
+Fixture provenance and licence labels; mapping compared row by row with RiC-AG (audit, open issue O-8); accruals mapped to rico:accruals and openricx:accrualsNote deprecated; write-body schemas for every entity type; probe covers round-trip editing for every entity type and relations
+
+Approved by: Dr Johan Pieterse, 2026-10-15
+
 ## v0.44.1 - 2026-10-15
 
 Demonstration uses an AI-generated 3D model on its own record; the Egyptian Boat's non-commercial model is detached; drift log records service v0.17.8 verifying against spec v0.44.0
