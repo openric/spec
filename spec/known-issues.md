@@ -42,4 +42,4 @@ Owner of every entry, unless it says otherwise: Dr Johan Pieterse, Standard owne
 
 | # | Issue | Since | Closes when |
 |---|---|---|---|
-| K-11 | Accessibility is checked by a smoke test only: axe at WCAG 2 AA on twelve key pages, in CI since 2026-10-15. The graph viewer and the modelling wizard have not had a full WCAG 2.2 AA audit. | 2026-10-15 | A recorded WCAG 2.2 AA audit of the graph viewer and wizard. |
+| K-11 | Accessibility is checked by a smoke test only: axe at WCAG 2 AA on the thirteen key pages in `bin/a11y-pages.txt`, in CI since 2026-10-15. The graph viewer and the modelling wizard have not had a full WCAG 2.2 AA audit. | 2026-10-15 | A recorded WCAG 2.2 AA audit of the graph viewer and wizard. |

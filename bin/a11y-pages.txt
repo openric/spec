@@ -1,0 +1,14 @@
+# Pages the accessibility smoke test checks (bin/check-a11y.cjs).
+/
+/explore.html
+/five-minutes.html
+/proof.html
+/status/
+/application/
+/spec/
+/spec/versions/
+/spec/known-issues.html
+/spec/profiles/core-discovery.html
+/spec/profiles/round-trip-editing.html
+/spec/change-control.html
+/demo/
