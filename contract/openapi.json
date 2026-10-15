@@ -27,7 +27,7 @@
   "tags": [
     {
       "name": "core-discovery",
-      "description": "Core Discovery 0.3.0 (normative)"
+      "description": "Core Discovery 0.4.0 (normative)"
     },
     {
       "name": "authority-context",
@@ -124,6 +124,15 @@
         },
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -131,15 +140,6 @@
               "minimum": 1,
               "maximum": 200,
               "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
             }
           }
         ]
@@ -486,6 +486,15 @@
         },
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -493,15 +502,6 @@
               "minimum": 1,
               "maximum": 200,
               "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
             }
           }
         ]
@@ -1874,6 +1874,15 @@
         },
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -1881,15 +1890,6 @@
               "minimum": 1,
               "maximum": 200,
               "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
             }
           }
         ]
@@ -2251,6 +2251,15 @@
         },
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -2258,15 +2267,6 @@
               "minimum": 1,
               "maximum": 200,
               "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
             }
           }
         ]
@@ -2670,6 +2670,15 @@
         },
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -2677,15 +2686,6 @@
               "minimum": 1,
               "maximum": 200,
               "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
             }
           }
         ]
@@ -3031,6 +3031,15 @@
         },
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -3038,15 +3047,6 @@
               "minimum": 1,
               "maximum": 200,
               "default": 50
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
             }
           }
         ]

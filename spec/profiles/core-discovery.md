@@ -7,11 +7,11 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 # Core Discovery Profile
 
 **Profile id:** `core-discovery`
-**Profile version:** 0.3.0
-**Last revised in spec:** v0.30.0
+**Profile version:** 0.4.0
+**Last revised in spec:** v0.44.0
 **Status:** Normative
 **Dependencies:** None
-**Last updated:** 2026-04-21
+**Last updated:** 2026-10-15
 
 ---
 
@@ -101,7 +101,10 @@ Returns an ordered array of rico:* types with labels. Minimum shape:
 
 ```json
 {
-  "@context": "https://openric.org/ns/v1/context.jsonld",
+  "@context": {
+    "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
   "classes": [
     { "@id": "rico:Record", "rdfs:label": "Record" },
     { "@id": "rico:Agent", "rdfs:label": "Agent" }
@@ -112,28 +115,39 @@ Returns an ordered array of rico:* types with labels. Minimum shape:
 }
 ```
 
-Only classes and properties actually exposed by the server's declared profiles need be listed. A Core-Discovery-only server lists Record, Agent, CorporateBody (for repositories), and the property set it emits.
+`classes` MUST be an array; `@type` is optional (the reference service sends `ric:Vocabulary`, the [minimal server](https://github.com/openric/spec/tree/main/examples/minimal-server) `openric:Vocabulary`). As for every response, the `@context` binds its prefixes inline (§3.3). Only classes and properties actually exposed by the server's declared profiles need be listed. A Core-Discovery-only server lists Record, Agent, CorporateBody (for repositories), and the property set it emits.
 
 ### 3.3 List responses - `GET /records`, `/agents`, `/repositories`
 
-Pagination envelope:
+Pagination envelope (profile 0.4.0):
 
 ```json
 {
-  "@context": "https://openric.org/ns/v1/context.jsonld",
-  "total": 713,
-  "limit": 20,
-  "offset": 0,
-  "items": [
+  "@context": {
+    "rico":     "https://www.ica.org/standards/RiC/ontology#",
+    "openric":  "https://openric.org/ns/v1#",
+    "openricx": "https://openric.org/ns/ext/v1#"
+  },
+  "@type": "openricx:RecordList",
+  "openric:total": 713,
+  "openric:page": 1,
+  "openric:limit": 20,
+  "openric:next": "https://example.org/api/ric/v1/records?page=2&limit=20",
+  "openric:prev": null,
+  "openric:items": [
     { "@id": "...", "@type": "rico:Record", "rico:title": "..." }
   ]
 }
 ```
 
-- `total` MUST reflect the unfiltered set size when no query is supplied, or the filtered size when `?q=` or equivalent is present.
-- `limit` and `offset` MUST be integers.
+- Clients ask for a page with `?page=` (1-based, default 1) and `?limit=` (default 50, maximum 200).
+- `openric:total`, `openric:page` and `openric:limit` MUST be present and MUST be integers; `openric:items` MUST be an array.
+- `openric:total` MUST reflect the unfiltered set size when no query is supplied, or the filtered size when `?q=` or equivalent is present.
+- `openric:next` and `openric:prev` SHOULD give the URL of the adjacent page, or `null` at either end. Servers MAY also send RFC 8288 `Link` headers with `rel="next"` and `rel="prev"`.
 - Each item MUST include at minimum `@id`, `@type`, and a name-like field (`rico:title` for records, `rico:name` or `rico:hasOrHadAgentName` for agents and repositories).
-- Servers MUST emit RFC 5988 `Link` headers with `rel="next"` and `rel="prev"` when applicable.
+- The `@context` MUST bind every prefix the response uses, inline. A context URL is allowed only where a JSON-LD context document is actually served at it.
+
+**Before 0.4.0** this section showed bare `total`, `limit`, `offset` and `items` keys under a context URL (`https://openric.org/ns/v1/context.jsonld`) that has never been published, and required `Link` headers. No implementation followed it: the reference service paged with `page` and used `openric:` keys on some lists and `ric:` keys on others. 0.4.0 makes the `openric:` keys normative. A server MAY keep sending the old `ric:total`, `ric:page`, `ric:limit` and `ric:items` keys alongside them, with `ric` bound to `https://openric.org/ns/v1#` ([the `ric:` alias](/ns/v1.html)); clients SHOULD read the `openric:` keys. See §9 for the migration note.
 
 <!-- Q5: Resolved - pagination mandatory; default page 50, max 200. See §10 Q5. -->
 
@@ -350,11 +364,24 @@ A server implementer works through:
 - [ ] Return RFC 7807 errors with `application/problem+json` content type
 - [ ] Support content negotiation; set `Vary: Accept`
 - [ ] Enable CORS for reads: `Access-Control-Allow-Origin: *`
-- [ ] Paginate list responses with RFC 5988 Link headers
+- [ ] Paginate list responses with `page` and `limit`, and the `openric:` envelope keys in §3.3
 - [ ] Run `./probe.sh --profile core-discovery {base-url}` - all tests pass
 - [ ] Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
-## 9. Migration from v0.2.0
+## 9. Migration
+
+### From profile 0.3.0 to 0.4.0 (spec v0.44.0)
+
+| What changed | Servers | Clients |
+|---|---|---|
+| List envelope keys are `openric:total`, `openric:page`, `openric:limit`, `openric:items` (§3.3) | Send them. Servers that sent `ric:*` keys MAY keep sending those too, with `ric` bound to `https://openric.org/ns/v1#`, until a later minor release removes the alias. | Read the `openric:` keys; fall back to `ric:*` only for servers that have not moved. |
+| Pagination is `page` and `limit`; `offset` is gone | Accept `?page=`; no change for servers already paging by page. | Ask with `?page=` instead of `?offset=`. |
+| `Link` headers are MAY, `openric:next` / `openric:prev` are SHOULD | Nothing to remove. | Follow `openric:next`. |
+| `@context` binds every prefix inline | Replace a context URL that serves no context document. | None. |
+
+Fixture: `record-list` shows the 0.4.0 envelope with the `ric:` aliases still present.
+
+### From v0.2.0
 
 Servers currently claiming `L2-core` conformance per the pre-v0.3 [Viewing API §2](../viewing-api.html#2-conformance-levels) should transition as follows:
 

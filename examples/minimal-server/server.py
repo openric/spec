@@ -31,7 +31,8 @@ PORT = int(os.environ.get("PORT", "8080"))
 BASE_IRI = os.environ.get("BASE_IRI", f"http://localhost:{PORT}").rstrip("/")
 
 RICO = "https://www.ica.org/standards/RiC/ontology#"
-CONTEXT = {"rico": RICO, "openricx": "https://openric.org/ns/ext/v1#",
+CONTEXT = {"rico": RICO, "openric": "https://openric.org/ns/v1#",
+           "openricx": "https://openric.org/ns/ext/v1#",
            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"}
 
 
@@ -154,7 +155,7 @@ def service_description():
 
 VOCABULARY = {
     "@context": CONTEXT,
-    "@type": "ric:Vocabulary",
+    "@type": "openric:Vocabulary",
     "classes": [{"@id": f"rico:{c}", "rdfs:label": c} for c in ("Record", "RecordSet", "Person", "Family", "CorporateBody")],
     "predicates": [{"@id": f"rico:{p}"} for p in ("hasCreator", "hasOrHadHolder", "isOrWasIncludedIn", "includesOrIncluded")],
 }

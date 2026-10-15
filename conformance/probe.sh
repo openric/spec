@@ -251,10 +251,11 @@ fi
 # ---- §1 Core Discovery — records, agents, repositories, vocab, autocomplete ----
 # Maps to core-discovery.md §2.1 (ten endpoints).
 
-LIST_SHAPE='(."@type" | test("List$")) and ((."ric:items" // ."openric:items") | type == "array")'
+# Core Discovery 0.4.0 §3.3: openric:items plus integer total, page and limit.
+LIST_SHAPE='(."@type" | test("List$")) and (."openric:items" | type == "array") and ([."openric:total", ."openric:page", ."openric:limit"] | all(type == "number"))'
 
 if in_profile "core-discovery"; then
-  probe "vocabulary"   required GET "/vocabulary"              '."@type" == "ric:Vocabulary"'
+  probe "vocabulary"   required GET "/vocabulary"              '.classes | type == "array"'
   probe "autocomplete" required GET "/autocomplete?q=a&limit=1" '(type == "array") or (.results | type == "array")'
 
   probe "list-records"      required GET "/records"      "$LIST_SHAPE"

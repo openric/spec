@@ -6,8 +6,34 @@
     "ric": "https://openric.org/ns/v1#"
   },
   "@type": "openricx:RecordList",
-  "ric:total": 714,
+  "openric:total": 419,
+  "openric:page": 1,
+  "openric:limit": 3,
+  "openric:next": "https://ric.theahg.co.za/api/ric/v1/records?limit=3&page=2",
+  "openric:prev": null,
+  "openric:items": [
+    {
+      "@id": "https://ric.theahg.co.za/informationobject/kc4x-45tz-em84",
+      "@type": "rico:RecordSet",
+      "rico:identifier": "dem001",
+      "rico:title": null
+    },
+    {
+      "@id": "https://ric.theahg.co.za/informationobject/title-of-object",
+      "@type": "rico:RecordSet",
+      "rico:identifier": "2025-11-24/146",
+      "rico:title": "Title of object"
+    },
+    {
+      "@id": "https://ric.theahg.co.za/informationobject/duck-duck-go",
+      "@type": "rico:RecordSet",
+      "rico:identifier": "dem001",
+      "rico:title": "Duck duck go"
+    }
+  ],
+  "ric:total": 419,
   "ric:page": 1,
+  "ric:limit": 3,
   "ric:items": [
     {
       "@id": "https://ric.theahg.co.za/informationobject/kc4x-45tz-em84",
