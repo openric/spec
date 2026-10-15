@@ -39,6 +39,8 @@ Of the 107 elements in RiC-AG's crosswalk, the mapping covers 55: 22 agree, 4 ag
 - **F-6. Level of description.** RiC-AG uses Record Set Type (`rico:hasRecordSetType`) as well as the class; OpenRiC only chooses the class.
 - **F-7. ISDIAH numbering.** Type of institution is ISDIAH 5.1.5, not 5.1.4. Corrected in the mapping and the extension ontology in this release.
 
+**Follow-up, 15 October 2026:** the mapping was corrected for F-1 to F-6 and gained rows for the control areas and ISDF ([mapping](../spec/mapping.html) §7, O-8). The table below is the state before that correction, kept as the record.
+
 The remaining extensions are mostly places where RiC-AG models something as an activity or relation and OpenRiC keeps a text note. They are recorded so a future profile can choose the richer form.
 
 ## Row by row
