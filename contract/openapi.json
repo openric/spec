@@ -564,8 +564,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/agent"
               }
             }
           }
@@ -730,8 +729,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/agent"
               }
             }
           }
@@ -1000,8 +998,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/function"
               }
             }
           }
@@ -1148,8 +1145,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/function"
               }
             }
           }
@@ -2329,8 +2325,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/record"
               }
             }
           }
@@ -2487,8 +2482,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/record"
               }
             }
           }
@@ -3003,6 +2997,54 @@
             ]
           }
         ]
+      },
+      "get": {
+        "summary": "One relation, as written (read-back after create or update)",
+        "tags": [
+          "round-trip-editing"
+        ],
+        "x-openric-profile": "round-trip-editing",
+        "x-openric-status": "normative",
+        "externalDocs": {
+          "description": "Round-Trip Editing §2",
+          "url": "https://openric.org/spec/profiles/round-trip-editing.html"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "No such entity",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../schemas/error.schema.json"
+                },
+                "examples": {
+                  "error-not-found": {
+                    "externalValue": "../fixtures/error-not-found/expected.jsonld"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Opaque identifier the server issued (a slug or an id). Clients take it from an href or an id in an earlier response and never construct it.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "/repositories": {
@@ -3109,8 +3151,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/repository"
               }
             }
           }
@@ -3259,8 +3300,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "description": "No JSON Schema yet for this type's body; see the profile."
+                "$ref": "../schemas/entity-write.schema.json#/$defs/repository"
               }
             }
           }

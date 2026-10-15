@@ -399,16 +399,68 @@ if in_profile "export-only"; then
   probe_oai "ListRecords"     "&metadataPrefix=oai_dc"
 fi
 
-# ---- §6 Round-Trip Editing — write surface (needs KEY) ----
+# ---- §6 Round-Trip Editing - write surface (needs KEY) ----
 # Follows round-trip-editing.md §6. Never point this at a production service:
 # it creates, changes and deletes data. Run it against a disposable server.
 #
 #   KEY             write + delete scopes (required for this section)
 #   WRITE_ONLY_KEY  write scope only - checks a delete is refused (§6.7)
 #
-# Covered: §6.1-6.4 for places, create/delete for agents and records, §6.6,
-# §6.7 (with WRITE_ONLY_KEY) and §6.9. Not yet covered: §6.5 for the other
-# entity types and relations, and §6.8 (409 on a referential conflict).
+# Covers §6.1-6.4 for all eight entity types and for relations (§6.5), §6.6,
+# §6.7 (with WRITE_ONLY_KEY), §6.8 (409 deleting a record that has children)
+# and §6.9 (422 for a body missing its required field, per type).
+
+# rte_cycle <type> <create-body> <patch-field> [write-only-key]
+# Create, read the href, update and see the change, delete, see 404, and find
+# create, update and delete in the revision list. Prints the new id.
+rte_cycle() {
+  local t="$1" b="$2" field="$3" wo="${4:-}" code body id href
+  read -r code body <<<"$(http POST "/$t" "$KEY" "$b")"
+  id=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
+  href=$(jq -r '.href // empty' <<<"$body" 2>/dev/null)
+  if [[ "$code" != "201" || -z "$id" ]]; then
+    record "FAIL" "POST /$t creates, with an id (§6.1)" "$code"; return
+  fi
+  record PASS "POST /$t creates, with an id (§6.1)" "$code"
+  local show="/$t/${id}"
+  if [[ -n "$href" ]]; then
+    show="${href#*/api/ric/v1}"
+    read -r code _ <<<"$(http GET "$show")"
+    [[ "$code" == "200" ]] && record PASS "/$t create href resolves (§6.1)" "$code" \
+                           || record "FAIL" "/$t create href resolves (§6.1)" "$code"
+  fi
+
+  read -r code body <<<"$(http PATCH "/$t/${id}" "$KEY" "{\"${field}\":\"updated by the probe\"}")"
+  [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
+    && record PASS "PATCH /$t/{id} succeeds (§6.2)" "$code" \
+    || record "FAIL" "PATCH /$t/{id} succeeds (§6.2)" "$code"
+  read -r code body <<<"$(http GET "$show")"
+  grep -q "updated by the probe" <<<"$body" \
+    && record PASS "GET after PATCH shows the change on /$t (§6.2)" "$code" \
+    || record "FAIL" "GET after PATCH shows the change on /$t (§6.2)" "$code"
+
+  if [[ -n "$wo" ]]; then
+    read -r code _ <<<"$(http DELETE "/$t/${id}" "$wo")"
+    [[ "$code" == "403" ]] && record PASS "DELETE with a write-only key is 403 (§6.7)" "$code" \
+                           || record "FAIL" "DELETE with a write-only key is 403 (§6.7)" "$code"
+  fi
+
+  read -r code body <<<"$(http DELETE "/$t/${id}" "$KEY")"
+  [[ "$code" == "200" ]] && record PASS "DELETE /$t/{id} succeeds (§6.3)" "$code" \
+                         || record "FAIL" "DELETE /$t/{id} succeeds (§6.3)" "$code"
+  read -r code _ <<<"$(http GET "$show")"
+  [[ "$code" == "404" ]] && record PASS "GET /$t after delete is 404 (§6.3)" "$code" \
+                         || record "FAIL" "GET /$t after delete is 404 (§6.3)" "$code"
+
+  read -r code body <<<"$(http GET "/$t/${id}/revisions")"
+  if [[ "$code" == "200" ]] && jq -e '."@type" == "openric:RevisionList"
+        and ([.items[].action] | (index("create") != null and index("update") != null and index("delete") != null))' \
+        <<<"$body" >/dev/null 2>&1; then
+    record PASS "/$t revisions list create, update and delete (§6.4)" "$code"
+  else
+    record "FAIL" "/$t revisions list create, update and delete (§6.4)" "$code"
+  fi
+}
 
 if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
   # §6.6 - a write without a key is refused.
@@ -416,78 +468,55 @@ if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
   [[ "$code" == "401" ]] && record PASS "POST /places without a key is 401 (§6.6)" "$code" \
                          || record "FAIL" "POST /places without a key is 401 (§6.6)" "$code"
 
-  # §6.9 - a body that fails validation is refused.
-  read -r code _ <<<"$(http POST /places "$KEY" '{}')"
-  [[ "$code" == "422" ]] && record PASS "POST /places with no name is 422 (§6.9)" "$code" \
-                         || record "FAIL" "POST /places with no name is 422 (§6.9)" "$code"
-
-  # §6.1 - create, and the href resolves.
-  read -r code body <<<"$(http POST /places "$KEY" '{"name":"Conformance probe place","description":"created by the probe"}')"
-  NEW_ID=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
-  HREF=$(jq -r '.href // empty' <<<"$body" 2>/dev/null)
-  if [[ "$code" == "201" && -n "$NEW_ID" ]]; then
-    record PASS "POST /places creates, with an id (§6.1)" "$code"
-    if [[ -n "$HREF" ]]; then
-      read -r hcode _ <<<"$(http GET "${HREF#*/api/ric/v1}")"
-      [[ "$hcode" == "200" ]] && record PASS "the create envelope's href resolves (§6.1)" "$hcode" \
-                              || record "FAIL" "the create envelope's href resolves (§6.1)" "$hcode"
-    fi
-
-    # §6.2 - update, and the change is visible.
-    read -r code body <<<"$(http PATCH "/places/${NEW_ID}" "$KEY" '{"description":"updated by the probe"}')"
-    [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
-      && record PASS "PATCH /places/{id} succeeds (§6.2)" "$code" \
-      || record "FAIL" "PATCH /places/{id} succeeds (§6.2)" "$code"
-    read -r code body <<<"$(http GET "/places/${NEW_ID}")"
-    grep -q "updated by the probe" <<<"$body" \
-      && record PASS "GET /places/{id} shows the update (§6.2)" "$code" \
-      || record "FAIL" "GET /places/{id} shows the update (§6.2)" "$code"
-
-    # §6.7 - a write-only key cannot delete.
-    if [[ -n "${WRITE_ONLY_KEY:-}" ]]; then
-      read -r code _ <<<"$(http DELETE "/places/${NEW_ID}" "$WRITE_ONLY_KEY")"
-      [[ "$code" == "403" ]] && record PASS "DELETE with a write-only key is 403 (§6.7)" "$code" \
-                             || record "FAIL" "DELETE with a write-only key is 403 (§6.7)" "$code"
-    else
-      record "SKIP (no WRITE_ONLY_KEY)" "DELETE with a write-only key is 403 (§6.7)" "--"
-    fi
-
-    # §6.3 - delete, then the entity is gone.
-    read -r code body <<<"$(http DELETE "/places/${NEW_ID}" "$KEY")"
-    [[ "$code" == "200" ]] && jq -e '.success == true' <<<"$body" >/dev/null 2>&1 \
-      && record PASS "DELETE /places/{id} succeeds (§6.3)" "$code" \
-      || record "FAIL" "DELETE /places/{id} succeeds (§6.3)" "$code"
-    read -r code _ <<<"$(http GET "/places/${NEW_ID}")"
-    [[ "$code" == "404" ]] && record PASS "GET /places/{id} after delete is 404 (§6.3)" "$code" \
-                           || record "FAIL" "GET /places/{id} after delete is 404 (§6.3)" "$code"
-
-    # §6.4 - the revision list shows create, update and delete.
-    read -r code body <<<"$(http GET "/places/${NEW_ID}/revisions")"
-    if [[ "$code" == "200" ]] && jq -e '."@type" == "openric:RevisionList"
-          and ([.items[].action] | (index("create") != null and index("update") != null and index("delete") != null))' \
-          <<<"$body" >/dev/null 2>&1; then
-      record PASS "revisions list create, update and delete (§6.4)" "$code"
-    else
-      record "FAIL" "revisions list create, update and delete (§6.4)" "$code"
-    fi
-  else
-    record "FAIL" "POST /places creates, with an id (§6.1)" "$code"
-  fi
-
-  # §6.5, partly - the same create and delete for agents and records.
-  for t in agents records; do
-    case "$t" in agents) b='{"name":"Conformance probe agent"}' ;; records) b='{"title":"Conformance probe record"}' ;; esac
-    read -r code body <<<"$(http POST "/$t" "$KEY" "$b")"
-    id=$(jq -r '.id // empty' <<<"$body" 2>/dev/null)
-    if [[ "$code" == "201" && -n "$id" ]]; then
-      record PASS "POST /$t creates (§6.5)" "$code"
-      read -r code body <<<"$(http DELETE "/$t/${id}" "$KEY")"
-      [[ "$code" == "200" ]] && record PASS "DELETE /$t/{id} succeeds (§6.5)" "$code" \
-                             || record "FAIL" "DELETE /$t/{id} succeeds (§6.5)" "$code"
-    else
-      record "FAIL" "POST /$t creates (§6.5)" "$code"
-    fi
+  # §6.9 - a body missing the type's required field is refused, for every type.
+  for t in places rules activities instantiations agents records repositories functions relations; do
+    read -r code _ <<<"$(http POST "/$t" "$KEY" '{}')"
+    [[ "$code" == "422" ]] && record PASS "POST /$t with an empty body is 422 (§6.9)" "$code" \
+                           || record "FAIL" "POST /$t with an empty body is 422 (§6.9)" "$code"
   done
+
+  # §6.1-6.5 - the full cycle for every entity type. The write-only check
+  # (§6.7) runs once, on places.
+  rte_cycle places         '{"name":"Conformance probe place"}'           description "${WRITE_ONLY_KEY:-}"
+  [[ -z "${WRITE_ONLY_KEY:-}" ]] && record "SKIP (no WRITE_ONLY_KEY)" "DELETE with a write-only key is 403 (§6.7)" "--"
+  rte_cycle rules          '{"title":"Conformance probe rule"}'           description
+  rte_cycle activities     '{"name":"Conformance probe activity"}'        description
+  rte_cycle instantiations '{"title":"Conformance probe instantiation"}'  description
+  rte_cycle agents         '{"name":"Conformance probe agent"}'           history
+  rte_cycle records        '{"title":"Conformance probe record"}'         scope_and_content
+  rte_cycle repositories   '{"name":"Conformance probe repository"}'      history
+  rte_cycle functions      '{"name":"Conformance probe function"}'        description
+
+  # §6.5 for relations: a new record and a new agent joined by a relation type
+  # whose domain is Record and range Agent (has_creator on the reference
+  # service), then both deleted.
+  read -r _ b1 <<<"$(http POST /records "$KEY" '{"title":"Probe relation subject"}')"
+  read -r _ b2 <<<"$(http POST /agents "$KEY" '{"name":"Probe relation object"}')"
+  s_id=$(jq -r '.id // empty' <<<"$b1" 2>/dev/null); o_id=$(jq -r '.id // empty' <<<"$b2" 2>/dev/null)
+  rtype=$(curl -s --max-time 15 "${BASE}/relation-types" | jq -r '(.items // ."openric:items" // .) as $all
+    | ([$all[] | select((.metadata // "{}" | fromjson? // {}) as $m | $m.domain == "Record" and $m.range == "Agent")] + $all)[0]
+    | (.code // .id // empty)' 2>/dev/null)
+  if [[ -n "$s_id" && -n "$o_id" && -n "$rtype" ]]; then
+    rte_cycle relations "{\"subject_id\":${s_id},\"object_id\":${o_id},\"relation_type\":\"${rtype}\"}" evidence
+  else
+    record "FAIL" "set up a relation between a new record and agent (§6.5)" "--"
+  fi
+  [[ -n "$s_id" ]] && http DELETE "/records/${s_id}" "$KEY" >/dev/null
+  [[ -n "$o_id" ]] && http DELETE "/agents/${o_id}" "$KEY" >/dev/null
+
+  # §6.8 - deleting a record that still has a child record is 409.
+  read -r _ pb <<<"$(http POST /records "$KEY" '{"title":"Probe parent record"}')"
+  p_id=$(jq -r '.id // empty' <<<"$pb" 2>/dev/null)
+  read -r _ cb <<<"$(http POST /records "$KEY" "{\"title\":\"Probe child record\",\"parent_id\":${p_id:-0}}")"
+  c_id=$(jq -r '.id // empty' <<<"$cb" 2>/dev/null)
+  if [[ -n "$p_id" && -n "$c_id" ]]; then
+    read -r code _ <<<"$(http DELETE "/records/${p_id}" "$KEY")"
+    [[ "$code" == "409" ]] && record PASS "DELETE a record with children is 409 (§6.8)" "$code" \
+                           || record "FAIL" "DELETE a record with children is 409 (§6.8)" "$code"
+  else
+    record "FAIL" "set up a parent and child record (§6.8)" "--"
+  fi
+  for i in "$c_id" "$p_id"; do [[ -n "$i" ]] && http DELETE "/records/${i}" "$KEY" >/dev/null; done
 elif in_profile "round-trip-editing"; then
   # Without a key the write surface cannot be tested. Record that as skipped,
   # so a read-only run never reports Round-Trip Editing as a plain pass.
