@@ -2,6 +2,16 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.46.0 - 2026-10-15
+
+Mapping follows RiC-AG with RiC-O 1.1 terms (open issue O-8 resolved); control areas and ISDF mapped; openricx:arrangement deprecated; external review brief
+
+Migration: mapping rows that change what a server emits are ISAD(G) 3.3.1 (now `rico:scopeAndContent`; servers that sent `openricx:description` for it SHOULD send both until v0.47.0), 3.3.4 (`rico:structure`), 3.4.4 (`rico:physicalCharacteristicsNote` on the instantiation), 3.6.1 (`rico:generalDescription`), 3.7.2 (`rico:isOrWasRegulatedBy`) and 3.2.4 (acquisition as a `rico:Activity`). The reference service emitted only 3.3.1 and sends both forms since service v0.17.11.
+
+Deprecated: `openricx:arrangement`, replaced by `rico:structure`.
+
+Approved by: Dr Johan Pieterse, 2026-10-15
+
 ## v0.45.0 - 2026-10-15
 
 Fixture provenance and licence labels; mapping compared row by row with RiC-AG (audit, open issue O-8); accruals mapped to rico:accruals and openricx:accrualsNote deprecated; write-body schemas for every entity type; probe covers round-trip editing for every entity type and relations
