@@ -69,6 +69,14 @@ fi
 
 echo -e "Current version: ${YELLOW}v${CURRENT}${NC}"
 
+# A second run straight after a release, with nothing changed since, would
+# tag a commit with no change in it.
+HEAD_TAG=$(git tag --points-at HEAD --list 'v[0-9]*' | head -1)
+if [ -n "$HEAD_TAG" ] && [ -z "$(git status --porcelain)" ]; then
+    echo -e "${RED}Error: HEAD is already release ${HEAD_TAG} and nothing has changed - nothing new to release${NC}"
+    exit 1
+fi
+
 # Split version
 MAJOR=$(echo "$CURRENT" | cut -d. -f1)
 MINOR=$(echo "$CURRENT" | cut -d. -f2)

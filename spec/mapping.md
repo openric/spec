@@ -247,7 +247,7 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 | 3.2.2 Administrative / biographical history | `rico:history` | On the Agent, not the Record |
 | 3.2.3 Archival history | `rico:history` on the Record | Free-text |
 | 3.2.4 Immediate source of acquisition | `rico:isOrWasAffectedBy` → `rico:Activity` (activity type `transfer`) with `rico:hasOrHadParticipant` → the source `rico:Agent` | Was `rico:hasOrganicProvenance`, which names the creator or accumulator, not the source (RiC-AG) |
-| 3.3.1 Scope and content | `rico:scopeAndContent` | Was `openricx:description`; servers that sent it SHOULD send both until v0.47.0 |
+| 3.3.1 Scope and content | `rico:scopeAndContent` | Was `openricx:description`; servers that sent it SHOULD send both until at least v0.48.0 |
 | 3.3.2 Appraisal, destruction, scheduling | `openricx:hasAppraisalInformation` | |
 | 3.3.3 Accruals | `rico:accruals` | RiC-O 1.1 property; `openricx:accrualsNote` (v0.44.0) is deprecated |
 | 3.3.4 System of arrangement | `rico:structure` | Was `openricx:arrangement` (deprecated) |

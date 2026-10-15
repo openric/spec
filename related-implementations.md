@@ -39,7 +39,7 @@ Garance demonstrates several patterns that OpenRiC adopts:
 | Content negotiation (HTML / JSON-LD / Turtle / RDF/XML) | [Viewing API §3.2](spec/viewing-api.html) - content-negotiation policy |
 | SKOS Concept Schemes for controlled vocabularies (place types, agent roles, etc.) | [`/vocab/`](/vocab/index.html) - OpenRiC vocabularies (activity-type, rule-type) |
 | RiC-O + SKOS coexistence rather than `rico:` namespace minting | OpenRiC v0.37 namespace-remediation policy: "openricx never mints in rico:" |
-| Generated static entity pages from RDF | Roadmap - Phase G |
+| Generated static entity pages from RDF | Not adopted yet; no date set |
 | SPARQL 1.1 query endpoint | [`sparql-access` profile](spec/profiles/sparql-access.html) (draft) |
 
 ### How OpenRiC uses Garance
