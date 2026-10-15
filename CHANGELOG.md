@@ -6,6 +6,8 @@ Newest first. From the release after v0.43.14, `bin/release` writes each entry, 
 
 Fixture provenance and licence labels; mapping compared row by row with RiC-AG (audit, open issue O-8); accruals mapped to rico:accruals and openricx:accrualsNote deprecated; write-body schemas for every entity type; probe covers round-trip editing for every entity type and relations
 
+Deprecated: `openricx:accrualsNote` (added in v0.44.0, never emitted by any server) is replaced by RiC-O 1.1's `rico:accruals`. No server or client change is needed.
+
 Approved by: Dr Johan Pieterse, 2026-10-15
 
 ## v0.44.1 - 2026-10-15
