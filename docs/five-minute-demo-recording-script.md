@@ -89,7 +89,7 @@ Hover the two Rule nodes, then the glTF instantiation.
 
 Then the instantiation:
 
-On-screen credit whenever the 3D model is visible (its licence requires it): "3D model: Egyptian Boat from Ancient Lives by Miguel Bandera, CC BY-NC 4.0, from British Museum photographs (Daniel Pett, CC BY-SA 4.0)." Non-commercial licence: do not use this footage in paid or promotional material without permission.
+On-screen note whenever the 3D model is visible: "3D model: AI-generated demonstration data (Gilded dining suite, OPENRIC-DEMO-3D-1)." From 15 October 2026 the demo shows this model, attached to its own record. Earlier recordings show the Egyptian Boat model by Miguel Bandera (CC BY-NC 4.0, from British Museum photographs by Daniel Pett, CC BY-SA 4.0): keep its credit on screen and keep that footage out of paid or promotional material.
 
 > "And the 3D file is distinct from the record. Which is how an archive holds
 > six versions of a file without pretending it has six records."
