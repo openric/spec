@@ -47,7 +47,7 @@ The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/reposit
 .mapping-table th, .mapping-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; text-align: left; }
 .mapping-table th { background: var(--surface-2); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted-2); }
 .mapping-table code { font-size: 0.85rem; }
-.screenshot-placeholder { background: var(--surface-2); border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; color: var(--muted); font-size: 0.9rem; margin: 0.75rem 0; }
+.screenshot-placeholder { background: var(--surface-2); border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; color: #475569; font-size: 0.9rem; margin: 0.75rem 0; }
 </style>
 
 ## End-to-end use case

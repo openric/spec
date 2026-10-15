@@ -40,6 +40,10 @@ title: OpenRiC - Specification
     <strong>6 · Change control</strong>
     <span>Versioning, what each change bumps, deprecation, migration notes, release approval, signed tags and support.</span>
   </a>
+  <a class="spec-doc" href="known-issues.html">
+    <strong>7 · Known issues</strong>
+    <span>What we know is missing or wrong and have not fixed yet, with what closes each. Also the residual issue register for the external review.</span>
+  </a>
 </div>
 
 ### Profiles

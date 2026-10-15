@@ -247,19 +247,19 @@ Fixtures outside this list are NOT required for profile conformance.
 
 ## 8. Implementation checklist
 
-- [ ] Implement `/graph?uri=…&depth=N` returning `openric:Subgraph` per Graph Primitives §3.1
-- [ ] Emit `@context` with both `rico` and `openric` prefix bindings
-- [ ] Emit `openric:root`, `openric:depth`, `openric:nodes`, `openric:edges` - all required
-- [ ] Per-node: `id`, `label`, `type` (short RiC-O class name)
-- [ ] Per-edge: `source`, `target`, `predicate` (canonical RiC-O CURIE), `label` (free text)
-- [ ] Enforce `depth ∈ [1, 3]` with HTTP 400 outside that range
-- [ ] Implement `/relations` with `data` + `pagination` envelope
-- [ ] Implement `/relations-for/{id}` with `outgoing` + `incoming` split
-- [ ] Implement `/hierarchy/{id}` with `parent` + `children` + `siblings`
-- [ ] Add `graph-traversal` to `openric_conformance.profiles` in `GET /`
-- [ ] Validate a full triple-store dump against `shapes/profiles/graph-traversal.shacl.ttl` - no Violation failures
-- [ ] All 5 shipped fixtures pass the conformance probe at `--profile=graph-traversal`
-- [ ] `/conformance/badge?profile=graph-traversal` returns shields.io JSON
+- Implement `/graph?uri=…&depth=N` returning `openric:Subgraph` per Graph Primitives §3.1
+- Emit `@context` with both `rico` and `openric` prefix bindings
+- Emit `openric:root`, `openric:depth`, `openric:nodes`, `openric:edges` - all required
+- Per-node: `id`, `label`, `type` (short RiC-O class name)
+- Per-edge: `source`, `target`, `predicate` (canonical RiC-O CURIE), `label` (free text)
+- Enforce `depth ∈ [1, 3]` with HTTP 400 outside that range
+- Implement `/relations` with `data` + `pagination` envelope
+- Implement `/relations-for/{id}` with `outgoing` + `incoming` split
+- Implement `/hierarchy/{id}` with `parent` + `children` + `siblings`
+- Add `graph-traversal` to `openric_conformance.profiles` in `GET /`
+- Validate a full triple-store dump against `shapes/profiles/graph-traversal.shacl.ttl` - no Violation failures
+- All 5 shipped fixtures pass the conformance probe at `--profile=graph-traversal`
+- `/conformance/badge?profile=graph-traversal` returns shields.io JSON
 
 ## 9. Design decisions
 

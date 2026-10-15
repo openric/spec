@@ -122,7 +122,21 @@ jobs:
             test -s "_site/$f" || { echo "missing from build: $f"; exit 1; }
           done
 
+      # Accessibility smoke test (plan V4, S3): axe at WCAG 2 AA on the key
+      # pages listed in .pa11yci.json. A smoke test, not an audit - the full
+      # WCAG 2.2 AA audit of the graph viewer and wizard is separate work.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Accessibility smoke test (axe, WCAG 2 AA)
+        run: |
+          (cd _site && python3 -m http.server 4000 --bind 127.0.0.1 >/dev/null 2>&1 &)
+          for i in $(seq 1 15); do curl -sf http://localhost:4000/ >/dev/null && break; sleep 1; done
+          npx --yes pa11y-ci@3.1.0 -c .pa11yci.json
+
       - name: Keep the built site for review
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: site

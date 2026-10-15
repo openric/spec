@@ -51,7 +51,7 @@
 
     var declared = {};
     (conf.profiles || []).forEach(function (p) { declared[p.id] = p; });
-    document.querySelectorAll("#conformance-matrix td[data-profile]").forEach(function (cell) {
+    document.querySelectorAll("#conformance-matrix-table td[data-profile]").forEach(function (cell) {
       var p = declared[cell.getAttribute("data-profile")];
       cell.textContent = p
         ? "declared " + (p.conformance || "") + " · v" + p.version + (p.status ? " (" + p.status + ")" : "")
@@ -89,7 +89,7 @@
   var VERDICT = { "pass": "pass", "fail": "FAIL", "pass-with-skips": "pass, with checks skipped" };
 
   function showTested() {
-    var cells = document.querySelectorAll("#conformance-matrix td[data-tested]");
+    var cells = document.querySelectorAll("#conformance-matrix-table td[data-tested]");
     var none = function (text) { cells.forEach(function (c) { c.textContent = text; }); };
     return getJson(RESULTS).then(function (run) {
       var byProfile = {};

@@ -155,15 +155,15 @@ Two fixtures planned for v0.8 of this profile (currently absent):
 
 ## 8. Implementation checklist
 
-- [ ] Choose a triplestore - Fuseki/Jena, GraphDB, QLever, Blazegraph, or other SPARQL 1.1-conformant engine
-- [ ] Mount the SPARQL endpoint at `/api/ric/v1/sparql` (proxy or direct)
-- [ ] Document the dataset graph scope - single default graph, named graphs, tenant-isolated graphs?
-- [ ] Configure server-side query timeout (default ≤ 30s for `public-read`)
-- [ ] Configure rate limiting (default 60 requests / minute / IP for `public-read`)
-- [ ] Reject SPARQL Update with `405` or `403`
-- [ ] Publish `/sparql/info` with `void:Dataset` triple count + license
-- [ ] Add `sparql-access` to `openric_conformance.profiles` with `access` / `rate_limit` / `max_query_time_seconds` declared
-- [ ] Run the conformance probe with `--profile=sparql-access`
+- Choose a triplestore - Fuseki/Jena, GraphDB, QLever, Blazegraph, or other SPARQL 1.1-conformant engine
+- Mount the SPARQL endpoint at `/api/ric/v1/sparql` (proxy or direct)
+- Document the dataset graph scope - single default graph, named graphs, tenant-isolated graphs?
+- Configure server-side query timeout (default ≤ 30s for `public-read`)
+- Configure rate limiting (default 60 requests / minute / IP for `public-read`)
+- Reject SPARQL Update with `405` or `403`
+- Publish `/sparql/info` with `void:Dataset` triple count + license
+- Add `sparql-access` to `openric_conformance.profiles` with `access` / `rate_limit` / `max_query_time_seconds` declared
+- Run the conformance probe with `--profile=sparql-access`
 
 ## 9. Design decisions
 

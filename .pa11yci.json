@@ -1,0 +1,23 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "runners": ["axe"],
+    "timeout": 60000,
+    "wait": 1500,
+    "chromeLaunchConfig": { "args": ["--no-sandbox"] }
+  },
+  "urls": [
+    "http://localhost:4000/",
+    "http://localhost:4000/explore.html",
+    "http://localhost:4000/five-minutes.html",
+    "http://localhost:4000/proof.html",
+    "http://localhost:4000/status/",
+    "http://localhost:4000/application/",
+    "http://localhost:4000/spec/",
+    "http://localhost:4000/spec/versions/",
+    "http://localhost:4000/spec/profiles/core-discovery.html",
+    "http://localhost:4000/spec/profiles/round-trip-editing.html",
+    "http://localhost:4000/spec/change-control.html",
+    "http://localhost:4000/demo/"
+  ]
+}

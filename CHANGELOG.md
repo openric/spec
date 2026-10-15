@@ -10,6 +10,8 @@ Migration: mapping rows that change what a server emits are ISAD(G) 3.3.1 (now `
 
 Deprecated: `openricx:arrangement`, replaced by `rico:structure`.
 
+Erratum (2026-10-15, after release): "until v0.47.0" above should read "until at least v0.48.0". Change control keeps a deprecated item for at least one further minor release. See [known issue K-4](spec/known-issues.md).
+
 Approved by: Dr Johan Pieterse, 2026-10-15
 
 ## v0.45.0 - 2026-10-15

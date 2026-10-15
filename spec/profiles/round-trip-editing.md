@@ -223,19 +223,19 @@ Fixtures outside this list are NOT required for profile conformance.
 
 ## 8. Implementation checklist
 
-- [ ] Wire write routes for all 8 entity types + relations under a middleware that enforces `X-API-Key` + scope
-- [ ] POST returns `201 Created` with `{id, slug?, type?, href?}` - at minimum `id`
-- [ ] PATCH/PUT returns `200 OK` with `{success: true, id}`
-- [ ] DELETE returns `200 OK` with `{success: true, id}`
-- [ ] Every successful mutation writes one row to the audit log (action, entity, actor, timestamp, payload)
-- [ ] Sensitive keys (passwords, API keys) redacted in the stored payload before insert
-- [ ] `GET /{t}/{id}/revisions` returns `openric:RevisionList` per §3.3 - minimal fields (`id`, `action`, `created_at`, `entity`) public by default; richer fields (`actor`, `ip`, `payload`) operator-gated per §2.3 visibility table
-- [ ] Revision response validates against `:RevisionListShape` - 0 Violations
-- [ ] 401 on missing/invalid key; 403 on scope mismatch - both `application/problem+json`
-- [ ] 409 on referential-integrity conflicts; 422 on body validation failures
-- [ ] Add `round-trip-editing` to `openric_conformance.profiles` in `GET /`
-- [ ] All 4 shipped fixtures pass the conformance probe at `--profile=round-trip-editing`
-- [ ] `/conformance/badge?profile=round-trip-editing` returns shields.io JSON
+- Wire write routes for all 8 entity types + relations under a middleware that enforces `X-API-Key` + scope
+- POST returns `201 Created` with `{id, slug?, type?, href?}` - at minimum `id`
+- PATCH/PUT returns `200 OK` with `{success: true, id}`
+- DELETE returns `200 OK` with `{success: true, id}`
+- Every successful mutation writes one row to the audit log (action, entity, actor, timestamp, payload)
+- Sensitive keys (passwords, API keys) redacted in the stored payload before insert
+- `GET /{t}/{id}/revisions` returns `openric:RevisionList` per §3.3 - minimal fields (`id`, `action`, `created_at`, `entity`) public by default; richer fields (`actor`, `ip`, `payload`) operator-gated per §2.3 visibility table
+- Revision response validates against `:RevisionListShape` - 0 Violations
+- 401 on missing/invalid key; 403 on scope mismatch - both `application/problem+json`
+- 409 on referential-integrity conflicts; 422 on body validation failures
+- Add `round-trip-editing` to `openric_conformance.profiles` in `GET /`
+- All 4 shipped fixtures pass the conformance probe at `--profile=round-trip-editing`
+- `/conformance/badge?profile=round-trip-editing` returns shields.io JSON
 
 ## 9. Design decisions
 
