@@ -20,7 +20,7 @@ Owner of every entry, unless it says otherwise: Dr Johan Pieterse, Standard owne
 | K-1 | No external technical review yet. Everything has been written and checked inside one organisation. The [review brief](https://github.com/openric/spec/blob/main/docs/reviews/2026-10-external-technical-review-brief.md) is ready; no reviewer is appointed. | 2026-10-15 | A dated reviewer report, our responses and this register exist (plan V4, S2.5). |
 | K-2 | Release tags up to and including v0.46.0 are unsigned. Tags are annotated, and change control asks for signed tags once a key is set up. | 2026-10-15 | The first release after signing was set up, expected v0.47.0, carries a signed tag. Older tags stay unsigned. |
 | K-3 | Only v0.46.0 has a downloadable bundle with a SHA-256 checksum. Earlier GitHub releases have none; their content is still fixed by the git tag. | 2026-10-15 | Not planned for older releases. Every release from v0.46.0 carries one. |
-| K-4 | The v0.46.0 changelog and mapping issue O-8 said `openricx:description` stays "until v0.47.0". [Change control](change-control.html#deprecation) keeps a deprecated item for at least one further minor release, so the earliest removal is v0.48.0. Both are corrected. | 2026-10-15 | Fixed in the text; recorded here so nobody plans on the earlier date. |
+| K-4 | The v0.46.0 changelog and mapping issue O-8 said `openricx:description` stays "until v0.47.0". [Change control](change-control.html#deprecation) keeps a deprecated item for at least one further minor release, so the earliest removal is v0.48.0. The changelog, O-8, the mapping row for ISAD(G) 3.3.1 and the record schema are corrected. | 2026-10-15 | Fixed in the text; recorded here so nobody plans on the earlier date. |
 | K-5 | The licence review of specification artefacts, copied code, fixtures, images and example datasets has not been done (plan V4, S4). Fixtures carry rights labels, reviewed on 2026-10-15. | 2026-10-14 | A recorded licence review. |
 
 ## Evidence and adoption
@@ -29,7 +29,7 @@ Owner of every entry, unless it says otherwise: Dr Johan Pieterse, Standard owne
 |---|---|---|---|
 | K-6 | There is no independent implementation. The reference service and the planned OpenRiC Workspace are both from the same organisation, so neither counts. | 2026-10-14 | A second implementation built outside AHG passes at least one profile. It is recruited actively but does not block the first usable release. |
 | K-7 | Every fixture is synthetic: 31 captured from the reference service's demonstration data, 5 written by hand. No data comes from an outside institution. | 2026-10-15 | An institution contributes data that can be published, labelled `independent`. |
-| K-8 | The reference service reports that it verifies against specification 0.44.0, not the current v{{ site.data.version.version }}. Its declared profiles are on the [status page](/status/). | 2026-10-15 | The service's next release raises its verified version after a probe run against the current specification. |
+| K-8 | Closed 2026-10-15. The reference service reported that it verified against specification 0.44.0. Since service v0.17.12 it reports 0.46.0: the probe has not changed since 0.45.0, which the service passed 78 of 78 on staging, and 0.46.0 only adds record terms the service has sent since v0.17.11. | 2026-10-15 | Closed by service v0.17.12. |
 
 ## Reference service
 

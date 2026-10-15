@@ -19,61 +19,20 @@ This page exists because the spec moves faster than the supporting implementatio
 
 ### Reference API (`ric.theahg.co.za`) lag against the specification
 
-**Update, 2026-10-15:** the reference service (tag v0.17.8) now verifies against **spec v0.44.0** and declares Core Discovery 0.4.0. Since v0.17.1 its service description reports its own release tag, and reads the latest spec version from openric.org, caching it for up to a day; that closes the two defects below. The paragraph that follows is the 14 October state, kept for the record.
+Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12). It verifies against **spec v0.46.0** and declares seven profiles: six normative ones in full and SPARQL Access as a draft. Every row of the April 2026 migration list that is resolved has moved to [Closed](#closed-recent) with what was checked. Three rows remain open:
 
-Checked against the live service description on 2026-10-14. The reference service (openric/service, tag v0.17.0) verifies against **spec v0.38.2**; the specification is at **v{{ site.data.version.version }}**. It declares seven profiles: six normative ones in full (Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Export-Only) and SPARQL Access as a draft. It does **not** claim Provenance & Event (data gap, below) or any of the four v0.43 governance-line drafts.
-
-Two defects in the service description itself, logged 2026-10-14: it reports its version as `1.0` rather than its release tag, and it gives `latest_spec_version` as 0.43.10.
-
-The table below is the Phase G migration list as recorded on 2026-04-25. The service has since moved to spec v0.38.2, so some rows are likely resolved; they have not been re-verified item by item.
-
-| Item | Currently emits | Target (spec v0.37.0) | ETA |
+| Item | Currently emits | Target | Blocker |
 |---|---|---|---|
-| Service description | `spec_version: "0.36.0"`, claims 6 of 7 profiles | `spec_version: "0.37.0"`, declares 6 of 7 + optionally `sparql-access` draft | Phase G |
-| OpenAPI tags - Repository | `rico:Repository / Custodian` | `ISDIAH repository surface; canonical: rico:CorporateBody with hasOrHadHolder` | Phase G |
-| OpenAPI tags - Function | `rico:Function (ISDF)` | `ISDF function surface; canonical: openricx:Function (interim) - see mapping §6.4` | Phase G |
-| OpenAPI tags - SPARQL | `Subgraph walks + full SPARQL` | `Subgraph walks; SPARQL only if server declares sparql-access draft profile` | Phase G |
-| Relation examples | `relation_type: hasInstantiation` | `rico:hasOrHadInstantiation` | Phase G |
-| JSON-LD `@type` for events | `rico:Production` / `rico:Accumulation` (concrete classes) | `rico:Activity` + `rico:hasActivityType <vocab IRI>` (Activity+type per spec D.3) | Phase G |
-| JSON-LD `@context` extension | no `openricx:` declaration | declares `openricx: https://openric.org/ns/ext/v1#` | Phase G |
-| Hold-direction property names | `rico:heldBy`, `rico:hasInstantiation`, `rico:hasSubject`, `rico:hasLanguage`, `rico:hasMandate`, `rico:hasRecordPart`, `rico:isContainedIn`, etc. | Canonical 1.1 forms (`rico:hasOrHadHolder`, `rico:hasOrHadInstantiation`, etc. - full list in spec audit doc Phase B + D mappings) | Phase G |
-| Provenance & Event profile claim | Not claimed (data-gap blocker - 177 productions missing creator) | Claim once data backfill completes | Phase G + data hygiene |
-
-### Viewer (`viewer.openric.org`)
-
-| Item | Issue | Plan |
-|---|---|---|
-| Node.type CURIE handling | Viewer must accept both `rico:Person` (CURIE, per spec v0.37 §8.6) and bare local names from older servers | Update viewer to canonicalize on read; emit only CURIEs in fresh requests |
-| Activity-type rendering | Viewer currently dispatches on `@type` for Production/Accumulation/Activity; needs to also dispatch on `rico:hasActivityType` IRI | Add hasActivityType branch in node-classification logic |
-| openricx prefix | Viewer must declare and resolve `openricx:` in JSON-LD contexts | Update bundled context |
-
-### Capture client (`capture.openric.org`)
-
-| Item | Issue | Plan |
-|---|---|---|
-| Activity entity entry form | Currently picks `Production` / `Accumulation` / `Activity` as the @type | Refactor to single `rico:Activity` + activity-type dropdown sourced from `/vocab/activity-type` |
-| Repository entity | Form labels suggest `rico:Repository` is a class | Re-label as "ISDIAH repository - canonical: CorporateBody with holder relations" |
-| Function entity | Form emits `rico:Function` | Switch to `openricx:Function` until ICA-EGAD upstream decision |
-
-### Conformance probe (`/conformance/`)
-
-| Item | Issue | Plan |
-|---|---|---|
-| Default probe checks `/sparql` | Spec v0.37 says SPARQL is optional under `sparql-access` profile | Skip `/sparql` checks unless server declares `sparql-access` |
-| Profile-based probe modes | Currently only the legacy L1-L4 mode | Add `--profile=<id>` for each normative and draft profile |
-
-### Documentation drift on the static site
-
-| Item | Issue | Plan |
-|---|---|---|
-| Live homepage shows historical version pills (v0.1.0, v0.2.0) in the phase-cards section | These are accurate historical labels but reviewers may misread | Add a clearer "phase history" header above the cards |
+| Relation predicates in `/relations` | Relation rows carry `rico_predicate: "rico:hasInstantiation"` and the inverse `rico:isInstantiationOf`. The value comes from the relation-type table in the database the service shares with Heratio, not from the serializer; entity responses already use the RiC-O 1.1 forms. | `rico:hasOrHadInstantiation` / `rico:isOrWasInstantiationOf` | A change to the shared relation-type table, which needs Heratio's agreement, or the service maps the value on output. |
+| Relation example in the service's OpenAPI | `relation_type` example `hasInstantiation` | `hasOrHadInstantiation` | The next service release. |
+| Provenance & Event profile claim | Not claimed: productions without a creator in the demonstration data | Claimed once the data is backfilled and the probe's Provenance & Event section passes | Data hygiene; [known issue K-10](spec/known-issues.html). |
 
 ### External-extension watch (RiC-O 1.1 ecosystem)
 
 | Item | Issue | Plan |
 |---|---|---|
 | AnF RiC-O extension landing ~June 2026 | Archives nationales de France is publishing a small RiC-O 1.1 ontology extension at [`github.com/ArchivesNationalesFR/ontology`](https://github.com/ArchivesNationalesFR/ontology) (v1.0 expected mid-June 2026). Likely to overlap with `openricx:` for agent description, address, place modelling. | When it lands: audit `openricx:` against the AnF extension. Where overlap exists, propose alignment or cross-reference rather than parallel definitions. Track per [external-signals memory](https://github.com/openric/spec). |
-| OpenRiC vocabularies (`/vocab/activity-type/`, `/vocab/rule-type/`) need SKOS-publishing maturity | Currently published as static Turtle + HTML. Per the v2 review, the broader SKOS-publication pattern (HTML / JSON-LD / Turtle / RDF/XML / CSV per vocabulary, with `/vocabularies` index endpoint exposing each as a `skos:ConceptScheme`) is a Garance-style maturity step. | Phase H - once a non-reference implementation expresses a need. |
+| OpenRiC vocabularies (`/vocab/activity-type/`, `/vocab/rule-type/`) need SKOS-publishing maturity | Currently published as static Turtle + HTML. Per the v2 review, the broader SKOS-publication pattern (HTML / JSON-LD / Turtle / RDF/XML / CSV per vocabulary, with `/vocabularies` index endpoint exposing each as a `skos:ConceptScheme`) is a Garance-style maturity step. | When an implementation other than the reference service asks for it. |
 | `openricx:` extension namespace remains under-publicised | The Turtle ontology stub at [`/ns/ext/v1.html`](/ns/ext/v1.html) and 48 declared terms should be communicated to the EGAD-adjacent community. | Outreach drafts in [`docs/outreach/`](https://github.com/openric/spec/tree/main/docs/outreach) - Sparna and Damigos targets identified. |
 
 ### Phase numbering reconciliation
@@ -86,6 +45,16 @@ The table below is the Phase G migration list as recorded on 2026-04-25. The ser
 
 ## Closed (recent)
 
+- **2026-10-15, service v0.17.12** - Re-checked against the live service, closing these rows of the April 2026 migration list:
+  - **Service description:** reports its own release tag and `spec_version: "0.46.0"`, and declares six normative profiles plus the `sparql-access` draft.
+  - **OpenAPI tags:** Repositories reads "ISDIAH repository surface - canonical: rico:CorporateBody with rico:hasOrHadHolder relations", Functions reads "interim canonical: openricx:Function", and Graph says SPARQL is offered only under the optional `sparql-access` draft.
+  - **Activity `@type`:** single activities and the list are `rico:Activity` with `rico:hasActivityType`; `/activities/910375`, for example, carries `.../vocab/activity-type/production`.
+  - **JSON-LD `@context`:** binds `openricx:` to `https://openric.org/ns/ext/v1#` and `openric:` to `https://openric.org/ns/v1#`.
+  - **Pre-1.1 names in entity responses:** a scan of a record, agent, repository and activity, the lists of activities, records, instantiations, functions, rules and places, a subgraph and a record export found none of `rico:heldBy`, `rico:hasSubject`, `rico:hasLanguage`, `rico:hasMandate`, `rico:hasRecordPart`, `rico:isContainedIn`, `rico:Production` or `rico:Accumulation`. The relation list is still open, above.
+- **2026-10-15, viewer** - Types are read by local name, so `rico:Person`, a full IRI and a bare `Person` resolve alike (`localName` in `src/colours.js`), and activities are coloured by `rico:hasActivityType` (`getEffectiveType`). The viewer reads the subgraph as plain JSON and does not process a JSON-LD context, so it needs no `openricx:` declaration.
+- **2026-10-15, capture** - The Activity form has one type with an activity-type dropdown (taxonomy `ric_activity_type`) instead of choosing `@type`. The Repository tile calls it a convenience surface, canonically a `rico:CorporateBody` with holder relations, and the Function tile says `openricx:Function`. Capture posts native fields, not RiC-O keys.
+- **2026-10-15, conformance probe** - `--profile=<id>` covers every profile, and the SPARQL checks are optional, so a server without `sparql-access` is not failed for a missing `/sparql`.
+- **2026-10-15, homepage** - The historical version pills in the phase cards are gone.
 - **2026-05-25, v0.38.1** - **RiC-CM navigator reconciliation: declared.** Resolved via option (c) - articulate the distinction rather than deprecate. OpenRiC's `/reference/ric-cm/` is a **versioned, SPARQL-backed, declared-vs-inherited specification browser** tied to spec releases; the Damigos / Ionian [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/) is a **standalone single-page graph navigator** aimed at conceptual exploration. The two address different reader needs (spec-version reference vs. conceptual graph traversal) and the relationship is now declared as **complementary, not competing** on [related-implementations](related-implementations.html). No deprecation; no fork. Either tool can cite the other.
 - **2026-05-25, v0.38.1** - **RiC-AG (Application Guidelines) promoted to first-class related-implementation.** EGAD published RiC-AG v0.1 in October 2025; this spec now cross-references RiC-AG's ISAD(G)/ISAAR(CPF)/ISDF/ISDIAH crosswalks as the authoritative reference in [mapping.md §1.2](spec/mapping.html), and RiC-AG has its own section on [related-implementations](related-implementations.html). The forthcoming EAC-CPF → RiC-O 1.1 mapping (also announced under RiC-AG) is tracked separately in this drift log.
 - **2026-04-25, v0.37.0** - RiC-O 1.1 namespace remediation, all 5 phases (A → E). Audit: 110 → 0 genuine emit-context violations.
