@@ -29,6 +29,7 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12). I
 | Node `type` in `/graph` | Bare local names: `"RecordSet"`, `"Instantiation"`, `"Place"` | CURIEs such as `rico:RecordSet`, as [Viewing API §8.6](spec/viewing-api.html#86-node-type-curie-policy) requires | The next service release. The viewer reads either form. |
 | 401 error body | `{"success": false, "error": "Unauthorized", ...}` as `application/json` | RFC 7807 `application/problem+json`, as the 404 already is | The next service release. |
 | Response headers | `X-Content-Type-Options: nosniff` sent twice | Sent once | The next service release. |
+| `/health` | `"version": "1.0"` | The release tag, as the service description already reports | The next service release. |
 | The Egyptian Boat's subgraph | Still shows two instantiations of the 3D model that was detached on 15 October 2026 (`/instantiation/912056` and `/912156`) | The instantiations removed or relabelled to match the record | A change to demonstration data in the shared database, which needs approval. |
 
 ### External-extension watch (RiC-O 1.1 ecosystem)

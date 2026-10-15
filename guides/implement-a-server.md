@@ -60,6 +60,6 @@ The same surface is in one machine-readable file, the [API contract](/contract/o
 
 ## What this server does not do
 
-It is read-only, keeps everything in memory, has no authentication and no search beyond a substring match. It implements one profile. That is deliberate: it is the smallest thing that is honestly conformant, so you can see where the contract ends and your own design choices begin.
+It keeps everything in memory, accepts writes only on records and agents (with a single shared key, for the [getting-started guide](getting-started.html)), and has no search beyond a substring match. It claims one profile. That is deliberate: it is the smallest thing that is honestly conformant, so you can see where the contract ends and your own design choices begin.
 
 When your server passes a profile, tell us on [the specification repository](https://github.com/openric/spec/discussions). An implementation built independently of the maintainers is exactly what the specification needs before it can reach v1.0.

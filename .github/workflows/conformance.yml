@@ -47,7 +47,7 @@ jobs:
           first=1
           # Every profile the probe has checks for. Provenance & Event reads the
           # activity list and up to 25 activities (PE_MAX), one a second.
-          for p in core-discovery authority-context provenance-event graph-traversal digital-object-linkage round-trip-editing export-only; do
+          for p in core-discovery authority-context provenance-event graph-traversal digital-object-linkage round-trip-editing export-only sparql-access; do
             # The service allows 60 requests a minute per address. Wait a full
             # minute between profiles so its rate limiter does not turn a
             # conformant endpoint into a 429 failure.

@@ -1,6 +1,8 @@
 {%- comment -%}
   Evidence label for data shown as proof. One of four kinds:
     synthetic    - made up for demonstration
+    demonstration - the reference service's mixed dataset (synthetic, derived,
+                   machine-generated); note defaults to the standard wording
     derived      - transformed from an external source (name it, with rights)
     independent  - taken as-is from an independent source (name it, with rights)
     institution  - held by a participating institution (name it)
@@ -8,9 +10,12 @@
 {%- endcomment -%}
 {%- case include.kind -%}
   {%- when "synthetic" -%}{%- assign label = "Synthetic demonstration data" -%}
+  {%- when "demonstration" -%}{%- assign label = "Demonstration dataset" -%}
   {%- when "derived" -%}{%- assign label = "Derived from an external source" -%}
   {%- when "independent" -%}{%- assign label = "Independently sourced" -%}
   {%- when "institution" -%}{%- assign label = "Participating institution" -%}
   {%- else -%}{%- assign label = "Unlabelled evidence" -%}
 {%- endcase -%}
-<p class="evidence evidence-{{ include.kind | default: 'unknown' }}" role="note"><strong>{{ label }}.</strong> {{ include.note }}</p>
+{%- assign note = include.note -%}
+{%- if include.kind == "demonstration" and note == nil -%}{%- assign note = "Some records and relationships in the reference service are synthetic, derived or machine-generated. They show how OpenRiC behaves and must not be cited as an institution's catalogue without checking their source." -%}{%- endif -%}
+<p class="evidence evidence-{{ include.kind | default: 'unknown' }}" role="note"><strong>{{ label }}.</strong> {{ note }}</p>

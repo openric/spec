@@ -5,10 +5,10 @@
  *
  * This file is part of OpenRiC. Licensed under AGPL-3.0-or-later.
  *
- * /status/ - reads the reference service's description and list totals in the
- * browser, so the page never carries hand-typed live figures. If the service
- * cannot be reached the page says so and keeps the specification figures,
- * which are rendered at build time.
+ * /status/ - the page is built with a dated snapshot of the last published
+ * probe run (_data/conformance_snapshot.json). This script replaces it with
+ * the latest run and a live read of the service description. If either cannot
+ * be read, the snapshot stays and the page says so.
  */
 (function () {
   "use strict";
@@ -46,8 +46,7 @@
     el("svc-name").textContent = desc.name || "-";
     el("svc-version").textContent = desc.version || "-";
     el("svc-spec").textContent = conf.spec_version ? "v" + conf.spec_version : "not declared";
-    el("svc-time").textContent = new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC";
-    el("service-facts").hidden = false;
+    el("svc-time").textContent = new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC (live)";
 
     var declared = {};
     (conf.profiles || []).forEach(function (p) { declared[p.id] = p; });
@@ -60,7 +59,7 @@
 
     el("status-note").textContent =
       "Read live from " + API + "/ just now. The service verifies against specification v" +
-      (conf.spec_version || "?") + ".";
+      (conf.spec_version || "?") + "." + testedNote;
   }
 
   function showHoldings() {
@@ -86,24 +85,27 @@
   // Tested column: the latest read-only probe run, published daily by the
   // Conformance workflow to the conformance-results branch.
   var RESULTS = "https://raw.githubusercontent.com/openric/spec/conformance-results/latest.json";
+  var testedNote = "";
   var VERDICT = { "pass": "pass", "fail": "FAIL", "pass-with-skips": "pass, with checks skipped" };
 
   function showTested() {
     var cells = document.querySelectorAll("#conformance-matrix-table td[data-tested]");
-    var none = function (text) { cells.forEach(function (c) { c.textContent = text; }); };
     return getJson(RESULTS).then(function (run) {
       var byProfile = {};
       (run.runs || []).forEach(function (r) { if (r.profiles && r.profiles[0]) byProfile[r.profiles[0]] = r; });
       var day = (run.run_at || "").slice(0, 10);
       cells.forEach(function (cell) {
         var r = byProfile[cell.getAttribute("data-tested")];
-        if (!r) { cell.textContent = "no probe yet"; return; }
+        if (!r) { cell.textContent = "not tested"; return; }
         var c = r.counts || {};
         cell.textContent = (VERDICT[r.verdict] || r.verdict) + " · " + day +
           " (" + c.pass + " pass, " + c.fail + " fail, " + c.skip + " skipped)";
         if (r.verdict === "fail") cell.style.fontWeight = "600";
       });
-    }, function () { none("no published result"); });
+    }, function () {
+      testedNote = " The latest probe run could not be read, so the Tested column shows the snapshot.";
+      el("status-note").textContent += testedNote;
+    });
   }
 
   showTested();
@@ -112,8 +114,8 @@
     .then(showService)
     .then(showHoldings)
     .catch(function () {
-      el("status-note").textContent =
-        "The reference service could not be reached from your browser just now, so its live figures are not shown. " +
+      el("status-note").textContent +=
+        " The reference service could not be reached from your browser just now, so the service figures above are the snapshot. " +
         "Its service description is at " + API + "/.";
     });
 })();

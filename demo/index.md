@@ -11,6 +11,8 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
 > **Prefer a catalogue view?** [/demo/browse/](browse/) renders the same data as a responsive card grid with per-type filters - useful for evaluating the shape of a dataset before drilling into the graph.
 
+{% include evidence.html kind="demonstration" %}
+
 > **About the reference backend.** [`ric.theahg.co.za/api/ric/v1`](https://ric.theahg.co.za/) is a standalone Laravel service backed by [Heratio](https://heratio.theahg.co.za)'s archival database. The data is a demonstration set, reset every night. Heratio shares the database and writes through its own routes; see [Architecture](../architecture.html).
 
 <div class="demo-controls">

@@ -105,11 +105,13 @@
     from whatever server you point it at — no build step, no server-side
     rendering on openric.org, no API key ever leaves your browser.</p>
     <h2>Don't have a key yet?</h2>
-    <p>Reads are public — no key required. Writes need one. The reference
-    server ships a self-service request form at
-    <a href="https://ric.theahg.co.za/api/ric/v1/keys/request" target="_blank" rel="noopener">ric.theahg.co.za/api/ric/v1/keys/request</a>
-    — fill the form, an admin reviews and emails you the key. Other
-    OpenRiC servers issue keys their own way.</p>
+    <p>Reads are public — no key required. Writes need one, and they belong
+    on a server whose data you may change: to practise, run the
+    <a href="https://github.com/openric/spec/tree/main/examples/minimal-server">minimal server</a>
+    as the <a href="/guides/getting-started.html">getting-started guide</a> does.
+    Keys for the reference server are issued for agreed testing through the form at
+    <a href="https://ric.theahg.co.za/api/ric/v1/keys/request" target="_blank" rel="noopener">ric.theahg.co.za/api/ric/v1/keys/request</a>,
+    reviewed by an admin. Other OpenRiC servers issue keys their own way.</p>
     <h2>What next?</h2>
     <p>If you're integrating, check whether your server offers its own
     explorer; the reference server has one at <code>{base}/docs</code>. This

@@ -11,11 +11,18 @@
 Standard library only - no framework, no database, no Heratio. It holds a
 small invented fonds in memory and serves it at the ten Core Discovery
 endpoints, so an implementer can see the whole contract working before
-writing their own. It is read-only, and it is an example, not a product.
+writing their own. It is an example, not a product.
+
+It also takes writes, so the getting-started guide has somewhere safe to
+create, change and delete things: POST, PATCH and DELETE on /records and
+/agents, with an X-API-Key. Writes live in memory and are gone when the server
+stops. This small write surface is for learning; it is not a Round-Trip
+Editing implementation, and the server does not claim that profile.
 
     python3 server.py                     # http://localhost:8080
     PORT=9000 python3 server.py
     BASE_IRI=https://archive.example.org python3 server.py
+    WRITE_KEY=my-secret python3 server.py # the key writes need (default: example-write-key)
 
 Then test it with the conformance probe:
 
@@ -24,11 +31,17 @@ Then test it with the conformance probe:
 
 import json
 import os
+import pathlib
+import re
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
 PORT = int(os.environ.get("PORT", "8080"))
 BASE_IRI = os.environ.get("BASE_IRI", f"http://localhost:{PORT}").rstrip("/")
+WRITE_KEY = os.environ.get("WRITE_KEY", "example-write-key")
+_VERSION_FILE = pathlib.Path(__file__).resolve().parents[2] / "version.json"
+SPEC_VERSION = os.environ.get("SPEC_VERSION") or (
+    json.loads(_VERSION_FILE.read_text())["version"] if _VERSION_FILE.exists() else "unknown")
 
 RICO = "https://www.ica.org/standards/RiC/ontology#"
 CONTEXT = {"rico": RICO, "openric": "https://openric.org/ns/v1#",
@@ -107,9 +120,12 @@ def record_doc(key):
         "@type": r["@type"],
         "rico:identifier": r["rico:identifier"],
         "rico:title": r["rico:title"],
-        "rico:hasCreator": [ref("agents", r["creator"], AGENTS, "rico:name")],
         "rico:hasOrHadHolder": ref("repositories", r["holder"], REPOSITORIES, "rico:name"),
     }
+    if r.get("creator") in AGENTS:
+        doc["rico:hasCreator"] = [ref("agents", r["creator"], AGENTS, "rico:name")]
+    if "rico:scopeAndContent" in r:
+        doc["rico:scopeAndContent"] = r["rico:scopeAndContent"]
     if "part_of" in r:
         doc["rico:isOrWasIncludedIn"] = {"@id": iri("records", r["part_of"]), "@type": "rico:RecordSet"}
     if "parts" in r:
@@ -145,10 +161,10 @@ def service_description():
     return {
         "name": "OpenRiC minimal server (example)",
         "version": "1.0.0",
-        "description": "Standard-library example implementing the Core Discovery profile. Read-only, synthetic data.",
+        "description": "Standard-library example implementing the Core Discovery profile, with a small in-memory write surface for learning. Synthetic data.",
         "openric_conformance": {
-            "spec_version": os.environ.get("SPEC_VERSION", "0.43.14"),
-            "profiles": [{"id": "core-discovery", "version": "0.3.0", "conformance": "full"}],
+            "spec_version": SPEC_VERSION,
+            "profiles": [{"id": "core-discovery", "version": "0.4.0", "conformance": "full"}],
         },
     }
 
@@ -173,6 +189,59 @@ def autocomplete(query):
     return hits[:limit]
 
 
+# ---- writes: in memory, for the getting-started guide ------------------------
+
+_next_id = [1001]
+
+
+def problem(status, title, detail):
+    slug = title.lower().replace(" ", "-")
+    return status, {"type": f"https://openric.org/errors/{slug}", "title": title, "status": status, "detail": detail}
+
+
+def slugify(value):
+    return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-") or "item"
+
+
+def write(method, kind, key, body):
+    """Return (status, body) for a write. kind is records or agents."""
+    store, field = (RECORDS, "title") if kind == "records" else (AGENTS, "name")
+    label = "rico:title" if kind == "records" else "rico:name"
+    if method == "POST":
+        if not str(body.get(field, "")).strip():
+            return problem(422, "Validation Failed", f"The {field} field is required.")
+        new = str(_next_id[0])
+        _next_id[0] += 1
+        if kind == "records":
+            item = {"@type": "rico:Record", "rico:identifier": f"EX-{new}", "rico:title": text(body["title"]),
+                    "holder": "example-archive"}
+            if body.get("creator") in AGENTS:
+                item["creator"] = body["creator"]
+            if body.get("scope_and_content"):
+                item["rico:scopeAndContent"] = text(body["scope_and_content"])
+        else:
+            item = {"@type": "rico:Person", "rico:name": text(body["name"])}
+        store[new] = item
+        return 201, {"id": int(new), "slug": slugify(body[field]), "type": kind[:-1], "href": f"/{kind}/{new}"}
+    if key not in store:
+        return problem(404, "Not Found", f"No {kind[:-1]} {key}.")
+    if method == "PATCH":
+        if field in body:
+            if not str(body[field]).strip():
+                return problem(422, "Validation Failed", f"The {field} field cannot be empty.")
+            store[key][label] = text(body[field])
+        if kind == "records" and body.get("scope_and_content"):
+            store[key]["rico:scopeAndContent"] = text(body["scope_and_content"])
+        return 200, {"success": True, "id": int(key) if key.isdigit() else None}
+    # DELETE
+    if kind == "records" and store[key].get("parts"):
+        return problem(409, "Conflict", "This record has parts; delete them first.")
+    if kind == "agents" and any(r.get("creator") == key for r in RECORDS.values()):
+        return problem(409, "Conflict", "Records name this agent as their creator.")
+    del store[key]
+    return 200, {"success": True, "id": int(key) if key.isdigit() else None}
+
+
 ROUTES = {
     "records": (RECORDS, record_doc, "openricx:RecordList", "rico:title"),
     "agents": (AGENTS, agent_doc, "openricx:AgentList", "rico:name"),
@@ -186,7 +255,8 @@ class Handler(BaseHTTPRequestHandler):
     def send_json(self, status, body):
         data = json.dumps(body, ensure_ascii=False, indent=2).encode("utf-8")
         self.send_response(status)
-        self.send_header("Content-Type", "application/ld+json; charset=utf-8")
+        kind = "application/problem+json" if status >= 400 else "application/ld+json"
+        self.send_header("Content-Type", f"{kind}; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
@@ -212,8 +282,34 @@ class Handler(BaseHTTPRequestHandler):
                 if parts[1] in store:
                     return self.send_json(200, doc(parts[1]))
         except ValueError:
-            return self.send_json(400, {"error": "Bad query parameter."})
-        return self.send_json(404, {"error": "Not found."})
+            return self.send_json(*problem(400, "Bad Request", "Bad query parameter."))
+        return self.send_json(*problem(404, "Not Found", "Nothing at this path."))
+
+    def handle_write(self, method):
+        parts = [p for p in urlparse(self.path).path.split("/") if p]
+        if not parts or parts[0] not in ("records", "agents") or len(parts) != (1 if method == "POST" else 2):
+            return self.send_json(*problem(405, "Method Not Allowed", "Writes are accepted on /records and /agents only."))
+        if self.headers.get("X-API-Key") != WRITE_KEY:
+            return self.send_json(*problem(401, "Unauthorized", "Writes need the X-API-Key the server was started with."))
+        body = {}
+        if method != "DELETE":
+            try:
+                length = int(self.headers.get("Content-Length") or 0)
+                body = json.loads(self.rfile.read(length) or b"{}")
+            except ValueError:
+                return self.send_json(*problem(400, "Bad Request", "The body is not JSON."))
+            if not isinstance(body, dict):
+                return self.send_json(*problem(400, "Bad Request", "The body must be a JSON object."))
+        return self.send_json(*write(method, parts[0], parts[1] if len(parts) > 1 else None, body))
+
+    def do_POST(self):
+        self.handle_write("POST")
+
+    def do_PATCH(self):
+        self.handle_write("PATCH")
+
+    def do_DELETE(self):
+        self.handle_write("DELETE")
 
     def log_message(self, format, *args):  # noqa: A002 - matches the base signature
         pass  # quiet; a real server would log
