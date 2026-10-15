@@ -19,17 +19,12 @@ This page exists because the spec moves faster than the supporting implementatio
 
 ### Reference API (`ric.theahg.co.za`) lag against the specification
 
-Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12). It verifies against **spec v0.46.0** and declares seven profiles: six normative ones in full and SPARQL Access as a draft. Every row of the April 2026 migration list that is resolved has moved to [Closed](#closed-recent) with what was checked. These rows remain open:
+Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12, then v0.17.13). It verifies against **spec v0.46.0** and declares seven profiles: six normative ones in full and SPARQL Access as a draft. Every row of the April 2026 migration list that is resolved has moved to [Closed](#closed-recent) with what was checked. These rows remain open:
 
 | Item | Currently emits | Target | Blocker |
 |---|---|---|---|
 | Relation predicates in `/relations` | Relation rows carry `rico_predicate: "rico:hasInstantiation"` and the inverse `rico:isInstantiationOf`. The value comes from the relation-type table in the database the service shares with Heratio, not from the serializer; entity responses already use the RiC-O 1.1 forms. | `rico:hasOrHadInstantiation` / `rico:isOrWasInstantiationOf` | A change to the shared relation-type table, which needs Heratio's agreement, or the service maps the value on output. |
-| Relation example in the service's OpenAPI | `relation_type` example `hasInstantiation` | `hasOrHadInstantiation` | The next service release. |
 | Provenance & Event profile claim | Not claimed: productions without a creator in the demonstration data | Claimed once the data is backfilled and the probe's Provenance & Event section passes | Data hygiene; [known issue K-10](spec/known-issues.html). |
-| Node `type` in `/graph` | Bare local names: `"RecordSet"`, `"Instantiation"`, `"Place"` | CURIEs such as `rico:RecordSet`, as [Viewing API §8.6](spec/viewing-api.html#86-node-type-curie-policy) requires | The next service release. The viewer reads either form. |
-| 401 error body | `{"success": false, "error": "Unauthorized", ...}` as `application/json` | RFC 7807 `application/problem+json`, as the 404 already is | The next service release. |
-| Response headers | `X-Content-Type-Options: nosniff` sent twice | Sent once | The next service release. |
-| `/health` | `"version": "1.0"` | The release tag, as the service description already reports | The next service release. |
 | The Egyptian Boat's subgraph | Still shows two instantiations of the 3D model that was detached on 15 October 2026 (`/instantiation/912056` and `/912156`) | The instantiations removed or relabelled to match the record | A change to demonstration data in the shared database, which needs approval. |
 
 ### External-extension watch (RiC-O 1.1 ecosystem)
@@ -44,6 +39,12 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12). I
 
 ## Closed (recent)
 
+- **2026-10-15, service v0.17.13** - Five rows closed and checked on the live service:
+  - **Node `type` in `/graph`:** CURIEs such as `rico:RecordSet` and `rico:Place`, as [Viewing API §8.6](spec/viewing-api.html#86-node-type-curie-policy) requires.
+  - **Refusals:** a missing, invalid or expired key, or a missing scope, on `/api/ric/v1` returns an RFC 7807 problem document (`.../errors/authentication-required`, `application/problem+json`).
+  - **Response headers:** `X-Content-Type-Options` and `Referrer-Policy` are sent once; `Referrer-Policy` had been sent twice with conflicting values.
+  - **`/health`:** reports the release version.
+  - **Relation example in the service's OpenAPI:** `has_instantiation`, a code from `/relation-types`; the old `hasInstantiation` was not a code and would have created a generic association.
 - **2026-10-15, service v0.17.12** - Re-checked against the live service, closing these rows of the April 2026 migration list:
   - **Service description:** reports its own release tag and `spec_version: "0.46.0"`, and declares six normative profiles plus the `sparql-access` draft.
   - **OpenAPI tags:** Repositories reads "ISDIAH repository surface - canonical: rico:CorporateBody with rico:hasOrHadHolder relations", Functions reads "interim canonical: openricx:Function", and Graph says SPARQL is offered only under the optional `sparql-access` draft.

@@ -147,8 +147,6 @@ Errors are [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) problem documents 
   "detail": "Record not found", "instance": "/api/ric/v1/records/does-not-exist" }
 ```
 
-One exception on the reference server: a write refused for a missing or invalid key (401) still comes back as `{"success": false, "error": "Unauthorized", "message": "..."}`. It is listed in the [drift log](/drift-log.html).
-
 Common status codes:
 
 | Status | Meaning |
