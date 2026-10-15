@@ -111,12 +111,26 @@ mv "$TMP" contract/openapi.json
 # The README banner is outside the Jekyll build, so it cannot use Liquid.
 sed -i -E "s/^\*\*v[0-9]+\.[0-9]+\.[0-9]+\*\* — [0-9]{4}-[0-9]{2}-[0-9]{2}\. The canonical/**v${NEW_VERSION}** — ${DATE}. The canonical/" README.md
 
+# Change control (spec/change-control.md): every release gets a changelog
+# entry, newest first, naming who approved it. OPENRIC_APPROVER overrides the
+# maintainer default.
+APPROVER="${OPENRIC_APPROVER:-Dr Johan Pieterse}"
+python3 - "$TAG" "$DATE" "$MSG" "$APPROVER" <<'PYEOF'
+import sys, pathlib
+tag, date, msg, approver = sys.argv[1:]
+p = pathlib.Path("CHANGELOG.md")
+text = p.read_text(encoding="utf-8")
+i = text.index("\n## ")
+entry = f"## {tag} - {date}\n\n{msg}\n\nApproved by: {approver}, {date}\n"
+p.write_text(text[:i] + "\n" + entry + text[i:], encoding="utf-8")
+PYEOF
+
 # Pages render schema and fixture counts from _data/inventory.json; recount
 # them from the repository, then refuse to release anything CI would reject.
 python3 bin/check-versions.py --write-inventory
 if ! python3 bin/check-versions.py; then
     echo -e "${RED}Drift against version.json or the inventory - fix it, then release again${NC}"
-    git checkout -- "$VERSION_FILE" _data/version.json README.md contract/openapi.json
+    git checkout -- "$VERSION_FILE" _data/version.json README.md contract/openapi.json CHANGELOG.md
     exit 1
 fi
 
@@ -147,7 +161,14 @@ git add -A
 git commit -m "$COMMIT_MSG"
 
 echo -e "${BLUE}[2/3] Creating tag ${TAG}...${NC}"
-git tag -a "${TAG}" -m "${MSG}"
+# Signed when a signing key is configured (git config user.signingkey, with
+# gpg.format ssh for an SSH key); change control asks for signed tags.
+if git config --get user.signingkey >/dev/null; then
+    git tag -s "${TAG}" -m "${MSG}"
+else
+    echo -e "${RED}Warning: no signing key configured - ${TAG} is annotated but unsigned${NC}"
+    git tag -a "${TAG}" -m "${MSG}"
+fi
 
 echo -e "${BLUE}[3/3] Pushing to origin...${NC}"
 git push origin main

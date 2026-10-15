@@ -7,7 +7,7 @@ title: OpenRiC Mapping Specification
 
 **Last revised in:** v0.38.1
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
-**Last updated:** 2026-05-25
+**Last updated:** 2026-10-15
 
 ---
 
@@ -51,6 +51,39 @@ OpenRiC treats RiC-AG as the **upstream authoritative reference** for that cross
 - **Forthcoming EAC-CPF → RiC-O 1.1 mapping:** announced under RiC-AG as "planned to be released as soon as possible." When it lands, this spec will cross-reference it from §6.2 (Actor) alongside the existing [RiC-O Converter](#11-alignment-with-ric-o-converter-v30) alignment. Tracked in [drift-log](../drift-log.html).
 
 Implementations of OpenRiC profiles SHOULD treat RiC-AG as the application-pattern reference and this spec as the deployable-API contract. The two are designed to be coherent: RiC-AG answers *what* to model; OpenRiC answers *how* to expose it over HTTP.
+
+### 1.3 Versions cited, what this mapping claims, and what OpenRiC adds
+
+Every mapping row in this document is made against these editions. A newer edition of any of them is not covered until this table names it.
+
+| Text | Edition this mapping cites | Its role here |
+|---|---|---|
+| ISAD(G) | Second edition, ICA, 2000 (adopted Stockholm, 1999) | Source standard, §7.1 |
+| ISAAR(CPF) | Second edition, ICA, 2004 | Source standard, §7.3 |
+| ISDIAH | First edition, ICA, 2008 | Source standard, §7.4 |
+| ISDF | First edition, ICA, 2007 | Source standard, §6.4 |
+| RiC-CM | [1.0](https://www.ica.org/app/uploads/2023/12/RiC-CM-1.0.pdf), ICA EGAD, 2023 | Target conceptual model |
+| RiC-O | [1.1](https://www.ica.org/standards/RiC/ontology/1.1), 2025-05-22 | Target ontology; every `rico:` term emitted as data |
+| RiC-AG | [0.1](https://ica-egad.github.io/RiC-AG/), ICA EGAD, October 2025 | Upstream crosswalk, authoritative where it covers a field (§1.2) |
+| RiC-O Converter | [3.0](https://github.com/ArchivesNationalesFR/rico-converter), Sparna and AnF Lab, March 2025 | Alignment reference (§1.1); not a dependency |
+
+
+**What this mapping does not claim.**
+
+- **No ICA endorsement.** OpenRiC is independent of the ICA and EGAD, which have not reviewed or endorsed this mapping ([RiC baseline](../ric-baseline.html#openric-and-the-ica)). Where it disagrees with an ICA text, the ICA text is right.
+- **No lossless round trip from the legacy standards.** Some source fields have no RiC-O 1.1 property and land in `openricx:` terms or in notes; a consumer that reads only `rico:` terms will not see them. The Portability profile's round-trip guarantee is about OpenRiC exports, not about ISAD(G) or EAD input.
+- **Agreement with RiC-AG and the Converter is partial and stated.** The property choices listed in §1.1 have been checked against the Converter. The tables in §6 and §7 are meant to agree with RiC-AG's crosswalk, but they have not yet been compared with it row by row; until they are, a difference between the two is a question to raise, not a deliberate divergence.
+- **OpenRiC conformance is not RiC conformance.** Passing an OpenRiC profile shows a server exposes this contract. RiC itself defines no conformance test, and nothing here should be read as certifying RiC compliance.
+
+**What OpenRiC adds on top of RiC.** None of the following is part of Records in Contexts.
+
+| Layer | Where it is defined | Status |
+|---|---|---|
+| `openricx:` extension terms (list envelopes, the interim `openricx:Function` class, contact points, date-range sets, ISAD(G) notes with no RiC-O predicate, checksums and MIME types, personal-data and appraisal flags) | [`/ns/ext/v1`](../ns/ext/v1.html) | Published; candidates for upstream proposal, never presented as `rico:` |
+| `openric:` viewing terms (subgraphs, nodes, edges, layout hints, service description) | [Graph Primitives](graph-primitives.html) | Published |
+| `openric:` data terms used by this mapping (`localType`, `accrualsNote`, `institutionType`, `openingHours`, `accessibility`) | Nowhere yet - see O-6 | Open defect |
+| HTTP API, profiles, JSON Schemas, SHACL shapes, fixtures and the [API contract](/contract/openapi.json) | This specification | Versioned with the spec ([change control](change-control.html)) |
+
 
 ## 2. Terminology & conformance
 
@@ -495,6 +528,8 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 - **O-3 - Preservation events.** RiC-CM covers preservation; the predicate set in RiC-O 1.1 is incomplete for fine-grained PREMIS-equivalent events. Deferred to v0.2.
 - **O-4 - Multilinguality of `rico:title` and `openricx:description`.** Whether to emit one triple per culture with `@language`, or a single JSON-LD object with `@value`/`@language` pairs. Current recommendation: array of language-tagged strings. Under review.
 - **O-5 - Thing / container modelling.** RiC-O does not have a native `Container` or `StorageLocation` class; we map to `rico:Thing` with `openric:localType`. May warrant an OpenRiC-Storage extension.
+- **O-6 - `openric:` data terms with no definition.** §6.5, §6.6, §7.1 and §7.4 emit `openric:localType`, `openric:accrualsNote`, `openric:institutionType`, `openric:openingHours` and `openric:accessibility` as data. §4 reserves the `openric:` prefix for viewing hints, and no vocabulary at `https://openric.org/ns/v1#` defines these five. They should move to `openricx:` with a deprecation period (see [change control](change-control.html)), which changes fixtures and the reference service, so it is a minor-version change.
+- **O-7 - Pinned RiC-O version disagrees.** The draft [Governance profile](profiles/governance.html) §2 pins RiC-O 1.0.2; this mapping targets 1.1. The profile came from the Heratio implementation and needs its pin brought to 1.1 before it can leave draft.
 
 ---
 
@@ -502,6 +537,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
+| next release | 2026-10-15 | Add §1.3: the editions every row is made against, what the mapping does not claim (ICA endorsement, lossless legacy round trip, full RiC-AG agreement, RiC conformance), and what OpenRiC adds on top of RiC. Register O-6 (undefined `openric:` data terms) and O-7 (Governance profile pins RiC-O 1.0.2). |
 | 0.38.1 | 2026-05-25 | Add §1.2 cross-reference with [RiC-AG v0.1](https://ica-egad.github.io/RiC-AG/) - treat RiC-AG as upstream-authoritative for the legacy-ICA-standards-to-RiC-CM crosswalk; document intentional `openricx:` divergences as upstream-proposal candidates; flag the forthcoming EAC-CPF → RiC-O 1.1 mapping for cross-reference when it lands. |
 | 0.37.0 | 2026-04-25 | RiC-O 1.1 namespace remediation complete (Phases A-E); all `rico:*` terms emitted as data are canonical 1.1; per-term audit at `/audit/ric-o-1.1-audit.html`. |
 | 0.1.0-draft | 2026-04-17 | Initial draft extracted from Heratio `ahg-ric` reference implementation. |

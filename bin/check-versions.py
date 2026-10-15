@@ -276,6 +276,17 @@ def check_drift_log(problems: list) -> None:
         )
 
 
+def check_changelog(current: str, problems: list) -> None:
+    """spec/change-control.md: every release has a CHANGELOG.md entry, newest
+    first, that names who approved it."""
+    path = ROOT / "CHANGELOG.md"
+    entries = re.split(r"(?m)^## ", path.read_text(encoding="utf-8"))[1:]
+    if not entries or not re.match(rf"v{re.escape(current)}\b", entries[0]):
+        problems.append(f"  CHANGELOG.md does not start with an entry for v{current} (bin/release writes it)")
+    elif not re.search(r"(?m)^Approved by: \S", entries[0]):
+        problems.append(f"  CHANGELOG.md entry for v{current} has no 'Approved by:' line")
+
+
 def main() -> int:
     if "--write-inventory" in sys.argv:
         INVENTORY_FILE.write_text(json.dumps(compute_inventory(), indent=2) + "\n")
@@ -290,6 +301,7 @@ def main() -> int:
     profiles = check_profiles(problems)
     check_profile_artefacts(profiles, problems)
     check_drift_log(problems)
+    check_changelog(current, problems)
     expected_counts = {
         "normative": sum(p["status"] == "normative" for p in profiles),
         "draft": sum(p["status"] == "draft" for p in profiles),
