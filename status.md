@@ -7,7 +7,7 @@ permalink: /status/
 
 # Current status
 
-This page is generated, not written. The specification figures come from the release data in the repository; the reference-service figures are read live from the service when you open the page. Nothing below is typed by hand.
+This page is generated, not written. The specification figures come from the release data in the repository. The reference-service figures are built into the page from the last published probe run, dated below, and your browser then replaces them with the latest run and a live read of the service. Without JavaScript you see the dated snapshot. Nothing below is typed by hand.
 
 ## Specification
 
@@ -21,14 +21,16 @@ This page is generated, not written. The specification figures come from the rel
 
 ## Reference service
 
-<p id="status-note" class="callout">Reading the service description from <code>https://ric.theahg.co.za/api/ric/v1/</code>...</p>
+{%- assign snap = site.data.conformance_snapshot -%}
+{%- assign snap_svc = snap.runs[0].service -%}
+<p id="status-note" class="callout">Snapshot from the probe run of {{ snap.run_at | replace: "T", " " | replace: "Z", " UTC" }} (probe revision <code>{{ snap.probe_revision }}</code>), built into this page.</p>
 
-<table id="service-facts" hidden>
+<table id="service-facts">
   <tbody>
-    <tr><td>Service</td><td id="svc-name"></td></tr>
-    <tr><td>Version it reports</td><td id="svc-version"></td></tr>
-    <tr><td>Specification version it verifies against</td><td id="svc-spec"></td></tr>
-    <tr><td>Read at</td><td id="svc-time"></td></tr>
+    <tr><td>Service</td><td id="svc-name">{{ snap_svc.name }}</td></tr>
+    <tr><td>Version it reports</td><td id="svc-version">{{ snap_svc.version }}</td></tr>
+    <tr><td>Specification version it verifies against</td><td id="svc-spec">v{{ snap_svc.spec_version }}</td></tr>
+    <tr><td>Read at</td><td id="svc-time">{{ snap.run_at | replace: "T", " " | replace: "Z", " UTC" }} (snapshot)</td></tr>
   </tbody>
 </table>
 
@@ -44,7 +46,9 @@ Two columns per implementation, kept apart on purpose. **Declared** is what the 
   </thead>
   <tbody>
 {%- for p in site.data.profiles %}
-    <tr><td><a href="/spec/profiles/{{ p.id }}.html">{{ p.title | replace: '&', '&amp;' }}</a></td><td>{{ p.status }} · v{{ p.version }}</td><td data-profile="{{ p.id }}">-</td><td data-tested="{{ p.id }}">-</td></tr>
+{%- assign d = snap_svc.declared | where: "id", p.id | first -%}
+{%- assign r = nil -%}{%- for x in snap.runs -%}{%- if x.profiles[0] == p.id -%}{%- assign r = x -%}{%- endif -%}{%- endfor -%}
+    <tr><td><a href="/spec/profiles/{{ p.id }}.html">{{ p.title | replace: '&', '&amp;' }}</a></td><td>{{ p.status }} · v{{ p.version }}</td><td data-profile="{{ p.id }}">{% if d %}declared {{ d.conformance }} · v{{ d.version }}{% else %}not declared{% endif %}</td><td data-tested="{{ p.id }}">{% if r %}{% if r.verdict == "pass" %}pass{% elsif r.verdict == "fail" %}<strong>FAIL</strong>{% elsif r.verdict == "pass-with-skips" %}pass, with checks skipped{% else %}{{ r.verdict }}{% endif %} · {{ snap.run_at | slice: 0, 10 }} ({{ r.counts.pass }} pass, {{ r.counts.fail }} fail, {{ r.counts.skip }} skipped){% else %}not tested{% endif %}</td></tr>
 {%- endfor %}
   </tbody>
 </table>

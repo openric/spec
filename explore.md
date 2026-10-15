@@ -51,6 +51,8 @@ For implementers and testers. These need a server address, and some need an API 
 
 ## What you are looking at
 
+{% include evidence.html kind="demonstration" %}
+
 The reference service reads the database of Heratio, the maintainers' archival platform. Much of what is there is demonstration and test material, and it is not a curated showcase, so expect some messy records. Where a page uses a record as evidence, it labels what kind of record it is.
 
 If you want to understand *why* the data is shaped the way it is, that is the [model](/learn.html). If you want to publish your own this way, see [Developers](/for-developers.html).

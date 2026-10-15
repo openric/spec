@@ -175,3 +175,6 @@ jobs:
         run: |
           BASE=http://localhost:8080 KEY="" bash conformance/probe.sh --profile=core-discovery --json=probe.json
           jq -e '.verdict == "pass"' probe.json
+
+      - name: The getting-started guide's commands run as published
+        run: bash bin/check-guide.sh

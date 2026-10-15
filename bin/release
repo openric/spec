@@ -116,6 +116,19 @@ TMP=$(mktemp)
 jq --arg v "$NEW_VERSION" '.info.version = $v' contract/openapi.json > "$TMP"
 mv "$TMP" contract/openapi.json
 
+# The status page is built with the last published probe run, so it reads
+# sensibly without JavaScript. Best effort: keep the old snapshot if the
+# download fails.
+SNAP=$(mktemp)
+if curl -sf --max-time 20 https://raw.githubusercontent.com/openric/spec/conformance-results/latest.json -o "$SNAP" \
+   && jq '{schema, run_at, implementation, base, probe_revision, read_only, runs: [.runs[] | {profiles, verdict, counts, service, run_at}]}' "$SNAP" > _data/conformance_snapshot.json.new; then
+    mv _data/conformance_snapshot.json.new _data/conformance_snapshot.json
+else
+    rm -f _data/conformance_snapshot.json.new
+    echo -e "${YELLOW}Warning: conformance snapshot not refreshed - the status page keeps the previous one${NC}"
+fi
+rm -f "$SNAP"
+
 # A page changed in this release says so: its "Last revised in:" header is
 # set to the new version, so the label cannot fall behind the page.
 LAST_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)

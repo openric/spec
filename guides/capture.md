@@ -34,7 +34,7 @@ On success, the entity appears in the **Recent captures** log at the bottom (las
 
 The tool doesn't issue keys - the server operator does. For the reference instance at `ric.theahg.co.za`:
 
-- Request one with the form at [`/api/ric/v1/keys/request`](https://ric.theahg.co.za/api/ric/v1/keys/request), saying briefly what you are building. Keys for the reference instance are for testing against data that is reset nightly.
+- Keys for the reference instance are issued for agreed testing only, through the form at [`/api/ric/v1/keys/request`](https://ric.theahg.co.za/api/ric/v1/keys/request); say briefly what you need to test. Its data is a demonstration set, reset nightly. For practice, point Capture at your own copy of the reference implementation instead.
 
 For your own server, see the reference implementation's mint command:
 

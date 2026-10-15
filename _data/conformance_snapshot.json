@@ -1,0 +1,388 @@
+{
+  "schema": "openric-conformance-run/1",
+  "run_at": "2026-10-15T15:21:41Z",
+  "implementation": "OpenRiC reference service",
+  "base": "https://ric.theahg.co.za/api/ric/v1",
+  "probe_revision": "44635c2",
+  "read_only": true,
+  "runs": [
+    {
+      "profiles": [
+        "authority-context"
+      ],
+      "verdict": "pass",
+      "counts": {
+        "pass": 10,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:14:51Z"
+    },
+    {
+      "profiles": [
+        "core-discovery"
+      ],
+      "verdict": "pass",
+      "counts": {
+        "pass": 11,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:13:32Z"
+    },
+    {
+      "profiles": [
+        "digital-object-linkage"
+      ],
+      "verdict": "pass",
+      "counts": {
+        "pass": 7,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:19:18Z"
+    },
+    {
+      "profiles": [
+        "export-only"
+      ],
+      "verdict": "pass",
+      "counts": {
+        "pass": 8,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:21:41Z"
+    },
+    {
+      "profiles": [
+        "graph-traversal"
+      ],
+      "verdict": "pass",
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:18:03Z"
+    },
+    {
+      "profiles": [
+        "provenance-event"
+      ],
+      "verdict": "fail",
+      "counts": {
+        "pass": 7,
+        "fail": 3,
+        "skip": 1
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:16:51Z"
+    },
+    {
+      "profiles": [
+        "round-trip-editing"
+      ],
+      "verdict": "pass-with-skips",
+      "counts": {
+        "pass": 3,
+        "fail": 0,
+        "skip": 1
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.12",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-15T15:20:26Z"
+    }
+  ]
+}
