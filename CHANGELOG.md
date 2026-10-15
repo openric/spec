@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.44.0 - 2026-10-15
+
+Part I corrections: data-driven site and release manifest, status and versions pages, evidence labels; API contract (OpenAPI 3.1) checked in CI; crosswalk editions and change-control policy; openric: API vocabulary published; Core Discovery 0.4.0 list envelope; conformance probe gains round-trip editing and provenance and event checks; implementer quickstart
+
+Approved by: Dr Johan Pieterse, 2026-10-15
+
 ## v0.43.14 - 2026-10-14
 
 Wizard no longer saves to the public reference service; help pages say every write needs a key.
