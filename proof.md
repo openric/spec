@@ -56,8 +56,6 @@ The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/reposit
 
 {% include evidence.html kind="synthetic" note="The catalogue record was assembled on the reference service for demonstration. Its holder in the data is the fictional Meridian Museum of Antiquities and its description was machine-generated from an image of the 3D model. It is not a British Museum catalogue record, and the British Museum has not reviewed or endorsed this demonstration." %}
 
-{% include evidence.html kind="derived" note="The attached 3D model appears to be <a href='https://sketchfab.com/3d-models/egyptian-boat-from-ancient-lives-cd65f231f70c4f258fe2f8a07979f9c7'><em>Egyptian Boat from Ancient Lives</em></a> by Miguel Bandera, licensed <a href='https://creativecommons.org/licenses/by-nc/4.0/'>CC BY-NC 4.0</a>, which he built from photographs the British Museum released for its Ancient Lives project (<a href='https://github.com/BritishMuseumDH/egyptianBoat'>source data</a> by Daniel Pett, The British Museum, <a href='https://creativecommons.org/licenses/by-sa/4.0/'>CC BY-SA 4.0</a>). The model may be used only with this attribution and not commercially." %}
-
 <div class="e2e-step">
   <div class="num">1</div>
   <div>
@@ -129,8 +127,14 @@ Each card links to a real JSON-LD document served by the reference API. Open any
   <div class="entity-card">
     <span class="type">rico:Record</span>
     <h4>Egyptian Boat</h4>
-    <p>Identifier <code>BM-125320</code>. A 3D model attached as an instantiation. Synthetic demonstration record - see the label above.</p>
+    <p>Identifier <code>BM-125320</code>. Synthetic demonstration record - see the label above.</p>
     <p><a href="https://ric.theahg.co.za/api/ric/v1/records/egyptian-boat"><code>/records/egyptian-boat</code></a></p>
+  </div>
+  <div class="entity-card">
+    <span class="type">rico:Record</span>
+    <h4>Gilded dining suite</h4>
+    <p>Identifier <code>OPENRIC-DEMO-3D-1</code>. A glTF 3D model attached as an instantiation. The model and the image it was generated from are AI-generated; it depicts no real object.</p>
+    <p><a href="https://ric.theahg.co.za/api/ric/v1/records/gilded-dining-suite-ai-generated-3d-model"><code>/records/gilded-dining-suite-ai-generated-3d-model</code></a></p>
   </div>
   <div class="entity-card">
     <span class="type">rico:Agent</span>

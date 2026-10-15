@@ -11,13 +11,15 @@ A public log of known drift between the OpenRiC specification and its public sur
 
 This page exists because the spec moves faster than the supporting implementations, and external reviewers need a single place to see *which* gaps are known, *where* they are, and *what's planned*. It is not a defect tracker - it tracks **deliberate** lag between the spec and downstream systems.
 
-**Last updated:** 2026-10-14. For the live figures behind this page, see [current status](/status/).
+**Last updated:** 2026-10-15. For the live figures behind this page, see [current status](/status/).
 
 ---
 
 ## Open drift items
 
 ### Reference API (`ric.theahg.co.za`) lag against the specification
+
+**Update, 2026-10-15:** the reference service (tag v0.17.8) now verifies against **spec v0.44.0** and declares Core Discovery 0.4.0. Since v0.17.1 its service description reports its own release tag, and reads the latest spec version from openric.org, caching it for up to a day; that closes the two defects below. The paragraph that follows is the 14 October state, kept for the record.
 
 Checked against the live service description on 2026-10-14. The reference service (openric/service, tag v0.17.0) verifies against **spec v0.38.2**; the specification is at **v{{ site.data.version.version }}**. It declares seven profiles: six normative ones in full (Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Export-Only) and SPARQL Access as a draft. It does **not** claim Provenance & Event (data gap, below) or any of the four v0.43 governance-line drafts.
 
