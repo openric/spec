@@ -54,8 +54,8 @@ Resist reading fields aloud. The viewer can read.
 
 Open the graph URL. **Say nothing for three seconds** while it draws.
 
-> "Twenty-one things, twenty connections. Places, the repository, four
-> activities, two pieces of legislation, two digital files. None of this is a
+> "Nineteen things, eighteen connections. Places, the repository, four
+> activities, two pieces of legislation. None of this is a
 > search result - every line is a stated relationship a machine can follow."
 
 Click one node to re-centre. Point out the trail along the top, then click back
@@ -128,8 +128,9 @@ description is machine-generated and reads like it.
 Two rows that were worse than this - "Giza Pyramid" typed as an activity with
 activity-type `mandate`, and "Giza Pyramid Organization" whose name, type and
 description disagreed with each other - were deleted on 28 September, which is
-why the graph is 21 nodes rather than the 23 an earlier draft of this script
-quoted. If you are re-recording, check the count on the day.
+why the graph was 21 nodes rather than the 23 an earlier draft of this script
+quoted. On 16 October the two instantiations of the removed third-party 3D model
+were unlinked, leaving 19. If you are re-recording, check the count on the day.
 
 Two Egypts remain and are worth a sentence rather than an apology: one is a
 subject heading from the underlying catalogue, the other a Place entity with

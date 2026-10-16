@@ -24,7 +24,6 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12, th
 | Item | Currently emits | Target | Blocker |
 |---|---|---|---|
 | Provenance & Event profile claim | Not claimed. The daily probe (15 October) finds the production activities carry their results and participants but no date (`openricx:DateRange`, §6.2 and §6.4). The serializer emits a date whenever the activity row has one. A count on 16 October found 40 undated activities (38 production, 1 accumulation, 1 untyped), and for none of them does the record's creation or accumulation event, or the event the activity was seeded from, carry a date. There is no source to take a date from, and dates will not be invented for demonstration data. | Claimed by a server whose activities are dated | Dated demonstration data, for example a new demonstration dataset for the reference service ([known issue K-10](spec/known-issues.html)). |
-| The Egyptian Boat's subgraph | Still shows two instantiations of the 3D model that was detached on 15 October 2026 (`/instantiation/912056` and `/912156`) | The instantiations removed or relabelled to match the record | A change to demonstration data in the shared database, which needs approval. |
 | RiC-O terms in the public SPARQL graph | Six properties that are not RiC-O 1.1 terms, found on 15 October: `rico:hasAgentName` (371 triples), `rico:hasOrHadPlaceOfOrigin` (289), `rico:physicalCharacteristics` (94), `rico:hasOrHadCreator` (30), `rico:descriptiveNote` (17), `rico:hasOrHadContentOfType` (15). They come from the graph sync, not from the API responses. | RiC-O 1.1 properties, or `openricx:` terms where RiC-O 1.1 has none | A change to the graph sync and a rebuild of the public graph. |
 
 ### External-extension watch (RiC-O 1.1 ecosystem)
@@ -39,6 +38,7 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12, th
 
 ## Closed (recent)
 
+- **2026-10-16, demonstration data** - The Egyptian Boat's subgraph no longer shows the two instantiations of its removed third-party 3D model: both were unlinked from the boat (relation 912163 deleted, their record and file links cleared) and Heratio deleted the non-commercial file. The boat's graph has 19 nodes; the fixtures `subgraph-depth-1` and `subgraph-depth-2` are re-captured.
 - **2026-10-16, service v0.17.14** - Relation predicates: the relation-type table shared with Heratio carries 25 pre-1.1 predicate names (`rico:hasInstantiation`, `rico:heldBy` and others). The service now maps each to its RiC-O 1.1 property (for example `rico:hasOrHadHolder`, `rico:isOrWasPartOf`, `rico:hasChild`) in the relation list, single relations, relations-for and graph edges, and stores the 1.1 name on new relations, without changing the shared data. Checked live: the relation list shows only RiC-O 1.1 names, and a search for `hasOrHadInstantiation` finds the 22 relations stored under the old name.
 - **2026-10-15, service v0.17.13** - Five rows closed and checked on the live service:
   - **Node `type` in `/graph`:** CURIEs such as `rico:RecordSet` and `rico:Place`, as [Viewing API §8.6](spec/viewing-api.html#86-node-type-curie-policy) requires.
