@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-15T15:21:41Z",
+  "run_at": "2026-10-16T08:26:47Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "44635c2",
+  "probe_revision": "798be92",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:14:51Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:19:03Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -23,7 +23,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -118,8 +118,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:13:32Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:17:48Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
@@ -133,7 +133,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -233,8 +233,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:19:18Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:23:18Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -248,7 +248,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -328,8 +328,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:21:41Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:25:38Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
@@ -343,7 +343,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -428,8 +428,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:18:03Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:22:05Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -443,7 +443,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -513,8 +513,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:16:51Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:20:55Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -528,7 +528,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -628,8 +628,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-15T15:20:26Z",
-      "probe_revision": "44635c2",
+      "run_at": "2026-10-16T08:24:26Z",
+      "probe_revision": "798be92",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -643,7 +643,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.14",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -703,6 +703,91 @@
           "status": "SKIP",
           "check": "create/update/delete round trip",
           "http": "no-key"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-16T08:26:47Z",
+      "probe_revision": "798be92",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "sparql-access"
+      ],
+      "writes_attempted": false,
+      "verdict": "pass",
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.14",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares sparql-access",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /sparql?query=SELECT%20%2A%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D%20LIMIT%201",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /sparql/info",
+          "http": "200"
         }
       ]
     }
