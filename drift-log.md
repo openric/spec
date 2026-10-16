@@ -11,7 +11,7 @@ A public log of known drift between the OpenRiC specification and its public sur
 
 This page exists because the spec moves faster than the supporting implementations, and external reviewers need a single place to see *which* gaps are known, *where* they are, and *what's planned*. It is not a defect tracker - it tracks **deliberate** lag between the spec and downstream systems.
 
-**Last updated:** 2026-10-15. For the live figures behind this page, see [current status](/status/).
+**Last updated:** 2026-10-16. For the live figures behind this page, see [current status](/status/).
 
 ---
 
@@ -23,9 +23,9 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12, th
 
 | Item | Currently emits | Target | Blocker |
 |---|---|---|---|
-| Relation predicates in `/relations` | Relation rows carry `rico_predicate: "rico:hasInstantiation"` and the inverse `rico:isInstantiationOf`. The value comes from the relation-type table in the database the service shares with Heratio, not from the serializer; entity responses already use the RiC-O 1.1 forms. | `rico:hasOrHadInstantiation` / `rico:isOrWasInstantiationOf` | A change to the shared relation-type table, which needs Heratio's agreement, or the service maps the value on output. |
-| Provenance & Event profile claim | Not claimed: productions without a creator in the demonstration data | Claimed once the data is backfilled and the probe's Provenance & Event section passes | Data hygiene; [known issue K-10](spec/known-issues.html). |
+| Provenance & Event profile claim | Not claimed. The daily probe (15 October) finds the production activities carry their results and participants but no date (`openricx:DateRange`, §6.2 and §6.4). The serializer emits a date whenever the activity row has one. A count on 16 October found 40 undated activities (38 production, 1 accumulation, 1 untyped), and for none of them does the record's creation or accumulation event, or the event the activity was seeded from, carry a date. There is no source to take a date from, and dates will not be invented for demonstration data. | Claimed by a server whose activities are dated | Dated demonstration data, for example a new demonstration dataset for the reference service ([known issue K-10](spec/known-issues.html)). |
 | The Egyptian Boat's subgraph | Still shows two instantiations of the 3D model that was detached on 15 October 2026 (`/instantiation/912056` and `/912156`) | The instantiations removed or relabelled to match the record | A change to demonstration data in the shared database, which needs approval. |
+| RiC-O terms in the public SPARQL graph | Six properties that are not RiC-O 1.1 terms, found on 15 October: `rico:hasAgentName` (371 triples), `rico:hasOrHadPlaceOfOrigin` (289), `rico:physicalCharacteristics` (94), `rico:hasOrHadCreator` (30), `rico:descriptiveNote` (17), `rico:hasOrHadContentOfType` (15). They come from the graph sync, not from the API responses. | RiC-O 1.1 properties, or `openricx:` terms where RiC-O 1.1 has none | A change to the graph sync and a rebuild of the public graph. |
 
 ### External-extension watch (RiC-O 1.1 ecosystem)
 
@@ -39,6 +39,7 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12, th
 
 ## Closed (recent)
 
+- **2026-10-16, service v0.17.14** - Relation predicates: the relation-type table shared with Heratio carries 25 pre-1.1 predicate names (`rico:hasInstantiation`, `rico:heldBy` and others). The service now maps each to its RiC-O 1.1 property (for example `rico:hasOrHadHolder`, `rico:isOrWasPartOf`, `rico:hasChild`) in the relation list, single relations, relations-for and graph edges, and stores the 1.1 name on new relations, without changing the shared data. Checked live: the relation list shows only RiC-O 1.1 names, and a search for `hasOrHadInstantiation` finds the 22 relations stored under the old name.
 - **2026-10-15, service v0.17.13** - Five rows closed and checked on the live service:
   - **Node `type` in `/graph`:** CURIEs such as `rico:RecordSet` and `rico:Place`, as [Viewing API §8.6](spec/viewing-api.html#86-node-type-curie-policy) requires.
   - **Refusals:** a missing, invalid or expired key, or a missing scope, on `/api/ric/v1` returns an RFC 7807 problem document (`.../errors/authentication-required`, `application/problem+json`).
