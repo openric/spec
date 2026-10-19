@@ -5,11 +5,11 @@
         "openricx": "https://openric.org/ns/ext/v1#"
     },
     "@type": "openric:Subgraph",
-    "openric:root": "https://ric.theahg.co.za/default/recordset/905228",
+    "openric:root": "https://ric.theahg.co.za/informationobject/egyptian-boat",
     "openric:depth": 2,
     "openric:nodes": [
         {
-            "id": "https://ric.theahg.co.za/default/recordset/905228",
+            "id": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "label": "Egyptian Boat",
             "type": "rico:RecordSet",
             "atomId": 905228,
@@ -65,77 +65,77 @@
             "atomUrl": "/egypt"
         },
         {
-            "id": "https://ric.theahg.co.za/default/recordset/903585",
+            "id": "https://ric.theahg.co.za/informationobject/format-test-archive",
             "label": "Archive Collection",
             "type": "rico:RecordSet",
             "atomId": 903585,
             "atomUrl": "/format-test-archive"
         },
         {
-            "id": "https://ric.theahg.co.za/default/corporatebody/905206",
+            "id": "https://ric.theahg.co.za/repository/meridian-museum-of-antiquities",
             "label": "Meridian Museum of Antiquities",
             "type": "rico:CorporateBody",
             "atomId": 905206,
             "atomUrl": "/meridian-museum-of-antiquities"
         },
         {
-            "id": "https://ric.theahg.co.za/default/activity/910860",
+            "id": "https://ric.theahg.co.za/activity/910860",
             "label": "Creation",
             "type": "rico:Activity",
             "atomId": 910860,
             "atomUrl": "/ric-activity-from-event-905243"
         },
         {
-            "id": "https://ric.theahg.co.za/default/activity/912152",
+            "id": "https://ric.theahg.co.za/activity/912152",
             "label": "Production of funeral boat model",
             "type": "rico:Activity",
             "atomId": 912152,
             "atomUrl": "/ric-activity-egyptian-boat-production"
         },
         {
-            "id": "https://ric.theahg.co.za/default/activity/912153",
+            "id": "https://ric.theahg.co.za/activity/912153",
             "label": "3D Photogrammetry Digitisation",
             "type": "rico:Activity",
             "atomId": 912153,
             "atomUrl": "/ric-activity-egyptian-boat-digitisation"
         },
         {
-            "id": "https://ric.theahg.co.za/default/activity/912154",
+            "id": "https://ric.theahg.co.za/activity/912154",
             "label": "Transfer to current repository",
             "type": "rico:Activity",
             "atomId": 912154,
             "atomUrl": "/ric-activity-egyptian-boat-custody"
         },
         {
-            "id": "https://ric.theahg.co.za/default/activity/913877",
+            "id": "https://ric.theahg.co.za/activity/913877",
             "label": "The Benson Family",
             "type": "rico:Activity",
             "atomId": 913877,
             "atomUrl": "/the-benson-family"
         },
         {
-            "id": "https://ric.theahg.co.za/default/place/912150",
+            "id": "https://ric.theahg.co.za/place/912150",
             "label": "Egypt",
             "type": "rico:Place",
             "atomId": 912150,
             "atomUrl": "/ric-place-egypt"
         },
         {
-            "id": "https://ric.theahg.co.za/default/place/912151",
+            "id": "https://ric.theahg.co.za/place/912151",
             "label": "Thebes (Luxor)",
             "type": "rico:Place",
             "atomId": 912151,
             "atomUrl": "/ric-place-thebes"
         },
         {
-            "id": "https://ric.theahg.co.za/default/rule/912155",
+            "id": "https://ric.theahg.co.za/rule/912155",
             "label": "Egyptian Antiquities Protection Law (Law 117/1983)",
             "type": "rico:Rule",
             "atomId": 912155,
             "atomUrl": "/ric-rule-egyptian-antiquities-law"
         },
         {
-            "id": "https://ric.theahg.co.za/default/rule/912350",
+            "id": "https://ric.theahg.co.za/rule/912350",
             "label": "Giza protection ordenance",
             "type": "rico:Rule",
             "atomId": 912350,
@@ -144,110 +144,110 @@
     ],
     "openric:edges": [
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/905229",
             "predicate": "rico:hasOrHadSubject",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/905230",
             "predicate": "rico:hasOrHadSubject",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/905231",
             "predicate": "rico:hasOrHadSubject",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/905232",
             "predicate": "rico:hasOrHadSubject",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/905233",
             "predicate": "rico:hasOrHadSubject",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/902996",
             "predicate": "rico:hasOrHadLocation",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "target": "https://ric.theahg.co.za/default/term/903006",
             "predicate": "rico:hasOrHadLocation",
             "label": "about"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
-            "target": "https://ric.theahg.co.za/default/recordset/903585",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
+            "target": "https://ric.theahg.co.za/informationobject/format-test-archive",
             "predicate": "rico:isOrWasPartOf",
             "label": "part of"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
-            "target": "https://ric.theahg.co.za/default/corporatebody/905206",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
+            "target": "https://ric.theahg.co.za/repository/meridian-museum-of-antiquities",
             "predicate": "rico:hasOrHadHolder",
             "label": "has or had holder"
         },
         {
-            "source": "https://ric.theahg.co.za/default/activity/910860",
-            "target": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/activity/910860",
+            "target": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "predicate": "rico:resultsOrResultedIn",
             "label": "results in"
         },
         {
-            "source": "https://ric.theahg.co.za/default/activity/912152",
-            "target": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/activity/912152",
+            "target": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "predicate": "rico:resultsOrResultedIn",
             "label": "results in"
         },
         {
-            "source": "https://ric.theahg.co.za/default/activity/912153",
-            "target": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/activity/912153",
+            "target": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "predicate": "rico:resultsOrResultedIn",
             "label": "results in"
         },
         {
-            "source": "https://ric.theahg.co.za/default/activity/912154",
-            "target": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/activity/912154",
+            "target": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "predicate": "rico:resultsOrResultedIn",
             "label": "results in"
         },
         {
-            "source": "https://ric.theahg.co.za/default/activity/913877",
-            "target": "https://ric.theahg.co.za/default/recordset/905228",
+            "source": "https://ric.theahg.co.za/activity/913877",
+            "target": "https://ric.theahg.co.za/informationobject/egyptian-boat",
             "predicate": "rico:resultsOrResultedIn",
             "label": "results in"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
-            "target": "https://ric.theahg.co.za/default/place/912150",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
+            "target": "https://ric.theahg.co.za/place/912150",
             "predicate": "rico:hasOrHadLocation",
             "label": "has or had location"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
-            "target": "https://ric.theahg.co.za/default/place/912151",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
+            "target": "https://ric.theahg.co.za/place/912151",
             "predicate": "rico:hasOrHadLocation",
             "label": "has or had location"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
-            "target": "https://ric.theahg.co.za/default/rule/912155",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
+            "target": "https://ric.theahg.co.za/rule/912155",
             "predicate": "rico:isOrWasRegulatedBy",
             "label": "is or was regulated by"
         },
         {
-            "source": "https://ric.theahg.co.za/default/recordset/905228",
-            "target": "https://ric.theahg.co.za/default/rule/912350",
+            "source": "https://ric.theahg.co.za/informationobject/egyptian-boat",
+            "target": "https://ric.theahg.co.za/rule/912350",
             "predicate": "rico:isOrWasRegulatedBy",
             "label": "is or was regulated by"
         }

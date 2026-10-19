@@ -5,7 +5,7 @@ title: OpenRiC Graph Primitives
 
 # OpenRiC Graph Primitives
 
-**Last revised in:** v0.47.0
+**Last revised in:** v0.51.0
 
 ---
 
@@ -217,6 +217,7 @@ A conformant `Subgraph` MUST satisfy:
 4. **Stable identifiers.** Re-requesting the same subgraph on a quiescent server yields the same node ids (labels and attributes may vary with `Accept-Language`).
 5. **Type vocabulary.** Every `Node.type` is either a RiC-O class or an OpenRiC extension class.
 6. **Edge predicates.** Every `Edge.predicate` resolves to a predicate defined in RiC-O, OpenRiC, or a namespace the server advertises via `/vocabulary`.
+7. **Entity identifiers.** A node that stands for an entity the server also serves through the Viewing API (a record, agent, repository, place, activity, rule, instantiation or function) has as its `id` the `@id` the API gives that entity, so a client can follow a node to the entity's description and use the same identifier in SPARQL. Nodes for things the API does not serve as entities, such as subject terms and dates, MAY use any stable IRI. Added in v0.51.0; see [Graph Traversal 0.6.0](profiles/graph-traversal.html#10-migration).
 
 Conformance test fixtures (see [Conformance](conformance.html)) assert all six invariants.
 
