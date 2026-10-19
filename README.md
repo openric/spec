@@ -37,11 +37,11 @@ The reference implementation is **live at [ric.theahg.co.za](https://ric.theahg.
 ├── architecture.md          - how the four public deployments fit together
 ├── for-institutions.md      - executive / institutional brief
 ├── governance.md            - stewardship, change process, compatibility
-├── spec/                    - the four normative documents
+├── spec/                    - the base documents (seven, listed at /spec/) and profiles
 │   ├── mapping.md           - ISAD(G) / ISAAR(CPF) / ISDF / ISDIAH → RiC-CM / RiC-O
 │   ├── viewing-api.md       - HTTP contract: read, write, graph, harvest
 │   ├── graph-primitives.md  - node, edge, cluster, drill, layout-hint
-│   └── conformance.md       - four levels (L1–L4), JSON Schemas, fixtures
+│   └── conformance.md       - profiles, JSON Schemas, fixtures, the probe
 ├── schemas/                 - JSON Schema files
 ├── shapes/                  - SHACL shapes (openric.shacl.ttl + full-graph)
 ├── fixtures/                - 27 end-to-end test cases

@@ -21,6 +21,11 @@ This page is generated, not written. The specification figures come from the rel
 
 ## Reference service
 
+<div class="callout" id="currency-vs-conformance">
+<p><strong>Two different version numbers.</strong> The specification's current version above (v{{ site.data.version.version }}) is its latest release. The version the reference service verifies against, below, is the release it has been tested against, and it can be older. The two are released separately: a specification release that only corrects wording, fixtures or this site does not need a new service release, and the service catches up when the specification changes something it serves.</p>
+<p>So a specification newer than the service's verified version is not a failure. A failing <strong>Tested</strong> result in the matrix below is. The figures built into this page come from the last daily probe run before the page was published; with JavaScript, your browser replaces them with a live read of the service.</p>
+</div>
+
 {%- assign snap = site.data.conformance_snapshot -%}
 {%- assign snap_svc = snap.runs[0].service -%}
 <p id="status-note" class="callout">Snapshot from the probe run of {{ snap.run_at | replace: "T", " " | replace: "Z", " UTC" }} (probe revision <code>{{ snap.probe_revision }}</code>), built into this page.</p>
