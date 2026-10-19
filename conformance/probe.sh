@@ -110,6 +110,51 @@ record() {
   RESULTS+=("$status|$label|$code")
 }
 
+# Graph Primitives section 6, invariant 5: every node type is a RiC-O 1.1
+# class or an OpenRiC extension class. Class local names, taken from
+# RiC-O_1-1.rdf (107 owl:Class) and https://openric.org/ns/ext/v1.ttl.
+RICO_CLASSES="
+  AccumulationRelation Activity ActivityDocumentationRelation ActivityType
+  Agent AgentControlRelation AgentHierarchicalRelation AgentName
+  AgentTemporalRelation AgentToAgentRelation Appellation AppellationRelation
+  AuthorityRelation AuthorshipRelation CarrierExtent CarrierType
+  ChildRelation Concept ContentType Coordinates CorporateBody
+  CorporateBodyType CorrespondenceRelation CreationRelation Date DateType
+  DemographicGroup DerivationRelation DescendanceRelation
+  DocumentaryFormType Event EventRelation EventType Extent ExtentType Family
+  FamilyRelation FamilyType FunctionalEquivalenceRelation Group
+  GroupSubdivisionRelation Identifier IdentifierType Instantiation
+  InstantiationExtent InstantiationToInstantiationRelation
+  IntellectualPropertyRightsRelation KnowingOfRelation KnowingRelation
+  Language LeadershipRelation LegalStatus ManagementRelation Mandate
+  MandateRelation MandateType Mechanism MembershipRelation MigrationRelation
+  Name OccupationType OrganicOrFunctionalProvenanceRelation
+  OrganicProvenanceRelation OwnershipRelation PerformanceRelation Person
+  PhysicalLocation Place PlaceName PlaceRelation PlaceType Position
+  PositionHoldingRelation PositionToGroupRelation ProductionTechniqueType
+  Proxy Record RecordPart RecordResource RecordResourceExtent
+  RecordResourceGeneticRelation RecordResourceHoldingRelation
+  RecordResourceToInstantiationRelation
+  RecordResourceToRecordResourceRelation RecordSet RecordSetType RecordState
+  Relation RepresentationType RoleType Rule RuleRelation RuleType
+  SequentialRelation SiblingRelation SpouseRelation StudyAtRelation
+  TeachingRelation TemporalRelation Thing Title TitleType Type TypeRelation
+  UnitOfMeasurement WholePartRelation WorkRelation
+"
+OPENRICX_CLASSES="
+  ActivityList AgentList Checksum ContactPoint DateRange DateRangeSet
+  Function FunctionList InstantiationList PlaceList RecordList RecordSetList
+  RepositoryList RuleList
+"
+# One space-separated line with a space at each end, so " Name " matches.
+RICO_CLASSES=" $(printf '%s ' $RICO_CLASSES)"
+OPENRICX_CLASSES=" $(printf '%s ' $OPENRICX_CLASSES)"
+
+# node_types <subgraph-json>: one node type per line.
+node_types() {
+  printf '%s' "$1" | jq -r '(."openric:nodes" // .nodes // [])[].type // "(none)"' 2>/dev/null || true
+}
+
 # http <method> <path> [key] [body]: prints "<code> <body>".
 http() {
   local method="$1" path="$2" key="${3:-}" body="${4:-}" out
@@ -378,6 +423,7 @@ if in_profile "graph-traversal"; then
     # the same id. Places are not sampled: a server may type place access-point
     # terms as rico:Place, and the invariant lets those keep their own ids.
     GRAPH_BODY=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/graph?uri=${SEED_ENC}&depth=1" 2>/dev/null || true)
+    SEEN_TYPES=$(node_types "$GRAPH_BODY")
     ROOT_ID=$(printf '%s' "$GRAPH_BODY" | jq -r '."openric:root" // .root // empty' 2>/dev/null || true)
     if [[ "$ROOT_ID" == "$SEED_URI" ]]; then
       record PASS "graph root is the seed's API @id (invariant 7)" "ok"
@@ -385,24 +431,58 @@ if in_profile "graph-traversal"; then
       record FAIL "graph root is the seed's API @id (invariant 7)" "${ROOT_ID:-none}"
     fi
     # The seed may be a place, and a record's graph may hold only a finding
-    # aid, so the second check walks the first records until one graph links
-    # to another record or an agent.
-    OTHER_ID=""
+    # aid, so the second check walks the first records' graphs. A record or
+    # agent node is dereferenced: 404 or 410 means the API does not serve it
+    # as an entity, which the invariant allows, so the next node is tried; a
+    # document whose @id differs from the node id is a failure. Every graph
+    # walked also feeds the invariant 5 check below.
+    DEREF_RESULT=""
+    DEREF_TRIED=" "
     for REC_URI in $(curl -s --max-time 10 "${BASE}/records?limit=10" | \
         jq -r '(."openric:items" // ."ric:items" // .items // [])[]["@id"] // empty' 2>/dev/null || true); do
       GRAPH_BODY=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/graph?uri=$(printf '%s' "$REC_URI" | jq -sRr @uri)&depth=1" 2>/dev/null || true)
-      OTHER_ID=$(printf '%s' "$GRAPH_BODY" | jq -r --arg r "$REC_URI" '[(."openric:nodes" // .nodes // [])[] | select(.id != $r) | select((.type // "") | test("(Record|RecordSet|RecordPart|Person|CorporateBody|Family|Agent)$"))][0].id // empty' 2>/dev/null || true)
-      [[ -n "$OTHER_ID" ]] && break
+      SEEN_TYPES+=$'\n'$(node_types "$GRAPH_BODY")
+      [[ -n "$DEREF_RESULT" ]] && continue
+      for OTHER_ID in $(printf '%s' "$GRAPH_BODY" | jq -r --arg r "$REC_URI" '(."openric:nodes" // .nodes // [])[] | select(.id != $r) | select((.type // "") | test("(Record|RecordSet|RecordPart|Person|CorporateBody|Family|Agent)$")) | .id' 2>/dev/null || true); do
+        [[ "$DEREF_TRIED" == *" $OTHER_ID "* ]] && continue
+        DEREF_TRIED+="$OTHER_ID "
+        DEREF_OUT=$(curl -s -L --max-time 15 -w '\n%{http_code}' -H 'Accept: application/ld+json' "$OTHER_ID" 2>/dev/null || true)
+        DEREF_CODE=${DEREF_OUT##*$'\n'}
+        [[ "$DEREF_CODE" == "404" || "$DEREF_CODE" == "410" ]] && continue
+        DEREF_ID=$(printf '%s' "${DEREF_OUT%$'\n'*}" | jq -r '."@id" // empty' 2>/dev/null || true)
+        if [[ "$DEREF_ID" == "$OTHER_ID" ]]; then
+          DEREF_RESULT="PASS|ok"
+        else
+          DEREF_RESULT="FAIL|${OTHER_ID} -> ${DEREF_ID:-no @id} (${DEREF_CODE})"
+        fi
+        break
+      done
     done
-    if [[ -n "$OTHER_ID" ]]; then
-      DEREF_ID=$(curl -s -L --max-time 15 -H 'Accept: application/ld+json' "$OTHER_ID" 2>/dev/null | jq -r '."@id" // empty' 2>/dev/null || true)
-      if [[ "$DEREF_ID" == "$OTHER_ID" ]]; then
-        record PASS "a record or agent node dereferences to itself (invariant 7)" "ok"
-      else
-        record FAIL "a record or agent node dereferences to itself (invariant 7)" "${DEREF_ID:-no @id}"
-      fi
+    if [[ -n "$DEREF_RESULT" ]]; then
+      record "${DEREF_RESULT%%|*}" "a record or agent node dereferences to itself (invariant 7)" "${DEREF_RESULT#*|}"
     else
-      record "SKIP (no record or agent node)" "a record or agent node dereferences to itself (invariant 7)" "--"
+      record "SKIP (no record or agent node the API serves)" "a record or agent node dereferences to itself (invariant 7)" "--"
+    fi
+    # Invariant 5 over every node of every graph fetched above.
+    BAD_TYPES=""
+    TYPE_COUNT=0
+    while IFS= read -r T; do
+      [[ -z "$T" ]] && continue
+      TYPE_COUNT=$((TYPE_COUNT+1))
+      case "$T" in
+        rico:*) [[ "$RICO_CLASSES" == *" ${T#rico:} "* ]] && continue ;;
+        https://www.ica.org/standards/RiC/ontology\#*) [[ "$RICO_CLASSES" == *" ${T#*#} "* ]] && continue ;;
+        openricx:*) [[ "$OPENRICX_CLASSES" == *" ${T#openricx:} "* ]] && continue ;;
+        https://openric.org/ns/ext/v1\#*) [[ "$OPENRICX_CLASSES" == *" ${T#*#} "* ]] && continue ;;
+      esac
+      [[ " $BAD_TYPES " == *" $T "* ]] || BAD_TYPES="${BAD_TYPES:+$BAD_TYPES }$T"
+    done <<< "$SEEN_TYPES"
+    if (( TYPE_COUNT == 0 )); then
+      record "SKIP (no nodes)" "every node type is a RiC-O or OpenRiC class (invariant 5)" "--"
+    elif [[ -z "$BAD_TYPES" ]]; then
+      record PASS "every node type is a RiC-O or OpenRiC class (invariant 5)" "${TYPE_COUNT} nodes"
+    else
+      record FAIL "every node type is a RiC-O or OpenRiC class (invariant 5)" "$BAD_TYPES"
     fi
   else
     printf '%s%-5s%s  GET  %-50s  [--]\n' "$Y" "SKIP" "$Z" "/graph (no seed URI available)"
