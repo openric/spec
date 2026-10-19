@@ -7,8 +7,8 @@ description: The /graph endpoint and its relation + hierarchy companions. Where 
 # Graph Traversal Profile
 
 **Profile id:** `graph-traversal`
-**Profile version:** 0.5.0
-**Last revised in spec:** v0.32.0
+**Profile version:** 0.6.0
+**Last revised in spec:** v0.51.0
 **Status:** Normative
 **Dependencies:** None at the endpoint level; SHACL shapes assume a full-graph data source. See §5.
 **Last updated:** 2026-04-21
@@ -294,3 +294,13 @@ Five questions were flagged during drafting; all five carry resolutions.
 **Resolution**: **No - endpoint conformance is required; full-graph shape conformance is a separate gate.**
 
 **Rationale**: A server exposing the four endpoints correctly is useful even if its backing store has orphan records or unlinked agents - those are data-hygiene issues, not API-contract issues. Gating endpoint conformance on full-store validation would prevent incomplete archives from ever claiming the profile, which hurts ecosystem adoption. The SHACL shapes are published so that implementers can run them against their own dumps as a hygiene check, not as a profile-claim prerequisite. A future "graph-hygiene-certified" badge may layer on top, but is out of scope for this profile's initial cut.
+
+## 10. Migration
+
+### From profile 0.5.0 to 0.6.0 (spec v0.51.0)
+
+| What changed | Servers | Clients |
+|---|---|---|
+| A node that stands for an API entity carries the entity's API `@id` ([Graph Primitives §6, invariant 7](../graph-primitives.html#6-invariants)) | Name record, agent, repository, place, activity, rule, instantiation and function nodes, and the edges and `root` that refer to them, by the `@id` the matching API endpoint returns. Subject terms and dates may keep their own stable IRIs. | Node ids from a 0.5.0 server may be internal identifiers that do not dereference; from 0.6.0 they are the entity's `@id`. A client that stored 0.5.0 node ids should re-read the graph rather than map them. |
+
+The conformance probe does not yet check invariant 7; until it does, a declaration of this profile is the server's own claim on this point.

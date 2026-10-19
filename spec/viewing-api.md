@@ -100,7 +100,7 @@ Returns a JSON description of the server's capabilities, conformance level, and 
     "spec_version": "{{ site.data.version.version }}",
     "profiles": [
       { "id": "core-discovery", "version": "0.6.0", "conformance": "full" },
-      { "id": "graph-traversal", "version": "0.5.0", "conformance": "full" }
+      { "id": "graph-traversal", "version": "0.6.0", "conformance": "full" }
     ]
   }
 }
