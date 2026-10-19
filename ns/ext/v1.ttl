@@ -4,7 +4,7 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Active; ontology version 1.2.0 (spec v0.50.1). Term IRIs stay
+# Status:        Active; ontology version 1.3.0 (spec v0.52.0). Term IRIs stay
 #                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
@@ -44,9 +44,9 @@
     rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:modified "2026-10-19"^^xsd:date ;
-    owl:versionIRI <https://openric.org/ns/ext/v1.2.0> ;
-    owl:priorVersion <https://openric.org/ns/ext/v1.1.0> ;
-    owl:versionInfo "1.2.0" .
+    owl:versionIRI <https://openric.org/ns/ext/v1.3.0> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.2.0> ;
+    owl:versionInfo "1.3.0" .
 
 # =====================================================================
 # 1. Classes
@@ -92,6 +92,14 @@ openricx:DateRangeSet a owl:Class ; rdfs:label "Date Range Set"@en ;
 
 openricx:Checksum a owl:Class ; rdfs:label "Checksum"@en ;
     rdfs:comment "Structured checksum carrying an algorithm and a hex-encoded value. Optional alternative to a free-text 'Checksum (sha256): <hex>' string inside openricx:technicalCharacteristics. Aligns with PREMIS checksum modelling."@en .
+
+openricx:Carrier a owl:Class ; rdfs:label "Carrier"@en ;
+    rdfs:subClassOf rico:Thing ;
+    rdfs:comment "An individual physical medium that bears one or more instantiations, such as a specific magnetic tape, disc or volume, with its own identifier, condition and custody history. Distinct from rico:CarrierType, which is the kind of medium. RiC-O 1.1 has no carrier entity; ICA-EGAD (Records_in_Contexts_users list, July 2026) plans a Carrier class for RiC-O 2.0 and advised a subclass of rico:Thing meanwhile. Added in 1.3.0; defined in the reference service since its v0.17.0."@en .
+
+openricx:Occupation a owl:Class ; rdfs:label "Occupation"@en ;
+    rdfs:subClassOf rico:Thing ;
+    rdfs:comment "An occupation an agent held, with its own dates and whether it is current. RiC-O 1.1 has rico:OccupationType, the kind of occupation, and rico:hasOrHadOccupationOfType from a person to that kind, but no class for an occupation actually held over a period. The reference service sent these nodes as rico:Occupation, which RiC-O 1.1 does not define, until its v0.17.25. Added in 1.3.0."@en .
 
 # =====================================================================
 # 2. Properties
@@ -282,3 +290,94 @@ openricx:maxQueryTimeSeconds a owl:DatatypeProperty ; rdfs:label "maximum query 
     rdfs:comment "Longest a SPARQL query may run on the endpoint before it is stopped, in seconds."@en .
 openricx:exampleQueriesUrl a owl:DatatypeProperty ; rdfs:label "example queries URL"@en ;
     rdfs:comment "Where the endpoint publishes example queries."@en .
+
+
+# 2.14 Relation qualifiers (added in 1.3.0; defined in the reference service since v0.17.0)
+# RiC-O 1.1 qualifies a role only on rico:CreationRelation (rico:creationWithRole).
+# ICA-EGAD (Records_in_Contexts_users list, June 2026) intends a generic property
+# for RiC-O 1.2 and advised an extension meanwhile; when 1.2 ships it is bound
+# here with owl:equivalentProperty.
+
+openricx:relationHasAgentRole a owl:ObjectProperty ; rdfs:label "relation has agent role"@en ;
+    rdfs:domain rico:Relation ; rdfs:range rico:RoleType ;
+    rdfs:seeAlso rico:creationWithRole ;
+    rdfs:comment "Relates a rico:Relation that involves one or more agents to the rico:RoleType in which the agents took part, such as bride, witness, donor or editor. Generalises rico:creationWithRole to any agent-involving relation. Emitted by the reference service on reified rico:EventRelation nodes."@en .
+
+# An axiom about a RiC-O term, not a new term in the RiC-O namespace: existing
+# creation-role data is reachable through the generic property without migration.
+rico:creationWithRole rdfs:subPropertyOf openricx:relationHasAgentRole .
+
+# 2.15 Kinship of care (added in 1.3.0; defined in the reference service since v0.17.0)
+# RiC-O 1.1 has rico:hasChild, rico:hasSibling and rico:hasOrHadSpouse under
+# rico:hasFamilyAssociationWith, and nothing for adoption, fostering or guardianship.
+# An adopted child is a legal child, so only hasAdoptedChild specialises rico:hasChild.
+
+openricx:hasAdoptedChild a owl:ObjectProperty ; rdfs:label "has adopted child"@en ;
+    rdfs:subPropertyOf rico:hasChild ;
+    owl:inverseOf openricx:isOrWasAdoptedChildOf ;
+    rdfs:comment "The subject agent adopted the object person as their child (legal adoption)."@en .
+openricx:isOrWasAdoptedChildOf a owl:ObjectProperty ; rdfs:label "is or was adopted child of"@en ;
+    rdfs:subPropertyOf rico:hasFamilyAssociationWith ;
+    rdfs:comment "The subject person is or was the adopted child of the object agent."@en .
+openricx:hasFosterChild a owl:ObjectProperty ; rdfs:label "has foster child"@en ;
+    rdfs:subPropertyOf rico:hasFamilyAssociationWith ;
+    owl:inverseOf openricx:isOrWasFosterChildOf ;
+    rdfs:comment "The subject agent fostered the object person: care without legal adoption."@en .
+openricx:isOrWasFosterChildOf a owl:ObjectProperty ; rdfs:label "is or was foster child of"@en ;
+    rdfs:subPropertyOf rico:hasFamilyAssociationWith ;
+    rdfs:comment "The subject person is or was fostered by the object agent."@en .
+openricx:isOrWasGuardianOf a owl:ObjectProperty ; rdfs:label "is or was guardian of"@en ;
+    rdfs:subPropertyOf rico:hasFamilyAssociationWith ;
+    owl:inverseOf openricx:isOrWasUnderGuardianshipOf ;
+    rdfs:seeAlso rico:Mandate ;
+    rdfs:comment "The subject agent is or was the legal guardian of the object person. Directional, although its parent property is symmetric. Where the guardianship rests on a legal instrument, also relate the persons through a rico:Mandate."@en .
+openricx:isOrWasUnderGuardianshipOf a owl:ObjectProperty ; rdfs:label "is or was under the guardianship of"@en ;
+    rdfs:subPropertyOf rico:hasFamilyAssociationWith ;
+    rdfs:comment "The subject person is or was under the legal guardianship of the object agent."@en .
+
+# Care in an institution is not a kinship property: model the residency as a
+# rico:Activity whose participants carry openricx:relationHasAgentRole
+# (resident, carer), with the dates on the activity or the relation.
+
+# 2.16 Carrier (added in 1.3.0; see openricx:Carrier)
+# rico:hasCarrierType names the kind of medium; openricx:hasCarrier names the
+# individual object. One tape may bear several instantiations (tracks), so
+# hasCarrier is many-to-one.
+
+openricx:hasCarrier a owl:ObjectProperty ; rdfs:label "has carrier"@en ;
+    rdfs:domain rico:Instantiation ; rdfs:range openricx:Carrier ;
+    owl:inverseOf openricx:isCarrierOf ;
+    rdfs:comment "Relates a rico:Instantiation to the individual physical openricx:Carrier on which it is inscribed. Emitted by the reference service."@en .
+openricx:isCarrierOf a owl:ObjectProperty ; rdfs:label "is carrier of"@en ;
+    rdfs:domain openricx:Carrier ; rdfs:range rico:Instantiation ;
+    rdfs:comment "The subject physical carrier bears the object rico:Instantiation."@en .
+
+# 2.17 Rule details (added in 1.3.0; sent by the reference service on rico:Rule
+# nodes typed by https://openric.org/vocab/rule-type/). A rule's period uses
+# RiC-O 1.1's rico:beginningDate and rico:endDate.
+
+openricx:restrictionType a owl:DatatypeProperty ; rdfs:label "restriction type"@en ;
+    rdfs:domain rico:Rule ;
+    rdfs:comment "The kind of access restriction a rule imposes, as a code or term from the holding system, for example a cultural-sensitivity or privacy restriction."@en .
+openricx:customText a owl:DatatypeProperty ; rdfs:label "custom text"@en ;
+    rdfs:subPropertyOf rico:note ; rdfs:domain rico:Rule ;
+    rdfs:comment "Free-text wording of an access restriction, where the holding system records one beyond its restriction type."@en .
+openricx:appliesToDescendants a owl:DatatypeProperty ; rdfs:label "applies to descendants"@en ;
+    rdfs:domain rico:Rule ; rdfs:range xsd:boolean ;
+    rdfs:comment "Whether a rule attached to a record resource also governs every record resource below it in the hierarchy."@en .
+openricx:securityLevel a owl:DatatypeProperty ; rdfs:label "security level"@en ;
+    rdfs:domain rico:Rule ;
+    rdfs:comment "Name of the security classification a rule assigns, for example 'Confidential'."@en .
+openricx:securityLevelCode a owl:DatatypeProperty ; rdfs:label "security level code"@en ;
+    rdfs:domain rico:Rule ;
+    rdfs:comment "Code of the security classification a rule assigns, as the holding system's classification scheme gives it."@en .
+
+# 2.18 Dates and occupations (added in 1.3.0)
+
+openricx:hasDateOfExistence a owl:ObjectProperty ; rdfs:label "has date of existence"@en ;
+    rdfs:subPropertyOf rico:isAssociatedWithDate ;
+    rdfs:domain rico:Agent ; rdfs:range rico:Date ;
+    rdfs:comment "Relates an agent to the date or date range of its existence. RiC-O 1.1 has birth, death and creation dates but no existence date for an agent in general, such as a corporate body or family; this specialises rico:isAssociatedWithDate."@en .
+openricx:isCurrent a owl:DatatypeProperty ; rdfs:label "is current"@en ;
+    rdfs:domain openricx:Occupation ; rdfs:range xsd:boolean ;
+    rdfs:comment "Whether an occupation is still held."@en .

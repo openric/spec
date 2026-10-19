@@ -10,7 +10,7 @@
 
 ## Current version
 
-**v0.51.2** — 2026-10-19. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
+**v0.52.0** — 2026-10-19. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
 
 The v0.43 governance line added five draft profiles ported from the Heratio reference implementation — Governance, Portability, Inferred-Provenance, Graph-Grounding — plus the `/help` centre. Twelve profiles now: seven normative, five draft. See [`CHANGELOG.md`](CHANGELOG.md).
 

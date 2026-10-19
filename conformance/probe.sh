@@ -112,7 +112,7 @@ record() {
 
 # Graph Primitives section 6, invariant 5: every node type is a RiC-O 1.1
 # class or an OpenRiC extension class. Class local names, taken from
-# RiC-O_1-1.rdf (107 owl:Class) and https://openric.org/ns/ext/v1.ttl.
+# RiC-O_1-1.rdf (107 owl:Class) and https://openric.org/ns/ext/v1.ttl (16).
 RICO_CLASSES="
   AccumulationRelation Activity ActivityDocumentationRelation ActivityType
   Agent AgentControlRelation AgentHierarchicalRelation AgentName
@@ -142,9 +142,9 @@ RICO_CLASSES="
   UnitOfMeasurement WholePartRelation WorkRelation
 "
 OPENRICX_CLASSES="
-  ActivityList AgentList Checksum ContactPoint DateRange DateRangeSet
-  Function FunctionList InstantiationList PlaceList RecordList RecordSetList
-  RepositoryList RuleList
+  ActivityList AgentList Carrier Checksum ContactPoint DateRange DateRangeSet
+  Function FunctionList InstantiationList Occupation PlaceList RecordList
+  RecordSetList RepositoryList RuleList
 "
 # One space-separated line with a space at each end, so " Name " matches.
 RICO_CLASSES=" $(printf '%s ' $RICO_CLASSES)"
