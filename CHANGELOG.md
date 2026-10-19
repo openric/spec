@@ -2,6 +2,18 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.48.0 - 2026-10-19
+
+Validation accepts what RiC-O 1.1 allows: language-tagged text in the SHACL shapes, references, single values and additional types in the JSON Schemas; persons' occupations map to rico:hasOrHadOccupationOfType
+
+No migration needed: every change relaxes a constraint, so a response valid under v0.47.0 stays valid. SHACL text constraints also accept rdf:langString; the entity JSON Schemas also accept {"@id": ...} references where an embedded object or a URI string was required, a single value where an array was required, and @type lists that contain the expected RiC-O class among other classes.
+
+Mapping: occupations of persons map to rico:hasOrHadOccupationOfType (RiC-O 1.1); openricx:hasOccupation covers other agents and occupations held only as text.
+
+Deprecated, still present: openricx:description for scope and content. Change control allows its removal from this release on; it is kept until a release announces the removal.
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.47.0 - 2026-10-19
 
 Baseline for the Standard Acceptance Gate: the service-description and error schemas accept only the current shapes (K-12); vocabulary IRIs resolve; site corrections from the external website review
