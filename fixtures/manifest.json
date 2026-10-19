@@ -518,7 +518,7 @@
       "status": "done",
       "purpose": "JSON-LD response shape for a CONSTRUCT/DESCRIBE result from the SPARQL Access (Draft) profile",
       "data": "synthetic",
-      "origin": "captured",
+      "origin": "authored",
       "real_world_references": true,
       "licence": "CC-BY-4.0",
       "rights_reviewed": "2026-10-15"

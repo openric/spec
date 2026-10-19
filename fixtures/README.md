@@ -61,8 +61,8 @@ from, and CI fails if one does not (`validator/tests/test_manifest.py`):
   from a real source) or `independent` (supplied by an institution outside
   AHG). Today every fixture is `synthetic`; there is no independent data yet.
 - **`origin`**: `captured` (a real response saved from a server; its URL is in
-  `source-url.txt`) or `authored` (written by hand). 31 are captured from the
-  reference service's demonstration data and 5 are authored.
+  `source-url.txt`) or `authored` (written by hand). 30 are captured from the
+  reference service's demonstration data and 6 are authored.
 - **`real_world_references`**: `true` when the data names real places, laws or
   institutions, such as a GeoNames URI or Egypt's Law 117/1983. These are names
   and identifiers only; no third-party text, image or model is copied in.

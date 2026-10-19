@@ -26,7 +26,7 @@ A server declares what it claims in its service description, `GET /`:
   "openric_conformance": {
     "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.4.0", "conformance": "full" }
+      { "id": "core-discovery", "version": "0.5.0", "conformance": "full" }
     ]
   }
 }

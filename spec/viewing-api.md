@@ -99,7 +99,7 @@ Returns a JSON description of the server's capabilities, conformance level, and 
   "openric_conformance": {
     "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.4.0", "conformance": "full" },
+      { "id": "core-discovery", "version": "0.5.0", "conformance": "full" },
       { "id": "graph-traversal", "version": "0.5.0", "conformance": "full" }
     ]
   }

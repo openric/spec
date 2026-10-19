@@ -13,7 +13,6 @@
   "rico:type": "Record",
   "rico:title": "Demo of folder1",
   "rico:identifier": "Cat",
-  "openricx:description": "Example item Scope and content",
   "rico:hasExtent": {
     "@type": "https://www.ica.org/standards/RiC/ontology#Extent",
     "rico:hasExtentType": "1 paqge"
