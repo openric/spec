@@ -22,6 +22,11 @@ title: OpenRiC - Guides
     <h3>Implement a server</h3>
     <p>From nothing to a server that passes Core Discovery, with a one-file standard-library example, the JSON Schemas and the conformance probe. No Heratio, no account.</p>
   </a>
+  <a class="surface-card" href="evaluate-independently.html">
+    <span class="surface-icon">🔍</span>
+    <h3>Evaluate OpenRiC independently</h3>
+    <p>Test the specification from a signed release alone - checksum, signature, fixtures, a minimal server and the probe - with nothing from Heratio or any AHG server.</p>
+  </a>
   <a class="surface-card" href="viewer.html">
     <span class="surface-icon">🗺</span>
     <h3>Viewer guide</h3>

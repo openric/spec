@@ -15,7 +15,7 @@ description: An open, free way to describe, explore and share archival records t
       <a class="btn-primary" href="{{ '/demo/browse/' | relative_url }}">Explore the demonstration records →</a>
       <a class="btn-ghost" href="{{ '/wizard/' | relative_url }}">Model something ↗</a>
     </div>
-    <p class="hero-sub">New here? <a href="{{ '/five-minutes/' | relative_url }}"><strong>OpenRiC in five minutes</strong></a> - one object followed end to end, read live from the reference service. Or <a href="{{ '/for-developers.html' | relative_url }}">build with OpenRiC</a>. <a href="{{ '/status/' | relative_url }}">What works today?</a></p>
+    <p class="hero-sub">New here? <a href="{{ '/five-minutes/' | relative_url }}"><strong>OpenRiC in five minutes</strong></a> - one object followed end to end, read live from the reference service. Or <a href="{{ '/for-developers.html' | relative_url }}">build with OpenRiC</a>. <a href="{{ '/status/' | relative_url }}">What works today?</a> <a href="{{ '/review/' | relative_url }}">Review it</a>.</p>
     <p class="hero-sub">OpenRiC is a specification, not an application. <a href="{{ '/application/' | relative_url }}">OpenRiC Workspace</a>, an archival application built on it, is planned.</p>
   </div>
 </div>
@@ -33,6 +33,7 @@ description: An open, free way to describe, explore and share archival records t
     <div class="flow-step"><strong>Somewhere, at some time</strong><span>a place and a date</span></div>
   </div>
   <p class="flow-note">Archival description has always implied those links. Traditionally they sit in prose, readable by a person and invisible to everything else. RiC - the International Council on Archives' model, replacing ISAD(G), ISAAR(CPF), ISDF and ISDIAH with one connected picture - makes them explicit. OpenRiC is an open contract for publishing and exchanging that picture, so any conformant tool can follow the links. Rather like IIIF for images: nobody had to agree on storage, only on how to ask.</p>
+  <p class="flow-note"><strong>RiC is the ICA's standard; OpenRiC is not.</strong> RiC defines what archival description means (the model, RiC-CM, and the ontology, RiC-O). OpenRiC is an independent project that defines how to serve and test RiC data over the web. It is not an ICA-approved extension of RiC. <a href="{{ '/ric-baseline.html#ric-and-openric' | relative_url }}">RiC and OpenRiC compared →</a></p>
 </div>
 
 ## Try it now

@@ -33,7 +33,7 @@ Run the [conformance probe](/help/conformance-and-profiles/) and check the profi
 No - that's the point. Standard serialisations (JSON-LD/Turtle/RDF-XML; the draft Portability profile defines a round-trip requirement, which the reference service does not yet claim), a full export path, OAI-PMH, and SPARQL. See [Exporting & harvesting](/help/exporting-and-harvesting/) and the [Portability profile](/spec/profiles/portability.html).
 
 **How do I get involved or report something?**
-Open a thread in [GitHub Discussions](https://github.com/openric/spec/discussions) or email [johan@theahg.co.za](mailto:johan@theahg.co.za).
+Start at [Review OpenRiC](/review/), which has a path each for mappings, interoperability and archival usability, or email [johan@theahg.co.za](mailto:johan@theahg.co.za).
 
 ## Next
 

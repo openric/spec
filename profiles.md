@@ -73,4 +73,4 @@ See [Conformance](spec/conformance.html) for the full testing model.
 {%- assign p_norm = site.data.profiles | where: "status", "normative" -%}{%- assign p_draft = site.data.profiles | where: "status", "draft" -%}
 **{{ p_norm.size }} profiles are normative and {{ p_draft.size }} are in draft.** Normative: {{ p_norm | map: "title" | join: ", " }}. Draft, open for comment: {{ p_draft | map: "title" | join: ", " }}. The normative set is stable; the drafts are open for comment. The path to v1.0 runs through the governance gates (a second independent implementation, an external institution committing to deploy, sustained non-maintainer contributors), not through more profile definitions. Provenance & Event is the one profile where the reference implementation's serializer can emit the required shape but the backing data has gaps; see its §9 Q5 and the drift log for the honest accounting.
 
-Comments on the profile framework or any profile are welcome at the [GitHub Discussions](https://github.com/openric/spec/discussions).
+Comments on the profile framework or any profile are welcome: see [Review OpenRiC](/review/), technical interoperability.

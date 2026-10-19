@@ -74,5 +74,5 @@ The previous "v0.1.0 frozen" / "v0.2.0 pending" framing referenced the original 
 
 - [Architecture](../architecture.html) - how the four public OpenRiC deployments fit together
 - [Guides](../guides/) - user-facing how-tos for the viewer and capture client
-- [Discussions](https://github.com/openric/spec/discussions) - spec feedback, second-implementer Q&A, mapping sanity checks
+- [Review OpenRiC](/review/) - the single way in for feedback: mappings, interoperability or archival usability, each with a question, an example and where to reply
 - [Live demo](../demo/) - open it, drag nodes, hit the reference API
