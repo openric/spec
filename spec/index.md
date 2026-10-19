@@ -58,8 +58,7 @@ title: OpenRiC - Specification
 
 | Layer | Current version | Status |
 |---|---|---|
-| Base spec (mapping + viewing API + graph primitives + conformance) | **v{{ site.data.version.version }}** | Active - RiC-O 1.1 namespace remediation complete (see [audit](../audit/ric-o-1.1-audit.html)) |
-| Mapping spec | last revised in v0.46.0 | Active |
+| Base documents (the seven above) | **v{{ site.data.version.version }}** | Active - RiC-O 1.1 namespace remediation complete (see [audit](../audit/ric-o-1.1-audit.html)) |
 | Profiles | per table above | {{ p_norm.size }} normative + {{ p_draft.size }} draft |
 | RiC-O ontology target | 1.1 (2025-05-22) | Tracked |
 | Extension namespace | `openricx: <https://openric.org/ns/ext/v1#>` | Declared, ontology stub at [/ns/ext/v1.html](/ns/ext/v1.html) |

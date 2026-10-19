@@ -132,6 +132,14 @@ Heavy governance ahead of community is cargo cult. Until OpenRiC has:
 
 …formal working groups would add process without matching substance. The current model gets the spec out, the tools public, and the probe in adopters' hands. When those three adoption signals arrive, governance scales up accordingly.
 
+## Release gates and maturity goals
+
+These are two different lists, and only the first decides when v1.0 is cut.
+
+**The gate for v1.0** is a single condition: a second implementation, built independently of the maintainers, passes the conformance probe for at least one profile. "Independently" means by people outside The AHG; the reference service, the planned OpenRiC Workspace and Heratio all come from the same organisation, so none of them counts ([known issue K-6](/spec/known-issues.html)). Before the gate, every release still follows [change control](spec/change-control.html), and the [Standard Acceptance Gate](https://github.com/openric/spec/blob/main/docs/gates/S-GATE.md) has its own sign-off.
+
+**The maturity goals** are the adoption signals above: an institution committing to deploy, and outside contributors with sustained engagement. They decide when governance grows - external editors, a working group, a code of conduct - not when the version number changes. v1.0 can come before them, and they can arrive before v1.0.
+
 ## Licence
 
 Specification: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
