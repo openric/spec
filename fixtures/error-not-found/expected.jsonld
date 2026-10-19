@@ -1,3 +1,7 @@
 {
-  "error": "Record not found"
+    "type": "https://openric.org/errors/not-found",
+    "title": "Not Found",
+    "status": 404,
+    "detail": "Record not found",
+    "instance": "/api/ric/v1/records/this-slug-does-not-exist"
 }

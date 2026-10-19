@@ -36,6 +36,14 @@ Read-only. Nothing here can change the data.
   </a>
 </div>
 
+### Three places to start
+
+- **[Egyptian Boat](https://viewer.openric.org/?start=/informationobject/egyptian-boat)** - a record set with its places, repository, four activities and two laws around it. The [five-minute tour](/five-minutes/) walks through it.
+- **[Gilded dining suite](https://viewer.openric.org/?start=/informationobject/gilded-dining-suite-ai-generated-3d-model)** - a record with a 3D model attached as a digital instantiation. The model was generated with AI by AHG; the record says so.
+- **[Egypt](https://viewer.openric.org/?start=/place/912150)** - a place, seen from the other side: what refers to it.
+
+All three are synthetic demonstration records.
+
 ## Archivist workspace - planned
 
 Describing, arranging, reviewing and publishing records will happen in [OpenRiC Workspace](/application/), an application in development. It does not exist yet. Until it does, archivists can try modelling with the [modelling wizard](/wizard/), which shows the RiC requests a description would produce without saving anything to the public service.

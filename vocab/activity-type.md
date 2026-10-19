@@ -16,12 +16,12 @@ A SKOS ConceptScheme of activity-type concepts referenced from `rico:hasActivity
 
 | IRI | prefLabel | Definition |
 |---|---|---|
-| [`production`](https://openric.org/vocab/activity-type/production) | Production | An activity that produces a record — creation, contribution, drafting, authoring. |
-| [`accumulation`](https://openric.org/vocab/activity-type/accumulation) | Accumulation | An activity that aggregates or accumulates records — building a collection, gathering files, inheriting custody. |
-| [`custody`](https://openric.org/vocab/activity-type/custody) | Custody | A custody event — taking, holding, or transferring physical or intellectual control of records. |
-| [`transfer`](https://openric.org/vocab/activity-type/transfer) | Transfer | A transfer event — records moving between custodians, repositories, or jurisdictions. |
-| [`publication`](https://openric.org/vocab/activity-type/publication) | Publication | A publication event — issuing or releasing records to a wider audience. |
-| [`reproduction`](https://openric.org/vocab/activity-type/reproduction) | Reproduction | A reproduction event — copying, digitising, or duplicating records. |
+| [`production`](https://openric.org/vocab/activity-type/production) | Production | An activity that produces a record - creation, contribution, drafting, authoring. |
+| [`accumulation`](https://openric.org/vocab/activity-type/accumulation) | Accumulation | An activity that aggregates or accumulates records - building a collection, gathering files, inheriting custody. |
+| [`custody`](https://openric.org/vocab/activity-type/custody) | Custody | A custody event - taking, holding, or transferring physical or intellectual control of records. |
+| [`transfer`](https://openric.org/vocab/activity-type/transfer) | Transfer | A transfer event - records moving between custodians, repositories, or jurisdictions. |
+| [`publication`](https://openric.org/vocab/activity-type/publication) | Publication | A publication event - issuing or releasing records to a wider audience. |
+| [`reproduction`](https://openric.org/vocab/activity-type/reproduction) | Reproduction | A reproduction event - copying, digitising, or duplicating records. |
 
 ## Source-data mapping (AtoM `event_type`)
 
@@ -34,7 +34,7 @@ A SKOS ConceptScheme of activity-type concepts referenced from `rico:hasActivity
 | `custody` | `<…/custody>` |
 | `publication` | `<…/publication>` |
 | `reproduction` | `<…/reproduction>` |
-| *(other)* | — (fall back to bare `rico:Activity` with `openric:localType` carrying the source string) |
+| *(other)* | - (fall back to bare `rico:Activity` with `openric:localType` carrying the source string) |
 
 ## Usage example
 

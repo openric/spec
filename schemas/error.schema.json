@@ -1,51 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openric.org/schemas/v0.1.0/error.schema.json",
-  "title": "OpenRiC Error response",
-  "description": "Validates any error response emitted by an OpenRiC server. Accepts both the plain shorthand ({error: '...'}) and the full OpenRiC error envelope defined in viewing-api.md §8.",
-
-  "oneOf": [
-    {
-      "title": "RFC 7807 problem details (Core Discovery §4)",
-      "type": "object",
-      "required": ["type", "title", "status"],
-      "properties": {
-        "type":     { "type": "string" },
-        "title":    { "type": "string" },
-        "status":   { "type": "integer", "minimum": 400, "maximum": 599 },
-        "detail":   { "type": "string" },
-        "instance": { "type": "string" }
-      },
-      "additionalProperties": true
-    },
-    {
-      "title": "Plain shorthand",
-      "type": "object",
-      "required": ["error"],
-      "properties": {
-        "error":   { "type": "string" },
-        "example": { "type": "string" }
-      },
-      "additionalProperties": true
-    },
-    {
-      "title": "Full OpenRiC error envelope",
-      "type": "object",
-      "required": ["@type", "openric:status", "openric:code", "openric:message"],
-      "properties": {
-        "@type": {
-          "type": "string",
-          "const": "openric:Error"
-        },
-        "openric:status":  { "type": "integer", "minimum": 400, "maximum": 599 },
-        "openric:code": {
-          "type": "string",
-          "enum": ["not-found", "forbidden", "bad-request", "rate-limited", "unavailable", "internal"]
-        },
-        "openric:message": { "type": "string" },
-        "openric:detail":  { "type": "string" }
-      },
-      "additionalProperties": true
-    }
-  ]
+  "title": "OpenRiC error",
+  "description": "Every error response is an RFC 7807 problem document served as application/problem+json (Core Discovery §4). Since v0.47.0 the legacy shapes ({\"error\": ...} and the openric:Error envelope) are no longer accepted.",
+  "type": "object",
+  "required": ["type", "title", "status"],
+  "properties": {
+    "type":     { "type": "string", "description": "An error type IRI, for example https://openric.org/errors/not-found." },
+    "title":    { "type": "string" },
+    "status":   { "type": "integer", "minimum": 400, "maximum": 599 },
+    "detail":   { "type": "string" },
+    "instance": { "type": "string" }
+  },
+  "additionalProperties": true
 }

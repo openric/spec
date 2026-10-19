@@ -2,43 +2,43 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openric.org/schemas/v0.1.0/service-description.schema.json",
   "title": "OpenRiC Service Description",
-  "description": "Validates the root /api/ric/v1/ response. At v0.1 this is permissive — either a plain {name, version, description} object (Heratio's current shorthand) or the richer openric:Service envelope from viewing-api.md §4.1.",
-
-  "oneOf": [
-    {
-      "title": "Plain shorthand",
+  "description": "Validates the root /api/ric/v1/ response. Since v0.47.0 the conformance claim is required: openric_conformance with the specification version and at least one profile. The legacy openric:Service envelope with L1-L4 levels is no longer accepted.",
+  "type": "object",
+  "required": ["name", "version", "openric_conformance"],
+  "properties": {
+    "name":        { "type": "string", "description": "Human-readable service name." },
+    "version":     { "type": "string", "description": "The implementation's own release." },
+    "description": { "type": "string" },
+    "docs":        { "type": "string", "format": "uri" },
+    "openapi":     { "type": "string", "format": "uri", "description": "The server's own OpenAPI 3.x description." },
+    "openric_conformance": {
       "type": "object",
-      "required": ["name", "version"],
+      "required": ["spec_version", "profiles"],
       "properties": {
-        "name":        { "type": "string" },
-        "version":     { "type": "string" },
-        "description": { "type": "string" }
-      },
-      "additionalProperties": true
-    },
-    {
-      "title": "Full OpenRiC service envelope",
-      "type": "object",
-      "required": ["@type"],
-      "properties": {
-        "@context":              { "type": ["string", "object", "array"] },
-        "@type":                 { "type": "string", "const": "openric:Service" },
-        "openric:version":       { "type": "string" },
-        "openric:conformance":   {
+        "spec_version":        { "type": "string", "description": "The specification version the server verifies against." },
+        "latest_spec_version": { "type": ["string", "null"], "description": "Advisory: the latest published specification version the server knows of." },
+        "spec_delta":          { "type": "string", "format": "uri" },
+        "profiles": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^L[1-4](-[a-z]+)?$" }
-        },
-        "openric:endpoints":     { "type": "object" },
-        "openric:implementation": {
-          "type": "object",
-          "properties": {
-            "name":    { "type": "string" },
-            "version": { "type": "string" },
-            "url":     { "type": "string", "format": "uri" }
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "version", "conformance"],
+            "properties": {
+              "id":          { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+              "version":     { "type": "string" },
+              "conformance": { "enum": ["full", "partial"] },
+              "notes":       { "type": "string" },
+              "status":      { "type": "string" }
+            },
+            "if": { "properties": { "conformance": { "const": "partial" } } },
+            "then": { "required": ["notes"] },
+            "additionalProperties": true
           }
         }
       },
       "additionalProperties": true
     }
-  ]
+  },
+  "additionalProperties": true
 }

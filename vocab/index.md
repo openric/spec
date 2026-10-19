@@ -23,15 +23,15 @@ OpenRiC vocabularies follow a **strict-additive** policy at this scheme path:
 
 - Adding a new Concept is non-breaking and lands without a version bump.
 - Renaming or removing a Concept requires a new versioned scheme (`/v2/activity-type/`).
-- Concept slugs are stable IRIs — they never change once minted.
+- Concept slugs are stable IRIs - they never change once minted.
 
 Implementations MAY pin a specific version where exact stability matters; the unversioned scheme path is the recommended default.
 
 ## Reference projects
 
-- [Garance](https://rdf.archives-nationales.culture.gouv.fr/garance/pages/en/) — Archives nationales de France public RDF/SKOS reference-data publication, an architectural benchmark for OpenRiC vocabulary publication patterns.
-- [ICA-EGAD RiC-O 1.1 vocabularies](https://github.com/ICA-EGAD/RiC-O/tree/master/vocabularies) — the official RiC-O auxiliary vocabularies (RecordSetType, AgentNameType, etc.) — OpenRiC vocabularies sit alongside, not in place of, these.
+- [Garance](https://rdf.archives-nationales.culture.gouv.fr/garance/pages/en/) - Archives nationales de France public RDF/SKOS reference-data publication, an architectural benchmark for OpenRiC vocabulary publication patterns.
+- [ICA-EGAD RiC-O 1.1 vocabularies](https://github.com/ICA-EGAD/RiC-O/tree/master/vocabularies) - the official RiC-O auxiliary vocabularies (RecordSetType, AgentNameType, etc.) - OpenRiC vocabularies sit alongside, not in place of, these.
 
 ## Licence
 
-[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) — fork, extend, propose new concepts via the [openric/spec discussions](https://github.com/openric/spec/discussions).
+[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) - fork, extend, propose new concepts via the [openric/spec discussions](https://github.com/openric/spec/discussions).
