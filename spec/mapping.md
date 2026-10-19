@@ -299,7 +299,7 @@ Dates are emitted as `openricx:DateRange` objects:
 | 5.2.2 History | `rico:history` |
 | 5.2.3 Places | `rico:isAssociatedWithPlace` → `rico:Place` |
 | 5.2.4 Legal status | `rico:hasOrHadLegalStatus` |
-| 5.2.5 Functions, occupations, activities | `rico:performsOrPerformed` → `openricx:Function` (interim, see §6.4); `openricx:hasOccupation` → SKOS Concept of `rico:OccupationType` (RiC-O 1.1 has no direct `Agent → OccupationType` linking property - Aaron+Florence in RiC user group #20 endorse SKOS individuals of `OccupationType`; canonical RDF expansion: an `Activity` typed by an OccupationType IRI per §6.5) |
+| 5.2.5 Functions, occupations, activities | `rico:performsOrPerformed` → `openricx:Function` (interim, see §6.4); for a person, `rico:hasOrHadOccupationOfType` → a SKOS Concept of `rico:OccupationType` (RiC-O 1.1, domain `rico:Person`); for other agents, or an occupation held only as text, `openricx:hasOccupation`. RiC user group #20 (Aaron Hope, Florence Clavaud) endorses SKOS individuals of `OccupationType`; the fuller expansion is an `Activity` typed by an OccupationType IRI per §6.5 |
 | 5.2.6 Mandates / sources of authority | `rico:authorizingMandate` → `rico:Mandate` |
 | 5.2.7 Internal structures / genealogy | `openricx:hasInternalStructure` |
 | 5.2.8 General context | `openricx:generalContext` |

@@ -185,9 +185,9 @@ openricx:hasAppraisalInformation a owl:DatatypeProperty ;
 
 # 2.9 Occupation (canonical-pattern shortcut)
 
-openricx:hasOccupation a owl:ObjectProperty ; rdfs:label "has occupation"@en ;
+openricx:hasOccupation a rdf:Property ; rdfs:label "has occupation"@en ;
     rdfs:domain rico:Agent ;
-    rdfs:comment "Pragmatic shortcut linking an Agent to a SKOS Concept of rico:OccupationType. Per Aaron Hope + Florence Clavaud (RiC user group thread #20), the canonical RiC-O 1.1 expansion is an Activity classified by an OccupationType IRI. RiC-O 1.1 has no direct Agent → OccupationType linking property."@en .
+    rdfs:comment "An agent's occupation, as free text or as a SKOS Concept of rico:OccupationType. For a person whose occupation is a concept, use RiC-O 1.1's own property, rico:hasOrHadOccupationOfType (domain rico:Person, range rico:OccupationType), instead. This term covers what that property does not: occupations of other agents, and occupations recorded only as text, as the reference service sends them. Revised in v0.48.0: the earlier comment said RiC-O 1.1 had no direct link and did not mention the person property."@en .
 
 # 2.10 Carrier / format (candidate-upstream)
 

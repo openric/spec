@@ -29,7 +29,8 @@
         },
         {
           "type": "array",
-          "items": {
+          "items": { "type": "string" },
+          "contains": {
             "type": "string",
             "pattern": "^(rico:CorporateBody|https://www\\.ica\\.org/standards/RiC/ontology#CorporateBody)$"
           },
@@ -48,9 +49,10 @@
     "openricx:otherName":            { "$ref": "#/$defs/langString" },
 
     "rico:hasOrHadAgentName": {
-      "oneOf": [
+      "anyOf": [
         { "$ref": "#/$defs/agentName" },
-        { "type": "array", "items": { "$ref": "#/$defs/agentName" } }
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "$ref": "#/$defs/agentName" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     },
 
@@ -64,12 +66,12 @@
       ]
     },
 
-    "rico:authorizingMandate":           { "type": "array" },
-    "openricx:hasOrHadPolicy":       { "type": "array" },
+    "rico:authorizingMandate":           { "type": ["array", "object"] },
+    "openricx:hasOrHadPolicy":       { "type": ["array", "object"] },
     "openricx:hasInternalStructure": { "$ref": "#/$defs/langString" },
 
-    "rico:isOrWasHolderOf":           { "type": "array" },
-    "rico:isOrWasDescribedBy":        { "type": "array" },
+    "rico:isOrWasHolderOf":           { "type": ["array", "object"] },
+    "rico:isOrWasDescribedBy":        { "type": ["array", "object"] },
 
     "openricx:contact":              { "type": "object" },
     "rico:conditionsOfAccess":   { "type": "string" }
@@ -78,6 +80,12 @@
   "additionalProperties": true,
 
   "$defs": {
+    "ref": {
+      "description": "A reference to a resource described elsewhere, as JSON-LD compaction gives it: an object carrying only (or mainly) its @id.",
+      "type": "object",
+      "required": ["@id"],
+      "properties": { "@id": { "type": "string" } }
+    },
     "langString": {
       "oneOf": [
         { "type": "string" },
