@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-19T09:12:24Z",
+  "run_at": "2026-10-19T09:35:53Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "999b9cb",
+  "probe_revision": "3870b23",
   "read_only": true,
   "runs": [
     {
@@ -18,8 +18,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:04:32Z",
+      "run_at": "2026-10-19T09:28:09Z",
       "results": []
     },
     {
@@ -73,8 +73,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -113,7 +113,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:03:13Z",
+      "run_at": "2026-10-19T09:26:53Z",
       "results": []
     },
     {
@@ -128,8 +128,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -168,7 +168,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:08:52Z",
+      "run_at": "2026-10-19T09:32:23Z",
       "results": []
     },
     {
@@ -183,8 +183,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -223,7 +223,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:11:14Z",
+      "run_at": "2026-10-19T09:34:44Z",
       "results": []
     },
     {
@@ -238,8 +238,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -278,7 +278,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:07:38Z",
+      "run_at": "2026-10-19T09:31:11Z",
       "results": []
     },
     {
@@ -293,8 +293,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -333,7 +333,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:06:27Z",
+      "run_at": "2026-10-19T09:30:01Z",
       "results": [
         {
           "status": "FAIL",
@@ -369,8 +369,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -409,7 +409,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:10:01Z",
+      "run_at": "2026-10-19T09:33:31Z",
       "results": [
         {
           "status": "SKIP",
@@ -430,8 +430,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -470,7 +470,7 @@
           }
         ]
       },
-      "run_at": "2026-10-19T09:12:24Z",
+      "run_at": "2026-10-19T09:35:53Z",
       "results": []
     }
   ]

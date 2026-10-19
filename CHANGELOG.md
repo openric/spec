@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.50.3 - 2026-10-19
+
+Public SPARQL graph rebuilt nightly from the API; review register gains reviewer types and R-9; proof page and ontology wording corrected
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.50.2 - 2026-10-19
 
 Review rounds of 19 October: known issues split into open, accepted and resolved; one v1.0 gate everywhere; review register; skipped checks reported as not verified
