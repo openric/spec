@@ -175,7 +175,7 @@ Drop two script tags into any HTML page:
 ```html
 <script type="importmap">
 { "imports": {
-    "@openric/viewer":   "https://unpkg.com/@openric/viewer@0.2/dist/index.esm.js",
+    "@openric/viewer":   "https://unpkg.com/@openric/viewer@0.4/dist/openric-viewer.es.js",
     "cytoscape":         "https://unpkg.com/cytoscape/dist/cytoscape.esm.min.js",
     "3d-force-graph":    "https://unpkg.com/3d-force-graph/dist/3d-force-graph.module.js"
 }}
