@@ -41,7 +41,7 @@
         sh:path rico:title ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:minLength 1 ;
         sh:message "RecordSet must have exactly one non-empty title"
     ] ;
@@ -49,7 +49,7 @@
     sh:property [
         sh:path rico:identifier ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:severity sh:Warning ;
         sh:message "RecordSet should have an identifier (reference code)"
     ] ;
@@ -57,7 +57,7 @@
     sh:property [
         sh:path rico:scopeAndContent ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:severity sh:Warning ;
         sh:message "RecordSet should have scope and content description"
     ] ;
@@ -85,7 +85,7 @@
     sh:property [
         sh:path rico:title ;
         sh:minCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:minLength 1 ;
         sh:message "Record must have a title"
     ] ;
@@ -156,7 +156,7 @@
         sh:path rico:textualValue ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:minLength 1 ;
         sh:message "AgentName must have exactly one non-empty textualValue"
     ] .
@@ -220,7 +220,7 @@
     sh:property [
         sh:path openricx:streetAddress ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] )
     ] ;
 
     sh:property [
@@ -232,7 +232,7 @@
     sh:property [
         sh:path openricx:city ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] )
     ] ;
 
     sh:property [

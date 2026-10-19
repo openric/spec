@@ -107,7 +107,7 @@
         sh:path openric:actor ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:pattern "^(api_key:[0-9]+|session|anonymous)$" ;
         sh:message "actor MUST be 'api_key:<n>', 'session', or 'anonymous'"
     ] ;
@@ -127,7 +127,7 @@
     sh:property [
         sh:path openric:ip ;
         sh:maxCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:severity sh:Info ;
         sh:message "Optional: IPv4 or IPv6 of the requester"
     ] ;

@@ -29,7 +29,8 @@
         },
         {
           "type": "array",
-          "items": {
+          "items": { "type": "string" },
+          "contains": {
             "type": "string",
             "pattern": "^(rico:Rule|rico:Mandate|https://www\\.ica\\.org/standards/RiC/ontology#(Rule|Mandate))$"
           },
@@ -49,16 +50,18 @@
     "openric:jurisdiction":  { "type": "string" },
 
     "owl:sameAs": {
-      "oneOf": [
+      "anyOf": [
         { "type": "string", "format": "uri" },
-        { "type": "array", "items": { "type": "string", "format": "uri" } }
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "type": "string", "format": "uri" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     },
 
     "openricx:hasDateRangeSet": {
-      "oneOf": [
+      "anyOf": [
         { "$ref": "#/$defs/dateRange" },
-        { "type": "array", "items": { "$ref": "#/$defs/dateRange" } }
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "$ref": "#/$defs/dateRange" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     }
   },
@@ -66,6 +69,12 @@
   "additionalProperties": true,
 
   "$defs": {
+    "ref": {
+      "description": "A reference to a resource described elsewhere, as JSON-LD compaction gives it: an object carrying only (or mainly) its @id.",
+      "type": "object",
+      "required": ["@id"],
+      "properties": { "@id": { "type": "string" } }
+    },
     "langString": {
       "oneOf": [
         { "type": "string" },

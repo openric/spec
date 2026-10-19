@@ -29,7 +29,8 @@
         },
         {
           "type": "array",
-          "items": {
+          "items": { "type": "string" },
+          "contains": {
             "type": "string",
             "pattern": "^(rico:(Agent|Person|CorporateBody|Family)|https://www\\.ica\\.org/standards/RiC/ontology#(Agent|Person|CorporateBody|Family))$"
           },
@@ -44,16 +45,18 @@
     "openricx:otherName":            { "$ref": "#/$defs/langString" },
 
     "rico:hasOrHadAgentName": {
-      "oneOf": [
+      "anyOf": [
         { "$ref": "#/$defs/agentName" },
-        { "type": "array", "items": { "$ref": "#/$defs/agentName" } }
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "$ref": "#/$defs/agentName" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     },
 
     "openricx:hasDateRangeSet": {
-      "oneOf": [
+      "anyOf": [
         { "$ref": "#/$defs/dateRange" },
-        { "type": "array", "items": { "$ref": "#/$defs/dateRange" } }
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "$ref": "#/$defs/dateRange" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     },
 
@@ -63,9 +66,9 @@
     "openricx:generalContext":       { "$ref": "#/$defs/langString" },
     "rico:hasOrHadLegalStatus":          { "$ref": "#/$defs/langString" },
 
-    "rico:isAssociatedWithPlace":             { "type": "array" },
-    "rico:authorizingMandate":           { "type": "array" },
-    "rico:performsOrPerformed":             { "type": "array" },
+    "rico:isAssociatedWithPlace":             { "type": ["array", "object"] },
+    "rico:authorizingMandate":           { "type": ["array", "object"] },
+    "rico:performsOrPerformed":             { "type": ["array", "object"] },
     "openricx:hasOccupation":    { "$ref": "#/$defs/langString" },
 
     "openricx:contact":              { "type": "object" },
@@ -81,6 +84,12 @@
   "additionalProperties": true,
 
   "$defs": {
+    "ref": {
+      "description": "A reference to a resource described elsewhere, as JSON-LD compaction gives it: an object carrying only (or mainly) its @id.",
+      "type": "object",
+      "required": ["@id"],
+      "properties": { "@id": { "type": "string" } }
+    },
     "langString": {
       "oneOf": [
         { "type": "string" },

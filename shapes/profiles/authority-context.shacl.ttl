@@ -19,6 +19,7 @@
 #   pyshacl -s always-on.shacl.ttl -s authority-context.shacl.ttl \
 #           -d data.jsonld -f human
 
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh:   <http://www.w3.org/ns/shacl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix rico: <https://www.ica.org/standards/RiC/ontology#> .
@@ -126,7 +127,7 @@
     sh:property [
         sh:path rico:textualValue ;
         sh:minCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:minLength 1 ;
         sh:message "PlaceName must have a textual value"
     ] .
@@ -143,7 +144,7 @@
     sh:property [
         sh:path rico:title ;
         sh:minCount 1 ;
-        sh:datatype xsd:string ;
+        sh:or ( [ sh:datatype xsd:string ] [ sh:datatype rdf:langString ] ) ;
         sh:minLength 1 ;
         sh:message "Rule must have a title"
     ] ;

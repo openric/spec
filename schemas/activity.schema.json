@@ -29,7 +29,8 @@
         },
         {
           "type": "array",
-          "items": {
+          "items": { "type": "string" },
+          "contains": {
             "type": "string",
             "pattern": "^(rico:(Production|Accumulation|Activity)|https://www\\.ica\\.org/standards/RiC/ontology#(Production|Accumulation|Activity))$"
           },
@@ -43,14 +44,15 @@
     "openric:localType":  { "type": "string" },
 
     "rico:isAssociatedWithDate": {
-      "oneOf": [
+      "anyOf": [
         { "$ref": "#/$defs/dateRange" },
-        { "type": "array", "items": { "$ref": "#/$defs/dateRange" } }
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "$ref": "#/$defs/dateRange" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     },
 
     "rico:hasOrHadLocation": {
-      "oneOf": [
+      "anyOf": [
         { "type": "string", "format": "uri" },
         {
           "type": "object",
@@ -59,7 +61,8 @@
             "@type":     { "type": "string" },
             "rico:name": { "$ref": "#/$defs/langString" }
           }
-        }
+        },
+        { "type": "array", "items": { "anyOf": [ { "type": "string", "format": "uri" }, { "$ref": "#/$defs/ref" } ] } }
       ]
     },
 
@@ -71,6 +74,12 @@
   "additionalProperties": true,
 
   "$defs": {
+    "ref": {
+      "description": "A reference to a resource described elsewhere, as JSON-LD compaction gives it: an object carrying only (or mainly) its @id.",
+      "type": "object",
+      "required": ["@id"],
+      "properties": { "@id": { "type": "string" } }
+    },
     "langString": {
       "oneOf": [
         { "type": "string" },
