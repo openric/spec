@@ -74,7 +74,7 @@ This page runs **inside your browser** and fetches live RiC-O data from the refe
 
 <!-- The viewer itself, loaded from the published npm package via CDN.
      This is the decoupling proof: openric.org no longer ships a viewer of its own. -->
-<script src="https://unpkg.com/@openric/viewer@0.1/dist/openric-viewer.umd.js"></script>
+<script src="https://unpkg.com/@openric/viewer@0.4/dist/openric-viewer.umd.js"></script>
 
 <script>
 (function () {
