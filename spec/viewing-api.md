@@ -5,7 +5,7 @@ title: OpenRiC Viewing API
 
 # OpenRiC Viewing API
 
-**Last revised in:** v0.50.0
+**Last revised in:** v0.51.0
 
 ---
 
