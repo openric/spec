@@ -121,7 +121,7 @@ mv "$TMP" contract/openapi.json
 # download fails.
 SNAP=$(mktemp)
 if curl -sf --max-time 20 https://raw.githubusercontent.com/openric/spec/conformance-results/latest.json -o "$SNAP" \
-   && jq '{schema, run_at, implementation, base, probe_revision, read_only, runs: [.runs[] | {profiles, verdict, counts, service, run_at}]}' "$SNAP" > _data/conformance_snapshot.json.new; then
+   && jq '{schema, run_at, implementation, base, probe_revision, read_only, runs: [.runs[] | {profiles, verdict, counts, service, run_at, results: [.results[]? | select(.status != "PASS")]}]}' "$SNAP" > _data/conformance_snapshot.json.new; then
     mv _data/conformance_snapshot.json.new _data/conformance_snapshot.json
 else
     rm -f _data/conformance_snapshot.json.new

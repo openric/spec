@@ -39,6 +39,42 @@ This page is generated, not written. The specification figures come from the rel
   </tbody>
 </table>
 
+### Version alignment
+
+{%- assign behind = "" -%}
+{%- for d in snap_svc.declared -%}{%- assign sp = site.data.profiles | where: "id", d.id | first -%}{%- if sp and sp.version != d.version -%}{%- capture behind -%}{{ behind }}{% if behind != "" %}, {% endif %}{{ sp.title }} (declares v{{ d.version }}, current v{{ sp.version }}){%- endcapture -%}{%- endif -%}{%- endfor %}
+
+<table id="alignment">
+  <tbody>
+    <tr><td>Latest specification release</td><td>v{{ site.data.version.version }}</td></tr>
+    <tr><td>Release the reference service is verified against</td><td id="align-spec">v{{ snap_svc.spec_version }}</td></tr>
+    <tr><td>Profiles declared at an older version than the current one</td><td id="align-behind">{% if behind == "" %}none{% else %}{{ behind }}{% endif %}</td></tr>
+  </tbody>
+</table>
+
+### What a pass proves, and what it does not
+
+A **pass** means the probe called the endpoints a profile requires and every response had the shape the profile defines: the right status codes, `@type` values, required fields, links and envelope, and a service description that declares the profile. That is all it means.
+
+It does **not** show that the data is correct archival description, that the mapping choices are sound, that writes work (the daily run is read-only, so every write check is skipped), or that two implementations can exchange data. Those need other evidence: the [fixtures](https://github.com/openric/spec/tree/main/fixtures) for shapes, review for the mapping, and a second, independent implementation for interoperability, which does not exist yet. A passing read-only probe is a necessary step, not proof of interoperability.
+
+### Checks that did not pass
+
+Every failed or skipped check from the latest run, with the reason the probe gave. A profile with any of these is never shown as a plain pass.
+
+<table id="not-passed">
+  <thead><tr><th>Profile</th><th>Result</th><th>Check</th><th>Detail</th></tr></thead>
+  <tbody>
+{%- assign np = 0 -%}
+{%- for r in snap.runs -%}{%- for c in r.results -%}{%- unless c.status == "PASS" -%}{%- assign np = np | plus: 1 %}
+    <tr><td>{{ r.profiles[0] }}</td><td>{% if c.status == "FAIL" %}<strong>FAIL</strong>{% else %}{{ c.status }}{% endif %}</td><td>{{ c.check }}</td><td>{{ c.http }}</td></tr>
+{%- endunless -%}{%- endfor -%}{%- endfor %}
+{%- if np == 0 %}
+    <tr><td colspan="4">None in the snapshot built into this page.</td></tr>
+{%- endif %}
+  </tbody>
+</table>
+
 ### Conformance matrix
 
 Two columns per implementation, kept apart on purpose. **Declared** is what the implementation claims in its own service description. **Tested** is the result of the [conformance probe](/conformance/) run against it, with the date of the run. The probe is scheduled to run daily against the reference service and is read-only; until a run has published its result, the Tested column says so: checks that would need to write are skipped, and a profile with skipped checks is never shown as a plain pass. A declaration without a test result is a claim to check, not a verified pass. You can run the probe against any server yourself.
@@ -68,4 +104,5 @@ These counts are read from the service's own list endpoints. Most of the data is
   <tbody></tbody>
 </table>
 
+<script id="spec-profiles" type="application/json">{{ site.data.profiles | jsonify }}</script>
 <script src="/assets/js/status.js?v={{ site.time | date: '%s' }}"></script>

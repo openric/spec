@@ -9,6 +9,21 @@ description: The exact Records in Contexts standards OpenRiC targets - RiC-FAD 1
 
 Records in Contexts is four documents, not one, and OpenRiC targets a specific version of each. This page names them. If you need to know in one minute what OpenRiC conforms to, this is the page.
 
+## RiC and OpenRiC
+
+They are easy to confuse, and they are different things made by different people.
+
+| ICA Records in Contexts | OpenRiC |
+|---|---|
+| RiC-CM, the conceptual model | Mapping conventions from ISAD(G), ISAAR(CPF), ISDIAH and ISDF, following RiC-AG's crosswalks where they exist |
+| RiC-O, the OWL ontology | An HTTP API and named profiles that serve RiC-O data |
+| The semantic foundations of archival description | Contracts an implementation can be tested against |
+| Developed by the International Council on Archives (EGAD) | An independent project maintained by The AHG, still changing |
+
+: ICA RiC and OpenRiC compared
+
+**OpenRiC does not claim to be an ICA-approved extension of RiC.** It uses RiC-O 1.1 terms as RiC publishes them, never adds terms to the RiC namespace, and keeps its own additions in a separate one. Where OpenRiC and RiC appear to disagree, RiC is right.
+
 ## The stack OpenRiC targets
 
 | Standard | Version | What it is | How OpenRiC uses it |

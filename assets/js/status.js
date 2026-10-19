@@ -57,6 +57,15 @@
         : "not declared";
     });
 
+    var specProfiles = [];
+    try { specProfiles = JSON.parse(el("spec-profiles").textContent); } catch (e) { specProfiles = []; }
+    var behind = (conf.profiles || []).map(function (d) {
+      var sp = specProfiles.filter(function (x) { return x.id === d.id; })[0];
+      return sp && sp.version !== d.version ? sp.title + " (declares v" + d.version + ", current v" + sp.version + ")" : null;
+    }).filter(Boolean);
+    if (el("align-spec")) el("align-spec").textContent = conf.spec_version ? "v" + conf.spec_version : "not declared";
+    if (el("align-behind")) el("align-behind").textContent = behind.length ? behind.join(", ") : "none";
+
     el("status-note").textContent =
       "Read live from " + API + "/ just now. The service verifies against specification v" +
       (conf.spec_version || "?") + "." + testedNote;
@@ -102,6 +111,28 @@
           " (" + c.pass + " pass, " + c.fail + " fail, " + c.skip + " skipped)";
         if (r.verdict === "fail") cell.style.fontWeight = "600";
       });
+      var body = el("not-passed") && el("not-passed").querySelector("tbody");
+      if (body) {
+        while (body.firstChild) body.removeChild(body.firstChild);
+        (run.runs || []).forEach(function (r) {
+          (r.results || []).forEach(function (c) {
+            if (c.status === "PASS") return;
+            var row = document.createElement("tr");
+            [r.profiles[0], c.status, c.check, c.http].forEach(function (v, i) {
+              var td = document.createElement("td");
+              if (i === 1 && c.status === "FAIL") { var b = document.createElement("strong"); b.textContent = v; td.appendChild(b); }
+              else td.textContent = v;
+              row.appendChild(td);
+            });
+            body.appendChild(row);
+          });
+        });
+        if (!body.children.length) {
+          var row = document.createElement("tr"), td = document.createElement("td");
+          td.colSpan = 4; td.textContent = "None in the run of " + day + ".";
+          row.appendChild(td); body.appendChild(row);
+        }
+      }
     }, function () {
       testedNote = " The latest probe run could not be read, so the Tested column shows the snapshot.";
       el("status-note").textContent += testedNote;
