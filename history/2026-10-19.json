@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-19T09:12:24Z",
+  "run_at": "2026-10-19T09:35:53Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "999b9cb",
+  "probe_revision": "3870b23",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:04:32Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:28:09Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -23,8 +23,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -118,8 +118,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:03:13Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:26:53Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
@@ -133,8 +133,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -233,8 +233,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:08:52Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:32:23Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -248,8 +248,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -328,8 +328,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:11:14Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:34:44Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
@@ -343,8 +343,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -428,8 +428,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:07:38Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:31:11Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -443,8 +443,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -513,8 +513,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:06:27Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:30:01Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -528,8 +528,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -628,8 +628,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:10:01Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:33:31Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -643,8 +643,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
@@ -708,8 +708,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-19T09:12:24Z",
-      "probe_revision": "999b9cb",
+      "run_at": "2026-10-19T09:35:53Z",
+      "probe_revision": "3870b23",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "sparql-access"
@@ -723,8 +723,8 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.18",
-        "spec_version": "0.50.0",
+        "version": "0.17.19",
+        "spec_version": "0.50.1",
         "declared": [
           {
             "id": "core-discovery",
