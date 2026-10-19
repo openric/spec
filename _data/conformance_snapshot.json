@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-15T15:21:41Z",
+  "run_at": "2026-10-18T08:17:53Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "44635c2",
+  "probe_revision": "2be95d1",
   "read_only": true,
   "runs": [
     {
@@ -18,7 +18,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:14:51Z"
+      "run_at": "2026-10-18T08:10:01Z"
     },
     {
       "profiles": [
@@ -72,7 +72,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -112,7 +112,7 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:13:32Z"
+      "run_at": "2026-10-18T08:08:44Z"
     },
     {
       "profiles": [
@@ -126,7 +126,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -166,7 +166,7 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:19:18Z"
+      "run_at": "2026-10-18T08:14:21Z"
     },
     {
       "profiles": [
@@ -180,7 +180,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -220,7 +220,7 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:21:41Z"
+      "run_at": "2026-10-18T08:16:43Z"
     },
     {
       "profiles": [
@@ -234,7 +234,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -274,7 +274,7 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:18:03Z"
+      "run_at": "2026-10-18T08:13:07Z"
     },
     {
       "profiles": [
@@ -288,7 +288,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -328,7 +328,7 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:16:51Z"
+      "run_at": "2026-10-18T08:11:56Z"
     },
     {
       "profiles": [
@@ -342,7 +342,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.12",
+        "version": "0.17.15",
         "spec_version": "0.46.0",
         "declared": [
           {
@@ -382,7 +382,61 @@
           }
         ]
       },
-      "run_at": "2026-10-15T15:20:26Z"
+      "run_at": "2026-10-18T08:15:29Z"
+    },
+    {
+      "profiles": [
+        "sparql-access"
+      ],
+      "verdict": "pass",
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.15",
+        "spec_version": "0.46.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.5.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "run_at": "2026-10-18T08:17:53Z"
     }
   ]
 }

@@ -2,6 +2,16 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.47.0 - 2026-10-19
+
+Baseline for the Standard Acceptance Gate: the service-description and error schemas accept only the current shapes (K-12); vocabulary IRIs resolve; site corrections from the external website review
+
+Migration: `schemas/service-description.schema.json` now requires `openric_conformance` with `spec_version` and at least one profile (`id`, `version`, `conformance`), and no longer accepts the legacy `openric:Service` envelope with L1 to L4 levels. `schemas/error.schema.json` accepts only RFC 7807 problem documents (`type`, `title`, `status`), as Core Discovery §4 has required since v0.30.0; the legacy `{"error": ...}` and `openric:Error` shapes are no longer valid. Servers that still send either legacy shape fail validation from this release. The reference service sends the current shapes since service v0.17.15. Fixtures `service-description` and `error-not-found` are re-captured.
+
+Deprecated, still present: `openricx:description` for scope and content, until at least v0.48.0.
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.46.0 - 2026-10-15
 
 Mapping follows RiC-AG with RiC-O 1.1 terms (open issue O-8 resolved); control areas and ISDF mapped; openricx:arrangement deprecated; external review brief

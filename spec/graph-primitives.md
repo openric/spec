@@ -5,7 +5,7 @@ title: OpenRiC Graph Primitives
 
 # OpenRiC Graph Primitives
 
-**Last revised in:** v0.46.1
+**Last revised in:** v0.47.0
 
 ---
 
