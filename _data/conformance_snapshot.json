@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-18T08:17:53Z",
+  "run_at": "2026-10-19T09:12:24Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "2be95d1",
+  "probe_revision": "999b9cb",
   "read_only": true,
   "runs": [
     {
@@ -18,12 +18,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:10:01Z",
+      "run_at": "2026-10-19T09:04:32Z",
       "results": []
     },
     {
@@ -73,12 +73,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -113,7 +113,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:08:44Z",
+      "run_at": "2026-10-19T09:03:13Z",
       "results": []
     },
     {
@@ -128,12 +128,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -168,7 +168,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:14:21Z",
+      "run_at": "2026-10-19T09:08:52Z",
       "results": []
     },
     {
@@ -183,12 +183,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -223,7 +223,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:16:43Z",
+      "run_at": "2026-10-19T09:11:14Z",
       "results": []
     },
     {
@@ -238,12 +238,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -278,7 +278,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:13:07Z",
+      "run_at": "2026-10-19T09:07:38Z",
       "results": []
     },
     {
@@ -293,12 +293,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -333,7 +333,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:11:56Z",
+      "run_at": "2026-10-19T09:06:27Z",
       "results": [
         {
           "status": "FAIL",
@@ -369,12 +369,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -409,7 +409,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:15:29Z",
+      "run_at": "2026-10-19T09:10:01Z",
       "results": [
         {
           "status": "SKIP",
@@ -430,12 +430,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -470,7 +470,7 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:17:53Z",
+      "run_at": "2026-10-19T09:12:24Z",
       "results": []
     }
   ]
