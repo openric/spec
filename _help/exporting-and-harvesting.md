@@ -2,10 +2,10 @@
 title: Exporting & harvesting
 category: Using the API
 order: 4
-summary: Get data out in bulk or per-record - OAI-PMH v2.0 harvest, content-negotiated JSON-LD/Turtle/RDF-XML dumps, and the portability guarantees. With samples.
+summary: Get data out in bulk or per-record - OAI-PMH v2.0 harvest, content-negotiated JSON-LD/Turtle/RDF-XML dumps, and what the draft Portability profile would add. With samples.
 ---
 
-OpenRiC treats getting your data out as a **guarantee**, not a feature. Two surfaces.
+OpenRiC treats getting your data out as **part of the contract**, not an optional feature: the normative Export-Only profile defines it, and the probe tests it. Two surfaces.
 
 ## Per-record export
 

@@ -95,7 +95,7 @@
   // Conformance workflow to the conformance-results branch.
   var RESULTS = "https://raw.githubusercontent.com/openric/spec/conformance-results/latest.json";
   var testedNote = "";
-  var VERDICT = { "pass": "pass", "fail": "FAIL", "pass-with-skips": "pass, with checks skipped" };
+  var VERDICT = { "pass": "pass", "fail": "FAIL", "pass-with-skips": "not verified: checks skipped" };
 
   function showTested() {
     var cells = document.querySelectorAll("#conformance-matrix-table td[data-tested]");

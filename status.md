@@ -89,7 +89,7 @@ Two columns per implementation, kept apart on purpose. **Declared** is what the 
 {%- for p in site.data.profiles %}
 {%- assign d = snap_svc.declared | where: "id", p.id | first -%}
 {%- assign r = nil -%}{%- for x in snap.runs -%}{%- if x.profiles[0] == p.id -%}{%- assign r = x -%}{%- endif -%}{%- endfor -%}
-    <tr><td><a href="/spec/profiles/{{ p.id }}.html">{{ p.title | replace: '&', '&amp;' }}</a></td><td>{{ p.status }} · v{{ p.version }}</td><td data-profile="{{ p.id }}">{% if d %}declared {{ d.conformance }} · v{{ d.version }}{% else %}not declared{% endif %}</td><td data-tested="{{ p.id }}">{% if r %}{% if r.verdict == "pass" %}pass{% elsif r.verdict == "fail" %}<strong>FAIL</strong>{% elsif r.verdict == "pass-with-skips" %}pass, with checks skipped{% else %}{{ r.verdict }}{% endif %} · {{ snap.run_at | slice: 0, 10 }} ({{ r.counts.pass }} pass, {{ r.counts.fail }} fail, {{ r.counts.skip }} skipped){% else %}not tested{% endif %}</td></tr>
+    <tr><td><a href="/spec/profiles/{{ p.id }}.html">{{ p.title | replace: '&', '&amp;' }}</a></td><td>{{ p.status }} · v{{ p.version }}</td><td data-profile="{{ p.id }}">{% if d %}declared {{ d.conformance }} · v{{ d.version }}{% else %}not declared{% endif %}</td><td data-tested="{{ p.id }}">{% if r %}{% if r.verdict == "pass" %}pass{% elsif r.verdict == "fail" %}<strong>FAIL</strong>{% elsif r.verdict == "pass-with-skips" %}<strong>not verified</strong>: checks skipped{% else %}{{ r.verdict }}{% endif %} · {{ snap.run_at | slice: 0, 10 }} ({{ r.counts.pass }} pass, {{ r.counts.fail }} fail, {{ r.counts.skip }} skipped){% else %}not tested{% endif %}</td></tr>
 {%- endfor %}
   </tbody>
 </table>

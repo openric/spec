@@ -69,7 +69,7 @@ Consumers MUST read this field before issuing any requests that depend on a spec
 | [**{{ p.title }}**]({{ p.id }}.html) | **{{ p.status }}** · v{{ p.version }} | {{ p.scope }} |
 {% endfor %}
 
-**{{ p_norm.size }} profiles normative, {{ p_draft.size }} in draft.** Normative: {{ p_norm | map: "title" | join: ", " }}. Draft, open for comment: {{ p_draft | map: "title" | join: ", " }}. The v0.43 governance-line drafts were each ported from a working Heratio reference implementation. v1.0 freeze depends on the governance criteria (a second implementation, an external institution committing to deploy, non-maintainer contributors).
+**{{ p_norm.size }} profiles normative, {{ p_draft.size }} in draft.** Normative: {{ p_norm | map: "title" | join: ", " }}. Draft, open for comment: {{ p_draft | map: "title" | join: ", " }}. The v0.43 governance-line drafts were each ported from a working Heratio reference implementation. v1.0 has one gate: a second implementation, built outside AHG, passes the probe for at least one profile. Institutional deployment and outside contributors are maturity goals, not v1.0 conditions ([governance](/governance.html#release-gates-and-maturity-goals)).
 
 ## 7. Conformance testing
 

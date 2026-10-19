@@ -29,7 +29,7 @@ There's also a Python validator (`validator/`) that checks fixtures against the 
 
 ## Reference implementation
 
-The OpenRiC reference service (Laravel) is open source (AGPL-3.0) - use it as the canonical behaviour to match. The point of the spec is that a *second, independent* implementation can pass the same probe; that's a v1.0 freeze criterion.
+The OpenRiC reference service (Laravel) is open source (AGPL-3.0) - use it as the canonical behaviour to match. The point of the spec is that a *second, independent* implementation can pass the same probe; that is the v1.0 gate ([governance](/governance.html#release-gates-and-maturity-goals)).
 
 ## Writing & AI
 
