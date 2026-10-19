@@ -67,7 +67,7 @@ Errors use **RFC 7807** problem+json:
 
 ## The whole surface
 
-`GET /api/ric/v1/` returns the service description (name, version, declared profiles); `GET /api/ric/v1/openapi.json` is the service's own OpenAPI document (OpenAPI 3.0.3; the specification's [contract](/contract/openapi.json) is OpenAPI 3.1 and is the normative one); `GET /api/ric/v1/docs` is a live Swagger UI you can "try it out" in.
+`GET /api/ric/v1/` returns the service description (name, version, declared profiles); `GET /api/ric/v1/openapi.json` is the service's own OpenAPI 3.1 document (the specification's [contract](/contract/openapi.json) is the normative one); `GET /api/ric/v1/docs` is a live Swagger UI you can "try it out" in.
 
 ## Next
 

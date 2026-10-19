@@ -34,7 +34,7 @@
     a owl:Ontology ;
     dcterms:title "OpenRiC Extension Ontology v1"@en ;
     dcterms:description "Versioned extension namespace for archival terms used by OpenRiC implementations but not defined in canonical RiC-O 1.1. Pragmatic API/response-envelope classes plus candidate-upstream archival semantic terms."@en ;
-    dcterms:creator "The Archive and Heritage Group / OpenRiC project" ;
+    dcterms:creator "The Archive and Heritage Digital Commons Group (Pty) Ltd / OpenRiC project" ;
     dcterms:issued "2026-04-25"^^xsd:date ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     vann:preferredNamespacePrefix "openricx" ;

@@ -85,7 +85,7 @@ The list endpoints - <code>/records</code>, <code>/agents</code>, <code>/reposit
   <div class="num">4</div>
   <div>
     <h4>Graph traversal</h4>
-    <p>A third-party viewer calls <code>/graph?uri=...&depth=2</code> and receives a normalized Subgraph envelope - nodes, edges, canonical <code>rico:*</code> predicates on every edge. Exactly the same shape from every conformant server.</p>
+    <p>A third-party viewer calls <code>/graph?uri=...&depth=2</code> and receives a normalized Subgraph envelope - nodes, edges, canonical <code>rico:*</code> predicates on every edge. The specification requires this shape from every conformant server; so far only the reference service implements graph traversal, so that has not yet been shown on a second one.</p>
 <pre><code>curl "https://ric.theahg.co.za/api/ric/v1/graph?uri=https://ric.theahg.co.za/informationobject/egyptian-boat&amp;depth=2"</code></pre>
   </div>
 </div>
@@ -246,4 +246,4 @@ php artisan openric:rebuild-nested-set
 - Open the <a href="{{ '/fixtures/' | relative_url }}">fixture pack</a> - {{ site.data.inventory.fixtures }} input/output pairs across the mapped RiC-O entity types.
 - Follow the <a href="{{ '/guides/getting-started.html' | relative_url }}">15-minute getting-started guide</a> to point your own server at the same contract.
 
-*The strongest evidence that a spec is implementable is a spec that's implemented. Everything on this page is running now, against a demonstration database that is reset every night.*
+*The strongest evidence that a spec is implementable is a spec that's implemented. Everything on this page is running now on the reference service. Its database is shared with Heratio and is restored every night from a demonstration snapshot; records assembled by hand, such as the Egyptian Boat, are part of that snapshot, so the reset puts them back as they were rather than removing them.*
