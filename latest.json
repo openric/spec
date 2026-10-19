@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-18T08:17:53Z",
+  "run_at": "2026-10-19T09:12:24Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "2be95d1",
+  "probe_revision": "999b9cb",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:10:01Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:04:32Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -23,12 +23,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -118,8 +118,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:08:44Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:03:13Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
@@ -133,12 +133,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -233,8 +233,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:14:21Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:08:52Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -248,12 +248,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -328,8 +328,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:16:43Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:11:14Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
@@ -343,12 +343,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -428,8 +428,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:13:07Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:07:38Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -443,12 +443,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -513,8 +513,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:11:56Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:06:27Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -528,12 +528,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -628,8 +628,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:15:29Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:10:01Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -643,12 +643,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
@@ -708,8 +708,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-18T08:17:53Z",
-      "probe_revision": "2be95d1",
+      "run_at": "2026-10-19T09:12:24Z",
+      "probe_revision": "999b9cb",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "sparql-access"
@@ -723,12 +723,12 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.15",
-        "spec_version": "0.46.0",
+        "version": "0.17.18",
+        "spec_version": "0.50.0",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.4.0",
+            "version": "0.6.0",
             "conformance": "full"
           },
           {
