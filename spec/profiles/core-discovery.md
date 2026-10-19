@@ -7,8 +7,8 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 # Core Discovery Profile
 
 **Profile id:** `core-discovery`
-**Profile version:** 0.4.0
-**Last revised in spec:** v0.44.0
+**Profile version:** 0.5.0
+**Last revised in spec:** v0.49.0
 **Status:** Normative
 **Dependencies:** None
 **Last updated:** 2026-10-15
@@ -84,7 +84,7 @@ Servers MUST set `Vary: Accept` on every response that content-negotiates.
     "profiles": [
       {
         "id": "core-discovery",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "conformance": "full"
       }
     ]
@@ -167,7 +167,7 @@ Pagination envelope (profile 0.4.0):
 
 | Field | Cardinality | Notes |
 |---|---|---|
-| `openricx:description` | 0..1 | Long-form prose |
+| `rico:scopeAndContent` | 0..1 | Scope and content, long-form prose (ISAD(G) 3.3.1). Language-tagged values permitted. |
 | `rico:hasBeginningDate` | 0..1 | xsd:gYear / xsd:date / xsd:dateTime |
 | `rico:hasEndDate` | 0..1 | Same types as above |
 | `rico:hasOrHadHolder` | 0..1 | Embedded partial repository object - `@id`, `@type`, `rico:name` only |
@@ -368,6 +368,12 @@ A server implementer works through:
 - Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
 ## 9. Migration
+
+### From profile 0.4.0 to 0.5.0 (spec v0.49.0)
+
+| What changed | Servers | Clients |
+|---|---|---|
+| A record's scope and content is `rico:scopeAndContent` only; `openricx:description` is no longer a record field (deprecated in v0.46.0) | Stop sending `openricx:description` on records; send `rico:scopeAndContent`. | Read `rico:scopeAndContent`. `openricx:description` remains a valid term for places, rules, activities, instantiations and functions. |
 
 ### From profile 0.3.0 to 0.4.0 (spec v0.44.0)
 

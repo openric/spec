@@ -247,7 +247,7 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 | 3.2.2 Administrative / biographical history | `rico:history` | On the Agent, not the Record |
 | 3.2.3 Archival history | `rico:history` on the Record | Free-text |
 | 3.2.4 Immediate source of acquisition | `rico:isOrWasAffectedBy` → `rico:Activity` (activity type `transfer`) with `rico:hasOrHadParticipant` → the source `rico:Agent` | Was `rico:hasOrganicProvenance`, which names the creator or accumulator, not the source (RiC-AG) |
-| 3.3.1 Scope and content | `rico:scopeAndContent` | Was `openricx:description`; servers that sent it SHOULD send both until at least v0.48.0 |
+| 3.3.1 Scope and content | `rico:scopeAndContent` | Was `openricx:description`, deprecated in v0.46.0 and no longer sent on records from v0.49.0 |
 | 3.3.2 Appraisal, destruction, scheduling | `openricx:hasAppraisalInformation` | |
 | 3.3.3 Accruals | `rico:accruals` | RiC-O 1.1 property; `openricx:accrualsNote` (v0.44.0) is deprecated |
 | 3.3.4 System of arrangement | `rico:structure` | Was `openricx:arrangement` (deprecated) |
@@ -524,7 +524,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
   "@type": "rico:RecordSet",
   "rico:identifier": "AHG-A001",
   "rico:title": { "@value": "Papers of Jan Christian Smuts", "@language": "en" },
-  "openricx:description": "Correspondence, diaries, speeches, 1886-1950.",
+  "rico:scopeAndContent": "Correspondence, diaries, speeches, 1886-1950.",
   "openricx:hasDateRangeSet": {
     "@type": "openricx:DateRange",
     "rico:hasBeginningDate": { "@value": "1886-01-01", "@type": "xsd:date" },

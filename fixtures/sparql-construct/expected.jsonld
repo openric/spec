@@ -22,7 +22,7 @@
       "@type": "rico:RecordSet",
       "rico:title":      "Papers of Jan Christian Smuts",
       "rico:identifier": "AHG-A001",
-      "openricx:description": "Personal papers, correspondence, and political writings of J.C. Smuts (1870-1950).",
+      "rico:scopeAndContent": "Personal papers, correspondence, and political writings of J.C. Smuts (1870-1950).",
       "openricx:hasDateRangeSet": {
         "@type": "openricx:DateRange",
         "rico:hasBeginningDate": { "@value": "1893", "@type": "xsd:gYear" },
