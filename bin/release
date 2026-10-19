@@ -54,6 +54,16 @@ echo -e "${CYAN}  OpenRiC Specification - Release${NC}"
 echo -e "${CYAN}════════════════════════════════════════════${NC}"
 echo ""
 
+# Releases are cut from main only. A release run on another branch commits,
+# tags and publishes a version that main, and so the site, never receives
+# (v0.50.0 on 19 October 2026 had to be fast-forwarded onto main by hand).
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$BRANCH" != "main" ]; then
+    echo -e "${RED}Error: on branch '$BRANCH'. Merge the pull request, then run the release from main:${NC}"
+    echo "  git checkout main && git pull --ff-only"
+    exit 1
+fi
+
 if [ ! -f "$VERSION_FILE" ]; then
     echo -e "${RED}Error: version.json not found${NC}"
     exit 1
