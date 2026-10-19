@@ -51,8 +51,8 @@ A RiC-O Person record like:
 ```turtle
 <.../agent/smuts-jc> a rico:Person ;
     rico:name "Smuts, Jan Christian" ;
-    rico:hasBeginningDate "1870-05-24"^^xsd:date ;
-    rico:hasEndDate "1950-09-11"^^xsd:date .
+    rico:birthDate "1870-05-24"^^xsd:date ;
+    rico:deathDate "1950-09-11"^^xsd:date .
 ```
 
 projects to CIDOC-CRM-equivalent form (illustrative — exact properties pending the bridge mapping):

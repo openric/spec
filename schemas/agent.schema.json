@@ -60,11 +60,18 @@
       ]
     },
 
-    "rico:hasBeginningDate":  { "type": "string" },
-    "rico:hasEndDate":    { "type": "string" },
+    "rico:date":             { "$ref": "#/$defs/langString" },
+    "rico:hasBeginningDate": { "anyOf": [ { "$ref": "#/$defs/ref" }, { "type": "object" } ] },
+    "rico:hasEndDate":       { "anyOf": [ { "$ref": "#/$defs/ref" }, { "type": "object" } ] },
     "rico:history":              { "$ref": "#/$defs/langString" },
     "openricx:generalContext":       { "$ref": "#/$defs/langString" },
-    "rico:hasOrHadLegalStatus":          { "$ref": "#/$defs/langString" },
+    "rico:hasOrHadLegalStatus": {
+      "anyOf": [
+        { "$ref": "#/$defs/legalStatus" },
+        { "$ref": "#/$defs/ref" },
+        { "type": "array", "items": { "anyOf": [ { "$ref": "#/$defs/legalStatus" }, { "$ref": "#/$defs/ref" } ] } }
+      ]
+    },
 
     "rico:isAssociatedWithPlace":             { "type": ["array", "object"] },
     "rico:authorizingMandate":           { "type": ["array", "object"] },
@@ -84,6 +91,15 @@
   "additionalProperties": true,
 
   "$defs": {
+    "legalStatus": {
+      "type": "object",
+      "required": ["rico:name"],
+      "properties": {
+        "@type":     { "type": "string" },
+        "rico:name": { "$ref": "#/$defs/langString" }
+      }
+    },
+
     "ref": {
       "description": "A reference to a resource described elsewhere, as JSON-LD compaction gives it: an object carrying only (or mainly) its @id.",
       "type": "object",
@@ -134,20 +150,20 @@
     "dateRange": {
       "type": "object",
       "anyOf": [
-        { "required": ["rico:hasBeginningDate"] },
+        { "required": ["rico:beginningDate"] },
         { "required": ["rico:endDate"] },
         { "required": ["rico:normalizedDateValue"] },
-        { "required": ["rico:beginningDate"] },
         { "required": ["rico:expressedDate"] }
       ],
       "properties": {
         "@type":                 { "type": "string" },
-        "rico:hasBeginningDate":        { "type": ["string","object"] },
-        "rico:endDate":          { "type": ["string","object"] },
         "rico:beginningDate":    { "type": ["string","object"] },
+        "rico:endDate":          { "type": ["string","object"] },
+        "rico:hasBeginningDate": { "anyOf": [ { "$ref": "#/$defs/ref" }, { "type": "object" } ] },
+        "rico:hasEndDate":       { "anyOf": [ { "$ref": "#/$defs/ref" }, { "type": "object" } ] },
         "rico:expressedDate":    { "type": ["string","object"] },
         "rico:normalizedDateValue":   { "type": "string" },
-        "rico:hasDateType":         { "type": "string" }
+        "rico:hasDateType":      { "$ref": "#/$defs/ref" }
       }
     }
   }

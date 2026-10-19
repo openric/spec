@@ -164,7 +164,7 @@ def service_description():
         "description": "Standard-library example implementing the Core Discovery profile, with a small in-memory write surface for learning. Synthetic data.",
         "openric_conformance": {
             "spec_version": SPEC_VERSION,
-            "profiles": [{"id": "core-discovery", "version": "0.5.0", "conformance": "full"}],
+            "profiles": [{"id": "core-discovery", "version": "0.6.0", "conformance": "full"}],
         },
     }
 

@@ -7,8 +7,8 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 # Core Discovery Profile
 
 **Profile id:** `core-discovery`
-**Profile version:** 0.5.0
-**Last revised in spec:** v0.49.0
+**Profile version:** 0.6.0
+**Last revised in spec:** v0.50.0
 **Status:** Normative
 **Dependencies:** None
 **Last updated:** 2026-10-15
@@ -168,8 +168,8 @@ Pagination envelope (profile 0.4.0):
 | Field | Cardinality | Notes |
 |---|---|---|
 | `rico:scopeAndContent` | 0..1 | Scope and content, long-form prose (ISAD(G) 3.3.1). Language-tagged values permitted. |
-| `rico:hasBeginningDate` | 0..1 | xsd:gYear / xsd:date / xsd:dateTime |
-| `rico:hasEndDate` | 0..1 | Same types as above |
+| `openricx:hasDateRangeSet` | 0..n | `openricx:DateRange` objects; literal endpoints on `rico:beginningDate` / `rico:endDate` (xsd:gYear / xsd:date / xsd:dateTime), type on `rico:hasDateType` → a [date-type concept](/vocab/date-type.html) ([mapping §7.2](../mapping.html#72-date-ranges)) |
+| `rico:hasOrHadLanguage` | 0..n | On a `rico:Record` only. A `rico:RecordSet` uses `rico:hasOrHadAllMembersWithLanguage` (one language) or `rico:hasOrHadSomeMembersWithLanguage` (several) |
 | `rico:hasOrHadHolder` | 0..1 | Embedded partial repository object - `@id`, `@type`, `rico:name` only |
 | `rico:hasCreator` | 0..n | Embedded partial agent objects - `@id`, `@type`, `rico:name` only |
 
@@ -194,8 +194,8 @@ Pagination envelope (profile 0.4.0):
 | Field | Cardinality | Notes |
 |---|---|---|
 | `rico:history` | 0..1 | Biographical / administrative prose |
-| `rico:hasBeginningDate` | 0..1 | |
-| `rico:hasEndDate` | 0..1 | |
+| `rico:date` | 0..1 | Dates of existence as free text, when the source holds no structured dates |
+| `openricx:hasDateRangeSet` | 0..n | Structured dates of existence, as for records |
 
 #### 3.4.3 `GET /repositories/{key}`
 
@@ -368,6 +368,17 @@ A server implementer works through:
 - Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
 ## 9. Migration
+
+### From profile 0.5.0 to 0.6.0 (spec v0.50.0)
+
+RiC-O 1.1 separates datatype properties, which carry literals, from object properties, which point at other resources. Earlier versions of this profile and of the mapping gave literals to object properties. Each row below corrects one such case.
+
+| What changed | Servers | Clients |
+|---|---|---|
+| Literal dates | Send literal dates on `rico:beginningDate` and `rico:endDate`, and free-text dates on `rico:date`. `rico:hasBeginningDate` and `rico:hasEndDate` now only point at a `rico:Date` node and never carry a literal. | Read `rico:beginningDate`, `rico:endDate` and `rico:date`. Treat a literal on `rico:hasBeginningDate` from an older server as a beginning date. |
+| Date type | Send `rico:hasDateType` as a link to a concept in the [date-type vocabulary](/vocab/date-type.html), for example `{ "@id": "https://openric.org/vocab/date-type/existence" }`. | The old strings (`existence`, `creation`, `accumulation`, `descriptive`, `custody`) map one to one onto the concept IRIs. |
+| Language on record sets | On a `rico:RecordSet`, send `rico:hasOrHadAllMembersWithLanguage` for a single language or `rico:hasOrHadSomeMembersWithLanguage` for several; keep `rico:hasOrHadLanguage` for records and record parts. | Read all three. |
+| Legal status (agents) | Send `rico:hasOrHadLegalStatus` as a `rico:LegalStatus` node with `rico:name`, not a string. | Read the node's `rico:name`. |
 
 ### From profile 0.4.0 to 0.5.0 (spec v0.49.0)
 

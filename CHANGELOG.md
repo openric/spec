@@ -2,6 +2,14 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.50.0 - 2026-10-19
+
+RiC-O 1.1 datatype and object properties kept apart; Core Discovery 0.6.0; Review OpenRiC page and independent evaluation
+
+Migration: literal dates go on rico:beginningDate, rico:endDate or rico:date, never on rico:hasBeginningDate or rico:hasEndDate; rico:hasDateType is a link to a concept in https://openric.org/vocab/date-type/; rico:hasOrHadLegalStatus is a rico:LegalStatus node with rico:name; a record set states language with rico:hasOrHadAllMembersWithLanguage or rico:hasOrHadSomeMembersWithLanguage. Core Discovery 0.6.0, section 9, ha  the table for servers and clients.
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.49.3 - 2026-10-19
 
 Site wording matches the evidence: OpenAPI versions, seven base documents, release currency against tested conformance, qualified institutional claims

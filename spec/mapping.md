@@ -5,9 +5,9 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.49.0
+**Last revised in:** v0.50.0
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
-**Last updated:** 2026-10-15
+**Last updated:** 2026-10-19
 
 ---
 
@@ -35,7 +35,7 @@ This mapping is **consistent with the conventions of [RiC-O Converter v3.0](http
 
 - **Source standards**: OpenRiC mapping covers ISAD(G), ISAAR(CPF), ISDIAH, ISDF (the AtoM/Heratio source set). RiC-O Converter covers EAD 2002 and EAC-CPF (the international XML formats). The two source sets overlap on ISAD(G) ↔ EAD and ISAAR(CPF) ↔ EAC-CPF; the Converter does NOT cover ISDIAH or ISDF source data, OpenRiC does.
 - **Output RiC-O version**: both target RiC-O 1.1.
-- **Property choices**: where both standards model the same concept, this spec emits the same `rico:*` property the Converter emits (verified for `rico:hasOrHadInstantiation`, `rico:hasOrHadHolder`, `rico:hasOrHadAgentName`, `rico:hasOrHadLanguage`, the date-property family, the inclusion-relation family, and others - see the [audit document](../audit/ric-o-1.1-audit.html) for the per-term decisions).
+- **Property choices**: the two agree on many properties, among them `rico:title`, `rico:scopeAndContent`, `rico:conditionsOfAccess`, `rico:conditionsOfUse`, `rico:hasOrHadHolder`, `rico:hasOrHadAgentName` and `rico:history`, and since v0.50.0 on literal dates (`rico:beginningDate`, `rico:endDate`) and on language for record sets (`rico:hasOrHadAllMembersWithLanguage` or `rico:hasOrHadSomeMembersWithLanguage`). They differ elsewhere, and both choices are valid RiC-O 1.1: the Converter nests with `rico:directlyIncludes` where OpenRiC uses `rico:includesOrIncluded`, links origination with `rico:hasOrganicProvenance` where OpenRiC uses `rico:hasCreator`, and puts the reference code and the extent on the instantiation where OpenRiC puts them on the record. Before v0.50.0 this section said OpenRiC matched the Converter on the date and inclusion families; it did not. Per-term decisions are in the [audit document](../audit/ric-o-1.1-audit.html).
 - **Extension namespace**: where neither the Converter nor RiC-O 1.1 covers a needed concept, OpenRiC mints terms in `openricx:` (see [`/ns/ext/v1.html`](../ns/ext/v1.html)). The Converter does not currently use an extension namespace; OpenRiC adopters that also use the Converter can ignore the openricx terms and stay strict-RiC-O.
 
 Institutions migrating existing EAD finding aids can reasonably use the Converter to bootstrap their corpus and an OpenRiC-conformant server (any conformant implementation, not just the reference) to expose the result over HTTP.
@@ -253,9 +253,9 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 | 3.3.4 System of arrangement | `rico:structure` | Was `openricx:arrangement` (deprecated) |
 | 3.4.1 Conditions governing access | `rico:conditionsOfAccess` | |
 | 3.4.2 Conditions governing reproduction | `rico:conditionsOfUse` | |
-| 3.4.3 Language/scripts of material | `rico:hasOrHadLanguage` → ISO 639-3 code | |
+| 3.4.3 Language/scripts of material | On a `rico:Record` or `rico:RecordPart`: `rico:hasOrHadLanguage` → `rico:Language`. On a `rico:RecordSet`: `rico:hasOrHadAllMembersWithLanguage` when one language is given, `rico:hasOrHadSomeMembersWithLanguage` when several are | RiC-O 1.1 limits `rico:hasOrHadLanguage` to Agent, Record and RecordPart. Until v0.50.0 OpenRiC sent it on record sets too, outside its domain. The record-set rule follows the RiC-O Converter |
 | 3.4.4 Physical characteristics | `rico:physicalCharacteristicsNote` on the record's `rico:Instantiation` | Was `rico:hasCarrierType`, which names the carrier, not its condition |
-| 3.4.5 Finding aids | `rico:isOrWasDescribedBy` → finding-aid Record (which carries `rico:hasDocumentaryFormType <https://www.ica.org/standards/RiC/ontology#FindingAid>`) | Canonical RiC-O 1.1 pattern per Florence Clavaud (RiC user group) - `FindingAid` is a `DocumentaryFormType` individual, not a separate property |
+| 3.4.5 Finding aids | `rico:isOrWasDescribedBy` → finding-aid Record (which carries `rico:hasDocumentaryFormType <https://www.ica.org/standards/RiC/vocabularies/documentaryFormTypes#FindingAid>`) | Canonical RiC-O 1.1 pattern per Florence Clavaud (RiC user group) - `FindingAid` is a concept in RiC-O's documentary-form-type vocabulary, not a separate property. Earlier versions gave the IRI as `ontology#FindingAid`, which does not exist |
 | 3.5.1 Existence and location of originals | `rico:hasOrHadLocation` | |
 | 3.5.2 Existence and location of copies | `rico:hasOrHadInstantiation` | |
 | 3.5.3 Related units of description | `rico:isRelatedTo` | |
@@ -276,14 +276,16 @@ Dates are emitted as `openricx:DateRange` objects:
 ```json
 {
   "@type": "openricx:DateRange",
-  "rico:hasBeginningDate": { "@value": "1899-10-11", "@type": "xsd:date" },
+  "rico:beginningDate": { "@value": "1899-10-11", "@type": "xsd:date" },
   "rico:endDate":   { "@value": "1902-05-31", "@type": "xsd:date" },
   "rico:normalizedDateValue": "1899-10-11/1902-05-31",
-  "rico:hasDateType": "existence"
+  "rico:hasDateType": { "@id": "https://openric.org/vocab/date-type/existence" }
 }
 ```
 
-`rico:hasDateType` values: `existence`, `creation`, `accumulation`, `descriptive`, `custody`.
+`openricx:DateRange` is a subclass of `rico:Date`. Literal values go on the datatype properties `rico:beginningDate`, `rico:endDate` and, for free text, `rico:date`; the object properties `rico:hasBeginningDate`, `rico:hasEndDate`, `rico:hasCreationDate` and the rest point from an entity to a `rico:Date` node and never carry a literal.
+
+`rico:hasDateType` is an object property whose range is `rico:DateType`, so its value is a concept from the [OpenRiC date-type vocabulary](/vocab/date-type.html): `existence`, `creation`, `accumulation`, `descriptive` or `custody`. Until v0.50.0 it was sent as a plain string with those names.
 
 ### 7.3 Actor (ISAAR(CPF))
 
@@ -295,10 +297,10 @@ Dates are emitted as `openricx:DateRange` objects:
 | 5.1.4 Standardised forms (other rules) | `openricx:alternativeForm` |
 | 5.1.5 Other forms of name | `openricx:otherName` |
 | 5.1.6 Identifiers | `rico:identifier` |
-| 5.2.1 Dates of existence | `openricx:hasDateRangeSet` with `dateType=existence`; in RDF `rico:hasBirthDate` / `rico:hasDeathDate` (persons) or `rico:hasBeginningDate` / `rico:hasEndDate` → `rico:Date` |
+| 5.2.1 Dates of existence | `openricx:hasDateRangeSet` with `rico:hasDateType` → [`existence`](/vocab/date-type/existence); when the source holds them only as free text, `rico:date` on the agent; in RDF `rico:hasBirthDate` / `rico:hasDeathDate` (persons) or `rico:hasBeginningDate` / `rico:hasEndDate` → `rico:Date` |
 | 5.2.2 History | `rico:history` |
 | 5.2.3 Places | `rico:isAssociatedWithPlace` → `rico:Place` |
-| 5.2.4 Legal status | `rico:hasOrHadLegalStatus` |
+| 5.2.4 Legal status | `rico:hasOrHadLegalStatus` → a `rico:LegalStatus` node carrying the status as `rico:name` (an object property; not a plain string) |
 | 5.2.5 Functions, occupations, activities | `rico:performsOrPerformed` → `openricx:Function` (interim, see §6.4); for a person, `rico:hasOrHadOccupationOfType` → a SKOS Concept of `rico:OccupationType` (RiC-O 1.1, domain `rico:Person`); for other agents, or an occupation held only as text, `openricx:hasOccupation`. RiC user group #20 (Aaron Hope, Florence Clavaud) endorses SKOS individuals of `OccupationType`; the fuller expansion is an `Activity` typed by an OccupationType IRI per §6.5 |
 | 5.2.6 Mandates / sources of authority | `rico:authorizingMandate` → `rico:Mandate` |
 | 5.2.7 Internal structures / genealogy | `openricx:hasInternalStructure` |
@@ -392,7 +394,7 @@ Each relation MAY carry a `rico:Relation` reified object when date-scoping, cert
   "@type": "rico:FamilyRelation",
   "rico:relationHasSource": "…/actor/smuts-jc",
   "rico:relationHasTarget": "…/actor/smuts-family",
-  "openricx:hasDateRangeSet": { "@type": "openricx:DateRange", "rico:hasBeginningDate": "1870-05-24" },
+  "openricx:hasDateRangeSet": { "@type": "openricx:DateRange", "rico:beginningDate": "1870-05-24" },
   "rico:relationCertainty": "asserted"
 }
 ```
@@ -527,9 +529,9 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
   "rico:scopeAndContent": "Correspondence, diaries, speeches, 1886-1950.",
   "openricx:hasDateRangeSet": {
     "@type": "openricx:DateRange",
-    "rico:hasBeginningDate": { "@value": "1886-01-01", "@type": "xsd:date" },
+    "rico:beginningDate": { "@value": "1886-01-01", "@type": "xsd:date" },
     "rico:endDate":   { "@value": "1950-09-11", "@type": "xsd:date" },
-    "rico:hasDateType": "existence"
+    "rico:hasDateType": { "@id": "https://openric.org/vocab/date-type/creation" }
   },
   "rico:hasExtent": {
     "@type": "rico:Extent",

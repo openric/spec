@@ -78,7 +78,8 @@ openricx:ContactPoint a owl:Class ; rdfs:label "Contact Point"@en ;
     rdfs:comment "A repository or organisation contact point — physical address, telephone, email, opening hours. Modelled as an OpenRiC extension because RiC-O 1.1 does not define rico:ContactPoint. Open candidate for upstream proposal; alternatives include schema.org/ContactPoint and vCard."@en .
 
 openricx:DateRange a owl:Class ; rdfs:label "Date Range"@en ;
-    rdfs:comment "A structured date range with beginning, end, and an optional human-readable expressedDate qualifier (e.g. 'circa 1961', 'late 19th century'). Retained as an extension because RiC-O 1.1 dropped its own DateRange class; canonical RDF MAY use native rico:Date / rico:hasBeginningDate / rico:hasEndDate where ISO-8601 endpoints are available."@en .
+    rdfs:subClassOf rico:Date ;
+    rdfs:comment "A structured date range with beginning, end, and an optional human-readable expressedDate qualifier (e.g. 'circa 1961', 'late 19th century'). Retained as an extension because RiC-O 1.1 dropped its own DateRange class. Its literal endpoints go on the datatype properties rico:beginningDate and rico:endDate, and its type on rico:hasDateType pointing at a concept in https://openric.org/vocab/date-type/. Canonical RDF MAY instead link the entity to a rico:Date node with the object properties rico:hasBeginningDate / rico:hasEndDate, which never carry a literal. Revised in v0.50.0: declared a subclass of rico:Date, so that rico:hasDateType applies to it."@en .
 
 openricx:DateRangeSet a owl:Class ; rdfs:label "Date Range Set"@en ;
     rdfs:comment "A collection of openricx:DateRange instances when an entity has multiple, scoped date ranges (e.g. dates of existence, dates of activity, dates of publication)."@en .
@@ -168,7 +169,7 @@ openricx:normalizedForm a owl:DatatypeProperty ; rdfs:label "normalized form"@en
 openricx:otherName a owl:DatatypeProperty ; rdfs:label "other name"@en .
 
 openricx:languageCode a owl:DatatypeProperty ; rdfs:label "language code"@en ;
-    rdfs:comment "Free-text language code (e.g. 'en', 'fra', 'zh-Hans'). Canonical alternative: rico:hasOrHadLanguage pointing at an ISO-639 IRI."@en .
+    rdfs:comment "Free-text language code (e.g. 'en', 'fra', 'zh-Hans'). Canonical alternative: rico:hasOrHadLanguage pointing at an ISO-639 IRI on a Record, RecordPart or Agent; on a RecordSet, rico:hasOrHadAllMembersWithLanguage or rico:hasOrHadSomeMembersWithLanguage."@en .
 
 # 2.7 Privacy / access (candidate-upstream)
 

@@ -18,7 +18,7 @@ Pins the canonical JSON-LD shape returned when a SPARQL CONSTRUCT or DESCRIBE qu
 1. **`@context` binds the OpenRiC namespaces.** At minimum `rico` and `openricx`; the canonical recommended set is `rico`, `openricx`, `skos`, `dcterms`, `owl`, `xsd`. Without these bindings, any `rico:*` / `openricx:*` CURIE in the result body fails JSON-LD expansion in standard processors.
 2. **`@graph` carries the constructed triples** as a JSON-LD-framed array of subject objects. The example shows two subjects (a Person and a RecordSet) with cross-links.
 3. **Cross-entity references** use `{ "@id": "..." }` for stub references; full embedded objects (with `@type`, `rico:name`, etc.) are permitted when the source query DESCRIBES them.
-4. **All emitted property names are canonical RiC-O 1.1 or openricx — no legacy terms.** Specifically: `rico:hasBeginningDate` (not `rico:startDate`), `rico:hasEndDate`, `rico:hasOrHadHolder` (not `rico:heldBy`), `rico:isOrWasHolderOf` (not `rico:hasHolding`), `openricx:description` (not `rico:description`), `openricx:hasDateRangeSet` (not `rico:hasDateRangeSet`), `openricx:DateRange` (not `rico:DateRange`).
+4. **All emitted property names are canonical RiC-O 1.1 or openricx — no legacy terms.** Specifically: literal dates on the datatype properties `rico:birthDate` and `rico:deathDate` for a person and `rico:beginningDate` and `rico:endDate` elsewhere (not `rico:startDate`, and never a literal on the object properties `rico:hasBeginningDate` or `rico:hasEndDate`, which point at a `rico:Date` node; corrected in v0.50.0), `rico:hasOrHadHolder` (not `rico:heldBy`), `rico:isOrWasHolderOf` (not `rico:hasHolding`), `rico:scopeAndContent` (not `rico:description`, and since v0.49.0 not `openricx:description`), `openricx:hasDateRangeSet` (not `rico:hasDateRangeSet`), `openricx:DateRange` (not `rico:DateRange`).
 
 ## Example query that would produce this shape
 
@@ -29,14 +29,14 @@ PREFIX openricx: <https://openric.org/ns/ext/v1#>
 CONSTRUCT {
   ?person a rico:Person ;
           rico:name             ?personName ;
-          rico:hasBeginningDate ?birth ;
-          rico:hasEndDate       ?death ;
+          rico:birthDate        ?birth ;
+          rico:deathDate        ?death ;
           rico:isOrWasHolderOf  ?fonds ;
           owl:sameAs            ?wikidata .
   ?fonds  a rico:RecordSet ;
           rico:title         ?fondsTitle ;
           rico:identifier    ?fondsId ;
-          openricx:description ?desc ;
+          rico:scopeAndContent ?desc ;
           rico:hasOrHadHolder ?holder .
   ?holder a rico:CorporateBody ;
           rico:name ?holderName .
@@ -45,14 +45,14 @@ WHERE {
   VALUES ?person { <https://archives.example.org/agent/smuts-jc> }
   ?person a rico:Person ;
           rico:name             ?personName ;
-          rico:hasBeginningDate ?birth ;
-          rico:hasEndDate       ?death ;
+          rico:birthDate        ?birth ;
+          rico:deathDate        ?death ;
           rico:isOrWasHolderOf  ?fonds .
   OPTIONAL { ?person owl:sameAs ?wikidata }
   ?fonds  a rico:RecordSet ;
           rico:title         ?fondsTitle ;
           rico:identifier    ?fondsId ;
-          openricx:description ?desc ;
+          rico:scopeAndContent ?desc ;
           rico:hasOrHadHolder ?holder .
   ?holder rico:name ?holderName .
 }

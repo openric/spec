@@ -117,7 +117,7 @@
         "@type":                 { "type": "string" },
         "rico:beginningDate":    { "type": ["string", "object"] },
         "rico:endDate":          { "type": ["string", "object"] },
-        "rico:hasBeginningDate":        { "type": ["string", "object"] },
+        "rico:hasBeginningDate": { "anyOf": [ { "$ref": "#/$defs/ref" }, { "type": "object" } ] },
         "rico:expressedDate":    { "type": ["string", "object"] },
         "rico:normalizedDateValue":   { "type": "string" }
       }

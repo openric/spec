@@ -58,7 +58,8 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:10:01Z"
+      "run_at": "2026-10-18T08:10:01Z",
+      "results": []
     },
     {
       "profiles": [
@@ -112,7 +113,8 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:08:44Z"
+      "run_at": "2026-10-18T08:08:44Z",
+      "results": []
     },
     {
       "profiles": [
@@ -166,7 +168,8 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:14:21Z"
+      "run_at": "2026-10-18T08:14:21Z",
+      "results": []
     },
     {
       "profiles": [
@@ -220,7 +223,8 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:16:43Z"
+      "run_at": "2026-10-18T08:16:43Z",
+      "results": []
     },
     {
       "profiles": [
@@ -274,7 +278,8 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:13:07Z"
+      "run_at": "2026-10-18T08:13:07Z",
+      "results": []
     },
     {
       "profiles": [
@@ -328,7 +333,29 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:11:56Z"
+      "run_at": "2026-10-18T08:11:56Z",
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET / declares provenance-event",
+          "http": "200"
+        },
+        {
+          "status": "FAIL",
+          "check": "production: results, participant, DateRange (§6.2) - e.g. 910375 ",
+          "http": "n=25"
+        },
+        {
+          "status": "FAIL",
+          "check": "every activity has a DateRange (§6.4) - e.g. 910375 ",
+          "http": "n=25"
+        },
+        {
+          "status": "SKIP (needs a graph walk)",
+          "check": "activity reachable from a record (§6.7)",
+          "http": "--"
+        }
+      ]
     },
     {
       "profiles": [
@@ -382,7 +409,14 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:15:29Z"
+      "run_at": "2026-10-18T08:15:29Z",
+      "results": [
+        {
+          "status": "SKIP",
+          "check": "create/update/delete round trip",
+          "http": "no-key"
+        }
+      ]
     },
     {
       "profiles": [
@@ -436,7 +470,8 @@
           }
         ]
       },
-      "run_at": "2026-10-18T08:17:53Z"
+      "run_at": "2026-10-18T08:17:53Z",
+      "results": []
     }
   ]
 }

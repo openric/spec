@@ -7,7 +7,7 @@ kind: spec
 
 # OpenRiC Conformance
 
-**Last revised in:** v0.49.0
+**Last revised in:** v0.50.0
 
 ---
 
@@ -26,7 +26,7 @@ A server declares what it claims in its service description, `GET /`:
   "openric_conformance": {
     "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.5.0", "conformance": "full" }
+      { "id": "core-discovery", "version": "0.6.0", "conformance": "full" }
     ]
   }
 }

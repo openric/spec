@@ -10,6 +10,6 @@
   "@type": "rico:CorporateBody",
   "rico:name": "South African Heritage Foundation",
   "openricx:normalizedForm": "South African Heritage Foundation",
-  "rico:hasBeginningDate": "1975-",
+  "rico:date": "1975-",
   "rico:history": "Non-profit organization dedicated to preserving South African cultural heritage."
 }

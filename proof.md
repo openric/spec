@@ -200,7 +200,7 @@ An excerpt of the ISAD(G) rows of the mapping. The authoritative table is <a hre
     <tr><td>3.3.1 Scope and content</td><td><code>rico:scopeAndContent</code></td><td>Servers that sent <code>openricx:description</code> send both until at least v0.48.0.</td></tr>
     <tr><td>3.3.4 System of arrangement</td><td><code>rico:structure</code></td><td></td></tr>
     <tr><td>3.4.1 Conditions governing access</td><td><code>rico:conditionsOfAccess</code></td><td></td></tr>
-    <tr><td>3.4.3 Language</td><td><code>rico:hasOrHadLanguage</code></td><td>ISO 639-3 code.</td></tr>
+    <tr><td>3.4.3 Language</td><td><code>rico:hasOrHadLanguage</code> on a record; <code>rico:hasOrHadAllMembersWithLanguage</code> or <code>rico:hasOrHadSomeMembersWithLanguage</code> on a record set</td><td>ISO 639-3 code. RiC-O 1.1 does not allow <code>rico:hasOrHadLanguage</code> on a record set.</td></tr>
     <tr><td>3.4.4 Physical characteristics</td><td><code>rico:physicalCharacteristicsNote</code></td><td>On the record's <code>rico:Instantiation</code>.</td></tr>
     <tr><td>3.5.1 Existence and location of originals</td><td><code>rico:hasOrHadLocation</code></td><td></td></tr>
     <tr><td>3.5.2 Existence and location of copies</td><td><code>rico:hasOrHadInstantiation</code></td><td>Each copy or format is its own <code>rico:Instantiation</code>.</td></tr>
