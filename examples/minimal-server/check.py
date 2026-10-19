@@ -13,23 +13,33 @@ the lists name, and validates each response against its schema in schemas/.
 Read-only. Exits non-zero if anything fails.
 
     BASE=http://localhost:8080 python3 examples/minimal-server/check.py
+
+Against a public server, pace the requests: the reference service allows 60 a
+minute, and a full check makes about a hundred.
+
+    BASE=https://ric.theahg.co.za/api/ric/v1 PAUSE=1.1 python3 examples/minimal-server/check.py
 """
 
 import json
 import os
 import pathlib
 import sys
+import time
 import urllib.error
 import urllib.request
 
 from jsonschema import Draft202012Validator
 
 BASE = os.environ.get("BASE", "http://localhost:8080").rstrip("/")
+PAUSE = float(os.environ.get("PAUSE", "0"))  # seconds between requests
+# Say who is calling; some servers refuse library default user agents.
+USER_AGENT = "openric-check (+https://openric.org/conformance/)"
 SCHEMAS = pathlib.Path(__file__).resolve().parents[2] / "schemas"
 
 
 def fetch(path):
-    req = urllib.request.Request(BASE + path, headers={"Accept": "application/json"})
+    time.sleep(PAUSE)
+    req = urllib.request.Request(BASE + path, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             return resp.status, json.loads(resp.read().decode("utf-8"))

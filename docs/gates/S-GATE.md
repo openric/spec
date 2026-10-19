@@ -23,7 +23,7 @@ Chosen by Dr Johan Pieterse on 19 October 2026: specification **v0.48.0**. It ca
 | Tag signature | SSH, ED25519 `SHA256:dTmsTQEuuSikPeM3TZzlB6/KQQQWJylRFwWPboID0nY`; verifies with `git tag -v` against that key. GitHub shows it as unverified until the key is registered there. |
 | Bundle | `openric-spec-v0.48.0.tar.gz` on the GitHub release |
 | Bundle SHA-256 | `92899d9d9dae3ddc4080a5a4268b3cf481c44ad92ea494d8e49d5d7d1eff71ab` (checked by download, 19 October) |
-| Reference service at baseline | v0.17.15; it still reports that it verifies against spec 0.46.0, so a service release must re-verify against v0.48.0 before the gate is signed |
+| Reference service at baseline | v0.17.16 (19 October 2026), re-verified against v0.48.0: all 107 Core Discovery responses validate against the v0.48.0 JSON Schemas, and the probe, unchanged in v0.48.0, passed every declared profile on 18 October |
 
 ## Acceptance criteria and evidence
 

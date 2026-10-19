@@ -24,7 +24,7 @@ That's it. No framework, no build step, no signup, no API key for the public ser
 
 ## Step 1 - Read something, no auth
 
-OpenRiC reads are public. Confirm the reference server is up:
+OpenRiC reads are public. The reference service allows 60 requests a minute per address and answers more with `429 Too Many Requests`; send a `User-Agent` that names your client, because Python's default user agents are currently refused there (see the [drift log](/drift-log.html)). Confirm the reference server is up:
 
 ```bash
 curl -s https://ric.theahg.co.za/api/ric/v1/health | jq
