@@ -11,7 +11,7 @@ A public log of known drift between the OpenRiC specification and its public sur
 
 This page exists because the spec moves faster than the supporting implementations, and external reviewers need a single place to see *which* gaps are known, *where* they are, and *what's planned*. It is not a defect tracker - it tracks **deliberate** lag between the spec and downstream systems.
 
-**Last updated:** 2026-10-16. For the live figures behind this page, see [current status](/status/).
+**Last updated:** 2026-10-19. For the live figures behind this page, see [current status](/status/).
 
 ---
 
@@ -24,6 +24,7 @@ Re-checked item by item on 2026-10-15 against the live service (tag v0.17.12, th
 | Item | Currently emits | Target | Blocker |
 |---|---|---|---|
 | Provenance & Event profile claim | Not claimed. The daily probe (15 October) finds the production activities carry their results and participants but no date (`openricx:DateRange`, §6.2 and §6.4). The serializer emits a date whenever the activity row has one. A count on 16 October found 40 undated activities (38 production, 1 accumulation, 1 untyped), and for none of them does the record's creation or accumulation event, or the event the activity was seeded from, carry a date. There is no source to take a date from, and dates will not be invented for demonstration data. | Claimed by a server whose activities are dated | Dated demonstration data, for example a new demonstration dataset for the reference service ([known issue K-10](spec/known-issues.html)). |
+| Python HTTP clients refused | The web server in front of the reference service refuses requests whose `User-Agent` is a Python library default (`Python-urllib`, `python-requests`) with `403 Forbidden`, before they reach the API. Found 19 October 2026. A client that sends its own `User-Agent` is served normally. | Reads open to any client that respects the rate limit | A host-wide bot-blocking rule shared with other sites; exempting the API needs the operator's decision. |
 | The public SPARQL graph is a static load | The graph behind `/sparql` (7,149 triples on 16 October) is not re-synced from the database the service shares with Heratio. Records deleted or renamed there stay in the graph: on 16 October four image records that no longer exist (404 through the API) were still in it, and records Heratio has added since the load are missing. | The graph kept in step with the database, by a scheduled resync with the extractor or a projection written by the service | A resync design, tested on staging, that keeps the IRIs the SPARQL fixtures pin. Until then, deletions that matter for rights or privacy are removed from the graph by hand. |
 
 ### External-extension watch (RiC-O 1.1 ecosystem)

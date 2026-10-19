@@ -64,7 +64,7 @@ BASE=https://archives.example.org/api/ric/v1 bash conformance/probe.sh
 BASE=https://archives.example.org/api/ric/v1 bash conformance/probe.sh --profile=core-discovery --json=result.json
 ```
 
-Without a key the probe is read-only and skips every check that would write; a profile with skipped checks is never reported as a plain pass. With `KEY=...` it also runs the write, update and delete cycle. Only run the write checks against a server whose data you may change. On the reference service that means a disposable copy, never `ric.theahg.co.za` itself.
+Public servers limit how fast they may be called; the reference service allows 60 requests a minute per address and answers more with 429. The probe waits between profiles; for your own full checks against a public server, pace them at about one request a second, and send a `User-Agent` that names your client, since some servers refuse library defaults. Without a key the probe is read-only and skips every check that would write; a profile with skipped checks is never reported as a plain pass. With `KEY=...` it also runs the write, update and delete cycle. Only run the write checks against a server whose data you may change. On the reference service that means a disposable copy, never `ric.theahg.co.za` itself.
 
 CI proves on every change that the [minimal server](https://github.com/openric/spec/tree/main/examples/minimal-server), a standard-library Python server with no connection to Heratio, passes Core Discovery.
 
