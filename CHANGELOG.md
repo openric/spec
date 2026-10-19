@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.49.2 - 2026-10-19
+
+Getting-started loads openric-viewer.es.js, the file the package ships; guides and demo use viewer 0.4
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.49.1 - 2026-10-19
 
 record-multilingual re-captured from service v0.17.17; Python clients reach the API
