@@ -47,7 +47,7 @@ Worth stating plainly, because an access contract is easy to mistake for a land 
 
 One reference implementation, live, running on the database of the Heratio archival platform. Heratio, from the same maintainers, reads from it; an independent implementation is still to come. {{ site.data.profiles | size }} profiles defined, {{ site.data.profiles | where: "status", "normative" | size }} of them normative. A conformance probe, a validator, JSON Schemas, SHACL shapes and a fixture pack.
 
-What is missing is the thing that matters most for a standard: **a second independent implementation**, and an external institution committing to deploy. Those are explicit gates on v1.0 rather than aspirations, and they are written into [governance](/governance.html). The [drift log](/drift-log.html) records where the reference service currently lags the specification, including the parts that are awkward to admit.
+What is missing is the thing that matters most for a standard: **a second independent implementation**. It is the one gate on v1.0, written into [governance](/governance.html#release-gates-and-maturity-goals). An external institution committing to deploy matters too, but as a maturity goal for how the project is governed, not a condition for v1.0. The [drift log](/drift-log.html) records where the reference service currently lags the specification, including the parts that are awkward to admit.
 
 ## Related work
 

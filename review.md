@@ -71,4 +71,7 @@ So, as well as the question above: when you land on a single record, can you tel
 
 ## What happens to a review
 
+Every review so far, its findings, our responses and what is still unresolved are in the [review register](/review/register/). A reviewer is named there only with their permission.
+
+
 Replies go to the maintainer. A change one leads to goes through [change control](/spec/change-control.html): a correction to wording or a fixture is a patch release, and a change to what a server must send is a minor release with a migration note, recorded in the [change log](https://github.com/openric/spec/blob/main/CHANGELOG.md). Open problems that are already known are listed in [known issues](/spec/known-issues.html) and the [drift log](/drift-log.html), so check there first if something looks wrong.

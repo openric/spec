@@ -68,6 +68,10 @@ Public servers limit how fast they may be called; the reference service allows 6
 
 CI proves on every change that the [minimal server](https://github.com/openric/spec/tree/main/examples/minimal-server), a standard-library Python server with no connection to Heratio, passes Core Discovery.
 
+### 4.2 What a pass means
+
+A pass means the server's responses have the shapes a profile requires, for the checks the probe could run. It says nothing about checks it skipped: run without a key, the probe skips every write, so a Round-Trip Editing result without a key verifies nothing about writing, and is reported as "not verified". A pass also does not show that the data is good archival description, or that two servers can exchange data: two independent implementations passing the same profile is necessary for that, not proof of it. [Current status](/status/) reports what was tested, what was skipped and what failed, profile by profile.
+
 ### 4.2 The validator
 
 [`openric-validate`](https://github.com/openric/spec/tree/main/validator) checks responses and files against the JSON Schemas and SHACL shapes:
