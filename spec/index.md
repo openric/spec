@@ -64,7 +64,7 @@ title: OpenRiC - Specification
 | RiC-O ontology target | 1.1 (2025-05-22) | Tracked |
 | Extension namespace | `openricx: <https://openric.org/ns/ext/v1#>` | Declared, ontology stub at [/ns/ext/v1.html](/ns/ext/v1.html) |
 
-The previous "v0.1.0 frozen" / "v0.2.0 pending" framing referenced the original four-document base spec. After the v0.30.0 → v0.36.0 profile-freeze series and the v0.37.0 RiC-O 1.1 remediation, the base-spec version tracks the spec repository as a whole. Profile versions remain independent (per [Q8 in core-discovery.md](profiles/core-discovery.html)).
+The previous "v0.1.0 frozen" / "v0.2.0 pending" framing referenced the original four-document base spec: mapping, viewing API, graph primitives and conformance. The API contract, change control and known issues were added later, which makes the seven listed above; older pages and talks that say "four documents" mean the original set. After the v0.30.0 → v0.36.0 profile-freeze series and the v0.37.0 RiC-O 1.1 remediation, the base-spec version tracks the spec repository as a whole. Profile versions remain independent (per [Q8 in core-discovery.md](profiles/core-discovery.html)).
 
 ## Licence
 

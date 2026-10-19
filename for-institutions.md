@@ -32,26 +32,26 @@ OpenRiC is that shared contract. Systems that implement it are comparable on a *
 
 Archival data has a timescale measured in decades or centuries. Any format that depends on one company staying solvent is a risk.
 
-OpenRiC is governed as **open standard** (CC-BY 4.0) and has a reference implementation under AGPL-3.0. The spec and the reference will remain readable, implementable, and operable regardless of what happens to any single vendor - including the one that authored it.
+OpenRiC is governed as **open standard** (CC-BY 4.0) and has a reference implementation under AGPL-3.0. Those licences mean the specification and the reference code stay readable and implementable whatever happens to any single vendor, including the one that wrote them. Keeping a server *running* is a different matter: that still needs an institution or supplier to host and maintain it, and today the only running implementation is AHG's.
 
 ### 3. Interoperability, not just export
 
-Many platforms advertise "linked data export". That exports once. OpenRiC is **bidirectional**: read, write, validate, harvest (OAI-PMH), and walk the graph - using the same HTTP contract every conformant server implements.
+Many platforms advertise "linked data export". That exports once. OpenRiC defines a live HTTP contract instead: read, harvest (OAI-PMH) and walk the graph, and, for servers that claim the optional [Round-Trip Editing](/spec/profiles/round-trip-editing.html) profile, write and validate. A server claims only the profiles it implements, so check which ones before relying on any of them.
 
 This means:
-- Federated search across institutions becomes feasible.
-- Controlled migration between platforms becomes feasible.
-- Aggregators (national archives, thematic portals, research projects) can harvest from every OpenRiC server with one integration.
+- Federated search across institutions becomes possible once more than one institution runs a conformant server. None does yet besides the reference service.
+- Migration between two conformant platforms should need less bespoke mapping, because both sides read and write the same contract. It still needs mapping, checking and reconciliation, and it has not yet been tried between two independent implementations.
+- An aggregator (a national archive, a thematic portal, a research project) can write one client for each profile it needs and use it against any server that claims that profile.
 
 ### 4. Alignment with ICA's RiC
 
 RiC is the International Council on Archives' next-generation conceptual model and ontology, replacing ISAD(G), ISAAR(CPF), ISDF, and ISDIAH as separate standards.
 
-Institutions that adopt RiC-native description formats now will not need to re-describe holdings when RiC becomes the dominant standard. OpenRiC provides the practical bridge between existing ISAD(G)-shaped catalogues and RiC-CM / RiC-O output.
+Describing in RiC terms now should reduce the re-description an institution faces if RiC becomes the dominant standard. It will not remove it: RiC-O is still being revised (OpenRiC targets RiC-O 1.1), and some mapping choices will be revisited as practice settles. OpenRiC provides the practical bridge between existing ISAD(G)-shaped catalogues and RiC-CM / RiC-O output.
 
 ### 5. Implementation flexibility
 
-The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft - and an implementation claims each one independently. An institution does not have to support the full semantic range on day one. A server conforming to [Core Discovery](/spec/profiles/core-discovery.html) alone - basic read-only mapped endpoints - is useful immediately and can be deployed with a weekend of developer effort against an existing catalogue. (The older L1-L4 level vocabulary is legacy and no longer part of a conformance claim.)
+The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.data.profiles | where: "status", "normative" | size }} normative, {{ site.data.profiles | where: "status", "draft" | size }} draft - and an implementation claims each one independently. An institution does not have to support the full semantic range on day one. A server conforming to [Core Discovery](/spec/profiles/core-discovery.html) alone - basic read-only mapped endpoints - is useful immediately. How much work it takes depends on the catalogue: the [minimal example server](https://github.com/openric/spec/tree/main/examples/minimal-server) shows the shape of the contract in a few hundred lines, but mapping a real catalogue's data is most of the effort, and we have no measured figure from an outside institution yet. (The older L1-L4 level vocabulary is legacy and no longer part of a conformance claim.)
 
 ---
 
@@ -63,8 +63,8 @@ The spec defines **{{ site.data.profiles | size }} named profiles** - {{ site.da
 | **Reference API** | Endpoints covering read, write, graph, harvest (OAI-PMH), validation | Live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health) |
 | **Conformance probe** | Pure bash + jq; points at any server, returns pass/fail across every required endpoint | Live at [/conformance/](/conformance/) |
 | **API Explorer** | Interactive Swagger UI - any reviewer can try every endpoint from a browser | Live at [/api-explorer/](/api-explorer/) |
-| **Viewer + Capture** | Two browser-based client apps that talk to any conformant server | Live at viewer.openric.org + capture.openric.org |
-| **OAI-PMH endpoint** | Standard archival harvest protocol - works with every OAI harvester (ArchiveSpace, DPLA hub, etc.) | Live at `ric.theahg.co.za/api/ric/v1/oai` |
+| **Viewer + Capture** | Two browser-based client apps written against the contract; so far tested against the reference service only | Live at viewer.openric.org + capture.openric.org |
+| **OAI-PMH endpoint** | Standard OAI-PMH 2.0, so a standard harvester should be able to read it; not yet tested against a named national or thematic aggregator | Live at `ric.theahg.co.za/api/ric/v1/oai` |
 | **Related platform** | Heratio, a GLAM platform from the same maintainers, can read graph data from the API. It still writes through its own copy of the RiC routes on a shared database, so it is not independent proof that the API alone is enough for production. | Live at heratio.theahg.co.za |
 
 ---
@@ -83,11 +83,11 @@ Honesty matters for institutional evaluation:
 
 | Question | Answer |
 |---|---|
-| What does OpenRiC cost? | **Nothing.** The spec is CC-BY 4.0; the reference implementation is AGPL-3.0; running your own server requires only standard web hosting. |
+| What does OpenRiC cost? | **No licence fee.** The spec is CC-BY 4.0 and the reference implementation is AGPL-3.0. Running a server is not free: it needs hosting, someone to map and maintain the data, and upgrades as the specification moves. |
 | What if the maintainer disappears? | The spec is self-contained and published under a permissive content licence. A successor maintainer can fork and continue. See the [governance page](/governance.html). |
-| Can we be locked in? | No. The contract is open, and a conformant server exports its data as JSON-LD, Turtle and OAI-PMH, which any other OpenRiC server or RDF tool can read. |
-| What's the audit story? | Every write action is logged in an audit table with timestamp, actor (API key id), IP, and payload. The `/{type}/{id}/revisions` endpoint exposes this. |
-| What about sensitive data? | The spec supports access restrictions, personal-data flags, and ODRL policy extensions. The reference implementation respects them. Per-institution extensions (GDPR, POPIA, PAIA, etc.) ship as separate shape files, not in the core. |
+| Can we be locked in? | Less than with a closed format. The contract is open, and a conformant server exports its data as JSON-LD, Turtle and OAI-PMH, which other OpenRiC servers and RDF tools can read. Moving still takes work on the receiving side, and a move between two independent implementations has not been demonstrated yet. |
+| What's the audit story? | In the reference implementation, every write action is logged in an audit table with timestamp, actor (API key id), IP, and payload. The `/{type}/{id}/revisions` endpoint exposes this. |
+| What about sensitive data? | The spec supports access restrictions, personal-data flags, and ODRL policy extensions. The reference implementation applies them to its public read endpoints; test this against your own restricted records before relying on it. Per-institution extensions (GDPR, POPIA, PAIA, etc.) ship as separate shape files, not in the core. |
 
 ---
 

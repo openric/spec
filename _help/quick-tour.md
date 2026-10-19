@@ -38,7 +38,7 @@ Pure bash + jq; points at any OpenRiC server and reports pass/fail across every 
 
 ## 6. Read the spec
 
-Four short documents - [mapping, viewing API, graph primitives, conformance](/spec/) - plus the [profiles](/spec/profiles/).
+Seven [base documents](/spec/) - mapping, viewing API, graph primitives and conformance, which were the original four, plus the API contract, change control and known issues - and the [profiles](/spec/profiles/).
 
 ## Where next
 
