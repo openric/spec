@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.52.1 - 2026-10-19
+
+Extension ontology 1.3.1 adds openricx:relationHasLanguage; the wizard retries once while the model loads
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.52.0 - 2026-10-19
 
 Extension ontology 1.3.0 defines every openricx: term the reference service sends

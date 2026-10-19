@@ -338,7 +338,7 @@
     ]);
   }
 
-  function suggest() {
+  function suggest(retried) {
     var desc = ((document.getElementById("wiz-ai-desc") || {}).value || "").trim();
     var msg = document.getElementById("wiz-ai-msg");
     var btn = document.getElementById("wiz-ai-go");
@@ -350,7 +350,7 @@
     msg.className = "wiz-ai-msg working";
     var tick = function () {
       var s = Math.round((Date.now() - started) / 1000);
-      msg.textContent = "Generating a model… " + s + "s · this usually takes ~30s";
+      msg.textContent = (retried === true ? "The model was idle and is loading; trying again… " : "Generating a model… ") + s + "s · this usually takes ~30s";
     };
     tick();
     var timer = setInterval(tick, 1000);
@@ -371,10 +371,13 @@
         state.captured = {}; state.trail = [];
         msg.textContent = "";
         start();
+      } else if (res.status === 503 && res.j && res.j.error === "model_warming" && retried !== true) {
+        // The first call woke the model; one automatic retry usually succeeds.
+        suggest(true);
       } else {
         msg.textContent = (res.j && res.j.message) || ("Couldn't generate a model (" + res.status + ").");
       }
-    }).catch(function (e) { stop(); msg.textContent = "Network error — " + e.message; });
+    }).catch(function (e) { stop(); msg.textContent = "Network error - " + e.message; });
   }
 
   function boot() {
