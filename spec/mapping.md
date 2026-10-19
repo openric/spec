@@ -5,7 +5,7 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.48.0
+**Last revised in:** v0.49.0
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
 **Last updated:** 2026-10-15
 

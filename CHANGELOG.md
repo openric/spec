@@ -2,6 +2,14 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.49.0 - 2026-10-19
+
+Records no longer carry openricx:description; Core Discovery 0.5.0
+
+Migration: a client that reads openricx:description on a record reads rico:scopeAndContent instead, which has carried the same text since v0.46.0. A server that still sends openricx:description stays valid, because the record schema allows extra properties, but it no longer matches Core Discovery 0.5.0 exactly.
+
+Approved by: Dr Johan Pieterse, 2026-10-19
+
 ## v0.48.0 - 2026-10-19
 
 Validation accepts what RiC-O 1.1 allows: language-tagged text in the SHACL shapes, references, single values and additional types in the JSON Schemas; persons' occupations map to rico:hasOrHadOccupationOfType
