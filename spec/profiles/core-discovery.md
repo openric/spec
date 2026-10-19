@@ -343,7 +343,7 @@ The following existing fixtures exercise Core Discovery and ship in the profile 
 3. `record-list` - `GET /records` list envelope
 4. `fonds-minimal` - `GET /records/{key}` minimal valid record
 5. `fonds-with-children` - `GET /records/{key}` with nested structure (fields trimmed to profile)
-6. `record-multilingual` - `GET /records/{key}` with `@language` tagged titles
+6. `record-multilingual` - `GET /records/{key}` a record in its source culture, with scope and content (no `@language` tags yet; `fonds-minimal` carries them)
 7. `agent-person-simple` - `GET /agents/{key}` minimal Person
 8. `agent-corporate-body` - `GET /agents/{key}` CorporateBody
 9. `agent-family` - `GET /agents/{key}` Family

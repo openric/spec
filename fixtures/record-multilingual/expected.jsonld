@@ -1,18 +1,21 @@
 {
   "@context": {
     "rico": "https://www.ica.org/standards/RiC/ontology#",
+    "openric": "https://openric.org/ns/v1#",
     "openricx": "https://openric.org/ns/ext/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcterms": "http://purl.org/dc/terms/",
     "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@id": "https://ric.theahg.co.za/informationobject/cat-in-arms",
   "@type": "https://www.ica.org/standards/RiC/ontology#Record",
   "rico:type": "Record",
-  "rico:title": "Demo of folder1",
+  "rico:title": "Cat in arms",
   "rico:identifier": "Cat",
+  "rico:scopeAndContent": "Example item Scope and content",
   "rico:hasExtent": {
     "@type": "https://www.ica.org/standards/RiC/ontology#Extent",
     "rico:hasExtentType": "1 paqge"
@@ -25,10 +28,14 @@
   "rico:conditionsOfAccess": "Example item Conditions governing access",
   "rico:hasOrHadInstantiation": [
     {
-      "@type": "https://www.ica.org/standards/RiC/ontology#Instantiation",
+      "@type": "rico:Instantiation",
       "rico:identifier": "cat.jpg",
-      "openricx:mimeType": "image/jpeg",
-      "openricx:size": 102354
+      "openricx:hasMimeType": "image/jpeg",
+      "rico:hasExtent": {
+        "@type": "rico:Extent",
+        "rico:quantity": 102354,
+        "rico:hasExtentType": "bytes"
+      }
     }
   ]
 }

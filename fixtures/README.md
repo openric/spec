@@ -79,7 +79,7 @@ implementation, extracted from Heratio). Every `source-url.txt` points there.
 |---|---|---|---|
 | 1 | `fonds-minimal` | done | Smallest valid record — title + creator |
 | 2 | `fonds-with-children` | done | Hierarchy: fonds + children |
-| 3 | `record-multilingual` | done | Multiple `@language` titles |
+| 3 | `record-multilingual` | done | A record in its source culture, with scope and content; no `@language` tags yet |
 | 4 | `agent-person-simple` | done | Minimal Person agent |
 | 5 | `agent-corporate-body` | done | CorporateBody |
 | 6 | `agent-family` | done | Family agent |
