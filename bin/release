@@ -143,15 +143,17 @@ sed -i -E "s/^\*\*v[0-9]+\.[0-9]+\.[0-9]+\*\* — [0-9]{4}-[0-9]{2}-[0-9]{2}\. T
 
 # Change control (spec/change-control.md): every release gets a changelog
 # entry, newest first, naming who approved it. OPENRIC_APPROVER overrides the
-# maintainer default.
+# maintainer default. OPENRIC_NOTES carries the migration and deprecation
+# notes change control requires for a breaking release.
 APPROVER="${OPENRIC_APPROVER:-Dr Johan Pieterse}"
-python3 - "$TAG" "$DATE" "$MSG" "$APPROVER" <<'PYEOF'
+python3 - "$TAG" "$DATE" "$MSG" "$APPROVER" "${OPENRIC_NOTES:-}" <<'PYEOF'
 import sys, pathlib
-tag, date, msg, approver = sys.argv[1:]
+tag, date, msg, approver, notes = sys.argv[1:]
 p = pathlib.Path("CHANGELOG.md")
 text = p.read_text(encoding="utf-8")
 i = text.index("\n## ")
-entry = f"## {tag} - {date}\n\n{msg}\n\nApproved by: {approver}, {date}\n"
+notes = f"{notes.strip()}\n\n" if notes.strip() else ""
+entry = f"## {tag} - {date}\n\n{msg}\n\n{notes}Approved by: {approver}, {date}\n"
 p.write_text(text[:i] + "\n" + entry + text[i:], encoding="utf-8")
 PYEOF
 

@@ -91,6 +91,21 @@ Honesty matters for institutional evaluation:
 
 ---
 
+## Readiness checklist
+
+Before asking a vendor for OpenRiC, or adopting it yourself, an institution can answer these from its own records:
+
+- **Data ownership.** Who owns the catalogue data, and may it be published, in whole or in part?
+- **Source schemas.** Which standards the descriptions follow today (ISAD(G), ISAAR(CPF), ISDIAH, ISDF, local schemes), and how consistently. The [mapping](/spec/mapping.html) starts from these.
+- **Rights and restrictions.** Which records or fields are restricted, embargoed or carry personal data, and where that is recorded.
+- **Stable identifiers.** Whether records, agents and places have identifiers that will not change when the system does.
+- **Accessibility.** Who will use the published description, and what they need from it.
+- **Operating model.** Who would run an OpenRiC server, update it and answer for it.
+- **Which profiles.** [Core Discovery](/spec/profiles/core-discovery.html) is the minimum; the others are added as the data supports them.
+- **Evidence to demand.** A vendor's claim is a declaration; ask for the conformance probe's result against their server, dated, with any skipped checks.
+
+Adopting OpenRiC means adopting an open contract, not installing a product. [OpenRiC Workspace](/application/), an application built on it, is planned and not yet available, so it is not part of a decision today.
+
 ## How to get started
 
 **For a technical evaluation (developer, IT lead):**

@@ -118,7 +118,7 @@ jobs:
 
       - name: Key pages exist in the build
         run: |
-          for f in index.html status/index.html application/index.html spec/index.html spec/versions/index.html proof.html sitemap.xml release.json .well-known/security.txt; do
+          for f in index.html vocab/activity-type/production.html vocab/rule-type/index.html status/index.html application/index.html spec/index.html spec/versions/index.html proof.html sitemap.xml release.json .well-known/security.txt; do
             test -s "_site/$f" || { echo "missing from build: $f"; exit 1; }
           done
 

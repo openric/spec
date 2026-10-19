@@ -16,12 +16,12 @@ A SKOS ConceptScheme of rule-type concepts referenced from `rico:hasOrHadRuleTyp
 
 | IRI | prefLabel | Definition |
 |---|---|---|
-| [`law`](https://openric.org/vocab/rule-type/law) | Law | Statutory law — primary legislation enacted by a sovereign legislature. |
-| [`regulation`](https://openric.org/vocab/rule-type/regulation) | Regulation | Regulatory instrument — secondary or delegated legislation, executive order, statutory instrument. |
-| [`mandate`](https://openric.org/vocab/rule-type/mandate) | Mandate | Authority delegation or institutional mandate — what an Agent is authorised to do. |
+| [`law`](https://openric.org/vocab/rule-type/law) | Law | Statutory law - primary legislation enacted by a sovereign legislature. |
+| [`regulation`](https://openric.org/vocab/rule-type/regulation) | Regulation | Regulatory instrument - secondary or delegated legislation, executive order, statutory instrument. |
+| [`mandate`](https://openric.org/vocab/rule-type/mandate) | Mandate | Authority delegation or institutional mandate - what an Agent is authorised to do. |
 | [`policy`](https://openric.org/vocab/rule-type/policy) | Policy | Internal policy or procedural rule. |
 | [`custom`](https://openric.org/vocab/rule-type/custom) | Custom | Customary practice or convention with normative effect. |
-| [`access-restriction`](https://openric.org/vocab/rule-type/access-restriction) | Access Restriction | A scoped restriction on access to records — by time period, role, purpose, or jurisdiction. |
+| [`access-restriction`](https://openric.org/vocab/rule-type/access-restriction) | Access Restriction | A scoped restriction on access to records - by time period, role, purpose, or jurisdiction. |
 | [`security-classification`](https://openric.org/vocab/rule-type/security-classification) | Security Classification | A formal security classification (e.g. 'Confidential', 'Restricted', 'Top Secret'). |
 | [`access-rule`](https://openric.org/vocab/rule-type/access-rule) | Access Rule | A general access-governance rule. |
 
@@ -30,7 +30,7 @@ A SKOS ConceptScheme of rule-type concepts referenced from `rico:hasOrHadRuleTyp
 ```turtle
 <.../record/abc> rico:isOrWasRegulatedBy <.../rule/popia-2026> .
 <.../rule/popia-2026> a rico:Rule ;
-    rico:title "POPIA section 14 — personal data" ;
+    rico:title "POPIA section 14 - personal data" ;
     rico:hasOrHadRuleType <https://openric.org/vocab/rule-type/access-restriction> .
 ```
 
