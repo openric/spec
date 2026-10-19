@@ -72,7 +72,7 @@
         "core-discovery"
       ],
       "status": "done",
-      "purpose": "Multiple @language titles on a record",
+      "purpose": "A record in its source culture, with scope and content; no @language tags yet",
       "data": "synthetic",
       "origin": "captured",
       "licence": "CC-BY-4.0",
