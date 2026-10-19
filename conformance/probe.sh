@@ -370,6 +370,40 @@ if in_profile "graph-traversal"; then
   if [[ -n "$SEED_URI" ]]; then
     SEED_ENC=$(printf '%s' "$SEED_URI" | jq -sRr @uri)
     probe "graph-seed" required GET "/graph?uri=${SEED_ENC}&depth=1" '."@type" == "openric:Subgraph"'
+
+    # Graph Primitives section 6, invariant 7 (spec v0.51.0): a node that stands
+    # for an API entity carries the entity's API @id. The seed came from the
+    # server's own list endpoint, so the root must be exactly that @id; and one
+    # other record or agent node, fetched as JSON-LD, must describe itself by
+    # the same id. Places are not sampled: a server may type place access-point
+    # terms as rico:Place, and the invariant lets those keep their own ids.
+    GRAPH_BODY=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/graph?uri=${SEED_ENC}&depth=1" 2>/dev/null || true)
+    ROOT_ID=$(printf '%s' "$GRAPH_BODY" | jq -r '."openric:root" // .root // empty' 2>/dev/null || true)
+    if [[ "$ROOT_ID" == "$SEED_URI" ]]; then
+      record PASS "graph root is the seed's API @id (invariant 7)" "ok"
+    else
+      record FAIL "graph root is the seed's API @id (invariant 7)" "${ROOT_ID:-none}"
+    fi
+    # The seed may be a place, and a record's graph may hold only a finding
+    # aid, so the second check walks the first records until one graph links
+    # to another record or an agent.
+    OTHER_ID=""
+    for REC_URI in $(curl -s --max-time 10 "${BASE}/records?limit=10" | \
+        jq -r '(."openric:items" // ."ric:items" // .items // [])[]["@id"] // empty' 2>/dev/null || true); do
+      GRAPH_BODY=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/graph?uri=$(printf '%s' "$REC_URI" | jq -sRr @uri)&depth=1" 2>/dev/null || true)
+      OTHER_ID=$(printf '%s' "$GRAPH_BODY" | jq -r --arg r "$REC_URI" '[(."openric:nodes" // .nodes // [])[] | select(.id != $r) | select((.type // "") | test("(Record|RecordSet|RecordPart|Person|CorporateBody|Family|Agent)$"))][0].id // empty' 2>/dev/null || true)
+      [[ -n "$OTHER_ID" ]] && break
+    done
+    if [[ -n "$OTHER_ID" ]]; then
+      DEREF_ID=$(curl -s -L --max-time 15 -H 'Accept: application/ld+json' "$OTHER_ID" 2>/dev/null | jq -r '."@id" // empty' 2>/dev/null || true)
+      if [[ "$DEREF_ID" == "$OTHER_ID" ]]; then
+        record PASS "a record or agent node dereferences to itself (invariant 7)" "ok"
+      else
+        record FAIL "a record or agent node dereferences to itself (invariant 7)" "${DEREF_ID:-no @id}"
+      fi
+    else
+      record "SKIP (no record or agent node)" "a record or agent node dereferences to itself (invariant 7)" "--"
+    fi
   else
     printf '%s%-5s%s  GET  %-50s  [--]\n' "$Y" "SKIP" "$Z" "/graph (no seed URI available)"
     SKIP=$((SKIP+1))

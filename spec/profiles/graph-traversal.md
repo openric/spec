@@ -303,4 +303,4 @@ Five questions were flagged during drafting; all five carry resolutions.
 |---|---|---|
 | A node that stands for an API entity carries the entity's API `@id` ([Graph Primitives §6, invariant 7](../graph-primitives.html#6-invariants)) | Name record, agent, repository, place, activity, rule, instantiation and function nodes, and the edges and `root` that refer to them, by the `@id` the matching API endpoint returns. Subject terms and dates may keep their own stable IRIs. | Node ids from a 0.5.0 server may be internal identifiers that do not dereference; from 0.6.0 they are the entity's `@id`. A client that stored 0.5.0 node ids should re-read the graph rather than map them. |
 
-The conformance probe does not yet check invariant 7; until it does, a declaration of this profile is the server's own claim on this point.
+The conformance probe checks invariant 7 from spec v0.51.1: the graph's root must be exactly the seed's API `@id`, and one record or agent node, fetched as JSON-LD, must describe itself by the same identifier.
