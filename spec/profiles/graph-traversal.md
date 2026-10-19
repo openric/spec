@@ -143,8 +143,8 @@ Groups all edges touching one entity into `outgoing` + `incoming` lists:
       "target_id":         912328,
       "target_name":       "Egypt (archaeological region)",
       "target_type":       "Place",
-      "rico_predicate":    "openricx:hasBroaderGeographicalContext",
-      "inverse_predicate": "openricx:hasNarrowerGeographicalContext",
+      "rico_predicate":    "rico:isOrWasContainedBy",
+      "inverse_predicate": "rico:containsOrContained",
       "relation_label":    "broader place",
       "certainty":         "certain"
     }

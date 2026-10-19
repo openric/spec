@@ -1,49 +1,44 @@
-# Outreach draft — Matthew Damigos / Ionian University
+# Outreach - Matthew Damigos / Ionian University
 
-**Recipient:** Matthew Damigos, Laboratory on Digital Libraries and Electronic Publishing, Ionian University. Most discoverable contact: [`dlib.ionio.gr`](https://dlib.ionio.gr/) or via the GitHub org [`DLIB-Ionian-University`](https://github.com/DLIB-Ionian-University).
-**Outcome we want:** open conversation about the Corfu Criminal Court Archives RiC-CM application running our conformance probe. Secondary outcome: align on the RiC-CM Nav vs OpenRiC RiC-CM browser overlap.
-**Status:** draft, ready to send once v0.38.0 is on `origin/main`.
-
----
-
-## Suggested subject
-
-> OpenRiC conformance probe + the two RiC-CM navigators question
+**Recipient:** Matthew Damigos, Laboratory of Digital Libraries and Electronic Publishing, Department of Archives, Library Science and Museology, Ionian University (mgdamigos@ionio.gr, the contact on his RiC Resource List entry for the RiC-CM NavTool).
+**Outcome we want:** a reply on any one of three threads: probing the Corfu Criminal Court description against Core Discovery, the overlap between his RiC-CM NavTool and the OpenRiC RiC-CM navigator, and a second reader for the OpenRiC mapping.
+**Status:** sent by Dr Johan Pieterse on 19 October 2026. The April 2026 draft that stood here was replaced before sending: it claimed that no non-canonical `rico:*` emissions remained, which the v0.50.0 review showed was not true.
 
 ---
 
-## Body
+## Subject
 
-Hi Matthew,
+> Corfu, the RiC-CM navigators, and a second reader for a mapping
 
-I work on [OpenRiC](https://openric.org) — an open, implementation-neutral HTTP/API contract for RiC-aligned archival data, with a spec + reference Laravel API + viewer + capture client + conformance probe, all CC-BY/AGPL. We just remediated the spec for full RiC-O 1.1 conformance (v0.37.x, this week — zero non-canonical `rico:*` emissions remain).
+## Body, as sent
 
-Two reasons I'm writing.
+Dear Matthew,
 
-**1. The Corfu Criminal Court Archives application is the closest production RiC-CM deployment I've found to a candidate second implementation of OpenRiC.** Our v1.0 freeze is gated on at least one non-reference implementation passing the conformance probe. Looking at your published work (the [2025-09 Corfu RiC-CM deployment](https://dlib-ionian-university.github.io/), the [2023 ICADL paper on RiC-CM ↔ CIDOC-CRM mapping](https://link.springer.com/), and the [2026 RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/)), your group is one of the few outside the EGAD core teams that's built sustained RiC-CM tooling at production scale.
+I have been reading your work through the ICA/EGAD RiC Resource List: the RiC-CM NavTool, the Corfu Criminal Court paper in Moderna arhivistika, and the 2023 mapping of RiC-CM to CIDOC-CRM with Lina Bountouri and colleagues. Describing 2,698 homicide case files from the Ionian State period in RiC-CM is the kind of applied work the model needs, and court records are a domain I have no examples of at all.
 
-The OpenRiC conformance probe is pure shell + jq. The minimum bar is the [`core-discovery` profile](https://openric.org/spec/profiles/core-discovery.html) — read-only access to records, agents, repositories, vocabulary, autocomplete, plus a few SHACL shapes. **I'm not asking for a commitment** — but if your Corfu archives system already exposes records, agents, and a vocabulary endpoint over HTTP (in any shape), we could probably probe it today and tell you whether the gap to OpenRiC `core-discovery` is small or significant. If small, adopting the profile is a low-effort visibility win for both of us.
+I maintain OpenRiC (https://openric.org), an open specification for serving RiC data over the web: a JSON-LD API following RiC-O 1.1, a mapping from the four ICA standards, named conformance profiles, and a probe that tests a server against them. It is an independent project, not an ICA one, and so far it has only one implementation, ours. That is the gap I most want to close.
 
-**2. The two RiC-CM navigators.** Your group ships [RiC-CM Nav](https://dlib-ionian-university.github.io/ric-cm-nav/), listed on the official ICA RiC ResourceList. We ship our own RiC-CM browser at [`ric.theahg.co.za/reference/ric-cm/`](https://ric.theahg.co.za/reference/ric-cm/) (SPARQL-backed against the canonical RiC-O 1.1 ontology, with declared-vs-inherited separation per CIDOC-CRM-style page browsers). Right now both exist, the relationship between them is undeclared, and that's noted on our [drift log](https://openric.org/drift-log.html) as something to resolve.
+There are three things I would value your view on. Any one of them is enough.
 
-I'd like to understand what RiC-CM Nav does that ours doesn't (and vice versa). The cleanest outcome would be one of:
+The Corfu description. If it is published as data, in any form, I would like to see how far it is from OpenRiC's simplest profile, Core Discovery. Our probe is read-only and runs from a shell script, so it costs you nothing, and I would send you the result before showing it to anyone else. If the gap is small, it would be the first evidence that OpenRiC works on description someone else made.
 
-- Our browser deprecates and links out to yours, with the gaps we miss filed as issues against your repo.
-- Your browser links to ours for the use cases ours covers better.
-- We merge — likely by us contributing to `DLIB-Ionian-University/ric-cm-nav` rather than the reverse.
+The two navigators. Your NavTool and our RiC-CM navigator (https://ric.theahg.co.za/reference/ric-cm/) cover similar ground. I would rather link to yours than compete with it, and I would like to know what you think each does better before I change anything.
 
-A separate but related question: your 2023 ICADL paper on the RiC-CM ↔ CIDOC-CRM mapping is the basis for what OpenRiC is calling [`OpenRiC-CIDOC-Bridge`](https://github.com/openric/spec/blob/main/docs/extensions/openric-cidoc-bridge.md) — a post-v1.0 extension proposal to express RiC-O graphs in CIDOC-CRM-equivalent form for museum interoperability. **We have NOT done the mapping work** — it would be straightforwardly built on yours, with attribution. If you'd be open to that being framed as a joint Ionian / OpenRiC extension, I think it would land more credibly with both the archive and the museum communities.
+The mapping. Our ISAD(G) and ISAAR(CPF) to RiC-O mapping (https://openric.org/spec/mapping.html) needs a careful second reader. Checking it against RiC-O 1.1 this week, we found a few places where it gives literal values to object properties such as rico:hasBeginningDate, and I would rather hear of the rest from someone who knows the model than find them one by one. Your CIDOC-CRM mapping also marks exactly where our scope stops and the museum side begins, and I would like to cite it as the reference for that boundary, if you are content with that.
 
-Happy to start with whichever of the three threads feels easiest. A 20-minute call works for me; equally happy with line-by-line over GitHub on `openric/spec`.
+None of this needs more than a short reply. A call at a time that suits Corfu works for me too.
 
-— Johan Pieterse
-[`openric.org`](https://openric.org) · [`github.com/openric/spec`](https://github.com/openric/spec)
+With best wishes,
+
+Dr Johan Pieterse
+The Archive and Heritage Digital Commons Group (Pty) Ltd
+South Africa
+johan@theahg.co.za
+https://openric.org
 
 ---
 
-## Pre-send checklist
+## After sending
 
-- [ ] v0.38.0 (SPARQL Access + drift-log + Related Implementations updates) on `origin/main`
-- [ ] [`docs/extensions/openric-cidoc-bridge.md`](https://github.com/openric/spec/blob/main/docs/extensions/openric-cidoc-bridge.md) exists and renders
-- [ ] [`drift-log.html`](https://openric.org/drift-log.html) carries the RiC-CM navigator reconciliation entry
-- [ ] [`related-implementations.html`](https://openric.org/related-implementations.html) carries the Damigos / Ionian section
+- The literal-date problem the email mentions was fixed the same day in spec v0.50.0 and service v0.17.18.
+- If he agrees to the citation, link the RiC-CM to CIDOC-CRM mapping (https://doi.org/10.1007/978-981-99-8088-8_8) from `ric-baseline.md`, where OpenRiC says what it is not a replacement for.
