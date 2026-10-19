@@ -7,7 +7,7 @@ kind: spec
 
 # OpenRiC Conformance
 
-**Last revised in:** v0.50.0
+**Last revised in:** v0.50.2
 
 ---
 

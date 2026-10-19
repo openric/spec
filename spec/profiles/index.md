@@ -8,7 +8,7 @@ description: Profiles are named, bounded conformance targets. A server declares 
 
 # OpenRiC Profiles
 
-**Last revised in:** v0.47.0
+**Last revised in:** v0.50.2
 
 ---
 
