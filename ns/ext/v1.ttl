@@ -4,7 +4,8 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Draft (v0.37.0)
+# Status:        Active; ontology version 1.2.0 (spec v0.50.1). Term IRIs stay
+#                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
 #
@@ -40,7 +41,12 @@
     vann:preferredNamespaceUri "https://openric.org/ns/ext/v1#" ;
     rdfs:seeAlso <https://openric.org/spec/mapping.html> ,
                  <https://openric.org/audit/ric-o-1.1-audit.html> ;
-    owl:versionInfo "1.1.0" .
+    rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
+    dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
+    dcterms:modified "2026-10-19"^^xsd:date ;
+    owl:versionIRI <https://openric.org/ns/ext/v1.2.0> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.1.0> ;
+    owl:versionInfo "1.2.0" .
 
 # =====================================================================
 # 1. Classes
@@ -75,7 +81,7 @@ openricx:Function a owl:Class ; rdfs:label "Function"@en ;
     rdfs:comment "ISDF business / archival function. Used as the canonical class for OpenRiC's /functions API surface, pending ICA-EGAD guidance on whether RiC-O should define such a class or model functions as SKOS Concepts of rico:OccupationType / rico:ActivityType. Implementations MAY canonically expand an openricx:Function to a rico:Activity classified by an OccupationType IRI."@en .
 
 openricx:ContactPoint a owl:Class ; rdfs:label "Contact Point"@en ;
-    rdfs:comment "A repository or organisation contact point — physical address, telephone, email, opening hours. Modelled as an OpenRiC extension because RiC-O 1.1 does not define rico:ContactPoint. Open candidate for upstream proposal; alternatives include schema.org/ContactPoint and vCard."@en .
+    rdfs:comment "A repository or organisation contact point - physical address, telephone, email, opening hours. Modelled as an OpenRiC extension because RiC-O 1.1 does not define rico:ContactPoint. Open candidate for upstream proposal; alternatives include schema.org/ContactPoint and vCard."@en .
 
 openricx:DateRange a owl:Class ; rdfs:label "Date Range"@en ;
     rdfs:subClassOf rico:Date ;
@@ -94,29 +100,39 @@ openricx:Checksum a owl:Class ; rdfs:label "Checksum"@en ;
 # 2.1 Address & contact (candidate-upstream)
 
 openricx:contact a owl:ObjectProperty ; rdfs:label "contact"@en ;
+    rdfs:subPropertyOf rico:isRelatedTo ;
     rdfs:domain rico:Agent ; rdfs:range openricx:ContactPoint ;
     rdfs:comment "Links an Agent (typically a CorporateBody / repository) to a ContactPoint."@en .
 
 openricx:streetAddress a owl:DatatypeProperty ; rdfs:label "street address"@en ;
-    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string .
+    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string ;
+    rdfs:comment "Street and number of a ContactPoint (ISDIAH 5.2.1 Location and address)."@en .
 openricx:city a owl:DatatypeProperty ; rdfs:label "city"@en ;
-    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string .
+    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string ;
+    rdfs:comment "Town or city of a ContactPoint."@en .
 openricx:postalCode a owl:DatatypeProperty ; rdfs:label "postal code"@en ;
-    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string .
+    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string ;
+    rdfs:comment "Postal code of a ContactPoint."@en .
 openricx:country a owl:DatatypeProperty ; rdfs:label "country"@en ;
-    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string .
+    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string ;
+    rdfs:comment "Country of a ContactPoint, as a name or an ISO 3166 code."@en .
 openricx:telephone a owl:DatatypeProperty ; rdfs:label "telephone"@en ;
-    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string .
+    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string ;
+    rdfs:comment "Telephone number of a ContactPoint (ISDIAH 5.2.2 Telephone, fax, email)."@en .
 openricx:email a owl:DatatypeProperty ; rdfs:label "email"@en ;
-    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string .
+    rdfs:domain openricx:ContactPoint ; rdfs:range xsd:string ;
+    rdfs:comment "Email address of a ContactPoint (ISDIAH 5.2.2)."@en .
 
 # 2.2 Date-range linking properties (parallel to RiC-O 1.1's date model;
 # see openricx:DateRange / DateRangeSet rationale above)
 
 openricx:hasDateRange    a owl:ObjectProperty ; rdfs:label "has date range"@en ;
-    rdfs:range openricx:DateRange .
+    rdfs:subPropertyOf rico:isAssociatedWithDate ;
+    rdfs:range openricx:DateRange ;
+    rdfs:comment "Links an entity to one openricx:DateRange."@en .
 openricx:hasDateRangeSet a owl:ObjectProperty ; rdfs:label "has date range set"@en ;
-    rdfs:range openricx:DateRangeSet .
+    rdfs:range openricx:DateRangeSet ;
+    rdfs:comment "Links an entity to its dates, as one or more openricx:DateRange objects; the API shape for the dates of a record, an agent or a relation (mapping section 7.2)."@en .
 
 # 2.3 Description / note properties (general prose)
 
@@ -124,10 +140,12 @@ openricx:description a owl:DatatypeProperty ; rdfs:label "description"@en ;
     rdfs:comment "General prose description. Equivalent to dcterms:description; OpenRiC uses openricx:description to keep the extension scope explicit on records that mix RiC-O properties and OpenRiC pragmatic fields. Implementations MAY substitute dcterms:description in canonical RDF."@en .
 
 openricx:descriptiveNote a owl:DatatypeProperty ; rdfs:label "descriptive note"@en ;
-    rdfs:comment "Archivist's note attached to a description — typically context, methodology, or qualification. Distinct from openricx:description (which describes the entity itself)."@en .
+    rdfs:subPropertyOf rico:note ;
+    rdfs:comment "Archivist's note attached to a description - typically context, methodology, or qualification. Distinct from openricx:description (which describes the entity itself)."@en .
 
 openricx:generalContext a owl:DatatypeProperty ; rdfs:label "general context"@en ;
-    rdfs:comment "ISAAR(CPF) 5.2.8 general-context field — the broad social, political, or institutional context surrounding an Agent."@en .
+    rdfs:subPropertyOf rico:note ;
+    rdfs:comment "ISAAR(CPF) 5.2.8 general-context field - the broad social, political, or institutional context surrounding an Agent."@en .
 
 openricx:arrangement a owl:DatatypeProperty ; rdfs:label "arrangement"@en ;
     rdfs:comment "ISAD(G) 3.3.4 system-of-arrangement field on a RecordSet. Deprecated 2026-10-15: RiC-O 1.1 defines rico:structure (RiC-AG comparison, mapping O-8)."@en ;
@@ -135,6 +153,7 @@ openricx:arrangement a owl:DatatypeProperty ; rdfs:label "arrangement"@en ;
     dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#structure> .
 
 openricx:publicationInformation a owl:DatatypeProperty ; rdfs:label "publication information"@en ;
+    rdfs:subPropertyOf rico:note ;
     rdfs:comment "ISAD(G) 3.5.4 publication note."@en .
 
 # 2.4 Internal-structure / hierarchy
@@ -149,10 +168,16 @@ openricx:hasOrHadPolicy a owl:ObjectProperty ; rdfs:label "has or had policy"@en
 
 openricx:hasBroaderGeographicalContext a owl:ObjectProperty ;
     rdfs:label "has broader geographical context"@en ;
-    rdfs:domain rico:Place ; rdfs:range rico:Place .
+    rdfs:domain rico:Place ; rdfs:range rico:Place ;
+    rdfs:comment "A place lies within a broader one. Deprecated 2026-10-19 (ontology 1.2.0): RiC-O 1.1 defines rico:isOrWasContainedBy between two places, for geographical or administrative regions."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#isOrWasContainedBy> .
 openricx:hasNarrowerGeographicalContext a owl:ObjectProperty ;
     rdfs:label "has narrower geographical context"@en ;
-    rdfs:domain rico:Place ; rdfs:range rico:Place .
+    rdfs:domain rico:Place ; rdfs:range rico:Place ;
+    rdfs:comment "A place contains a narrower one. Deprecated 2026-10-19 (ontology 1.2.0): RiC-O 1.1 defines rico:containsOrContained between two places."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#containsOrContained> .
 openricx:jurisdiction a owl:DatatypeProperty ; rdfs:label "jurisdiction"@en ;
     rdfs:comment "Free-text jurisdiction marker on a rico:Rule (e.g. 'Egypt'). Canonical alternative: link to a rico:Place via rico:hasOrHadJurisdiction. Deprecated 2026-10-15 without ever being emitted: the Authority & Context profile and every implementation use openric:jurisdiction."@en ;
     owl:deprecated true ;
@@ -161,12 +186,13 @@ openricx:jurisdiction a owl:DatatypeProperty ; rdfs:label "jurisdiction"@en ;
 # 2.6 Names / labels (auxiliary forms)
 
 openricx:alternativeForm a owl:DatatypeProperty ; rdfs:label "alternative form"@en ;
-    rdfs:comment "Alternative form of a name — variants, transliterations, alias spellings. RiC-O 1.1's structured AgentName / PlaceName patterns are preferred for canonical RDF; openricx:alternativeForm is a pragmatic shortcut."@en .
+    rdfs:comment "Alternative form of a name - variants, transliterations, alias spellings. RiC-O 1.1's structured AgentName / PlaceName patterns are preferred for canonical RDF; openricx:alternativeForm is a pragmatic shortcut."@en .
 
 openricx:normalizedForm a owl:DatatypeProperty ; rdfs:label "normalized form"@en ;
     rdfs:comment "Normalized form of a name (machine-comparable canonical form)."@en .
 
-openricx:otherName a owl:DatatypeProperty ; rdfs:label "other name"@en .
+openricx:otherName a owl:DatatypeProperty ; rdfs:label "other name"@en ;
+    rdfs:comment "Any other name by which an agent is or was known (ISAAR(CPF) 5.1.5). Canonical alternative: rico:hasOrHadAgentName with a rico:AgentName."@en .
 
 openricx:languageCode a owl:DatatypeProperty ; rdfs:label "language code"@en ;
     rdfs:comment "Free-text language code (e.g. 'en', 'fra', 'zh-Hans'). Canonical alternative: rico:hasOrHadLanguage pointing at an ISO-639 IRI on a Record, RecordPart or Agent; on a RecordSet, rico:hasOrHadAllMembersWithLanguage or rico:hasOrHadSomeMembersWithLanguage."@en .
@@ -182,6 +208,7 @@ openricx:containsPersonalData a owl:DatatypeProperty ;
 
 openricx:hasAppraisalInformation a owl:DatatypeProperty ;
     rdfs:label "has appraisal information"@en ;
+    rdfs:subPropertyOf rico:note ;
     rdfs:comment "ISAD(G) 3.3.2 appraisal / destruction / scheduling. Open candidate for upstream proposal."@en .
 
 # 2.9 Occupation (canonical-pattern shortcut)
@@ -195,21 +222,30 @@ openricx:hasOccupation a rdf:Property ; rdfs:label "has occupation"@en ;
 openricx:hasMimeType a owl:DatatypeProperty ; rdfs:label "has MIME type"@en ;
     rdfs:domain rico:Instantiation ; rdfs:range xsd:string ;
     rdfs:comment "MIME / IMT type of an Instantiation (e.g. 'image/tiff'). Canonical alternative: dcterms:format pointing at a media-type IRI."@en .
-openricx:mimeType a owl:DatatypeProperty ; rdfs:label "MIME type"@en .
+openricx:mimeType a owl:DatatypeProperty ; rdfs:label "MIME type"@en ;
+    rdfs:comment "Older spelling of openricx:hasMimeType, kept because existing data uses it."@en .
 openricx:size a owl:DatatypeProperty ; rdfs:label "size"@en ;
-    rdfs:comment "Size of an instantiation (free-form — bytes, pages, minutes). Use rico:hasExtent + rico:Extent for structured cases."@en .
+    rdfs:comment "Size of an instantiation (free-form - bytes, pages, minutes). Use rico:hasExtent + rico:Extent for structured cases."@en .
 openricx:hasPhysicalCharacteristics a owl:DatatypeProperty ;
-    rdfs:label "has physical characteristics"@en .
+    rdfs:label "has physical characteristics"@en ;
+    rdfs:comment "Physical characteristics of an Instantiation. Deprecated 2026-10-19 (ontology 1.2.0): RiC-O 1.1 defines rico:physicalCharacteristicsNote on rico:Instantiation."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#physicalCharacteristicsNote> .
 openricx:technicalCharacteristics a owl:DatatypeProperty ;
     rdfs:label "technical characteristics"@en ;
-    rdfs:comment "Free-text technical characteristics of an Instantiation (codec, bit depth, format profile, etc.). Used by the reference implementation to also carry inline checksums in the conventional 'Checksum (sha256): <hex>' form."@en .
+    rdfs:comment "Free-text technical characteristics of an Instantiation (codec, bit depth, format profile, etc.). Used by the reference implementation to also carry inline checksums in the conventional 'Checksum (sha256): <hex>' form. RiC-O 1.1 has a rico:technicalCharacteristics, but its domain is rico:Mechanism, so it does not cover an Instantiation."@en .
 openricx:productionTechnicalCharacteristics a owl:DatatypeProperty ;
-    rdfs:label "production technical characteristics"@en .
+    rdfs:label "production technical characteristics"@en ;
+    rdfs:comment "How an Instantiation was produced. Deprecated 2026-10-19 (ontology 1.2.0): RiC-O 1.1 defines rico:productionTechnique on rico:Instantiation."@en ;
+    owl:deprecated true ;
+    dcterms:isReplacedBy <https://www.ica.org/standards/RiC/ontology#productionTechnique> .
 
 # 2.11 Checksum (candidate-upstream)
 
 openricx:hasChecksum a owl:ObjectProperty ; rdfs:label "has checksum"@en ;
-    rdfs:domain rico:Instantiation ; rdfs:range openricx:Checksum .
+    rdfs:subPropertyOf rico:isRelatedTo ;
+    rdfs:domain rico:Instantiation ; rdfs:range openricx:Checksum ;
+    rdfs:comment "Links an Instantiation to a structured Checksum. RiC-O 1.1 has no checksum term."@en .
 openricx:algorithm a owl:DatatypeProperty ; rdfs:label "algorithm"@en ;
     rdfs:domain openricx:Checksum ; rdfs:range xsd:string ;
     rdfs:comment "Checksum algorithm name (e.g. 'sha256', 'md5')."@en .
@@ -228,8 +264,10 @@ openricx:accrualsNote a owl:DatatypeProperty ; rdfs:label "accruals note"@en ;
 openricx:institutionType a owl:DatatypeProperty ; rdfs:label "institution type"@en ;
     rdfs:comment "ISDIAH 5.1.5 Type of the institution holding archives, as free text or a local term."@en .
 openricx:openingHours a owl:DatatypeProperty ; rdfs:label "opening hours"@en ;
+    rdfs:subPropertyOf rico:note ;
     rdfs:comment "ISDIAH 5.4.1 Opening times of a repository."@en .
 openricx:accessibility a owl:DatatypeProperty ; rdfs:label "accessibility"@en ;
+    rdfs:subPropertyOf rico:note ;
     rdfs:comment "ISDIAH 5.4.3 Accessibility: how to reach the repository and the access it offers to people with disabilities."@en .
 
 # 2.13 SPARQL endpoint description (SPARQL Access draft profile, GET /sparql/info)
@@ -240,6 +278,7 @@ openricx:accessPolicy a owl:DatatypeProperty ; rdfs:label "access policy"@en ;
 openricx:rateLimit a owl:DatatypeProperty ; rdfs:label "rate limit"@en ;
     rdfs:comment "Request limit applied to the endpoint, e.g. '60/minute/IP'."@en .
 openricx:maxQueryTimeSeconds a owl:DatatypeProperty ; rdfs:label "maximum query time in seconds"@en ;
-    rdfs:range xsd:integer .
+    rdfs:range xsd:integer ;
+    rdfs:comment "Longest a SPARQL query may run on the endpoint before it is stopped, in seconds."@en .
 openricx:exampleQueriesUrl a owl:DatatypeProperty ; rdfs:label "example queries URL"@en ;
     rdfs:comment "Where the endpoint publishes example queries."@en .

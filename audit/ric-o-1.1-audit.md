@@ -138,7 +138,7 @@ Versioned from day one (`/v1#`) so we can evolve without breaking implementers -
 | `rico:postalCode` | 3 | **EXTENSION** | `openricx:postalCode` | high |  |
 | `rico:precedes` | 2 | **RENAME** | `precedesInTime` | medium | or precededInSequence |
 | `rico:predicate` | 1 | **RENAME** | `rdf:predicate` | medium | Generic predicate on Relation |
-| `rico:productionTechnicalCharacteristics` | 1 | **EXTENSION** | `openricx:productionTechnicalCharacteristics` | low | Or split |
+| `rico:productionTechnicalCharacteristics` | 1 | **EXTENSION** | `openricx:productionTechnicalCharacteristics` | low | Deprecated 2026-10-19 (ontology 1.2.0): RiC-O 1.1 defines `rico:productionTechnique` on `rico:Instantiation` |
 | `rico:publicationInformation` | 1 | **EXTENSION** | `openricx:publicationInformation` | high |  |
 | `rico:ruleType` | 13 | **RENAME** | `hasOrHadRuleType` | high |  |
 | `rico:size` | 1 | **EXTENSION** | `openricx:size` | medium |  |
@@ -148,7 +148,7 @@ Versioned from day one (`/v1#`) so we can evolve without breaking implementers -
 | `rico:streetAddress` | 9 | **EXTENSION** | `openricx:streetAddress` | high |  |
 | `rico:succeeds` | 2 | **RENAME** | `followsInTime` | medium |  |
 | `rico:target` | 1 | **RENAME** | `relationHasTarget` | high |  |
-| `rico:technicalCharacteristics` | 0 | **EXTENSION** | `openricx:technicalCharacteristics` | medium |  |
+| `rico:technicalCharacteristics` | 0 | **EXTENSION** | `openricx:technicalCharacteristics` | medium | Corrected 2026-10-19: RiC-O 1.1 does define `rico:technicalCharacteristics`, but only on `rico:Mechanism`, so it does not cover an Instantiation and the extension stays |
 | `rico:telephone` | 3 | **EXTENSION** | `openricx:telephone` | high |  |
 | `rico:tookPlaceAt` | 4 | **REMODEL** | `isAssociatedWithPlace` | medium | Or extension |
 | `rico:value` | 1 | **REVIEW** | `` | low | Too generic |

@@ -59,6 +59,10 @@ You need Python 3, `curl` and `jq`, nothing else. The probe should report 11 che
 
 **The question.** Does the picture OpenRiC draws, records linked to the agents, activities, places and dates around them, help someone understand an archive, or does it get in the way? Where would a researcher get lost, and what would you expect to see that is missing?
 
+**What is already known.** Little, and most of it from experienced users. The closest study is Merel Geerlings' 2021 thesis for the Stadsarchief Amsterdam (see [further reading](/learn.html#further-reading)). From the literature and a month of the city archive's search logs, she concluded that RiC could meet most of what users ask for. She also found that it does nothing to explain why a search returned what it did, and that labels such as "Record Resource" and "Instantiation" may mean little to the public. She advised keeping the classic fonds-to-item tree alongside any graph view for now. None of this was tested with users, which is where reviewers can help most.
+
+So, as well as the question above: when you land on a single record, can you tell which records it belongs with, who made them, and why it was shown to you? Do the RiC labels mean anything to someone without archival training? Would you still want a conventional tree next to the graph, and for whom? Please say whether you count yourself an experienced or an inexperienced archive user.
+
 **Five minutes.** [Browse the demonstration records](/demo/browse/), open one, and follow its links in the graph view. Then try [modelling something you hold](/wizard/) in the wizard, and notice where its questions stop making sense for your material.
 
 **Read next:** [learn RiC](/learn.html), [for archivists](/for-archivists.html), [explore](/explore.html).

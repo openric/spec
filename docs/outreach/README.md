@@ -5,7 +5,7 @@ Email/discussion-thread drafts for direct community outreach, drafted by the pro
 | Target | Outcome we want | Status |
 |---|---|---|
 | [Sparna (Garance build team)](sparna-second-implementation.md) | Sanity-check our SPARQL Access draft profile; consider Garance as a second implementation on that profile | draft, gated on B.2 (SPARQL Access fixtures + SHACL shipped) |
-| [Damigos / Ionian University](damigos-second-implementation.md) | Run our conformance probe against the Corfu Criminal Court Archives; potentially join as second implementer | draft, ready to send |
+| [Damigos / Ionian University](damigos-second-implementation.md) | Probe the Corfu Criminal Court description against Core Discovery; reconcile the two RiC-CM navigators; a second reader for the mapping | sent 2026-10-19 |
 
 ## Why outreach matters
 
