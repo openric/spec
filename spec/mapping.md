@@ -5,7 +5,7 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.54.0
+**Last revised in:** v0.55.0
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
 **Last updated:** 2026-10-20
 
@@ -217,18 +217,21 @@ The current pattern is: every event MUST be typed as `rico:Activity` and MUST ca
 
 The activity-type IRIs MAY be modelled as a SKOS concept scheme in a future release; today they are dereferenceable identifiers only. Implementations MAY mint local activity-type IRIs (e.g. `<https://archives.example.org/vocab/activity-type/migration>`) for site-specific event kinds, but MUST also emit `openric:localType` so consumers without the local vocabulary can still dispatch.
 
-### 6.6 Physical Object → `rico:Thing`
+### 6.6 Physical storage → `openricx:Container` in a `rico:Place`
 
-Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thing`. The local sub-type is preserved via `openric:localType`:
+RiC-O 1.1 has no container or storage class. From v0.55.0 (extension ontology 1.6.0):
 
-| Source thing type | RiC class | `openric:localType` |
+- A box, folder, map drawer, crate or other container is an `openricx:Container`, a subclass of `rico:Thing`, with its kind on `openricx:hasContainerType` (an `openricx:ContainerType`, a subclass of `rico:Type`) and its barcode or other code as a `rico:Identifier`.
+- What a container holds points to it with `openricx:isOrWasStoredIn`: a `rico:RecordResource` (as AtoM links a physical object to a description), a `rico:Instantiation`, or a smaller `openricx:Container`. The inverse is `openricx:storesOrStored`.
+- Where a container is kept is a `rico:Place` - a building, floor, strongroom, aisle, bay, rack or shelf, typed with `rico:hasOrHadPlaceType` - given with RiC-O's own `rico:hasOrHadLocation`. Storage places nest with `rico:hasOrHadLocation` like any other place, and are as public as the server makes them; storage locations are usually not published.
+
+| Source thing type | RiC class | Typed with |
 |---|---|---|
-| `box` | `rico:Thing` | `"box"` |
-| `container` | `rico:Thing` | `"container"` |
-| `shelf_unit` | `rico:Thing` | `"shelf_unit"` |
-| `cabinet` | `rico:Thing` | `"cabinet"` |
-| `vault` | `rico:Thing` | `"vault"` |
-| `equipment` | `rico:Thing` | `"equipment"` |
+| `box`, `folder`, `container`, `crate`, `map drawer` | `openricx:Container` | `openricx:hasContainerType` |
+| `shelf_unit`, `cabinet`, `vault`, `strongroom`, `room`, `building` | `rico:Place` | `rico:hasOrHadPlaceType` |
+| `equipment` | `rico:Thing` | `openric:localType` |
+
+A server that emits a container as `rico:Thing` with `openric:localType`, as this section prescribed before v0.55.0, remains conformant: `openricx:Container` is a subclass of `rico:Thing`, and a consumer that dispatches on `rico:Thing` reads both.
 
 ---
 
@@ -581,6 +584,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
+| v0.55.0 | 2026-10-20 | 6.6 Physical storage: a container is an `openricx:Container` with an `openricx:ContainerType`, what it holds points to it with `openricx:isOrWasStoredIn`, and it is placed in a `rico:Place` with `rico:hasOrHadLocation`; shelves, strongrooms and buildings are places. `rico:Thing` with `openric:localType` stays conformant. |
 | v0.54.0 | 2026-10-20 | 3.1.5 Extent: the text goes on `rico:textualValue` of a `rico:RecordResourceExtent`, and a counted extent on `rico:quantity` with `rico:hasUnitOfMeasurement`; a literal on `rico:hasExtentType`, an object property, is deprecated. |
 | v0.46.0 | 2026-10-15 | O-8 resolved: §7 rows follow RiC-AG with RiC-O 1.1 terms (scope and content, structure, notes, rules, physical characteristics, acquisition, date expansion, record set type); new §7.5 control areas and §7.6 ISDF. |
 | v0.45.0 | 2026-10-15 | Compared row by row with RiC-AG (audit page; O-8 registered); 3.3.3 maps to `rico:accruals`; ISDIAH type of institution renumbered 5.1.5. |

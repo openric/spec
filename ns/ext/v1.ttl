@@ -4,7 +4,7 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Active; ontology version 1.5.0 (spec v0.54.0). Term IRIs stay
+# Status:        Active; ontology version 1.6.0 (spec v0.55.0). Term IRIs stay
 #                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
@@ -44,9 +44,9 @@
     rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:modified "2026-10-20"^^xsd:date ;
-    owl:versionIRI <https://openric.org/ns/ext/v1.5.0> ;
-    owl:priorVersion <https://openric.org/ns/ext/v1.4.0> ;
-    owl:versionInfo "1.5.0" .
+    owl:versionIRI <https://openric.org/ns/ext/v1.6.0> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.5.0> ;
+    owl:versionInfo "1.6.0" .
 
 # =====================================================================
 # 1. Classes
@@ -96,6 +96,14 @@ openricx:Checksum a owl:Class ; rdfs:label "Checksum"@en ;
 openricx:Carrier a owl:Class ; rdfs:label "Carrier"@en ;
     rdfs:subClassOf rico:Thing ;
     rdfs:comment "An individual physical medium that bears one or more instantiations, such as a specific magnetic tape, disc or volume, with its own identifier, condition and custody history. Distinct from rico:CarrierType, which is the kind of medium. RiC-O 1.1 has no carrier entity; ICA-EGAD (Records_in_Contexts_users list, July 2026) plans a Carrier class for RiC-O 2.0 and advised a subclass of rico:Thing meanwhile. Added in 1.3.0; defined in the reference service since its v0.17.0."@en .
+
+openricx:Container a owl:Class ; rdfs:label "Container"@en ;
+    rdfs:subClassOf rico:Thing ;
+    rdfs:comment "A physical container in which records, their carriers or other containers are kept for storage, such as a box, a folder, a map drawer or a crate, with its own identifier (often a barcode), capacity and history of where it was kept. Distinct from openricx:Carrier, which bears an inscription, and from rico:Place: a container is where something is stored, and it is placed with rico:hasOrHadLocation in a rico:Place such as a strongroom or a shelf. RiC-O 1.1 has no container or storage class. Added in 1.6.0."@en .
+
+openricx:ContainerType a owl:Class ; rdfs:label "Container Type"@en ;
+    rdfs:subClassOf rico:Type ;
+    rdfs:comment "A category of container, such as box, folder, map drawer or crate, as rico:CarrierType categorises carriers. Added in 1.6.0."@en .
 
 openricx:Occupation a owl:Class ; rdfs:label "Occupation"@en ;
     rdfs:subClassOf rico:Thing ;
@@ -362,6 +370,28 @@ openricx:hasCarrier a owl:ObjectProperty ; rdfs:label "has carrier"@en ;
 openricx:isCarrierOf a owl:ObjectProperty ; rdfs:label "is carrier of"@en ;
     rdfs:domain openricx:Carrier ; rdfs:range rico:Instantiation ;
     rdfs:comment "The subject physical carrier bears the object rico:Instantiation."@en .
+
+# 2.16a Storage (added in 1.6.0; see openricx:Container)
+# What is stored is a record resource, an instantiation or a smaller container;
+# where a container is kept is a rico:Place, given with rico:hasOrHadLocation,
+# which RiC-O 1.1 allows from any rico:Thing.
+
+openricx:isOrWasStoredIn a owl:ObjectProperty ; rdfs:label "is or was stored in"@en ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( rico:RecordResource rico:Instantiation openricx:Container ) ] ;
+    rdfs:range openricx:Container ;
+    owl:inverseOf openricx:storesOrStored ;
+    rdfs:comment "Relates a record resource, an instantiation or a container to the openricx:Container in which it is or was kept, such as a file to its box or a folder to the box that holds it."@en .
+openricx:storesOrStored a owl:ObjectProperty ; rdfs:label "stores or stored"@en ;
+    rdfs:domain openricx:Container ;
+    rdfs:range [ a owl:Class ; owl:unionOf ( rico:RecordResource rico:Instantiation openricx:Container ) ] ;
+    rdfs:comment "The subject container holds or held the object record resource, instantiation or container."@en .
+openricx:hasContainerType a owl:ObjectProperty ; rdfs:label "has container type"@en ;
+    rdfs:domain openricx:Container ; rdfs:range openricx:ContainerType ;
+    owl:inverseOf openricx:isContainerTypeOf ;
+    rdfs:comment "Relates a container to its openricx:ContainerType, as rico:hasCarrierType relates an instantiation to its carrier type."@en .
+openricx:isContainerTypeOf a owl:ObjectProperty ; rdfs:label "is container type of"@en ;
+    rdfs:domain openricx:ContainerType ; rdfs:range openricx:Container ;
+    rdfs:comment "The subject container type categorises the object container."@en .
 
 # 2.17 Rule details (added in 1.3.0; sent by the reference service on rico:Rule
 # nodes typed by https://openric.org/vocab/rule-type/). A rule's period uses

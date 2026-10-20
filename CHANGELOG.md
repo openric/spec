@@ -2,6 +2,16 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.55.0 - 2026-10-20
+
+Physical storage in extension ontology 1.6.0: containers, what they hold, and where they are kept (mapping 6.6)
+
+Migration notes, for servers and clients:
+- Extension ontology 1.6.0 adds physical storage: openricx:Container, openricx:ContainerType, openricx:isOrWasStoredIn and its inverse openricx:storesOrStored, openricx:hasContainerType and its inverse openricx:isContainerTypeOf. No term is changed or removed.
+- Mapping 6.6: a container is an openricx:Container placed in a rico:Place with rico:hasOrHadLocation; shelves, strongrooms and buildings are places. A container sent as rico:Thing with openric:localType stays conformant.
+
+Approved by: Dr Johan Pieterse, 2026-10-20
+
 ## v0.54.0 - 2026-10-20
 
 Corrections found while implementing Core Discovery and Export-Only: autocomplete, vocabulary and the error registry (Core Discovery 0.7.0), the rico_ld wrapper (Export-Only 0.10.0), extents as RiC-O nodes (Digital Object Linkage 0.7.0, mapping 7.1), the range of openricx:hasDateRangeSet (extension ontology 1.5.0), a probe that validates against the schemas and shapes and runs every Export-Only check, and the Application page brought up to date
