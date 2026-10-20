@@ -17,8 +17,8 @@
   "rico:identifier": "Cat",
   "rico:scopeAndContent": "Example item Scope and content",
   "rico:hasExtent": {
-    "@type": "https://www.ica.org/standards/RiC/ontology#Extent",
-    "rico:hasExtentType": "1 paqge"
+    "@type": "rico:RecordResourceExtent",
+    "rico:textualValue": "1 paqge"
   },
   "rico:hasOrHadHolder": {
     "@id": "https://ric.theahg.co.za/repository/the-archive-and-heritage-group",
@@ -32,9 +32,9 @@
       "rico:identifier": "cat.jpg",
       "openricx:hasMimeType": "image/jpeg",
       "rico:hasExtent": {
-        "@type": "rico:Extent",
+        "@type": "rico:InstantiationExtent",
         "rico:quantity": 102354,
-        "rico:hasExtentType": "bytes"
+        "rico:hasUnitOfMeasurement": { "@type": "rico:UnitOfMeasurement", "rico:name": "bytes" }
       }
     }
   ]

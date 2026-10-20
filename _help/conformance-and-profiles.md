@@ -29,7 +29,7 @@ A server advertises its profiles in the service description at `GET /api/ric/v1/
   "openric_conformance": {
     "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.6.0", "conformance": "full" }
+      { "id": "core-discovery", "version": "0.7.0", "conformance": "full" }
     ]
   }
 }

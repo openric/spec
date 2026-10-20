@@ -14,9 +14,9 @@
   "openricx:hasMimeType": "image/tiff",
   "rico:hasCarrierType": "digital",
   "rico:hasExtent": {
-    "@type": "rico:Extent",
+    "@type": "rico:InstantiationExtent",
     "rico:quantity": 75504986,
-    "rico:hasExtentType": "bytes"
+    "rico:hasUnitOfMeasurement": { "@type": "rico:UnitOfMeasurement", "rico:name": "bytes" }
   },
   "openricx:technicalCharacteristics": "Checksum (sha256): b4156fc402504b621b0579635162f887ddd131045ee6eaa67c7c4b4a2d4e890f",
   "rico:isOrWasInstantiationOf": {

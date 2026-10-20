@@ -192,7 +192,7 @@ An excerpt of the ISAD(G) rows of the mapping. The authoritative table is <a hre
     <tr><td>3.1.2 Title</td><td><code>rico:title</code></td><td>Language-tagged.</td></tr>
     <tr><td>3.1.3 Dates</td><td><code>openricx:hasDateRangeSet</code></td><td>The API shape; in RDF it expands to <code>rico:hasCreationDate</code>, <code>rico:hasBeginningDate</code> and <code>rico:hasEndDate</code>.</td></tr>
     <tr><td>3.1.4 Level of description</td><td>the class, and <code>rico:hasRecordSetType</code></td><td>fonds, series, file and so on.</td></tr>
-    <tr><td>3.1.5 Extent and medium</td><td><code>rico:hasExtent</code></td><td>A <code>rico:Extent</code> with <code>rico:hasExtentType</code>.</td></tr>
+    <tr><td>3.1.5 Extent and medium</td><td><code>rico:hasExtent</code></td><td>A <code>rico:RecordResourceExtent</code> with the text on <code>rico:textualValue</code>.</td></tr>
     <tr><td>3.2.1 Name of creator</td><td><code>rico:hasCreator</code></td><td>Link to a <code>rico:Agent</code>.</td></tr>
     <tr><td>3.2.2 Administrative/biographical history</td><td><code>rico:history</code> on the Agent</td><td>Not on the record itself.</td></tr>
     <tr><td>3.2.3 Archival history</td><td><code>rico:history</code> on the record</td><td></td></tr>

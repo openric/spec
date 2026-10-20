@@ -261,12 +261,40 @@ probe_oai() {
   local ok="FAIL" colour="$R"
   if [[ "$code" == "200" ]] && grep -q "<OAI-PMH" "$tmp" && ! grep -q "<error code=" "$tmp"; then
     ok="PASS"; colour="$G"; PASS=$((PASS+1))
+  elif [[ "$code" == "200" ]] && grep -q '<error code="noRecordsMatch"' "$tmp" && [[ "$verb" == List* ]]; then
+    # OAI-PMH 3.6: an empty repository answers noRecordsMatch (Export-Only 3.1).
+    ok="SKIP"; colour="$Y"; SKIP=$((SKIP+1))
   else
     FAIL=$((FAIL+1))
   fi
-  printf '%s%-5s%s  OAI %-48s  [%s]\n' "$colour" "$ok" "$Z" "$verb" "$code"
-  RESULTS+=("$ok|OAI $verb|$code")
+  printf '%s%-5s%s  OAI %-48s  [%s]\n' "$colour" "$ok" "$Z" "$verb${extra:+ ${extra#&}}" "$code"
+  RESULTS+=("$ok$([[ "$ok" == SKIP ]] && echo ' (noRecordsMatch: nothing published)')|OAI $verb${extra:+ ${extra#&}}|$code")
   rm -f "$tmp"
+}
+
+# Where the specification's schemas and shapes are: beside the probe, when it
+# runs from the repository. Run from elsewhere, those checks are skipped.
+SPEC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# check_validate <label> <validate.py arguments...>: a schema, shape, parity or
+# rico_ld check by conformance/validate.py; skipped, never passed, without it.
+check_validate() {
+  local label="$1"; shift
+  if [[ ! -f "${SPEC_DIR}/conformance/validate.py" ]] || ! command -v python3 >/dev/null 2>&1; then
+    record "SKIP (no validator)" "$label" "--"; return
+  fi
+  local out code
+  out=$(python3 "${SPEC_DIR}/conformance/validate.py" "$@" 2>&1); code=$?
+  case $code in
+    0) record PASS "$label" "ok" ;;
+    3) record "SKIP ($out)" "$label" "--" ;;
+    *) [[ "$VERBOSE" == 1 ]] && echo "  ↳ ${out:0:300}"; record "FAIL (invalid)" "$label" "${out:0:60}" ;;
+  esac
+}
+
+# fetch <path> <file> [accept]: GET into a file; prints "<code> <content-type>".
+fetch() {
+  curl -s -o "$2" -w '%{http_code} %{content_type}' --max-time 15 -H "Accept: ${3:-application/json}" "${BASE}$1" 2>/dev/null
 }
 
 # ---- header ----------------------------------------------------
@@ -311,6 +339,30 @@ if in_profile "core-discovery"; then
 
   probe "list-repositories" required GET "/repositories" "$LIST_SHAPE"
   probe_show_first "show-repository" "/repositories" "/repositories"
+
+  # Section 6, steps 3 and 4: the JSON Schemas and the Core Discovery SHACL shapes.
+  CD_DIR=$(mktemp -d)
+  for spec in "/|service-description" "/vocabulary|vocabulary" "/records|list" "/agents|list" "/repositories|list" "/autocomplete?q=ab|autocomplete" "/records/no-such-key-0|error"; do
+    path="${spec%%|*}"; schema="${spec##*|}"; file="$CD_DIR/$(printf '%s' "$path" | tr -c 'a-z0-9' '_').json"
+    fetch "$path" "$file" >/dev/null
+    check_validate "schema ${schema}: GET ${path}" schema "${SPEC_DIR}/schemas/${schema}.schema.json" "$file"
+  done
+  CD_DOCS=()
+  for pair in records:record agents:agent repositories:repository; do
+    list="${pair%%:*}"; schema="${pair##*:}"
+    key=$(jq -r '(."openric:items" // ."ric:items" // [])[0]["@id"] // empty' "$CD_DIR/_${list}.json" 2>/dev/null | sed 's|.*/||')
+    if [[ -n "$key" ]]; then
+      fetch "/${list}/${key}" "$CD_DIR/one-${list}.json" 'application/ld+json' >/dev/null
+      check_validate "schema ${schema}: GET /${list}/{key}" schema "${SPEC_DIR}/schemas/${schema}.schema.json" "$CD_DIR/one-${list}.json"
+      CD_DOCS+=("$CD_DIR/one-${list}.json")
+    fi
+  done
+  if [[ ${#CD_DOCS[@]} -gt 0 ]]; then
+    check_validate "shacl core-discovery: the entities above" shacl "${SPEC_DIR}/shapes/profiles/core-discovery.shacl.ttl" "${CD_DOCS[@]}"
+  else
+    record "SKIP (lists empty)" "shacl core-discovery" "--"
+  fi
+  rm -rf "$CD_DIR"
 fi
 
 # ---- §2 Authority & Context — places, rules, activities ----
@@ -517,6 +569,58 @@ if in_profile "export-only"; then
   probe_oai "ListSets"
   probe_oai "ListIdentifiers" "&metadataPrefix=oai_dc"
   probe_oai "ListRecords"     "&metadataPrefix=oai_dc"
+  probe_oai "ListRecords"     "&metadataPrefix=rico_ld"
+
+  EO_DIR=$(mktemp -d)
+  # Check 6: an unknown verb gets the protocol's badVerb envelope, not problem+json.
+  read -r code ctype < <(fetch "/oai?verb=Frobnicate" "$EO_DIR/badverb.xml" 'text/xml')
+  if [[ "$code" == "200" && "$ctype" == *xml* ]] && grep -q '<error code="badVerb"' "$EO_DIR/badverb.xml"; then
+    record PASS "OAI badVerb envelope" "$code"
+  else
+    record "FAIL (no badVerb error)" "OAI badVerb envelope" "$code"
+  fi
+  # Check 5: GetRecord in both formats, for the first record harvested.
+  fetch "/oai?verb=ListIdentifiers&metadataPrefix=oai_dc" "$EO_DIR/ids.xml" 'text/xml' >/dev/null
+  first=$(grep -o '<identifier>[^<]*</identifier>' "$EO_DIR/ids.xml" | head -1 | sed -e 's/<identifier>//' -e 's/<\/identifier>//')
+  if [[ -n "$first" ]]; then
+    probe_oai "GetRecord" "&metadataPrefix=oai_dc&identifier=${first}"
+    probe_oai "GetRecord" "&metadataPrefix=rico_ld&identifier=${first}"
+    # Check 4: the rico_ld document is wrapped, parses, and meets the Core Discovery shapes.
+    fetch "/oai?verb=GetRecord&metadataPrefix=rico_ld&identifier=${first}" "$EO_DIR/ricold.xml" 'text/xml' >/dev/null
+    check_validate "rico_ld wrapper and JSON-LD" ricold "$EO_DIR/ricold.xml" "$EO_DIR/ricold.jsonld"
+    [[ -s "$EO_DIR/ricold.jsonld" ]] && check_validate "shacl core-discovery: a rico_ld document" shacl "${SPEC_DIR}/shapes/profiles/core-discovery.shacl.ttl" "$EO_DIR/ricold.jsonld"
+  else
+    record "SKIP (nothing harvested)" "OAI GetRecord" "--"
+  fi
+  # Checks 7 to 9: the per-record export, its three formats and its 404.
+  key=$(curl -s --max-time 15 -H 'Accept: application/json' "${BASE}/records?limit=1" | jq -r '(."openric:items" // ."ric:items" // [])[0]["@id"] // empty' 2>/dev/null | sed 's|.*/||')
+  [[ -z "$key" && -n "$first" ]] && key="${first##*:}"
+  if [[ -n "$key" ]]; then
+    disposition=$(curl -s -D - -o "$EO_DIR/export.jsonld" --max-time 15 -H 'Accept: application/ld+json' "${BASE}/records/${key}/export" 2>/dev/null | tr -d '\r' | grep -i '^content-disposition:')
+    read -r code ctype < <(fetch "/records/${key}/export" "$EO_DIR/export.jsonld" 'application/ld+json')
+    if [[ "$code" == "200" && "$ctype" == application/ld+json* && "$disposition" == *attachment* ]] && jq -e '(."@graph" | type == "array") and (."@graph" | length > 0)' "$EO_DIR/export.jsonld" >/dev/null 2>&1; then
+      record PASS "GET /records/{key}/export (JSON-LD @graph)" "$code"
+    else
+      record "FAIL (shape)" "GET /records/{key}/export (JSON-LD @graph)" "$code"
+    fi
+    read -r tcode ttype < <(fetch "/records/${key}/export?format=ttl" "$EO_DIR/export.ttl" 'text/turtle')
+    read -r rcode rtype < <(fetch "/records/${key}/export?format=rdf" "$EO_DIR/export.rdf" 'application/rdf+xml')
+    if [[ "$tcode" == "200" && "$ttype" == text/turtle* && "$rcode" == "200" && "$rtype" == application/rdf+xml* ]]; then
+      record PASS "GET /records/{key}/export?format=ttl and rdf" "$tcode"
+      check_validate "export: one triple set in the three formats" triples "$EO_DIR/export.jsonld" json-ld "$EO_DIR/export.ttl" turtle "$EO_DIR/export.rdf" xml
+    else
+      record "FAIL (content type)" "GET /records/{key}/export?format=ttl and rdf" "$tcode/$rcode"
+    fi
+  else
+    record "SKIP (nothing published)" "GET /records/{key}/export" "--"
+  fi
+  read -r code ctype < <(fetch "/records/no-such-slug-0/export" "$EO_DIR/missing.json" 'application/ld+json')
+  if [[ "$code" == "404" && "$ctype" == application/problem+json* ]]; then
+    record PASS "GET /records/{missing}/export is a 404 problem" "$code"
+  else
+    record "FAIL (not a problem+json 404)" "GET /records/{missing}/export is a 404 problem" "$code"
+  fi
+  rm -rf "$EO_DIR"
 fi
 
 # ---- §6 Round-Trip Editing - write surface (needs KEY) ----

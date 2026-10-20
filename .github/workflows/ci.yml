@@ -159,8 +159,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install the schema validator library
-        run: python -m pip install --quiet jsonschema
+      - name: Install the schema and shape validators
+        run: python -m pip install --quiet jsonschema pyshacl
 
       - name: Start the minimal server
         run: |

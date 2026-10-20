@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  OpenRiC - the openricx:jsonld element of a rico_ld record (Export-Only 3.1): its text is a RiC-O JSON-LD document.
+  Copyright (C) 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors.
+  Licensed under CC BY 4.0.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://openric.org/ns/ext/v1#" elementFormDefault="qualified">
+  <xs:element name="jsonld" type="xs:string"/>
+</xs:schema>

@@ -4,7 +4,7 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Active; ontology version 1.4.0 (spec v0.53.0). Term IRIs stay
+# Status:        Active; ontology version 1.5.0 (spec v0.54.0). Term IRIs stay
 #                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
@@ -43,10 +43,10 @@
                  <https://openric.org/audit/ric-o-1.1-audit.html> ;
     rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
-    dcterms:modified "2026-10-19"^^xsd:date ;
-    owl:versionIRI <https://openric.org/ns/ext/v1.4.0> ;
-    owl:priorVersion <https://openric.org/ns/ext/v1.3.1> ;
-    owl:versionInfo "1.4.0" .
+    dcterms:modified "2026-10-20"^^xsd:date ;
+    owl:versionIRI <https://openric.org/ns/ext/v1.5.0> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.4.0> ;
+    owl:versionInfo "1.5.0" .
 
 # =====================================================================
 # 1. Classes
@@ -139,8 +139,8 @@ openricx:hasDateRange    a owl:ObjectProperty ; rdfs:label "has date range"@en ;
     rdfs:range openricx:DateRange ;
     rdfs:comment "Links an entity to one openricx:DateRange."@en .
 openricx:hasDateRangeSet a owl:ObjectProperty ; rdfs:label "has date range set"@en ;
-    rdfs:range openricx:DateRangeSet ;
-    rdfs:comment "Links an entity to its dates, as one or more openricx:DateRange objects; the API shape for the dates of a record, an agent or a relation (mapping section 7.2)."@en .
+    rdfs:range openricx:DateRange ;
+    rdfs:comment "Links an entity to its dates, as one or more openricx:DateRange objects; the API shape for the dates of a record, an agent or a relation (mapping section 7.2). Its range was openricx:DateRangeSet until ontology 1.5.0, which made every date range a date range set under RDFS inference; no implementation nested the ranges."@en .
 
 # 2.3 Description / note properties (general prose)
 

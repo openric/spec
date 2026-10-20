@@ -7,11 +7,11 @@ description: rico:Instantiation carriers (files, images, PDFs) and openricx:Func
 # Digital Object Linkage Profile
 
 **Profile id:** `digital-object-linkage`
-**Profile version:** 0.6.0
-**Last revised in spec:** v0.33.0
+**Profile version:** 0.7.0
+**Last revised in spec:** v0.54.0
 **Status:** Normative
 **Dependencies:** None at the endpoint level. When combined with Graph Traversal, the `:InstantiationLinkedFromRecordShape` full-graph SHACL shape (defined there) additionally verifies that every Instantiation is referenced by at least one Record.
-**Last updated:** 2026-04-21
+**Last updated:** 2026-10-20
 
 ---
 
@@ -83,9 +83,9 @@ An Instantiation is a concrete carrier of the information in a Record - a specif
   "openricx:hasMimeType":   "image/tiff",
   "rico:hasCarrierType": "digital",
   "rico:hasExtent": {
-    "@type":           "rico:Extent",
+    "@type":           "rico:InstantiationExtent",
     "rico:quantity":   75504986,
-    "rico:hasExtentType": "bytes"
+    "rico:hasUnitOfMeasurement": { "@type": "rico:UnitOfMeasurement", "rico:name": "bytes" }
   },
   "openricx:technicalCharacteristics": "Checksum (sha256): b4156fc402504b621b0579635162f887ddd131045ee6eaa67c7c4b4a2d4e890f",
   "rico:isOrWasInstantiationOf": {
@@ -106,7 +106,7 @@ An Instantiation is a concrete carrier of the information in a Record - a specif
 | `openricx:description` | Free-form, often auto-generated from MIME + size |
 | `openricx:hasMimeType` | MUST match `^[a-zA-Z0-9!#$&^_.+-]+/[a-zA-Z0-9!#$&^_.+-]+$` per SHACL |
 | `rico:hasCarrierType` | `digital`, `physical`, `born-digital`, `analog-converted`, or a local vocabulary value |
-| `rico:hasExtent` | Structured `rico:Extent` with `rico:quantity` (integer) + `rico:hasExtentType` (`bytes`, `pages`, `minutes`, etc.) |
+| `rico:hasExtent` | Structured `rico:InstantiationExtent` with `rico:quantity` (a number) and `rico:hasUnitOfMeasurement` → a `rico:UnitOfMeasurement` named `bytes`, `pages`, `minutes` and so on. Until v0.54.0 the unit was sent as a literal on `rico:hasExtentType`, an object property; that is deprecated and may be sent beside the new form until v0.55.0. |
 | `openricx:technicalCharacteristics` | Free-form string. Checksum convention: `"Checksum (sha256): <hex>"` - structured checksum shape is a v0.7 candidate (see §9 Q2). |
 | `rico:isOrWasInstantiationOf` | **STRONGLY RECOMMENDED.** Embedded stub of the Record this Instantiation carries. Without it, the Instantiation is floating (SHACL Warning at Graph Traversal level). |
 
@@ -249,7 +249,17 @@ Fixtures outside this list are NOT required for profile conformance.
 - *(optional)* Implement `POST /upload` - handle all four error paths (`no_file`, `invalid_file`, `too_large`, auth)
 - *(optional)* Implement `GET /thumbnail/{id}` - handle `not_found`, `source_missing`, `not_an_image`
 
-## 9. Design decisions
+## 9. Migration
+
+### From profile 0.6.0 to 0.7.0 (spec v0.54.0)
+
+| What changed | Servers | Clients |
+|---|---|---|
+| An extent's unit is a `rico:UnitOfMeasurement` node on `rico:hasUnitOfMeasurement`, not a literal on `rico:hasExtentType`, an object property in RiC-O 1.1 | Send `rico:quantity` with `rico:hasUnitOfMeasurement`; the old literal MAY be sent beside it until v0.55.0. The `instantiation-tiff` and `instantiation-application` fixtures show the new form. | Read `rico:hasUnitOfMeasurement`, falling back to a literal `rico:hasExtentType`. |
+
+`rico:hasCarrierType` is also an object property in RiC-O 1.1, and this profile still allows a literal on it (known issue K-13).
+
+## 10. Design decisions
 
 Five questions were flagged during drafting; all five carry resolutions.
 

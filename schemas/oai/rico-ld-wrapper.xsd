@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  OpenRiC - the wrapper of a rico_ld record in OAI-PMH (Export-Only 3.1): rico:Record holding openricx:jsonld,
+  whose text is the RiC-O JSON-LD document in a CDATA section. Import this schema, with OAI-PMH.xsd, to
+  validate a rico_ld response strictly. The element names are XML names, not RDF terms.
+  Copyright (C) 2026 The Archive and Heritage Digital Commons Group (Pty) Ltd and the OpenRiC contributors.
+  Licensed under CC BY 4.0.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:openricx="https://openric.org/ns/ext/v1#"
+           targetNamespace="https://www.ica.org/standards/RiC/ontology#" elementFormDefault="qualified">
+  <xs:import namespace="https://openric.org/ns/ext/v1#" schemaLocation="openricx-jsonld.xsd"/>
+  <xs:element name="Record">
+    <xs:complexType><xs:sequence><xs:element ref="openricx:jsonld"/></xs:sequence></xs:complexType>
+  </xs:element>
+</xs:schema>

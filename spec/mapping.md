@@ -5,9 +5,9 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.50.0
+**Last revised in:** v0.54.0
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
-**Last updated:** 2026-10-19
+**Last updated:** 2026-10-20
 
 ---
 
@@ -242,7 +242,7 @@ Boxes, containers, shelves, cabinets, vaults, and equipment all map to `rico:Thi
 | 3.1.2 Title | `rico:title` | Language-tagged per `culture` |
 | 3.1.3 Date(s) | `openricx:hasDateRangeSet` → `openricx:DateRange` | See §7.2. The API shape; in RDF it expands to `rico:hasCreationDate`, `rico:hasBeginningDate` and `rico:hasEndDate` → `rico:Date` (RiC-AG) |
 | 3.1.4 Level of description | *(drives class, see §6.1)*, and `rico:hasRecordSetType` → `rico:RecordSetType` on a RecordSet | The class alone loses the level name; RiC-AG §5.3.1 |
-| 3.1.5 Extent and medium | `rico:hasExtent` → `rico:Extent` with `rico:hasExtentType` | |
+| 3.1.5 Extent and medium | `rico:hasExtent` → `rico:RecordResourceExtent` (a `rico:Extent`), the text on `rico:textualValue`; a counted extent carries `rico:quantity` and `rico:hasUnitOfMeasurement` → `rico:UnitOfMeasurement` | `rico:hasExtentType` is an object property (Extent to `rico:ExtentType`); until v0.54.0 the extent text was sent on it as a literal, which is deprecated and may be sent beside `rico:textualValue` until v0.55.0 |
 | 3.2.1 Name of creator(s) | `rico:hasCreator` → `rico:Agent` | |
 | 3.2.2 Administrative / biographical history | `rico:history` | On the Agent, not the Record |
 | 3.2.3 Archival history | `rico:history` on the Record | Free-text |
@@ -534,8 +534,8 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
     "rico:hasDateType": { "@id": "https://openric.org/vocab/date-type/creation" }
   },
   "rico:hasExtent": {
-    "@type": "rico:Extent",
-    "rico:hasExtentType": "3.2 linear metres, 18 boxes"
+    "@type": "rico:RecordResourceExtent",
+    "rico:textualValue": "3.2 linear metres, 18 boxes"
   },
   "rico:hasOrHadLanguage": [
     { "@type": "rico:Language", "openricx:languageCode": "eng" },
@@ -581,6 +581,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
+| v0.54.0 | 2026-10-20 | 3.1.5 Extent: the text goes on `rico:textualValue` of a `rico:RecordResourceExtent`, and a counted extent on `rico:quantity` with `rico:hasUnitOfMeasurement`; a literal on `rico:hasExtentType`, an object property, is deprecated. |
 | v0.46.0 | 2026-10-15 | O-8 resolved: §7 rows follow RiC-AG with RiC-O 1.1 terms (scope and content, structure, notes, rules, physical characteristics, acquisition, date expansion, record set type); new §7.5 control areas and §7.6 ISDF. |
 | v0.45.0 | 2026-10-15 | Compared row by row with RiC-AG (audit page; O-8 registered); 3.3.3 maps to `rico:accruals`; ISDIAH type of institution renumbered 5.1.5. |
 | v0.44.0 | 2026-10-15 | Add §1.3: the editions every row is made against, what the mapping does not claim (ICA endorsement, lossless legacy round trip, full RiC-AG agreement, RiC conformance), and what OpenRiC adds on top of RiC. Register and resolve O-6 (publish the `openric:` API vocabulary; four mapping-only terms move to `openricx:`) and O-7 (Governance profile pin brought to RiC-O 1.1). |

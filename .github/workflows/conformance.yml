@@ -37,6 +37,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The probe validates responses against the JSON Schemas and SHACL shapes,
+      # and checks the export's triple parity, only where these are installed.
+      - name: Install the schema and shape validators
+        run: python -m pip install --quiet jsonschema pyshacl
+
       - name: Probe each profile
         env:
           KEY: ""

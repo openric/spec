@@ -14,9 +14,9 @@
   "openricx:hasMimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   "rico:hasCarrierType": "digital",
   "rico:hasExtent": {
-    "@type": "rico:Extent",
+    "@type": "rico:InstantiationExtent",
     "rico:quantity": 19438040,
-    "rico:hasExtentType": "bytes"
+    "rico:hasUnitOfMeasurement": { "@type": "rico:UnitOfMeasurement", "rico:name": "bytes" }
   },
   "openricx:technicalCharacteristics": "Checksum (sha256): e0fb6a7c4c1ddf7d725754b36cf721f68b1c3eea122c41420b9a3191704d686e",
   "rico:isOrWasInstantiationOf": {

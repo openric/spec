@@ -2,6 +2,19 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.54.0 - 2026-10-20
+
+Corrections found while implementing Core Discovery and Export-Only: autocomplete, vocabulary and the error registry (Core Discovery 0.7.0), the rico_ld wrapper (Export-Only 0.10.0), extents as RiC-O nodes (Digital Object Linkage 0.7.0, mapping 7.1), the range of openricx:hasDateRangeSet (extension ontology 1.5.0), a probe that validates against the schemas and shapes and runs every Export-Only check, and the Application page brought up to date
+
+Migration notes, for servers and clients:
+- Core Discovery 0.7.0: autocomplete answers an array of {id, label, type} matches, with @id, @type and score optional, as the schema and probe already required. A query under two characters gets 200 and an empty array. The vocabulary list is properties; predicates is deprecated and accepted until v0.55.0. 406 not-acceptable is a registered error type. Fixtures: autocomplete-egypt, vocabulary.
+- Export-Only 0.10.0: rico_ld puts the JSON-LD in a CDATA section inside <rico:Record><openricx:jsonld>, which the reference service already sends; schemas/oai/rico-ld-wrapper.xsd validates it. An empty repository answering noRecordsMatch is conformant. Fixture: record-export-jsonld, whose dates are now directly under openricx:hasDateRangeSet.
+- Digital Object Linkage 0.7.0 and mapping 7.1: an extent is a rico:RecordResourceExtent or rico:InstantiationExtent with its text on rico:textualValue, or rico:quantity with rico:hasUnitOfMeasurement. A literal on rico:hasExtentType, an object property, is deprecated and accepted until v0.55.0. Fixtures: record-multilingual, instantiation-tiff, instantiation-application.
+- Extension ontology 1.5.0: openricx:hasDateRangeSet has the range openricx:DateRange. No term is added or removed.
+- The probe validates responses against the JSON Schemas and SHACL shapes where jsonschema and pyshacl are installed, and runs all nine Export-Only checks. The reference service fails it (known issue K-14).
+
+Approved by: Dr Johan Pieterse, 2026-10-20
+
 ## v0.53.0 - 2026-10-19
 
 Role-type vocabulary and extension ontology 1.4.0

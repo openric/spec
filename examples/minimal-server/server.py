@@ -164,7 +164,7 @@ def service_description():
         "description": "Standard-library example implementing the Core Discovery profile, with a small in-memory write surface for learning. Synthetic data.",
         "openric_conformance": {
             "spec_version": SPEC_VERSION,
-            "profiles": [{"id": "core-discovery", "version": "0.6.0", "conformance": "full"}],
+            "profiles": [{"id": "core-discovery", "version": "0.7.0", "conformance": "full"}],
         },
     }
 
@@ -173,7 +173,7 @@ VOCABULARY = {
     "@context": CONTEXT,
     "@type": "openric:Vocabulary",
     "classes": [{"@id": f"rico:{c}", "rdfs:label": c} for c in ("Record", "RecordSet", "Person", "Family", "CorporateBody")],
-    "predicates": [{"@id": f"rico:{p}"} for p in ("hasCreator", "hasOrHadHolder", "isOrWasIncludedIn", "includesOrIncluded")],
+    "properties": [{"@id": f"rico:{p}"} for p in ("hasCreator", "hasOrHadHolder", "isOrWasIncludedIn", "includesOrIncluded")],
 }
 
 

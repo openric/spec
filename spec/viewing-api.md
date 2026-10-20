@@ -5,7 +5,7 @@ title: OpenRiC Viewing API
 
 # OpenRiC Viewing API
 
-**Last revised in:** v0.51.0
+**Last revised in:** v0.54.0
 
 ---
 
@@ -99,7 +99,7 @@ Returns a JSON description of the server's capabilities, conformance level, and 
   "openric_conformance": {
     "spec_version": "{{ site.data.version.version }}",
     "profiles": [
-      { "id": "core-discovery", "version": "0.6.0", "conformance": "full" },
+      { "id": "core-discovery", "version": "0.7.0", "conformance": "full" },
       { "id": "graph-traversal", "version": "0.6.0", "conformance": "full" }
     ]
   }

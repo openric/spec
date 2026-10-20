@@ -7,11 +7,11 @@ description: OAI-PMH v2.0 harvest and one-shot JSON-LD dumps. The profile for ag
 # Export-Only Profile
 
 **Profile id:** `export-only`
-**Profile version:** 0.9.0
-**Last revised in spec:** v0.36.0
+**Profile version:** 0.10.0
+**Last revised in spec:** v0.54.0
 **Status:** Normative
 **Dependencies:** None. Export-Only is orthogonal to every other profile - a server may expose a pure harvest surface without any of the per-entity read endpoints required by Core Discovery.
-**Last updated:** 2026-04-21
+**Last updated:** 2026-10-20
 
 ---
 
@@ -61,7 +61,7 @@ Behavioural requirements match OAI-PMH v2.0 §4 directly - this profile does not
 | Prefix | Shape | Why mandatory |
 |---|---|---|
 | `oai_dc` | Standard Dublin Core XML (`oai_dc.xsd`) | OAI-PMH baseline - every harvester assumes it |
-| `rico_ld` | RiC-O JSON-LD wrapped in `<![CDATA[...]]>` inside `<metadata>` | Carries full RiC semantics through the XML wire - the whole point of Export-Only for a RiC-native aggregator |
+| `rico_ld` | RiC-O JSON-LD in a CDATA section, inside the wrapper element of §3.1 | Carries full RiC semantics through the XML wire - the whole point of Export-Only for a RiC-native aggregator |
 
 Servers MAY advertise additional prefixes (`mods`, `marcxml`, `ead`) but MUST NOT drop the two above.
 
@@ -99,7 +99,19 @@ OpenRiC-specific pins that apply on top:
 
 1. **Identify** MUST declare `protocolVersion = 2.0`, `deletedRecord = no` unless the implementation tracks deletes (then `persistent` or `transient`), and `granularity = YYYY-MM-DDThh:mm:ssZ` (the finer-grain option - not the coarser `YYYY-MM-DD`).
 2. **ListMetadataFormats** MUST include both `oai_dc` and `rico_ld` per §2.3 above.
-3. **`rico_ld`-prefixed records** MUST carry a well-formed RiC-O JSON-LD document as the `<metadata>` contents, wrapped in CDATA. The document's shape matches §3.2 below - i.e. the `/export` endpoint's JSON-LD dump is conceptually a single-record `rico_ld` payload unwrapped.
+3. **`rico_ld`-prefixed records** MUST carry a well-formed RiC-O JSON-LD document whose shape matches §3.2 below - the `/export` endpoint's JSON-LD dump is a single-record `rico_ld` payload unwrapped. OAI-PMH requires `<metadata>` to hold exactly one element from another namespace, so the document goes in a CDATA section inside this wrapper (the form the reference service has sent since it implemented the profile):
+
+   ```xml
+   <metadata>
+     <rico:Record xmlns:rico="https://www.ica.org/standards/RiC/ontology#"
+                  xmlns:openricx="https://openric.org/ns/ext/v1#">
+       <openricx:jsonld><![CDATA[{ "@context": { ... }, "@graph": [ ... ] }]]></openricx:jsonld>
+     </rico:Record>
+   </metadata>
+   ```
+
+   The wrapper's two elements are XML element names, not RDF terms; `schemas/oai/rico-ld-wrapper.xsd` defines them, so a harvester can validate a `rico_ld` response strictly. A JSON-LD document containing `]]>` is split across two CDATA sections, as XML requires.
+4. **An empty repository is conformant.** Before anything is published, `ListIdentifiers` and `ListRecords` answer with the protocol's `noRecordsMatch` error, as OAI-PMH §3.6 requires.
 
 Canonical `Identify` and `ListMetadataFormats` examples are shipped as the [`oai-identify`](../../fixtures/oai-identify/) and [`oai-list-metadata-formats`](../../fixtures/oai-list-metadata-formats/) fixtures.
 
@@ -192,7 +204,7 @@ A server claims `export-only` when:
 8. Same endpoint with `?format=ttl` returns `text/turtle` with the same triple set; `?format=rdf` returns `application/rdf+xml` with the same triple set (verify triple-count parity).
 9. `GET /api/ric/v1/records/no-such-slug/export` returns `404 not-found` as `application/problem+json` - NOT an empty JSON-LD envelope.
 
-Run the conformance probe with `--profile=export-only` to exercise all nine checks against a live server.
+Run the conformance probe with `--profile=export-only` to exercise all nine checks against a live server. Check 8's triple-count parity needs `python3` with `rdflib`; without it the probe reports that check as skipped, never as passed. Before v0.54.0 the probe ran only the first five OAI-PMH verbs, and counted an empty repository's `noRecordsMatch` as a failure.
 
 ## 7. Fixture pack
 
@@ -211,7 +223,7 @@ Fixtures outside this list are NOT required for profile conformance.
 - Implement `/api/ric/v1/oai` accepting both GET and POST
 - Handle all six OAI-PMH verbs per §4 of the OAI-PMH v2.0 spec
 - Advertise at least `oai_dc` and `rico_ld` in ListMetadataFormats
-- Wrap `rico_ld` metadata in CDATA inside `<metadata>`
+- Put `rico_ld` metadata in a CDATA section inside the wrapper of §3.1
 - Set `granularity: YYYY-MM-DDThh:mm:ssZ` in Identify (fine grain)
 - Set `protocolVersion: 2.0` in Identify
 - Return `<error code="...">` (not problem+json) on OAI-PMH errors
@@ -224,7 +236,18 @@ Fixtures outside this list are NOT required for profile conformance.
 - Run the conformance probe with `--profile=export-only` - all 3 shipped fixtures pass
 - `/conformance/badge?profile=export-only` returns shields.io JSON
 
-## 9. Design decisions
+## 9. Migration
+
+### From profile 0.9.0 to 0.10.0 (spec v0.54.0)
+
+| What changed | Servers | Clients |
+|---|---|---|
+| `rico_ld` names its wrapper element (§3.1): the CDATA section goes inside `<rico:Record><openricx:jsonld>`, not directly in `<metadata>`, which OAI-PMH does not allow | Send the wrapper. The reference service already does. | Read the JSON-LD from `openricx:jsonld`. |
+| The `record-export-jsonld` fixture puts its dates as `openricx:DateRange` objects directly under `openricx:hasDateRangeSet`, as mapping §7.2 does; it nested them in an `openricx:DateRangeSet` | None for servers following mapping §7.2. | Read `openricx:DateRange` objects under `openricx:hasDateRangeSet`. |
+| `not-acceptable` (406) is registered in Core Discovery §4.1 | Use it on `/export`. | Dispatch on it. |
+| The probe runs all nine checks of §6 | A server failing GetRecord, the export endpoint or the badVerb envelope now fails the probe. | None. |
+
+## 10. Design decisions
 
 Five questions were flagged during drafting; all five carry resolutions.
 

@@ -7,11 +7,11 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 # Core Discovery Profile
 
 **Profile id:** `core-discovery`
-**Profile version:** 0.6.0
-**Last revised in spec:** v0.50.0
+**Profile version:** 0.7.0
+**Last revised in spec:** v0.54.0
 **Status:** Normative
 **Dependencies:** None
-**Last updated:** 2026-10-15
+**Last updated:** 2026-10-20
 
 ---
 
@@ -114,7 +114,7 @@ Returns an ordered array of rico:* types with labels. Minimum shape:
 }
 ```
 
-`classes` MUST be an array; `@type` is optional (the reference service sends `ric:Vocabulary`, the [minimal server](https://github.com/openric/spec/tree/main/examples/minimal-server) `openric:Vocabulary`). As for every response, the `@context` binds its prefixes inline (§3.3). Only classes and properties actually exposed by the server's declared profiles need be listed. A Core-Discovery-only server lists Record, Agent, CorporateBody (for repositories), and the property set it emits.
+`classes` MUST be an array, and so MUST `properties` when it is sent. Before 0.7.0 the JSON Schema called the property list `predicates` while this section called it `properties`; `properties` is the name, and a server MAY send `predicates` beside it until it is removed (deprecated in v0.54.0, not before v0.55.0). `@type` is optional (the reference service sends `ric:Vocabulary`, the [minimal server](https://github.com/openric/spec/tree/main/examples/minimal-server) `openric:Vocabulary`). As for every response, the `@context` binds its prefixes inline (§3.3). Only classes and properties actually exposed by the server's declared profiles need be listed. A Core-Discovery-only server lists Record, Agent, CorporateBody (for repositories), and the property set it emits.
 
 ### 3.3 List responses - `GET /records`, `/agents`, `/repositories`
 
@@ -246,18 +246,21 @@ The contact point is a single embedded object under `openricx:contact`, typed `o
 
 ### 3.5 Autocomplete - `GET /autocomplete?q=&types=&limit=`
 
+The response is an array of matches, best first (`schemas/autocomplete.schema.json`):
+
 ```json
-{
-  "query": "pieters",
-  "items": [
-    { "@id": "...", "@type": "rico:Person", "label": "Pieterse, Johan", "score": 0.95 }
-  ]
-}
+[
+  { "id": "https://example.org/actor/pieterse-johan", "label": "Pieterse, Johan", "type": "Agent",
+    "@id": "https://example.org/actor/pieterse-johan", "@type": "rico:Person", "score": 0.95 }
+]
 ```
 
-- `q` parameter REQUIRED; 2-character minimum enforced server-side.
+- Each match MUST carry `id` (the entity's IRI, or the key its single-entity endpoint takes), `label` and `type`, the short class name (`Record`, `Agent`, `Repository`). It MAY carry `@id`, `@type` (its RiC-O class) and a `score`.
+- `q` parameter REQUIRED; a request without it is a `400 bad-request`. A query shorter than two characters MUST be answered `200` with an empty array: the server need not search on one character.
 - `types` parameter OPTIONAL; accepts comma-separated `record`, `agent`, `repository`. Defaults to all.
 - `limit` parameter OPTIONAL; defaults to 10, maximum 50.
+
+Before 0.7.0 this section showed an object, `{"query", "items"}`, while the JSON Schema and the probe expected an array; implementations followed the schema.
 
 ## 4. Error handling
 
@@ -287,6 +290,7 @@ The `type` field is the stable identifier clients SHOULD dispatch on. Titles and
 | `https://openric.org/errors/authentication-required` | 401 | Protected route hit without credentials |
 | `https://openric.org/errors/forbidden` | 403 | Credentials valid but insufficient scope |
 | `https://openric.org/errors/conflict` | 409 | State conflict - e.g. delete blocked by descendants |
+| `https://openric.org/errors/not-acceptable` | 406 | No representation the `Accept` header allows (the Export-Only export, for example) |
 | `https://openric.org/errors/payload-too-large` | 413 | Upload exceeded the size ceiling |
 | `https://openric.org/errors/unsupported-media-type` | 415 | Content-Type not accepted for this endpoint |
 | `https://openric.org/errors/internal-error` | 500 | Unexpected server-side failure |
@@ -332,6 +336,8 @@ The probe MUST:
 7. Verify RFC 7807 error shape on a deliberate 404
 8. Emit a JSON report (`--json=`, schema `openric-probe-result/1`) with the profile, a `verdict` and every check
 
+Steps 3 and 4 need a validator: the probe runs them when `python3` with the `jsonschema` package (step 3) or `pyshacl` (step 4) is installed, and otherwise reports them as skipped, never as passed. Before v0.54.0 the probe did not run them at all.
+
 A server passes Core Discovery conformance when all tests pass.
 
 ## 7. Fixture pack
@@ -368,6 +374,17 @@ A server implementer works through:
 - Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
 ## 9. Migration
+
+### From profile 0.6.0 to 0.7.0 (spec v0.54.0)
+
+| What changed | Servers | Clients |
+|---|---|---|
+| Autocomplete is an array of `{id, label, type}` matches (3.5), as the JSON Schema and probe already required | Send the array; `@id`, `@type` and `score` MAY go on each match. A server sending `{"query", "items"}` moves to the array. | Read the array. |
+| A query under two characters is answered `200` with an empty array, not an error | Answer it so. | Expect an empty array. |
+| The vocabulary's property list is `properties`; the schema's `predicates` is deprecated | Send `properties`; `predicates` MAY be sent beside it until v0.55.0. | Read `properties`, falling back to `predicates`. |
+| `not-acceptable` (406) is a registered error type (4.1) | Use it for a request whose `Accept` header allows no representation. | Dispatch on it. |
+| The probe validates responses against the JSON Schemas and the SHACL shapes (6) | Responses that fail a schema or shape now fail the probe. | None. |
+
 
 ### From profile 0.5.0 to 0.6.0 (spec v0.50.0)
 
