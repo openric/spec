@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-20T08:49:44Z",
+  "run_at": "2026-10-21T08:51:41Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "9a492e2",
+  "probe_revision": "104dc97",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:41:42Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:43:16Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -118,17 +118,17 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:40:26Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:41:58Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
       ],
       "writes_attempted": false,
-      "verdict": "pass",
+      "verdict": "fail",
       "counts": {
-        "pass": 11,
-        "fail": 0,
+        "pass": 21,
+        "fail": 1,
         "skip": 0
       },
       "service": {
@@ -228,13 +228,68 @@
           "status": "PASS",
           "check": "GET /repositories/d6mh-ktzy-h6qz",
           "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "schema service-description: GET /",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema vocabulary: GET /vocabulary",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema list: GET /records",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema list: GET /agents",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema list: GET /repositories",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema autocomplete: GET /autocomplete?q=ab",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema error: GET /records/no-such-key-0",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema record: GET /records/{key}",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema agent: GET /agents/{key}",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema repository: GET /repositories/{key}",
+          "http": "ok"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "shacl core-discovery: the entities above",
+          "http": "Validation Report Conforms: False Results (3): Constraint Vi"
         }
       ]
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:46:12Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:47:54Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -328,17 +383,17 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:48:34Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:50:31Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
       ],
       "writes_attempted": false,
-      "verdict": "pass",
+      "verdict": "fail",
       "counts": {
-        "pass": 8,
-        "fail": 0,
+        "pass": 16,
+        "fail": 2,
         "skip": 0
       },
       "service": {
@@ -416,20 +471,70 @@
         },
         {
           "status": "PASS",
-          "check": "OAI ListIdentifiers",
+          "check": "OAI ListIdentifiers metadataPrefix=oai_dc",
           "http": "200"
         },
         {
           "status": "PASS",
-          "check": "OAI ListRecords",
+          "check": "OAI ListRecords metadataPrefix=oai_dc",
           "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI ListRecords metadataPrefix=rico_ld",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI badVerb envelope",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI GetRecord metadataPrefix=oai_dc&identifier=oai:ric.theahg.co.za:1",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI GetRecord metadataPrefix=rico_ld&identifier=oai:ric.theahg.co.za:1",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "rico_ld wrapper and JSON-LD",
+          "http": "ok"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "shacl core-discovery: a rico_ld document",
+          "http": "Validation Report Conforms: False Results (2): Constraint Vi"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/{key}/export (JSON-LD @graph)",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/{key}/export?format=ttl and rdf",
+          "http": "200"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "export: one triple set in the three formats",
+          "http": "/tmp/tmp.kQjGx8ETJg/export.ttl has 23 triples, /tmp/tmp.kQjG"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/{missing}/export is a 404 problem",
+          "http": "404"
         }
       ]
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:44:58Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:46:39Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -528,8 +633,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:43:36Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:45:14Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -643,8 +748,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:47:20Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:49:03Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -723,8 +828,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-20T08:49:44Z",
-      "probe_revision": "9a492e2",
+      "run_at": "2026-10-21T08:51:41Z",
+      "probe_revision": "104dc97",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "sparql-access"
