@@ -3,7 +3,7 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "OpenRiC API contract",
-    "version": "0.55.0",
+    "version": "0.55.1",
     "summary": "The HTTP surface the OpenRiC profiles define, as one machine-readable document.",
     "description": "The profiles are normative; this document indexes them. Where the two disagree, the profile wins and this document is the bug. Each operation names its profile in x-openric-profile and that profile's status in x-openric-status. A server implements the operations of the profiles it declares at GET /, and nothing in this document requires the others.\n\nIdentifiers in paths are opaque strings: a server may use slugs, numbers or anything else, and a client takes them from responses. Paths are relative to the server's base URL; the reference service's is https://ric.theahg.co.za/api/ric/v1.\n\nResponse bodies are defined by the JSON Schemas under /schemas/ and illustrated by the fixtures under /fixtures/; CI validates every example here against the schema of its operation.",
     "license": {

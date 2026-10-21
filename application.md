@@ -8,7 +8,7 @@ kind: current
 
 # OpenRiC Workspace
 
-<p class="callout"><strong>Status: in development, not yet released for use.</strong> Development releases run at workspace.openric.org (sign-in required) and the code is public. The first release meant for archivists, V0.1, has not been reached. The migration route from Heratio is planned, not operational.</p>
+<p class="callout"><strong>Status: in development, not yet released for use.</strong> Development releases run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>, whose public catalogue anyone can browse without signing in, and the code is public. The first release meant for archivists, V0.1, has not been reached. The migration route from Heratio is planned, not operational.</p>
 
 ## Archival management, built around context
 
@@ -21,21 +21,26 @@ It is designed for archives setting up a new digital management environment. It 
 | Name | What it is | Where it lives |
 |---|---|---|
 | **The OpenRiC specification** | An implementation-neutral contract for publishing and exchanging RiC data over HTTP. Anyone can implement it. | [Specification](/spec/), on this site |
-| **OpenRiC Workspace** | One application that implements that contract: an archival system for archives starting fresh. | This page; code at [openric/workspace](https://github.com/openric/workspace) |
+| **OpenRiC Workspace** | One application that implements that contract: an archival system for archives starting fresh. | This page; running at [workspace.openric.org](https://workspace.openric.org/); code at [openric/workspace](https://github.com/openric/workspace) |
 | **Developer tools** | The reference API, the browse demo, the viewer, the capture client and the conformance probe. Tools for implementers, not for day-to-day archival work. | [Developers](/for-developers.html) |
 
 When this site says "OpenRiC" on its own, it means the specification. The Workspace's own choices of database, sign-in or workflow will never become requirements of the specification.
 
 ## Where it stands
 
-Development started on 19 October 2026, when [ADR 0003](https://github.com/openric/workspace/blob/main/architecture/adr/0003-implementation-before-the-s-gate.md) moved the work ahead of the Standard Acceptance Gate. Since then the Workspace has gained:
+Development started on 19 October 2026, when [ADR 0003](https://github.com/openric/workspace/blob/main/architecture/adr/0003-implementation-before-the-s-gate.md) moved the work ahead of the Standard Acceptance Gate. By 21 October, release v0.0.44, the Workspace had:
 
-- **The data model.** Units of description, authority records, repositories, places, activities and the institution's own vocabularies are RiC entities with persistent IRIs. Every relation is held through assertions that record who said it and on what evidence, and a hash-chained, signed audit log covers it all.
-- **Description and publication.** The ISAD(G), ISAAR(CPF) and ISDIAH screens, each field labelled with the RiC-O term it is kept or exported as, and a review and publish workflow per value and language.
-- **Exchange.** Import and export of EAD 2002, EAD3 and AtoM's CSV, with dry runs and reconciliation, and export to Dublin Core and MODS.
+- **The data model.** Units of description, authority records, repositories, places, activities and the institution's own vocabularies are RiC entities with persistent IRIs. Every relation is held through assertions that record who said it and on what evidence, and a hash-chained, signed audit log covers it all. Duplicate authority records and places can be merged, and the merged record's IRI leads to the one kept.
+- **Description and publication.** The ISAD(G), ISAAR(CPF) and ISDIAH screens, each field labelled with the RiC-O term it is kept or exported as, a hierarchy tree beside every unit, and a review and publish workflow per value and language.
+- **Digital objects.** Files attached to a unit as instantiations, with checksums and derived reference copies, shown in viewers for images (OpenSeadragon, Mirador), PDF, audio, video and 3D models (GLB, OBJ and STL).
+- **Public discovery.** A catalogue that needs no sign-in: search, pages for records, people and organisations, repositories, places and activities, their identifiers, and the relationship graph around each in 2D or 3D, with the same relationships given as a list for screen readers and keyboards.
+- **Accounts.** Roles and permissions per entity, self-registration where an institution allows it, profiles, and a clipboard for gathering records.
+- **Exchange.** Import and export of EAD 2002, EAD3 and AtoM's CSV, with dry runs and reconciliation, so a finding aid from AtoM or an AtoM-based system comes across with its hierarchy, and export to Dublin Core and MODS.
 - **OpenRiC.** A public read API declaring the [Core Discovery](/spec/profiles/core-discovery.html) and [Export-Only](/spec/profiles/export-only.html) profiles, with RiC-O JSON-LD, OAI-PMH and persistent IRIs that resolve. On a copy of its live data with a published sample, the conformance probe passes both.
 
-Still missing for V0.1 are digital objects, public discovery with a graph view, a tested restore, and the demonstration run end to end. The Workspace is from the same organisation as the specification, so it does not count as the independent implementation the specification still needs ([known issue K-6](/spec/known-issues.html)).
+The demonstration catalogue is tested on real archival data. It holds 550 authority records, more than 1,200 places and three finding aids (937 units of description) from the Archives nationales de France's open data, [Les référentiels des Archives nationales de France, version 2.0](https://github.com/ArchivesNationalesFR/Referentiels), loaded through the Workspace's own importers and credited on the catalogue's home page.
+
+Still missing for V0.1 are an installation run by someone other than its developers, the scripted demonstration run end to end, and an accessibility review. The Workspace is from the same organisation as the specification, so it does not count as the independent implementation the specification still needs ([known issue K-6](/spec/known-issues.html)).
 
 ## What it will cover
 

@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.55.1 - 2026-10-21
+
+Application page: the Workspace as it stands at v0.0.44 (public catalogue, digital objects and viewers, relationship graph, accounts, AtoM import, Archives nationales test data), with a link to workspace.openric.org
+
+Approved by: Dr Johan Pieterse, 2026-10-21
+
 ## v0.55.0 - 2026-10-20
 
 Physical storage in extension ontology 1.6.0: containers, what they hold, and where they are kept (mapping 6.6)
