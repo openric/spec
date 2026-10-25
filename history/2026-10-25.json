@@ -1,0 +1,537 @@
+{
+  "schema": "openric-conformance-run/1",
+  "run_at": "2026-10-25T08:57:42Z",
+  "implementation": "OpenRiC reference service",
+  "base": "https://ric.theahg.co.za/api/ric/v1",
+  "probe_revision": "8878a03",
+  "read_only": true,
+  "runs": [
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:40:31Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "authority-context"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 7,
+        "skip": 3
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares authority-context",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /places",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /places/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /rules",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /rules/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /activities",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /activities/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /places/flat",
+          "http": "000"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:36:56Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "core-discovery"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 15,
+        "skip": 4
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares core-discovery",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /vocabulary",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /autocomplete?q=a&limit=1",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /records",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /records/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /agents",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /agents/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /repositories",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /repositories/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema service-description: GET /",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema vocabulary: GET /vocabulary",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema list: GET /records",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema list: GET /agents",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema list: GET /repositories",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema autocomplete: GET /autocomplete?q=ab",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema error: GET /records/no-such-key-0",
+          "http": "Traceback (most recent call last):"
+        },
+        {
+          "status": "  File \"/home/runner/work",
+          "check": null,
+          "http": null
+        },
+        {
+          "status": "SKIP (lists empty)",
+          "check": "shacl core-discovery",
+          "http": "--"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:48:26Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "digital-object-linkage"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 5,
+        "skip": 2
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares digital-object-linkage",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /instantiations",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /instantiations/{key}",
+          "http": "empty-list"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /functions",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /functions/{key}",
+          "http": "empty-list"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:55:07Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "export-only"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 11,
+        "skip": 2
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares export-only",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "OAI Identify",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "OAI ListMetadataFormats",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "OAI ListSets",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "OAI ListIdentifiers metadataPrefix=oai_dc",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "OAI ListRecords metadataPrefix=oai_dc",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "OAI ListRecords metadataPrefix=rico_ld",
+          "http": "000"
+        },
+        {
+          "status": "FAIL (no badVerb error)",
+          "check": "OAI badVerb envelope",
+          "http": "000"
+        },
+        {
+          "status": "SKIP (nothing harvested)",
+          "check": "OAI GetRecord",
+          "http": "--"
+        },
+        {
+          "status": "SKIP (nothing published)",
+          "check": "GET /records/{key}/export",
+          "http": "--"
+        },
+        {
+          "status": "FAIL (not a problem+json 404)",
+          "check": "GET /records/{missing}/export is a 404 problem",
+          "http": "000"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:45:31Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "graph-traversal"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 4,
+        "skip": 1
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares graph-traversal",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /relation-types",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "GET /graph",
+          "http": "no-seed"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:42:51Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "provenance-event"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 3,
+        "skip": 2
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares provenance-event",
+          "http": "000"
+        },
+        {
+          "status": "SKIP (no activities)",
+          "check": "activity bodies follow §6 (none to check)",
+          "http": "000"
+        },
+        {
+          "status": "SKIP (needs a graph walk)",
+          "check": "activity reachable from a record (§6.7)",
+          "http": "--"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:50:31Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "round-trip-editing"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 3,
+        "skip": 1
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares round-trip-editing",
+          "http": "000"
+        },
+        {
+          "status": "SKIP",
+          "check": "create/update/delete round trip",
+          "http": "no-key"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-25T08:57:42Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "sparql-access"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 0,
+        "fail": 5,
+        "skip": 0
+      },
+      "service": null,
+      "results": [
+        {
+          "status": "FAIL",
+          "check": "GET /",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /health",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares sparql-access",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /sparql?query=SELECT%20%2A%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D%20LIMIT%201",
+          "http": "000"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET /sparql/info",
+          "http": "000"
+        }
+      ]
+    }
+  ]
+}
