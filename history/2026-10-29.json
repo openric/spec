@@ -1,0 +1,915 @@
+{
+  "schema": "openric-conformance-run/1",
+  "run_at": "2026-10-29T10:19:02Z",
+  "implementation": "OpenRiC reference service",
+  "base": "https://ric.theahg.co.za/api/ric/v1",
+  "probe_revision": "8878a03",
+  "read_only": true,
+  "runs": [
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:10:54Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "authority-context"
+      ],
+      "writes_attempted": false,
+      "verdict": "pass",
+      "counts": {
+        "pass": 10,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares authority-context",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /places",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /places/912324",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /rules",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /rules/912155",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /activities",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /activities/910375",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /places/flat",
+          "http": "200"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:09:38Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "core-discovery"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 20,
+        "fail": 2,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares core-discovery",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /vocabulary",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /autocomplete?q=a&limit=1",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/title-of-object",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /agents",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /agents/actor-3",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /repositories",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /repositories/d6mh-ktzy-h6qz",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "schema service-description: GET /",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema vocabulary: GET /vocabulary",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema list: GET /records",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema list: GET /agents",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema list: GET /repositories",
+          "http": "ok"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "schema autocomplete: GET /autocomplete?q=ab",
+          "http": "(root): {'0': {'id': 912167, 'label': 'Babsfontein', 'type':"
+        },
+        {
+          "status": "PASS",
+          "check": "schema error: GET /records/no-such-key-0",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema record: GET /records/{key}",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema agent: GET /agents/{key}",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "schema repository: GET /repositories/{key}",
+          "http": "ok"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "shacl core-discovery: the entities above",
+          "http": "Validation Report Conforms: False Results (2): Constraint Vi"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:15:20Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "digital-object-linkage"
+      ],
+      "writes_attempted": false,
+      "verdict": "pass",
+      "counts": {
+        "pass": 7,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares digital-object-linkage",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /instantiations",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /instantiations/910871",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /functions",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /functions/910067",
+          "http": "200"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:17:52Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "export-only"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 17,
+        "fail": 1,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares export-only",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI Identify",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI ListMetadataFormats",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI ListSets",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI ListIdentifiers metadataPrefix=oai_dc",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI ListRecords metadataPrefix=oai_dc",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI ListRecords metadataPrefix=rico_ld",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI badVerb envelope",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI GetRecord metadataPrefix=oai_dc&identifier=oai:ric.theahg.co.za:553",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "OAI GetRecord metadataPrefix=rico_ld&identifier=oai:ric.theahg.co.za:553",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "rico_ld wrapper and JSON-LD",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "shacl core-discovery: a rico_ld document",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/{key}/export (JSON-LD @graph)",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/{key}/export?format=ttl and rdf",
+          "http": "200"
+        },
+        {
+          "status": "FAIL (invalid)",
+          "check": "export: one triple set in the three formats",
+          "http": "/tmp/tmp.FuE6XCS8hr/export.ttl has 7 triples, /tmp/tmp.FuE6X"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /records/{missing}/export is a 404 problem",
+          "http": "404"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:14:08Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "graph-traversal"
+      ],
+      "writes_attempted": false,
+      "verdict": "pass",
+      "counts": {
+        "pass": 8,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares graph-traversal",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /relation-types",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /graph?uri=https%3A%2F%2Fric.theahg.co.za%2Fplace%2F912324&depth=1",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "graph root is the seed's API @id (invariant 7)",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "a record or agent node dereferences to itself (invariant 7)",
+          "http": "ok"
+        },
+        {
+          "status": "PASS",
+          "check": "every node type is a RiC-O or OpenRiC class (invariant 5)",
+          "http": "54 nodes"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:12:47Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "provenance-event"
+      ],
+      "writes_attempted": false,
+      "verdict": "fail",
+      "counts": {
+        "pass": 6,
+        "fail": 4,
+        "skip": 1
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "FAIL",
+          "check": "GET / declares provenance-event",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "every activity body is JSON (§6)",
+          "http": "n=25"
+        },
+        {
+          "status": "PASS",
+          "check": "@type is rico:Activity, in the list too (§6.1)",
+          "http": "n=25"
+        },
+        {
+          "status": "FAIL",
+          "check": "production: results, participant, DateRange (§6.2) - e.g. 910375 ",
+          "http": "n=25"
+        },
+        {
+          "status": "FAIL",
+          "check": "accumulation: results and DateRange (§6.3) - e.g. 910441 ",
+          "http": "n=25"
+        },
+        {
+          "status": "FAIL",
+          "check": "every activity has a DateRange (§6.4) - e.g. 910375 ",
+          "http": "n=25"
+        },
+        {
+          "status": "PASS",
+          "check": "participants are Agent types (§6.5)",
+          "http": "n=25"
+        },
+        {
+          "status": "PASS",
+          "check": "results are Record types (§6.6)",
+          "http": "n=25"
+        },
+        {
+          "status": "SKIP (needs a graph walk)",
+          "check": "activity reachable from a record (§6.7)",
+          "http": "--"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:16:28Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "round-trip-editing"
+      ],
+      "writes_attempted": false,
+      "verdict": "pass-with-skips",
+      "counts": {
+        "pass": 3,
+        "fail": 0,
+        "skip": 1
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares round-trip-editing",
+          "http": "200"
+        },
+        {
+          "status": "SKIP",
+          "check": "create/update/delete round trip",
+          "http": "no-key"
+        }
+      ]
+    },
+    {
+      "schema": "openric-probe-result/1",
+      "run_at": "2026-10-29T10:19:02Z",
+      "probe_revision": "8878a03",
+      "base": "https://ric.theahg.co.za/api/ric/v1",
+      "profiles": [
+        "sparql-access"
+      ],
+      "writes_attempted": false,
+      "verdict": "pass",
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "service": {
+        "name": "RIC-O Linked Data API",
+        "version": "0.17.27",
+        "spec_version": "0.52.0",
+        "declared": [
+          {
+            "id": "core-discovery",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "authority-context",
+            "version": "0.4.0",
+            "conformance": "full"
+          },
+          {
+            "id": "graph-traversal",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "digital-object-linkage",
+            "version": "0.6.0",
+            "conformance": "full"
+          },
+          {
+            "id": "round-trip-editing",
+            "version": "0.7.0",
+            "conformance": "full"
+          },
+          {
+            "id": "export-only",
+            "version": "0.9.0",
+            "conformance": "full"
+          },
+          {
+            "id": "sparql-access",
+            "version": "0.1.0",
+            "conformance": "full"
+          }
+        ]
+      },
+      "results": [
+        {
+          "status": "PASS",
+          "check": "GET /",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /health",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET / declares sparql-access",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /sparql?query=SELECT%20%2A%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D%20LIMIT%201",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "GET /sparql/info",
+          "http": "200"
+        }
+      ]
+    }
+  ]
+}

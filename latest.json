@@ -1,6 +1,6 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-28T09:59:38Z",
+  "run_at": "2026-10-29T10:19:02Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
   "probe_revision": "8878a03",
@@ -8,7 +8,7 @@
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:51:09Z",
+      "run_at": "2026-10-29T10:10:54Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -118,7 +118,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:49:52Z",
+      "run_at": "2026-10-29T10:09:38Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -288,7 +288,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:55:44Z",
+      "run_at": "2026-10-29T10:15:20Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -383,7 +383,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:58:26Z",
+      "run_at": "2026-10-29T10:17:52Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -522,7 +522,7 @@
         {
           "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.3zKZvPIX2B/export.ttl has 7 triples, /tmp/tmp.3zKZv"
+          "http": "/tmp/tmp.FuE6XCS8hr/export.ttl has 7 triples, /tmp/tmp.FuE6X"
         },
         {
           "status": "PASS",
@@ -533,7 +533,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:54:30Z",
+      "run_at": "2026-10-29T10:14:08Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -633,7 +633,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:53:06Z",
+      "run_at": "2026-10-29T10:12:47Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -748,7 +748,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:56:54Z",
+      "run_at": "2026-10-29T10:16:28Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
@@ -828,7 +828,7 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-10-28T09:59:38Z",
+      "run_at": "2026-10-29T10:19:02Z",
       "probe_revision": "8878a03",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
