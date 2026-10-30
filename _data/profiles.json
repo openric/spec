@@ -90,8 +90,8 @@
     "id": "governance",
     "title": "Governance",
     "status": "draft",
-    "version": "0.44.0",
-    "revised": "0.44.0",
+    "version": "0.45.0",
+    "revised": "0.56.0",
     "icon": "⚖",
     "surface": "Pinned standards · IRI policy · change process",
     "scope": "The meaning layer - pinned standards, two-layer IRI policy, deprecate-not-delete stable IRIs, SHACL as a merge gate, versioned change process."

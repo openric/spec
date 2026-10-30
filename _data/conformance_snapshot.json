@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-10-21T08:51:41Z",
+  "run_at": "2026-10-30T10:21:13Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "104dc97",
+  "probe_revision": "8878a03",
   "read_only": true,
   "runs": [
     {
@@ -18,7 +18,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:43:16Z",
+      "run_at": "2026-10-30T10:12:45Z",
       "results": []
     },
     {
@@ -67,13 +67,13 @@
       ],
       "verdict": "fail",
       "counts": {
-        "pass": 21,
-        "fail": 1,
+        "pass": 20,
+        "fail": 2,
         "skip": 0
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -113,12 +113,17 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:41:58Z",
+      "run_at": "2026-10-30T10:11:26Z",
       "results": [
         {
           "status": "FAIL (invalid)",
+          "check": "schema autocomplete: GET /autocomplete?q=ab",
+          "http": "(root): {'0': {'id': 912167, 'label': 'Babsfontein', 'type':"
+        },
+        {
+          "status": "FAIL (invalid)",
           "check": "shacl core-discovery: the entities above",
-          "http": "Validation Report Conforms: False Results (3): Constraint Vi"
+          "http": "Validation Report Conforms: False Results (2): Constraint Vi"
         }
       ]
     },
@@ -134,7 +139,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -174,7 +179,7 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:47:54Z",
+      "run_at": "2026-10-30T10:17:25Z",
       "results": []
     },
     {
@@ -183,13 +188,13 @@
       ],
       "verdict": "fail",
       "counts": {
-        "pass": 16,
-        "fail": 2,
+        "pass": 17,
+        "fail": 1,
         "skip": 0
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -229,17 +234,12 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:50:31Z",
+      "run_at": "2026-10-30T10:20:02Z",
       "results": [
         {
           "status": "FAIL (invalid)",
-          "check": "shacl core-discovery: a rico_ld document",
-          "http": "Validation Report Conforms: False Results (2): Constraint Vi"
-        },
-        {
-          "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.kQjGx8ETJg/export.ttl has 23 triples, /tmp/tmp.kQjG"
+          "http": "/tmp/tmp.MPD5Ip1blK/export.ttl has 7 triples, /tmp/tmp.MPD5I"
         }
       ]
     },
@@ -255,7 +255,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -295,7 +295,7 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:46:39Z",
+      "run_at": "2026-10-30T10:16:11Z",
       "results": []
     },
     {
@@ -304,13 +304,13 @@
       ],
       "verdict": "fail",
       "counts": {
-        "pass": 7,
-        "fail": 3,
+        "pass": 6,
+        "fail": 4,
         "skip": 1
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -350,7 +350,7 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:45:14Z",
+      "run_at": "2026-10-30T10:14:45Z",
       "results": [
         {
           "status": "FAIL",
@@ -360,6 +360,11 @@
         {
           "status": "FAIL",
           "check": "production: results, participant, DateRange (§6.2) - e.g. 910375 ",
+          "http": "n=25"
+        },
+        {
+          "status": "FAIL",
+          "check": "accumulation: results and DateRange (§6.3) - e.g. 910441 ",
           "http": "n=25"
         },
         {
@@ -386,7 +391,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -426,7 +431,7 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:49:03Z",
+      "run_at": "2026-10-30T10:18:34Z",
       "results": [
         {
           "status": "SKIP",
@@ -447,7 +452,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.25",
+        "version": "0.17.27",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -487,7 +492,7 @@
           }
         ]
       },
-      "run_at": "2026-10-21T08:51:41Z",
+      "run_at": "2026-10-30T10:21:13Z",
       "results": []
     }
   ]

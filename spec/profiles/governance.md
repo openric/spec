@@ -7,11 +7,11 @@ description: The meaning-layer contract - pinned standards, the two-layer IRI po
 # Governance Profile
 
 **Profile id:** `governance`
-**Profile version:** 0.44.0
-**Last revised in spec:** v0.44.0
+**Profile version:** 0.45.0
+**Last revised in spec:** v0.56.0
 **Status:** Draft - open for comment
 **Dependencies:** None. Orthogonal to every read/write profile - it governs *meaning and change*, not the endpoint surface.
-**Last updated:** 2026-10-15
+**Last updated:** 2026-10-30
 **Reference implementation:** Heratio ([ArchiveHeritageGroup/heratio#1319](https://github.com/ArchiveHeritageGroup/heratio)) - `RicGraphManifest`, `ShaclValidationService`, `RicConformanceCommand`, `docs/reference/ontology-governance-pin.md`.
 
 ---
@@ -46,22 +46,24 @@ A conformant server publishes a governance-pin document declaring the sanctioned
 
 ## 3. The two-layer IRI policy
 
-OpenRiC distinguishes **internal** identifiers (how a live graph is partitioned and maintained) from **public** identifiers (the export identity a consumer dereferences). Both are normative.
+OpenRiC distinguishes **public** identifiers (the export identity a consumer dereferences) from **internal** identifiers (how a server that keeps a separate graph partitions and maintains it). The public layer is normative for every server. The internal layer is normative only for a server that keeps a graph apart from its source of truth; a server that builds its RDF from its source on each request has no internal layer and needs none.
 
-| Layer | Form | Used for | Dereferenceable? |
-|---|---|---|---|
-| **Internal** node IRI | `urn:ahg:ric:<type>:<id>` (id-based) | Live-graph node / named-graph identifiers; loaders, integrity checks, orphan cleanup; the vector-layer join key (`object_id → urn:…`) | No - internal only |
-| **Public** export IRI | `https://<host>/ric/<type>/<slug>` | The export identity emitted in JSON-LD / Turtle / SPARQL | Yes - the host equals the published REST/SPARQL host |
+| Layer | Required of | Rule | Example (Heratio) | Example (OpenRiC Workspace) |
+|---|---|---|---|---|
+| **Public** export IRI | Every server | Dereferenceable; minted once from a stable identifier under one configured base | `https://ric.theahg.co.za/ric/<type>/<slug>` | `https://<base>/<segment>/<uuid>` |
+| **Internal** node IRI | A server with a separate graph | Not dereferenceable; id-based; used by the loader, integrity checks and orphan cleanup | `urn:ahg:ric:<type>:<id>` | none: no separate graph |
+
+The forms in the examples are not required. What is required is the rule.
 
 Normative rules:
 
-- Public IRIs are minted from **stable identifiers** (authority ids), **never from mutable labels**. Sourced from a single configured base (e.g. `config('ric.base_uri')`), so the same entity gets the same IRI in dev, CI and prod - IRIs MUST NOT be environment-dependent.
+- Public IRIs are minted from **stable identifiers**, **never from mutable labels**, under a single configured base, so the same entity gets the same IRI in development, testing and production - IRIs MUST NOT be environment-dependent. A slug is acceptable only if it never changes once minted.
 - The extension namespace MUST resolve to `https://openric.org/ns/ext/v1#` (prefix `openricx`) in **every** serialisation - JSON-LD and Turtle alike. A namespace that differs by format is a round-trip hazard and a conformance failure.
 - **Operational hosts are not vocabulary namespaces.** A REST/SPARQL host (e.g. `https://ric.theahg.co.za`) is a service base URL, not an ontology IRI.
 
 ### 3.1 Projection manifest
 
-The relational store is the **source of truth**; the RDF graph is a **derived, regenerable projection** - no dual-write, and the graph can be dropped and rebuilt from the relational source at any time. A single **projection manifest** maps `type → {source, id}` and is shared by the loader, the integrity check, and orphan cleanup (reference impl: `RicGraphManifest`). One manifest, three consumers - so the partition, the public IRI, and the internal IRI never drift.
+Where a server keeps a separate graph, the relational store is the **source of truth** and the RDF graph a **derived, regenerable projection** - no dual-write, and the graph can be dropped and rebuilt from the relational source at any time. A single **projection manifest** maps `type → {source, id}` and is shared by the loader, the integrity check, and orphan cleanup (reference impl: `RicGraphManifest`). One manifest, three consumers - so the partition, the public IRI, and the internal IRI never drift.
 
 ## 4. Stable IRIs - deprecate, don't delete (issue #3)
 
@@ -94,9 +96,15 @@ Governance shapes are enforced by the always-on and pinned RiC-O shapes in [`sha
 A server claims the Governance Profile when:
 
 - It publishes a governance-pin document with the pinned standards + versions.
-- Its public export IRIs follow `https://<host>/ric/<type>/<slug>`, minted from stable ids, environment-independent.
+- Its public export IRIs are minted once from stable identifiers under one configured base, never from labels, and are the same in every environment (§3); a server with a separate graph also keeps the internal layer and its projection manifest.
 - Superseded entities export `owl:deprecated` (+ `dcterms:isReplacedBy` where a successor exists) and are never deleted.
 - SHACL validation gates merges in CI.
 - A public, versioned change log exists.
 
-Declared in the service description as `{ "id": "governance", "version": "0.44.0", "conformance": "full" }`.
+Declared in the service description as `{ "id": "governance", "version": "0.45.0", "conformance": "full" }`.
+
+## 9. Changes
+
+### From profile 0.44.0 to 0.45.0 (spec v0.56.0)
+
+Section 3 states the IRI rule rather than one implementation's forms. Heratio's `urn:ahg:ric:` internal IRIs and `/ric/<type>/<slug>` public IRIs become an example. The internal layer, and the projection manifest of 3.1, are required only of a server that keeps a graph apart from its source of truth. A server that conformed to 0.44.0 conforms to 0.45.0. Found while the OpenRiC Workspace implemented the profile: its IRIs are `{base}/{segment}/{uuid}`, and it builds its RDF from its database on each request.

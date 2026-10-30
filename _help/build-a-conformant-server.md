@@ -11,7 +11,7 @@ You don't implement "all of OpenRiC" - you pick a [profile](/help/profiles-tree/
 
 1. **Map your catalogue to RiC-O.** Records → `rico:Record`/`RecordSet`/`RecordPart`, creators → `rico:Agent`, etc. See the [mapping document](/spec/mapping.html) and [entities & relations](/help/entities-and-relations/).
 2. **Serve the endpoints** for your chosen profile, returning `application/ld+json`. For Core Discovery: `GET /api/ric/v1/{records,agents,repositories}`, `/{type}/{slug}`, `/vocabulary`, `/autocomplete`.
-3. **Mint IRIs** per the [Governance profile](/spec/profiles/governance.html) two-layer policy - stable, environment-independent public IRIs (`https://<host>/ric/<type>/<slug>`).
+3. **Mint IRIs** per the [Governance profile](/spec/profiles/governance.html) two-layer policy - stable, environment-independent public IRIs, minted from identifiers, never from labels (for example `https://<host>/ric/<type>/<slug>` or `https://<base>/<segment>/<uuid>`).
 4. **Declare your profiles** in the service description at `GET /api/ric/v1/`.
 5. **Validate** - pass the conformance probe and the SHACL shapes.
 

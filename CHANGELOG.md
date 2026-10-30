@@ -2,6 +2,15 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.0 - 2026-10-30
+
+Governance 0.45.0: the IRI rule stated without one implementation's forms, found while the OpenRiC Workspace implemented the profile
+
+Migration notes, for servers and clients:
+- Governance 0.45.0: section 3 states the IRI rule (public IRIs minted once from a stable identifier under one configured base, never from a label, the same in every environment) and gives Heratio's urn:ahg:ric: and /ric/<type>/<slug> forms as an example. The internal layer and projection manifest are required only of a server that keeps a separate graph. A server that conformed to 0.44.0 conforms to 0.45.0.
+
+Approved by: Dr Johan Pieterse, 2026-10-30
+
 ## v0.55.1 - 2026-10-21
 
 Application page: the Workspace as it stands at v0.0.44 (public catalogue, digital objects and viewers, relationship graph, accounts, AtoM import, Archives nationales test data), with a link to workspace.openric.org

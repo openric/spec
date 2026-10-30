@@ -29,7 +29,7 @@ curl -s "https://ric.theahg.co.za/api/ric/v1/relation-types"
 
 ## IRI policy
 
-Public, dereferenceable entity IRIs follow `https://<host>/ric/<type>/<slug>`; internal node IRIs use `urn:ahg:ric:<type>:<id>`. See the [Governance profile](/spec/profiles/governance.html) for the two-layer model and the deprecate-not-delete rule.
+Public, dereferenceable entity IRIs are minted once from a stable identifier under one configured base, never from a label (Heratio: `https://<host>/ric/<type>/<slug>`; the Workspace: `https://<base>/<segment>/<uuid>`). A server that keeps a separate graph also has internal node IRIs, such as Heratio's `urn:ahg:ric:<type>:<id>`. See the [Governance profile](/spec/profiles/governance.html) for the two-layer model and the deprecate-not-delete rule.
 
 ## Next
 
