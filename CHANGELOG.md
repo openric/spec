@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.1 - 2026-10-30
+
+Related implementations: eArhiv (NAIS), Croatia's national archival information system built on RiC-CM, from its two Arhivski vjesnik 68 (2025) articles
+
+Approved by: Dr Johan Pieterse, 2026-10-30
+
 ## v0.56.0 - 2026-10-30
 
 Governance 0.45.0: the IRI rule stated without one implementation's forms, found while the OpenRiC Workspace implemented the profile

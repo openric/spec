@@ -158,6 +158,34 @@ OpenRiC tracks this group as a **second-implementation candidate** - the Corfu C
 
 ---
 
+## eArhiv (NAIS) - Croatian State Archives
+
+**Project:** the National Archival Information System of Croatia (Nacionalni arhivski informacijski sustav, NAIS), known as eArhiv.
+**Lead:** Croatian State Archives (Hrvatski državni arhiv, HDA), funded under Croatia's National Recovery and Resilience Plan 2021-2026 (investment C2.2 R3-12). Released in mid 2024.
+**Published descriptions** (in Croatian, open access, *Arhivski vjesnik* 68, 2025):
+- Monika Banić and Silvija Vindiš, "Dosjei stvaratelja dokumentarnoga i arhivskoga gradiva: povijesni razvoj i digitalna perspektiva", pp. 57-81, [doi:10.36506/av.68.3](https://doi.org/10.36506/av.68.3). Pages 70-74 describe the register of archives and holders of records.
+- Ivana Marinović Knezac, "Priprema arhivskoga gradiva fonda Etnografski muzej u Zagrebu za mrežni katalog eArhiv", pp. 83-111, [doi:10.36506/av.68.4](https://doi.org/10.36506/av.68.4). A case study of one fonds described in eArhiv by the RiC model.
+
+eArhiv is one of very few national archival systems built on RiC. Its metadata specification (January 2022) followed RiC-CM as it stood then, with the stated intention of following RiC as it develops. The system was brought to the Records in Contexts users list by Arian Rajh in October 2026.
+
+### Why OpenRiC tracks eArhiv
+
+| eArhiv pattern (from the articles) | OpenRiC |
+|---|---|
+| A holder of records is defined; the term creator is left out (article 1, note 41) | RiC-CM relates a record to any number of agents, each in its own role, rather than one creator per fonds (RiC-FAD) |
+| Transfers kept in their own acquisitions interface, with the transferor chosen from the authority database | The OpenRiC Workspace models an accession as a `rico:Activity`, with the donor an agent taking part in it |
+| A published entry changed after publishing becomes "changed after publication" | The Workspace returns a published value that changes to draft until it is published again |
+| National description rules (HDA's own instructions), since RiC gives no rules for descriptive content | The [mapping](spec/mapping.html) records which ISAD(G), ISAAR(CPF), ISDF and ISDIAH elements each RiC-O term carries |
+
+eArhiv is also a **second-implementation candidate**: an interoperability test, in which eArhiv loads an OpenRiC export without hand edits, was discussed on the RiC users list in October 2026. Nothing has been agreed or run.
+
+### What OpenRiC does NOT do with eArhiv
+
+- **Does not** claim any partnership with, or endorsement by, the Croatian State Archives.
+- **Does not** describe eArhiv beyond what its published articles say.
+
+---
+
 ## Other tracked deployments and resources
 
 These are listed for visibility - OpenRiC tracks them as potential second-implementation candidates, modelling references, or community resources.
