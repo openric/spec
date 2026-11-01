@@ -48,11 +48,11 @@ Archival work: accessioning and appraisal, arrangement and description, authorit
 
 Preservation will be an integration with a preservation system such as Archivematica. Uploading a file and recording its checksum will not be described as preservation.
 
-It will not cover museum, library or gallery management, or general digital asset management. Heratio does that.
+Up to and including V1.0 it covers archives only. It is not a museum, library or gallery management system, nor a general digital asset manager, and Heratio serves those needs today. From V2.0 other collecting domains may be added on the same RiC model, one at a time and only where there is demand. Each needs its own published decision on how that domain maps to RiC-O, CIDOC CRM, Linked Art or BIBFRAME. None of that work changes what V0.1 to V1.0 deliver for archives.
 
 ## How it relates to Heratio
 
-Heratio is an integrated platform for galleries, libraries, archives and museums, with RiC already built into it. OpenRiC Workspace is a separate, focused application for archives that do not need the rest of that. They differ in scope and purpose, not in which one does more.
+Heratio is an integrated platform for galleries, libraries, archives and museums, with RiC already built into it. OpenRiC Workspace is a separate, focused application for archives that do not need the rest of that. They differ in scope and purpose, not in which one does more. Where the Workspace reuses Heratio's code, it is the same author's work under the same licence, and the two never depend on each other at run time.
 
 The Workspace will run without Heratio. It will not share Heratio's database or depend on its services. An archive moving from Heratio will export its data and import it into the Workspace, with a report that accounts for every record, relationship and access restriction, including anything that has no place in an archives-only system.
 
