@@ -58,6 +58,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 2 Nov 2026 | The ISAD(G), ISAAR(CPF) and ISDIAH screens stay, labelled as compatibility views beside the RiC-native ones. |
 | 2 Nov 2026 | Raise seven gaps found while implementing as issues on the specification ([openric/spec #67 to #73](https://github.com/openric/spec/issues)). |
 | 2 Nov 2026 | The V0.1 acceptance walkthrough is run with archivists by Dr Johan Pieterse himself. |
+| 2 Nov 2026 | Records management (13c): file plan nodes are kept as Heratio keeps them, each optionally one of the institution's functions or activities, and a record is placed in one node explicitly (option 1A); business e-mail comes in as uploaded .eml and Outlook .msg files, with no mailbox password kept (option 2A) (ADR 0015). |
 | 2 Nov 2026 | The order of work after V0.1's profiles: the parked research services, records management, the jurisdiction packs, the remaining Heratio services; then monitoring, preservation connectors, federation and publishing; AI and the restore drill last. The offline catalogue and other GLAM domains stay parked. |
 
 : Decisions on the Workspace's scope and the order of its work
@@ -78,6 +79,10 @@ These were chosen while building, because a choice had to be made and nobody had
 | 2 Nov 2026 | Published lectures and training courses are open to every signed-in account of the institution, including one with no role. | ADR 0017 |
 | 2 Nov 2026 | Rights policies for researchers guard a record's files in the public catalogue, not its page, and never bind who may change the record. | ADR 0017 |
 | 2 Nov 2026 | Heratio's offline sync waits for the offline catalogue, which is parked. | ADR 0017 |
+| 2 Nov 2026 | A record placed in a file plan node that is a function or activity is exported as documenting it (`rico:documents`), not as resulting from it, since the Workspace keeps "results from" for what a production activity makes. | ADR 0015 |
+| 2 Nov 2026 | Outlook .msg files are read by the Workspace's own reader of the compound file format, since the library for them needs a PHP extension the host lacks; the library is the upgrade path. | ADR 0015 |
+| 2 Nov 2026 | A declared record, and its instantiations, cannot be deleted except by its disposal once cleared; Heratio's declaration was a status only. | ADR 0015 |
+| 2 Nov 2026 | The Workspace keeps no legal holds; the DoD 5015.2 check for them says so rather than passing. | ADR 0015 |
 
 : Assumptions made while building the Workspace, open to review
 
@@ -85,7 +90,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.99, 1,222 terms in 222 of the Workspace's 284 vocabularies are of this kind:
+As of v0.0.100, 1,260 terms in 233 of the Workspace's 295 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -97,6 +102,7 @@ As of v0.0.99, 1,222 terms in 222 of the Workspace's 284 vocabularies are of thi
 | Provenance and custody | 9 | 73 | The overview and steps of a record's provenance; each step is exported as a `rico:Activity`, its working values are not |
 | Workflow | 11 | 71 | Workflows, tasks and service levels, as Heratio and PSIS keep them (ADR 0011) |
 | Retention and disposal | 5 | 23 | Schedules, classes and disposal actions, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
+| Records management | 11 | 38 | The file plan, its imports, captured e-mail, classification rules, declaration and compliance frameworks, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
 | IIIF | 4 | 19 | IIIF Presentation 3 behaviours and resource types, and the checks of a manifest (ADR 0014) |
 | Embargoes | 2 | 13 | The types and reasons of an embargo, as Heratio's `ahg-extended-rights` keeps them (ADR 0015) |
 | Community protocols | 1 | 10 | A community's protocol on a description, kept and not exported (ADR 0008) |

@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.99. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.100. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.99 of 2 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.100 of 2 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -38,6 +38,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Rights: RightsStatements.org, Creative Commons, copyright status, PREMIS grants, and Local Contexts Traditional Knowledge and Biocultural Labels, shown in the catalogue and carried in every export.
 - Embargoes on records and their files, with exceptions, warnings before they end and review dates.
 - Retention schedules and disposal classes, reviews, a disposal workflow with separation of duties, and destruction that keeps the description as evidence and issues a certificate that verifies.
+- Records management: a file plan whose nodes may be the institution's functions and activities, each record placed in one; file plans imported from spreadsheets, folder listings and EAD; e-mail captured from .eml and Outlook .msg files and declared as records; classification rules; record declaration that keeps a declared record from deletion outside its disposal; vital records; compliance assessments against ISO 15489, ISO 16175, MoReq2010, DoD 5015.2, ISO 30300 and ISO 23081.
 - POPIA governance: Information Officers, the processing register, impact assessments, consent, data subject and PAIA requests, complaints and security compromises; scanning records for personal information, redaction for the public, and screening before files are released.
 
 ## Digital objects

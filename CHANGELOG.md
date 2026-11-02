@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.8 - 2026-11-02
+
+Application pages for Workspace v0.0.100: records management (13c) decision, four assumptions, the records management vocabularies, and the features and application summaries
+
+Approved by: Dr Johan Pieterse, 2026-11-02
+
 ## v0.56.7 - 2026-11-02
 
 Workspace features page (/application/features/): what OpenRiC Workspace does in its development releases up to v0.0.99, area by area, linked under the Application page's title beside its decisions and assumptions
