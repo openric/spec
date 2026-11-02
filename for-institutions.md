@@ -104,7 +104,7 @@ Before asking a vendor for OpenRiC, or adopting it yourself, an institution can 
 - **Which profiles.** [Core Discovery](/spec/profiles/core-discovery.html) is the minimum; the others are added as the data supports them.
 - **Evidence to demand.** A vendor's claim is a declaration; ask for the conformance probe's result against their server, dated, with any skipped checks.
 
-Adopting OpenRiC means adopting an open contract, not installing a product. [OpenRiC Workspace](/application/), an application built on it, is planned and not yet available, so it is not part of a decision today.
+Adopting OpenRiC means adopting an open contract, not installing a product. [OpenRiC Workspace](/application/), an application built on it, is in development and not yet released for use, so it is not part of a decision today.
 
 ## How to get started
 

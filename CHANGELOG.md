@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.6 - 2026-11-02
+
+The Workspace is in development, not planned: the home page, developers page, institutions page, governance and data management say so, development having started on 19 October 2026 (ADR 0003); the home page and the developers page link its decisions and assumptions
+
+Approved by: Dr Johan Pieterse, 2026-11-02
+
 ## v0.56.5 - 2026-11-02
 
 Application page: a link to the Workspace's decisions and assumptions under its title

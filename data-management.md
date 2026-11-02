@@ -18,7 +18,7 @@ The **OpenRiC spec is storage-agnostic.** Endpoints, JSON-LD shapes, SHACL shape
 
 Pick by operational fit, not semantic purity.
 
-On this page "the OpenRiC server" means any server that implements the OpenRiC contract. PostgreSQL and Fuseki are examples, not requirements. These are design patterns: none of them describes a product that exists today. The reference service runs on a database it shares with Heratio ([known issue K-9](spec/known-issues.html)), and [OpenRiC Workspace](application/), the planned archival application, will choose its own storage.
+On this page "the OpenRiC server" means any server that implements the OpenRiC contract. PostgreSQL and Fuseki are examples, not requirements. These are design patterns: none of them describes a product that exists today. The reference service runs on a database it shares with Heratio ([known issue K-9](spec/known-issues.html)), and [OpenRiC Workspace](application/), the archival application in development, keeps its own store in PostgreSQL ([ADR 0002](https://github.com/openric/workspace/blob/main/architecture/adr/0002-laravel-and-postgresql.md)).
 
 ---
 
