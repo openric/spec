@@ -10,7 +10,7 @@ kind: current
 
 <p class="callout"><strong>Status: in development, not yet released for use.</strong> Development releases run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>, whose public catalogue anyone can browse without signing in, and the code is public. The first release meant for archivists, V0.1, has not been reached. The migration route from Heratio is planned, not operational.</p>
 
-<p><a href="{{ '/application/decisions/' | relative_url }}">Decisions and assumptions</a>: what was decided, when and by whom, what is assumed until someone decides, and what the Workspace keeps that RiC-O has no term for.</p>
+<p><a href="{{ '/application/features/' | relative_url }}">Features</a>: what it does today, area by area. <a href="{{ '/application/decisions/' | relative_url }}">Decisions and assumptions</a>: what was decided, when and by whom, what is assumed until someone decides, and what the Workspace keeps that RiC-O has no term for.</p>
 
 ## Archival management, built around context
 
