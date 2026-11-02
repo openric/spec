@@ -1,0 +1,112 @@
+---
+layout: default
+title: Workspace decisions and assumptions
+description: The development decisions behind OpenRiC Workspace, who took them and when, and the assumptions made while building it that are still open to review.
+permalink: /application/decisions/
+kind: current
+---
+
+# Workspace decisions and assumptions
+
+OpenRiC Workspace is built in the open, and so are the choices behind it. This page lists them in two kinds. A **decision** was taken by Dr Johan Pieterse, who leads the project, and is recorded with its date. An **assumption** is a choice made while building, recorded where it was made, and still open to review: it holds until someone decides otherwise.
+
+Each decision of design is written up in full as an architecture decision record (ADR) in the Workspace's repository; the [roadmap](https://github.com/openric/workspace/blob/main/ROADMAP.md) records the order of work. This page is the summary. Where the two differ, the repository is right and this page is out of date.
+
+None of this binds the specification. The Workspace's choices of database, sign-in or workflow never become requirements of OpenRiC; where building the Workspace showed a gap in the specification, it was raised as an issue on [openric/spec](https://github.com/openric/spec/issues) instead.
+
+## Architecture decisions
+
+| ADR | Date | Decision |
+|---|---|---|
+| [0001](https://github.com/openric/workspace/blob/main/architecture/adr/0001-independent-canonical-store.md) | 19 Oct 2026 | An independent canonical store; RDF and search are projections of it |
+| [0002](https://github.com/openric/workspace/blob/main/architecture/adr/0002-laravel-and-postgresql.md) | 19 Oct 2026 | Laravel on PHP 8.3, with PostgreSQL 16 as the canonical store |
+| [0003](https://github.com/openric/workspace/blob/main/architecture/adr/0003-implementation-before-the-s-gate.md) | 19 Oct 2026 | Implementation starts before the Standard Acceptance Gate |
+| [0004](https://github.com/openric/workspace/blob/main/architecture/adr/0004-tamper-evident-audit-log.md) | 19 Oct 2026 | A tamper-evident audit log, reusing Heratio's hash chain |
+| [0005](https://github.com/openric/workspace/blob/main/architecture/adr/0005-roles-and-permissions.md) | 20 Oct 2026 | Roles and permissions after Heratio's access control; a denial wins |
+| [0006](https://github.com/openric/workspace/blob/main/architecture/adr/0006-ric-native-entity-model.md) | 20 Oct 2026 | A RiC-native entity model: Heratio is the floor, RiC the measure |
+| [0007](https://github.com/openric/workspace/blob/main/architecture/adr/0007-api-keys-and-proposals.md) | 26 Oct 2026 | API keys, and proposals that an archivist reviews |
+| [0008](https://github.com/openric/workspace/blob/main/architecture/adr/0008-rights-and-community-labels.md) | 27 Oct 2026 | Rights and Local Contexts Labels as rules |
+| [0009](https://github.com/openric/workspace/blob/main/architecture/adr/0009-full-text-search-on-postgresql.md) | 27 Oct 2026 | Full-text search on PostgreSQL |
+| [0010](https://github.com/openric/workspace/blob/main/architecture/adr/0010-accessions-as-activities.md) | 29 Oct 2026 | Accessions as their own kind, exported as activities |
+| [0011](https://github.com/openric/workspace/blob/main/architecture/adr/0011-workflows-and-tasks.md) | 30 Oct 2026 | Workflows and tasks as Heratio's, with teams as roles |
+| [0012](https://github.com/openric/workspace/blob/main/architecture/adr/0012-eac-cpf-and-eac-f-exchange.md) | 30 Oct 2026 | EAC-CPF and EAC-F exchange, round trips by IRI |
+| [0013](https://github.com/openric/workspace/blob/main/architecture/adr/0013-portability-and-governance-profiles.md) | 30 Oct 2026 | The Portability and Governance profiles: RiC-O import, deprecated IRIs, the dataset and the SHACL gate |
+| [0014](https://github.com/openric/workspace/blob/main/architecture/adr/0014-iiif-presentation.md) | 30 Oct 2026 | IIIF Presentation 3 from the record |
+| [0015](https://github.com/openric/workspace/blob/main/architecture/adr/0015-embargoes-retention-and-disposal.md) | 31 Oct 2026 | Embargoes on records and their files; retention and disposal |
+| [0016](https://github.com/openric/workspace/blob/main/architecture/adr/0016-privacy-and-jurisdiction-packs.md) | 31 Oct 2026 | Privacy and jurisdiction packs, POPIA governance first |
+| [0017](https://github.com/openric/workspace/blob/main/architecture/adr/0017-research-services.md) | 31 Oct 2026 | Research services: all of Heratio's `ahg-research` |
+| [0018](https://github.com/openric/workspace/blob/main/architecture/adr/0018-ric-o-relations-rules-and-exchange.md) | 2 Nov 2026 | Every relation in RiC-O, rules and mandates, and exchange without silent loss |
+| [0019](https://github.com/openric/workspace/blob/main/architecture/adr/0019-several-parents-functions-and-provenance.md) | 2 Nov 2026 | Several parents, functions, and the last V0.1 profiles |
+
+: Architecture decision records of OpenRiC Workspace
+
+## Decisions on scope and order
+
+| Date | Decision |
+|---|---|
+| 19 Oct 2026 | Build the Workspace before the Standard Acceptance Gate, against a pinned, released specification version; it never counts as the independent implementation OpenRiC v1.0 needs ([K-6](/spec/known-issues.html)). |
+| 26 Oct 2026 | Bring parts of integration protocols and AI assistance with human review forward from V2.0, so the AHG Archives MCP can serve the Workspace. |
+| 27 Oct 2026 | Park the Heratio migration check (phase 4) until a Heratio export carries a full sample. |
+| 31 Oct 2026 | Take all of Heratio's research services, not the reading room alone (ADR 0017). |
+| 31 Oct 2026 | Every data field shows the RiC term it is kept or exported as, or says that RiC-O has none (ADR 0006, option C). |
+| 1 Nov 2026 | Release the research services as far as they were built, and spend the next phase on hardening and acceptance after two external reviews. |
+| 1 Nov 2026 | The backup restore drill comes last, but V0.1 is not signed off without it. |
+| 1 Nov 2026 | Authority records not yet published stay readable to any signed-in account of the institution (ADR 0005). |
+| 1 Nov 2026 | Up to and including V1.0 the Workspace covers archives only; other collecting domains may follow from V2.0, one at a time and on demand. |
+| 2 Nov 2026 | Implement the Authority & Context, Graph Traversal, Digital Object Linkage and Provenance & Event profiles (ADR 0018, ADR 0019). |
+| 2 Nov 2026 | A unit of description may be in several record sets at once (ADR 0019). |
+| 2 Nov 2026 | The ISAD(G), ISAAR(CPF) and ISDIAH screens stay, labelled as compatibility views beside the RiC-native ones. |
+| 2 Nov 2026 | Raise seven gaps found while implementing as issues on the specification ([openric/spec #67 to #73](https://github.com/openric/spec/issues)). |
+| 2 Nov 2026 | The V0.1 acceptance walkthrough is run with archivists by Dr Johan Pieterse himself. |
+| 2 Nov 2026 | The order of work after V0.1's profiles: the parked research services, records management, the jurisdiction packs, the remaining Heratio services; then monitoring, preservation connectors, federation and publishing; AI and the restore drill last. The offline catalogue and other GLAM domains stay parked. |
+
+: Decisions on the Workspace's scope and the order of its work
+
+## Assumptions open to review
+
+These were chosen while building, because a choice had to be made and nobody had yet made it. Each is recorded where it was made, and each can be changed.
+
+| Made | Assumption | Recorded in |
+|---|---|---|
+| 1 Nov 2026 | A RiC bridge from a research project to the catalogue is a deliberate act, for public projects only, by someone who may create authority records; Heratio does it for every project automatically. | ADR 0017 |
+| 1 Nov 2026 | The contradiction engine's shared-source rule is fixed; Heratio's mismatch between "opposes" and "refutes" had disabled it. | ADR 0017 |
+| 1 Nov 2026 | IIIF canvases for sound or video without a known duration are left out of a manifest, and the tests check manifests without the IIIF schema, which carries no licence. | ADR 0014 |
+| 2 Nov 2026 | A reference to another entity carries that entity's names, language-tagged as in its own description, so a merged graph holds one title per entity. | ADR 0019 |
+| 2 Nov 2026 | Activities published before v0.0.98 without a date stay published; the date is asked for the next time one is published. | ADR 0019 |
+| 2 Nov 2026 | A DOI is registered only for a public project, since registering publishes it; it resolves to a landing page in the Workspace, not to a share link. | ADR 0017 |
+| 2 Nov 2026 | A replication pack states no licence: that is the researcher's to choose. | ADR 0017 |
+| 2 Nov 2026 | Published lectures and training courses are open to every signed-in account of the institution, including one with no role. | ADR 0017 |
+| 2 Nov 2026 | Rights policies for researchers guard a record's files in the public catalogue, not its page, and never bind who may change the record. | ADR 0017 |
+| 2 Nov 2026 | Heratio's offline sync waits for the offline catalogue, which is parked. | ADR 0017 |
+
+: Assumptions made while building the Workspace, open to review
+
+## What the Workspace keeps that RiC-O has no term for
+
+RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
+
+As of v0.0.99, 1,222 terms in 222 of the Workspace's 284 vocabularies are of this kind:
+
+| Area | Vocabularies | Terms | Why it is there |
+|---|---|---|---|
+| Research services | 114 | 579 | A researcher's own working data (projects, funding, plans, studios), not catalogue description; kept as Heratio's `ahg-research` keeps it (ADR 0017) |
+| Accessions | 24 | 134 | The intake, appraisal, valuation, containers and rights of an accession, as AtoM, PSIS and Heratio keep them; some are given in the CAAIS export (ADR 0010) |
+| Privacy (POPIA) | 19 | 93 | Information Officers, the processing register and screening, as Heratio's `ahg-privacy` keeps them (ADR 0016) |
+| Reading room | 18 | 92 | Registration, rooms, seats, bookings and retrieval, as Heratio keeps them (ADR 0017) |
+| Donor agreements | 10 | 89 | The agreement's rights, restrictions and documents, as Heratio keeps them; the agreement itself is a `rico:Record` (ADR 0010) |
+| Provenance and custody | 9 | 73 | The overview and steps of a record's provenance; each step is exported as a `rico:Activity`, its working values are not |
+| Workflow | 11 | 71 | Workflows, tasks and service levels, as Heratio and PSIS keep them (ADR 0011) |
+| Retention and disposal | 5 | 23 | Schedules, classes and disposal actions, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
+| IIIF | 4 | 19 | IIIF Presentation 3 behaviours and resource types, and the checks of a manifest (ADR 0014) |
+| Embargoes | 2 | 13 | The types and reasons of an embargo, as Heratio's `ahg-extended-rights` keeps them (ADR 0015) |
+| Community protocols | 1 | 10 | A community's protocol on a description, kept and not exported (ADR 0008) |
+| Research rights policies | 2 | 9 | ODRL 2.2 rule types and actions (ADR 0017) |
+| Agent handling conditions | 1 | 7 | How an agent's description is to be handled, as Heratio keeps it; not exported |
+| Display layouts | 1 | 5 | Which compatibility view shows a description; not exported (ADR 0019) |
+| Reports | 1 | 5 | The institution's reports, as Heratio's `ahg-reports` keeps them |
+
+: Terms the Workspace keeps that RiC-O has no term for, by area
+
+Every vocabulary, with its scope notes, is in the Workspace's repository under [resources/vocabularies](https://github.com/openric/workspace/tree/main/resources/vocabularies), and each resolves at its own address, such as [workspace.openric.org/vocab/permission](https://workspace.openric.org/vocab/permission). Where a gap seemed to belong in RiC-O or OpenRiC rather than in the Workspace, it was raised as an issue instead of kept quietly: on [openric/spec](https://github.com/openric/spec/issues) for the specification, and, through it, for RiC-O itself.
+
+To question a decision or an assumption, open an issue on [openric/workspace](https://github.com/openric/workspace/issues), or use [Ask a question](/ask/).

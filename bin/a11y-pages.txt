@@ -14,3 +14,4 @@
 /demo/
 /spec/conformance.html
 /spec/viewing-api.html
+/application/decisions/
