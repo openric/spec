@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.5 - 2026-11-02
+
+Application page: a link to the Workspace's decisions and assumptions under its title
+
+Approved by: Dr Johan Pieterse, 2026-11-02
+
 ## v0.56.4 - 2026-11-02
 
 Application decisions page (/application/decisions/): the Workspace's architecture decisions, the decisions of Dr Johan Pieterse on scope and order with their dates, the assumptions made while building that are open to review, and the 1,222 terms it keeps that RiC-O has no term for, by area and why
