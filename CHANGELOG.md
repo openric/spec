@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.3 - 2026-11-02
+
+Application page: where the Workspace stands at v0.0.99 (2 November 2026): the eight OpenRiC profiles it declares; several parents as rico:Proxy; functions and rules; legacy layouts labelled compatibility views; archival management, exchange and research services; what V0.1 still needs
+
+Approved by: Dr Johan Pieterse, 2026-11-02
+
 ## v0.56.2 - 2026-11-01
 
 Application page: the Workspace covers archives only up to and including V1.0; other collecting domains may follow from V2.0, one at a time, on demand and each with its own published mapping decision; reused Heratio code is the same author's work under the same licence, with no run-time dependency
