@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.9 - 2026-11-03
+
+Application pages for Workspace v0.0.101: security clearance and the jurisdiction packs (18c to 18e), their decisions and assumptions, the vocabulary counts, and the features and application summaries
+
+Approved by: Dr Johan Pieterse, 2026-11-03
+
 ## v0.56.8 - 2026-11-02
 
 Application pages for Workspace v0.0.100: records management (13c) decision, four assumptions, the records management vocabularies, and the features and application summaries
