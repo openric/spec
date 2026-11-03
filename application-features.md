@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.106. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.107. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.106 of 3 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.107 of 3 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -19,7 +19,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - A unit has one parent, where it is arranged, and may also be in other record sets, each membership a `rico:Proxy` with its own order.
 - Dates, names, identifiers and places are entities of their own, with their dates of use; a name may be an authorised, parallel, standardised, other, historical or abbreviated form, and every title is published as its own `rico:Title`.
 - Vocabularies are the institution's own SKOS schemes, never fixed lists in code, and every field shows the RiC-O term it is kept or exported as, or that RiC-O has none.
-- A hash-chained, signed audit log covers every change, and its chain can be verified.
+- A hash-chained, signed audit log covers every change, and its chain can be verified; descriptions and authority records keep a version history that can be compared and restored.
 - Duplicate authority records and places can be merged; the merged IRI leads to the one kept, and a deleted entity answers that it is gone, with its successor.
 
 ## Description and publication
@@ -27,6 +27,8 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - RiC-native forms, with ISAD(G), ISAAR(CPF), ISDIAH, DACS, RAD, Dublin Core and MODS layouts kept as labelled compatibility views.
 - A hierarchy tree beside every unit, inventories, finding aids and print views.
 - Review and publication per value and per language, publish gates, and publish readiness.
+- The institution's own fields on its entities, and form templates that show only the fields a kind of work needs.
+- Duplicate descriptions found by rules, compared and merged.
 - An interface in English and Afrikaans; an institution offers any language that has a translation file.
 
 ## Archival management
