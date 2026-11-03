@@ -30,7 +30,7 @@ When this site says "OpenRiC" on its own, it means the specification. The Worksp
 
 ## Where it stands
 
-Development started on 19 October 2026, when [ADR 0003](https://github.com/openric/workspace/blob/main/architecture/adr/0003-implementation-before-the-s-gate.md) moved the work ahead of the Standard Acceptance Gate. By 3 November 2026, release v0.0.107, the Workspace had:
+Development started on 19 October 2026, when [ADR 0003](https://github.com/openric/workspace/blob/main/architecture/adr/0003-implementation-before-the-s-gate.md) moved the work ahead of the Standard Acceptance Gate. By 3 November 2026, release v0.0.108, the Workspace had:
 
 - **The data model.** Units of description, authority records, repositories, places, activities, functions and rules are RiC entities with persistent IRIs. Every relation is held through assertions that record who said it and on what evidence, and a hash-chained, signed audit log covers it all. A unit keeps the one parent it is arranged under, and may also be in other record sets, each membership a `rico:Proxy` with its own IRI and place in that set's order ([ADR 0019](https://github.com/openric/workspace/blob/main/architecture/adr/0019-several-parents-functions-and-provenance.md)).
 - **Description and publication.** RiC-native forms, each field showing the RiC-O term it is kept or exported as. The ISAD(G), ISAAR(CPF), ISDIAH, DACS, RAD, Dublin Core and MODS layouts remain, labelled as compatibility views. A review and publish workflow per value and language; an activity is not published without a date, nor a production without a result and a participant.

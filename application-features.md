@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.107. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.108. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.107 of 3 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.108 of 3 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -48,7 +48,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 ## Digital objects
 
 - Files attached as instantiations, with checksums, derived copies, fixity checks, extracted text, embedded metadata, alternative text and watermarks.
-- Viewers for images, PDF, sound, video and 3D models; sound and video get viewing copies the public can play, and their length is read at upload.
+- Viewers for images, PDF, sound, video and 3D models; sound and video get viewing copies the public can play, and their length is read at upload; WebVTT caption tracks play with them and appear in the IIIF manifest.
 - IIIF Presentation 3 manifests and collections, curated collections, Change Discovery, Content State, Content Search over transcripts, and the Authorization Flow for files available on request.
 
 ## Discovery and search
@@ -64,13 +64,15 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Watched folders, an FTP or SFTP drop among them, that take in tables, BagIt bags and scans with their sidecars, and a scan API for capture stations.
 - Labels for records and containers, with Code 128 and QR codes drawn by the Workspace.
 - EAC-CPF and EAC-F, one file or a ZIP of files.
-- Export to Dublin Core and MODS.
+- Export to Dublin Core, MODS and METS.
 - RiC-O import and export (JSON-LD, Turtle, RDF/XML) in which every relation leaves and comes back, with a report of what an export does not carry.
 
 ## OpenRiC
 
 - A public read API that declares the Core Discovery, Export-Only, Portability, Governance, Authority & Context, Graph Traversal, Digital Object Linkage and Provenance & Event profiles, each tested against the specification's pinned schemas and SHACL shapes.
 - OAI-PMH, a dataset descriptor, a change feed, and deprecated IRIs that say what replaced them.
+- An OpenAPI 3.1 description, read-only GraphQL, and places within a box or radius as GeoJSON.
+- Webhooks that tell another system what changed, signed and retried; sitemaps and an Atom feed of what was published.
 - API keys with scopes, limits and expiry; proposals made through the API wait for an archivist to review them.
 
 ## Reports
