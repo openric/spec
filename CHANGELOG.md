@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.14 - 2026-11-03
+
+Application pages: planning and development dated from 17 March 2026, when the RiC work began in Heratio, the Workspace's own code from 19 October 2026; decisions of 3 November 2026 on Annif for subject suggestions, RiC-O 1.1's specific relations checked against the Archives nationales' converter, and Sparnatural over published RiC-O
+
+Approved by: Dr Johan Pieterse, 2026-11-03
+
 ## v0.56.13 - 2026-11-03
 
 Workspace v0.0.109: phase 22d vendors on the application pages (vendor profiles on authority records, services, work sent with condition, insurance and valuation checks, documents)

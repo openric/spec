@@ -111,6 +111,9 @@ These were chosen while building, because a choice had to be made and nobody had
 | 3 Nov 2026 | GraphQL and the GeoJSON place search read the same public catalogue as the rest of the API; GraphQL refuses mutations. | ADR 0020 |
 | 3 Nov 2026 | A caption track reaches only who may receive the recording it goes with, and the player plays the viewing copy, so the public hear and see recordings too. | ADR 0020 |
 | 3 Nov 2026 | Records leave for a vendor only once the work is approved, insured and valued where its service asks it, and never while out with another vendor. A vendor's bank details are encrypted and kept out of the audit log. | ADR 0020 |
+| 3 Nov 2026 | Subjects will be suggested by Annif (National Library of Finland, Apache 2.0), trained on the institution's own indexed descriptions against its SKOS vocabularies, behind the AI gateway, each suggestion a proposed access point for review (phase 17). | Roadmap |
+| 3 Nov 2026 | The RiC-O export will give RiC-O 1.1's specific relations (rico:directlyIncludes, rico:hasOrHadDigitalInstantiation, rico:hasOrHadAnalogueInstantiation) beside the broad ones, and be checked against the Archives nationales de France's RiC-O converter on the same EAD and EAC-CPF files (step 12c). | Roadmap |
+| 3 Nov 2026 | The public catalogue will offer Sparnatural, as FranceArchives does, over a read-only SPARQL store of published RiC-O, configured from the Workspace's own SHACL shapes (phase 16). | Roadmap |
 
 : Assumptions made while building the Workspace, open to review
 
