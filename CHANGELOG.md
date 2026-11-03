@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.13 - 2026-11-03
+
+Workspace v0.0.109: phase 22d vendors on the application pages (vendor profiles on authority records, services, work sent with condition, insurance and valuation checks, documents)
+
+Approved by: Dr Johan Pieterse, 2026-11-03
+
 ## v0.56.12 - 2026-11-03
 
 Workspace v0.0.108: phase 22c interfaces on the application pages (webhooks, OpenAPI, sitemaps, Atom feed, METS, read-only GraphQL, GeoJSON places, WebVTT captions)

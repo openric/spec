@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.108. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.109. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.108 of 3 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.109 of 3 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -60,6 +60,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 
 ## Exchange
 
+- Vendors and the work sent to them: conservation, digitisation, binding and other services, with each record's condition before and after, insurance and valuation checked before records leave, and the documents filed.
 - Import and export of EAD 2002, EAD3 and AtoM's CSV, with dry runs and reconciliation; spreadsheets with their columns mapped and mappings kept, ZIPs with the files their rows name, grid entry, undo, and every import as a BagIt bag.
 - Watched folders, an FTP or SFTP drop among them, that take in tables, BagIt bags and scans with their sidecars, and a scan API for capture stations.
 - Labels for records and containers, with Code 128 and QR codes drawn by the Workspace.
