@@ -71,6 +71,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 3 Nov 2026 | Description quality (22b): version history of descriptions and authority records, written once per change and restored as a new version; duplicate descriptions merged with the merged IRI pointing to the one kept; the institution's own fields as rows, a dropdown drawing from one of its vocabularies; form templates of elements and own fields (ADR 0020). |
 | 3 Nov 2026 | Interfaces (22c), on Dr Johan Pieterse's choices 1A and 2A: the API still never writes directly (ADR 0007); webhooks, OpenAPI 3.1, sitemaps, an Atom feed, METS export, read-only GraphQL and places within a box or radius as GeoJSON are added; caption tracks are WebVTT, with no HLS (ADR 0020). |
 | 3 Nov 2026 | Vendors (22d): a vendor is an authority record with a vendor profile, as donors are; its services, and the work sent to it for a service with the records, their condition before and after, the history of every change and the documents filed (ADR 0020). |
+| 3 Nov 2026 | Monitoring and operations (12a), on Dr Johan Pieterse's choices: fixity on a schedule with a ledger of every check and failures kept open; the installation's figures as a page and as Prometheus text; runbooks for updating and rotating keys. Single sign-on follows in 12b, an unknown sign-in waiting for approval (ADR 0021). |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -121,7 +122,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.109, 1,432 terms in 267 of the Workspace's 329 vocabularies are of this kind:
+As of v0.0.110, 1,453 terms in 273 of the Workspace's 335 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -136,6 +137,7 @@ As of v0.0.109, 1,432 terms in 267 of the Workspace's 329 vocabularies are of th
 | Records management | 11 | 38 | The file plan, its imports, captured e-mail, classification rules, declaration and compliance frameworks, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
 | Jurisdiction packs | 14 | 69 | NARSSA transfers, export permits, the National Archives of Zimbabwe and the CDPA's licences, as Heratio's `ahg-narssa`, `ahg-naz` and `ahg-cdpa` and PSIS's SAHRA plugin keep them; which packs an institution uses (ADR 0016) |
 | Description quality | 3 | 17 | Duplicate rules and their statuses, and the kinds of value of an institution's own fields, as Heratio's `ahg-dedupe` and `ahg-custom-fields` keep them (ADR 0020) |
+| Fixity | 6 | 21 | How often a schedule runs and what it covers, how a run ended and what started it, what a check found and where a failure stands, as Heratio's `ahg-integrity` keeps them (ADR 0021) |
 | Vendors | 7 | 51 | Vendor types and statuses, service types, transaction and payment statuses, condition grades and kinds of document, as Heratio's `ahg-vendor` keeps them (ADR 0020) |
 | Interfaces | 2 | 9 | Webhook events and delivery statuses, as Heratio's `ahg-api` keeps them (ADR 0020) |
 | Intake and labels | 4 | 12 | What became of a file a watched folder or the scan API took in, and how labels are printed, as Heratio's `ahg-scan` and `ahg-label` keep them (ADR 0020) |
