@@ -63,6 +63,11 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 2 Nov 2026 | The jurisdiction packs (18d, 18e): NARSSA transfers, the National Archives of Zimbabwe and Zimbabwe's Cyber and Data Protection Act now; of SAHRA's permits only the export permits of the National Heritage Resources Act s.32; NMMZ moves to phase 21 with the heritage objects it registers (option 2A, ADR 0016). |
 | 2 Nov 2026 | Each jurisdiction pack is switched on or off in the institution's settings. |
 | 2 Nov 2026 | The order of work after V0.1's profiles: the parked research services, records management, the jurisdiction packs, the remaining Heratio services; then monitoring, preservation connectors, federation and publishing; AI and the restore drill last. The offline catalogue and other GLAM domains stay parked. |
+| 3 Nov 2026 | IIIF (14a revisited): the length of sound and video is read by ffprobe at upload, and IIIF is asked to license its presentation-validator schema ([IIIF/presentation-validator#222](https://github.com/IIIF/presentation-validator/issues/222)) before the tests use it (options 1A and 2A, ADR 0014). |
+| 3 Nov 2026 | Sound and video get viewing copies as images do (an MP3 and its waveform, an H.264 MP4 and a frame), so the public, who receives no masters, can hear and see them (ADR 0014). |
+| 3 Nov 2026 | Each title of a record, instantiation or rule is also published as its own `rico:Title`, as Richard Williamson of EGAD advised on the RiC users list; the missing "translation of" term is asked of the specification ([openric/spec#74](https://github.com/openric/spec/issues/74), ADR 0019). |
+| 3 Nov 2026 | Historical and abbreviated forms of name, after Croatia's eArhiv, are kinds of other form of name (ADR 0006). |
+| 3 Nov 2026 | Phase 22 (the remaining Heratio services): intake, description quality, interfaces and vendors, built 22a to 22d; C2PA and research data management move to phase 17; the marketplace is not carried; FTP drops and watched folders now, SharePoint intake with a pilot (options 1B and 2B, ADR 0020). |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -91,6 +96,11 @@ These were chosen while building, because a choice had to be made and nobody had
 | 2 Nov 2026 | The Cyber and Data Protection Act is a jurisdiction of the one set of privacy registers, not a second set as in Heratio. | ADR 0016 |
 | 2 Nov 2026 | A jurisdiction pack switched off keeps what it holds; its pages answer as if absent. | ADR 0016 |
 | 2 Nov 2026 | An export permit is approved within the institution by someone other than the applicant who may change every record it covers, as PSIS's supervisor endorsement. | ADR 0016 |
+| 3 Nov 2026 | A sound or video canvas takes the master file's length where it is known, since an MP3 copy's own length is padded. | ADR 0014 |
+| 3 Nov 2026 | Until a "translation of" term exists, the order of a record's titles (the original first) is the only sign of which is the original. | ADR 0019 |
+| 3 Nov 2026 | A file in AtoM's columns goes straight to its dry run; only a file with none of the columns its reader needs is mapped first. | ADR 0020 |
+| 3 Nov 2026 | Undoing an import deletes what it created and nothing anyone changed since; what it only updated is not put back. | ADR 0020 |
+| 3 Nov 2026 | Every watched folder lies under one intake root the server's administrator sets; an FTP or SFTP account kept to a watched folder replaces Heratio's FTP upload. | ADR 0020 |
 
 : Assumptions made while building the Workspace, open to review
 
@@ -98,7 +108,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.101, 1,343 terms in 251 of the Workspace's 313 vocabularies are of this kind:
+As of v0.0.106, 1,355 terms in 255 of the Workspace's 317 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -112,6 +122,7 @@ As of v0.0.101, 1,343 terms in 251 of the Workspace's 313 vocabularies are of th
 | Retention and disposal | 5 | 23 | Schedules, classes and disposal actions, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
 | Records management | 11 | 38 | The file plan, its imports, captured e-mail, classification rules, declaration and compliance frameworks, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
 | Jurisdiction packs | 14 | 69 | NARSSA transfers, export permits, the National Archives of Zimbabwe and the CDPA's licences, as Heratio's `ahg-narssa`, `ahg-naz` and `ahg-cdpa` and PSIS's SAHRA plugin keep them; which packs an institution uses (ADR 0016) |
+| Intake and labels | 4 | 12 | What became of a file a watched folder or the scan API took in, and how labels are printed, as Heratio's `ahg-scan` and `ahg-label` keep them (ADR 0020) |
 | Security clearance | 4 | 14 | Clearance history and requests for access above one's clearance, as Heratio's `ahg-security-clearance` keeps them (ADR 0016) |
 | IIIF | 4 | 19 | IIIF Presentation 3 behaviours and resource types, and the checks of a manifest (ADR 0014) |
 | Embargoes | 2 | 13 | The types and reasons of an embargo, as Heratio's `ahg-extended-rights` keeps them (ADR 0015) |
