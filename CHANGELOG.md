@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.16 - 2026-11-03
+
+Workspace v0.0.111: phase 12b single sign-on by OpenID Connect and two-factor sign-in on the application pages
+
+Approved by: Dr Johan Pieterse, 2026-11-03
+
 ## v0.56.15 - 2026-11-03
 
 Workspace v0.0.110: phase 12a operations on the application pages (fixity on a schedule with a ledger and failures, the installation's health as a page and as Prometheus metrics, runbooks)
