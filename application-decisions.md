@@ -83,6 +83,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 4 Nov 2026 | Harvest and the union catalogue (16b): records harvested from an OAI-PMH peer come in as drafts, in a repository of their own, and reach the public only when someone publishes them; the harvest changes only the units it made. Each member of a union gives only its own records, so two unions that list each other do not copy each other's copies. DSpace and Alma are searched by their own protocols, their answers marked unsigned (ADR 0023). |
 | 4 Nov 2026 | Federation governance (16c): a peer's trust decides whether it is asked and whether its unsigned answers are kept; peers' protocols are probed each night; a peer's vocabulary is taken into the institution's own with the peer's IRI kept as an exact match, which is all a term mapping needs to be; peers pull a shared vocabulary's changes rather than being sent them; an archive asks to join and an administrator approves it into a peer (ADR 0023). |
 | 4 Nov 2026 | Europeana and loans (16d): published records go to Europeana in EDM as the public reads them, their rights the IRI of the right in force; loans between union members move only along Heratio's transitions, with who moved them and why (ADR 0023). |
+| 4 Nov 2026 | The graph and ResourceSync (16e): the published RiC-O is kept in a Fuseki dataset, one named graph for each published entity, and nothing else goes in, so no query finds a draft; the public SPARQL endpoint forwards queries and refuses updates; Sparnatural is configured from the OpenRiC shapes and the relation types, not by hand; ResourceSync follows Heratio's addresses and paging, with withdrawn entities announced as deleted. Phase 16 is done (ADR 0023). |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -133,7 +134,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.121, 1,592 terms in 308 of the Workspace's 370 vocabularies are of this kind:
+As of v0.0.122, 1,592 terms in 308 of the Workspace's 370 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
