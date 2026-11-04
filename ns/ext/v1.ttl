@@ -4,7 +4,7 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Active; ontology version 1.6.1 (spec v0.56.17). Term IRIs stay
+# Status:        Active; ontology version 1.7.0 (spec v0.57.0). Term IRIs stay
 #                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
@@ -45,10 +45,10 @@
                  <https://openric.org/audit/ric-o-1.1-audit.html> ;
     rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
-    dcterms:modified "2026-11-03"^^xsd:date ;
-    owl:versionIRI <https://openric.org/ns/ext/v1.6.1> ;
-    owl:priorVersion <https://openric.org/ns/ext/v1.6.0> ;
-    owl:versionInfo "1.6.1" .
+    dcterms:modified "2026-11-04"^^xsd:date ;
+    owl:versionIRI <https://openric.org/ns/ext/v1.7.0> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.6.1> ;
+    owl:versionInfo "1.7.0" .
 
 # =====================================================================
 # 1. Classes
@@ -459,3 +459,32 @@ openricx:humanConfirmed skos:closeMatch bodi:hasHumanValidation ;
     skos:scopeNote "bodi:hasHumanValidation is a free-text statement on a bodi:TechnicalDescription; openricx:humanConfirmed is true or false on an inferred assertion."@en .
 openricx:technicalCharacteristics skos:relatedMatch bodi:hasTechnicalMetadata ;
     skos:scopeNote "openricx:technicalCharacteristics is free text on an Instantiation; bodi:hasTechnicalMetadata links it to typed bodi:TechnicalMetadata values, one a property."@en .
+
+# 2.14 Rules: status, amendment and supersession (added 2026-11-04, ontology 1.7.0)
+# RiC-O 1.1 has no property for whether a rule is in force, and between rules only rico:isRuleAssociatedWith. These are
+# candidates for upstream proposal to ICA-EGAD.
+
+openricx:hasRuleStatus a owl:ObjectProperty ; rdfs:label "has rule status"@en ;
+    rdfs:subPropertyOf rico:isRelatedTo ;
+    rdfs:domain rico:Rule ; rdfs:range skos:Concept ;
+    rdfs:comment "Whether a rule is in force: a concept such as draft, in force, in force and amended, or repealed. The dates it came into force and was repealed are its rico:beginningDate and rico:endDate."@en .
+openricx:amendsOrAmended a owl:ObjectProperty ; rdfs:label "amends or amended"@en ;
+    rdfs:subPropertyOf rico:isRuleAssociatedWith ;
+    rdfs:domain rico:Rule ; rdfs:range rico:Rule ;
+    owl:inverseOf openricx:isOrWasAmendedBy ;
+    rdfs:comment "Connects an amending rule to the rule it amends or amended, such as an amendment act to the act it amends."@en .
+openricx:isOrWasAmendedBy a owl:ObjectProperty ; rdfs:label "is or was amended by"@en ;
+    rdfs:subPropertyOf rico:isAssociatedWithRule ;
+    rdfs:domain rico:Rule ; rdfs:range rico:Rule ;
+    owl:inverseOf openricx:amendsOrAmended ;
+    rdfs:comment "Inverse of openricx:amendsOrAmended."@en .
+openricx:supersedesOrSuperseded a owl:ObjectProperty ; rdfs:label "supersedes or superseded"@en ;
+    rdfs:subPropertyOf rico:isRuleAssociatedWith ;
+    rdfs:domain rico:Rule ; rdfs:range rico:Rule ;
+    owl:inverseOf openricx:isOrWasSupersededBy ;
+    rdfs:comment "Connects a rule to the rule it replaced, such as an act to the act it repealed and replaced."@en .
+openricx:isOrWasSupersededBy a owl:ObjectProperty ; rdfs:label "is or was superseded by"@en ;
+    rdfs:subPropertyOf rico:isAssociatedWithRule ;
+    rdfs:domain rico:Rule ; rdfs:range rico:Rule ;
+    owl:inverseOf openricx:supersedesOrSuperseded ;
+    rdfs:comment "Inverse of openricx:supersedesOrSuperseded."@en .

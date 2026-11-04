@@ -74,6 +74,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 3 Nov 2026 | Monitoring and operations (12a), on Dr Johan Pieterse's choices: fixity on a schedule with a ledger of every check and failures kept open; the installation's figures as a page and as Prometheus text; runbooks for updating and rotating keys. Single sign-on follows in 12b, an unknown sign-in waiting for approval (ADR 0021). |
 | 3 Nov 2026 | Single sign-on and two-factor sign-in (12b): OpenID Connect providers per institution, an unknown sign-in becoming a request for an account an administrator approves (Dr Johan Pieterse's choice); TOTP two-factor sign-in under the institution's policy, a sign-in through the provider using its own second factor (ADR 0021). |
 | 3 Nov 2026 | RiC-O 1.1's specific relations (12c): rico:directlyIncludes and rico:isDirectlyIncludedIn, rico:hasOrHadDigitalInstantiation and rico:hasOrHadAnalogueInstantiation with their inverses, and rico:directlyPrecedesInSequence between units, beside the broad ones; checked against the Archives nationales de France's RiC-O converter 3.0.0, every difference fixed or recorded as a choice; the extension ontology's close matches to BoDi (ontology 1.6.1). |
+| 4 Nov 2026 | Rules and mandates in full (12d): a rule's status, history, the agent that issued it and the agent that enforces it, the record that carries its text, and the rules it amends or supersedes; retention schedules naming the rule they are issued under; extension ontology 1.7.0 with openricx:hasRuleStatus, amends and supersedes, as RiC-O 1.1 has none of them. |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -124,7 +125,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.111, 1,459 terms in 275 of the Workspace's 337 vocabularies are of this kind:
+As of v0.0.113, 1,463 terms in 276 of the Workspace's 338 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -139,6 +140,7 @@ As of v0.0.111, 1,459 terms in 275 of the Workspace's 337 vocabularies are of th
 | Records management | 11 | 38 | The file plan, its imports, captured e-mail, classification rules, declaration and compliance frameworks, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
 | Jurisdiction packs | 14 | 69 | NARSSA transfers, export permits, the National Archives of Zimbabwe and the CDPA's licences, as Heratio's `ahg-narssa`, `ahg-naz` and `ahg-cdpa` and PSIS's SAHRA plugin keep them; which packs an institution uses (ADR 0016) |
 | Description quality | 3 | 17 | Duplicate rules and their statuses, and the kinds of value of an institution's own fields, as Heratio's `ahg-dedupe` and `ahg-custom-fields` keep them (ADR 0020) |
+| Rules | 1 | 4 | Whether a rule is in force: draft, in force, in force and amended, repealed (openricx:hasRuleStatus; ADR 0018) |
 | Sign-in | 2 | 6 | How a single sign-on finds its account, and who must sign in with a second factor, as AtoM's arOidcPlugin and Heratio's ahg-security-clearance keep them (ADR 0021) |
 | Fixity | 6 | 21 | How often a schedule runs and what it covers, how a run ended and what started it, what a check found and where a failure stands, as Heratio's `ahg-integrity` keeps them (ADR 0021) |
 | Vendors | 7 | 51 | Vendor types and statuses, service types, transaction and payment statuses, condition grades and kinds of document, as Heratio's `ahg-vendor` keeps them (ADR 0020) |
