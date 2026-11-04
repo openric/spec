@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.122. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.123. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.122 of 4 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.123 of 4 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -21,6 +21,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Vocabularies are the institution's own SKOS schemes, never fixed lists in code, and every field shows the RiC-O term it is kept or exported as, or that RiC-O has none.
 - Single sign-on with the institution's own accounts by OpenID Connect (Microsoft Entra ID, Google Workspace, Keycloak), and two-factor sign-in with an authenticator app under the institution's policy.
 - Every action on a file kept as a PREMIS event, formats identified against PRONOM, and preservation metadata exported as PREMIS 3.0.
+- The institution's own public site: static pages in each language, articles with their files, related articles and comments, and landing pages built of blocks from what is published, the default one the catalogue's home; and each user's own dashboards.
 - The published RiC-O open to SPARQL queries, and explored without writing SPARQL in Sparnatural; ResourceSync lists of what is published and what changed.
 - Published records exported to Europeana in EDM, and loans between member institutions with their figures.
 - Federation governed by trust levels, peers discovered by their protocol, vocabularies synchronised with peers, a public network directory and requests to join.

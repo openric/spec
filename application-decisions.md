@@ -84,6 +84,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 4 Nov 2026 | Federation governance (16c): a peer's trust decides whether it is asked and whether its unsigned answers are kept; peers' protocols are probed each night; a peer's vocabulary is taken into the institution's own with the peer's IRI kept as an exact match, which is all a term mapping needs to be; peers pull a shared vocabulary's changes rather than being sent them; an archive asks to join and an administrator approves it into a peer (ADR 0023). |
 | 4 Nov 2026 | Europeana and loans (16d): published records go to Europeana in EDM as the public reads them, their rights the IRI of the right in force; loans between union members move only along Heratio's transitions, with who moved them and why (ADR 0023). |
 | 4 Nov 2026 | The graph and ResourceSync (16e): the published RiC-O is kept in a Fuseki dataset, one named graph for each published entity, and nothing else goes in, so no query finds a draft; the public SPARQL endpoint forwards queries and refuses updates; Sparnatural is configured from the OpenRiC shapes and the relation types, not by hand; ResourceSync follows Heratio's addresses and paging, with withdrawn entities announced as deleted. Phase 16 is done (ADR 0023). |
+| 4 Nov 2026 | Publishing and outreach (phase 20), on Dr Johan Pieterse's choices: Heratio's user guides copied and adapted for the Help Center, DOIs against DataCite's test service and off until an institution gives its own account, and four releases, 20a to 20d. 20a: the institution's public site, its static pages, articles and landing pages. Only what is published reaches it: an article's files are served only while the article is published, and a landing page's figures count only what the public may read. Nothing typed into a page runs in a visitor's browser. Heratio's marketing pages, AHG's own sales pages, are not carried (ADR 0024). |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -134,7 +135,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.122, 1,592 terms in 308 of the Workspace's 370 vocabularies are of this kind:
+As of v0.0.123, 1,627 terms in 312 of the Workspace's 374 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -156,6 +157,7 @@ As of v0.0.122, 1,592 terms in 308 of the Workspace's 370 vocabularies are of th
 | Fixity | 6 | 21 | How often a schedule runs and what it covers, how a run ended and what started it, what a check found and where a failure stands, as Heratio's `ahg-integrity` keeps them (ADR 0021) |
 | Vendors | 7 | 51 | Vendor types and statuses, service types, transaction and payment statuses, condition grades and kinds of document, as Heratio's `ahg-vendor` keeps them (ADR 0020) |
 | Interfaces | 2 | 9 | Webhook events and delivery statuses, as Heratio's `ahg-api` keeps them (ADR 0020) |
+| Public site | 4 | 35 | Whether an article is published, the kinds of file attached to it, whether a comment is shown, and the kinds of block a landing page is built of, as Heratio's `ahg-articles` and `ahg-landing-page` keep them (ADR 0024) |
 | Intake and labels | 4 | 12 | What became of a file a watched folder or the scan API took in, and how labels are printed, as Heratio's `ahg-scan` and `ahg-label` keep them (ADR 0020) |
 | Security clearance | 4 | 14 | Clearance history and requests for access above one's clearance, as Heratio's `ahg-security-clearance` keeps them (ADR 0016) |
 | IIIF | 4 | 19 | IIIF Presentation 3 behaviours and resource types, and the checks of a manifest (ADR 0014) |
