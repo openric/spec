@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.2 - 2026-11-04
+
+Workspace v0.0.115: OCFL 1.1 as the one object store (phase 15b)
+
+Approved by: Dr Johan Pieterse, 2026-11-04
+
 ## v0.57.1 - 2026-11-04
 
 Workspace v0.0.114: PREMIS events, PRONOM format identification and PREMIS 3.0 export (phase 15a)
