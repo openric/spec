@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.56.17 - 2026-11-04
+
+Workspace v0.0.112: RiC-O 1.1's specific relations checked against the Archives nationales' converter; extension ontology 1.6.1 with close matches to BoDi; shapes noting the specific instantiation and direct-inclusion relations (sh:Info)
+
+Approved by: Dr Johan Pieterse, 2026-11-04
+
 ## v0.56.16 - 2026-11-03
 
 Workspace v0.0.111: phase 12b single sign-on by OpenID Connect and two-factor sign-in on the application pages

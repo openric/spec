@@ -4,7 +4,7 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Active; ontology version 1.6.0 (spec v0.55.0). Term IRIs stay
+# Status:        Active; ontology version 1.6.1 (spec v0.56.17). Term IRIs stay
 #                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
@@ -29,6 +29,8 @@
 @prefix dcterms:  <http://purl.org/dc/terms/> .
 @prefix vann:     <http://purl.org/vocab/vann/> .
 @prefix openric:  <https://openric.org/ns/v1#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix bodi:     <http://w3id.org/bodi#> .
 
 <https://openric.org/ns/ext/v1>
     a owl:Ontology ;
@@ -43,10 +45,10 @@
                  <https://openric.org/audit/ric-o-1.1-audit.html> ;
     rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
-    dcterms:modified "2026-10-20"^^xsd:date ;
-    owl:versionIRI <https://openric.org/ns/ext/v1.6.0> ;
-    owl:priorVersion <https://openric.org/ns/ext/v1.5.0> ;
-    owl:versionInfo "1.6.0" .
+    dcterms:modified "2026-11-03"^^xsd:date ;
+    owl:versionIRI <https://openric.org/ns/ext/v1.6.1> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.6.0> ;
+    owl:versionInfo "1.6.1" .
 
 # =====================================================================
 # 1. Classes
@@ -441,3 +443,19 @@ openricx:humanConfirmed a owl:DatatypeProperty ; rdfs:label "human confirmed"@en
 
 openricx:hasSparqlContextBinding a owl:DatatypeProperty ; rdfs:label "has SPARQL context binding"@en ;
     rdfs:comment "Which prefixes the JSON-LD @context of a SPARQL CONSTRUCT or DESCRIBE response binds: one of \"rico+openricx\", \"rico+openricx+skos\", \"rico+openricx+skos+dcterms\" or \"full\". A documentation term of the SPARQL Access draft profile's shape; servers do not send it. Defined in 1.4.0, having been used by that shape without a definition."@en .
+
+# 2.13 Alignment with BoDi (added 2026-11-03, ontology 1.6.1)
+# BoDi, the Born-Digital Ontology (http://w3id.org/bodi, version 1.0 of 2025-10-01, Lucia Giagnolini, CC BY 4.0), extends
+# RiC-O 1.1 for born-digital archives. Where an openricx term says much the same as a BoDi term, it says so here, as a
+# close match and not an equivalence: the ranges, scales and subjects differ, as each comment notes, and a reasoner must
+# not merge them. Nothing in OpenRiC depends on BoDi.
+
+openricx:hasChecksum skos:closeMatch bodi:hasHashCode ;
+    rdfs:seeAlso <http://w3id.org/bodi#hasHashCode> ;
+    skos:scopeNote "bodi:hasHashCode also links an Instantiation to its checksum, but to a premis:Fixity rather than an openricx:Checksum."@en .
+openricx:confidence skos:closeMatch bodi:confidenceScore ;
+    skos:scopeNote "bodi:confidenceScore runs from 0 to 10 and belongs to a bodi:TechnicalDescription; openricx:confidence runs from 0 to 1 and belongs to an inferred assertion."@en .
+openricx:humanConfirmed skos:closeMatch bodi:hasHumanValidation ;
+    skos:scopeNote "bodi:hasHumanValidation is a free-text statement on a bodi:TechnicalDescription; openricx:humanConfirmed is true or false on an inferred assertion."@en .
+openricx:technicalCharacteristics skos:relatedMatch bodi:hasTechnicalMetadata ;
+    skos:scopeNote "openricx:technicalCharacteristics is free text on an Instantiation; bodi:hasTechnicalMetadata links it to typed bodi:TechnicalMetadata values, one a property."@en .

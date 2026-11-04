@@ -73,6 +73,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 3 Nov 2026 | Vendors (22d): a vendor is an authority record with a vendor profile, as donors are; its services, and the work sent to it for a service with the records, their condition before and after, the history of every change and the documents filed (ADR 0020). |
 | 3 Nov 2026 | Monitoring and operations (12a), on Dr Johan Pieterse's choices: fixity on a schedule with a ledger of every check and failures kept open; the installation's figures as a page and as Prometheus text; runbooks for updating and rotating keys. Single sign-on follows in 12b, an unknown sign-in waiting for approval (ADR 0021). |
 | 3 Nov 2026 | Single sign-on and two-factor sign-in (12b): OpenID Connect providers per institution, an unknown sign-in becoming a request for an account an administrator approves (Dr Johan Pieterse's choice); TOTP two-factor sign-in under the institution's policy, a sign-in through the provider using its own second factor (ADR 0021). |
+| 3 Nov 2026 | RiC-O 1.1's specific relations (12c): rico:directlyIncludes and rico:isDirectlyIncludedIn, rico:hasOrHadDigitalInstantiation and rico:hasOrHadAnalogueInstantiation with their inverses, and rico:directlyPrecedesInSequence between units, beside the broad ones; checked against the Archives nationales de France's RiC-O converter 3.0.0, every difference fixed or recorded as a choice; the extension ontology's close matches to BoDi (ontology 1.6.1). |
 
 : Decisions on the Workspace's scope and the order of its work
 
