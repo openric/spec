@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.6 - 2026-11-04
+
+Workspace v0.0.119: OAI-PMH harvest, union catalogue, DSpace and Alma (phase 16b)
+
+Approved by: Dr Johan Pieterse, 2026-11-04
+
 ## v0.57.5 - 2026-11-04
 
 Workspace v0.0.118: federation with peers, signed federated search (phase 16a)
