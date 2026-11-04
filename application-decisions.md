@@ -77,6 +77,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 4 Nov 2026 | Rules and mandates in full (12d): a rule's status, history, the agent that issued it and the agent that enforces it, the record that carries its text, and the rules it amends or supersedes; retention schedules naming the rule they are issued under; extension ontology 1.7.0 with openricx:hasRuleStatus, amends and supersedes, as RiC-O 1.1 has none of them. |
 | 4 Nov 2026 | Preservation (phase 15), on Dr Johan Pieterse's choices: OCFL to be the one object store, Archivematica built last against its API. 15a: every action on a file a PREMIS 3 event with the Library of Congress event type it matches, formats identified against PRONOM by Siegfried with their risk and action, and a unit's PREMIS 3.0 export (ADR 0022). |
 | 4 Nov 2026 | OCFL as the one object store (15b): "this is not live data. so one store". Every file is kept in an OCFL 1.1 storage root laid out by the published extension 0004, each instantiation one object named by its IRI, each change a new version holding the whole object; a destruction purges the object, since OCFL otherwise keeps every version; the files kept before were moved in at release (ADR 0022). |
+| 4 Nov 2026 | Preservation planning (15c): Heratio's normalisation rules make a preservation master and an access copy beside the master, never in its place, normalising on ingest only where an institution chooses; migration plans are approved by someone other than who drew them up; the object store is replicated to a folder or another server by rsync over SSH, and a target folder that is neither empty nor a storage root is refused; rights go into PREMIS as rights statements (ADR 0022). |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -127,7 +128,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.114, 1,489 terms in 281 of the Workspace's 343 vocabularies are of this kind:
+As of v0.0.116, 1,518 terms in 289 of the Workspace's 351 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -142,7 +143,7 @@ As of v0.0.114, 1,489 terms in 281 of the Workspace's 343 vocabularies are of th
 | Records management | 11 | 38 | The file plan, its imports, captured e-mail, classification rules, declaration and compliance frameworks, as Heratio's `ahg-records-manage` keeps them (ADR 0015) |
 | Jurisdiction packs | 14 | 69 | NARSSA transfers, export permits, the National Archives of Zimbabwe and the CDPA's licences, as Heratio's `ahg-narssa`, `ahg-naz` and `ahg-cdpa` and PSIS's SAHRA plugin keep them; which packs an institution uses (ADR 0016) |
 | Description quality | 3 | 17 | Duplicate rules and their statuses, and the kinds of value of an institution's own fields, as Heratio's `ahg-dedupe` and `ahg-custom-fields` keep them (ADR 0020) |
-| Preservation | 5 | 26 | PREMIS event types, outcomes and agent types matched to the Library of Congress preservation vocabulary, and file formats' risk and action, as Heratio's ahg-preservation keeps them (ADR 0022) |
+| Preservation | 13 | 55 | PREMIS event types, outcomes and agent types matched to the Library of Congress preservation vocabulary; file formats' risk and action; normalisation purposes, conversion tools and statuses; migration plan statuses and quality impacts; replication target types, operations and statuses, as Heratio's ahg-preservation keeps them (ADR 0022) |
 | Rules | 1 | 4 | Whether a rule is in force: draft, in force, in force and amended, repealed (openricx:hasRuleStatus; ADR 0018) |
 | Sign-in | 2 | 6 | How a single sign-on finds its account, and who must sign in with a second factor, as AtoM's arOidcPlugin and Heratio's ahg-security-clearance keep them (ADR 0021) |
 | Fixity | 6 | 21 | How often a schedule runs and what it covers, how a run ended and what started it, what a check found and where a failure stands, as Heratio's `ahg-integrity` keeps them (ADR 0021) |
