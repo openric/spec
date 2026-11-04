@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.1 - 2026-11-04
+
+Workspace v0.0.114: PREMIS events, PRONOM format identification and PREMIS 3.0 export (phase 15a)
+
+Approved by: Dr Johan Pieterse, 2026-11-04
+
 ## v0.57.0 - 2026-11-04
 
 Workspace v0.0.113: rules and mandates in full; extension ontology 1.7.0 adds openricx:hasRuleStatus and amends and supersedes between rules (openricx:amendsOrAmended, openricx:supersedesOrSuperseded and their inverses)
