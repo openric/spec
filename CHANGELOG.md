@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.19 - 2026-11-05
+
+Workspace v0.0.132: repatriation claims, dialogue, shared records and virtual return (phase 17d2)
+
+Approved by: Dr Johan Pieterse, 2026-11-05
+
 ## v0.57.18 - 2026-11-05
 
 Workspace v0.0.131: search by meaning, grounding and ways into the collection (phase 17d1)
