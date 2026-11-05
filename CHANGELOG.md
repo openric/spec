@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.14 - 2026-11-05
+
+Workspace v0.0.127: AI through the gateway, the log of inferences and OCR (phase 17a)
+
+Approved by: Dr Johan Pieterse, 2026-11-05
+
 ## v0.57.13 - 2026-11-05
 
 Workspace v0.0.126: lists, the Dropdown manager, display profiles and the code reference (phase 20d)
