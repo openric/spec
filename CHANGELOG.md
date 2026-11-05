@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.13 - 2026-11-05
+
+Workspace v0.0.126: lists, the Dropdown manager, display profiles and the code reference (phase 20d)
+
+Approved by: Dr Johan Pieterse, 2026-11-05
+
 ## v0.57.12 - 2026-11-04
 
 Workspace v0.0.125: DOIs for units of description at DataCite (phase 20c)

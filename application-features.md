@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.125. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.126. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.125 of 4 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.126 of 4 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -21,6 +21,8 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Vocabularies are the institution's own SKOS schemes, never fixed lists in code, and every field shows the RiC-O term it is kept or exported as, or that RiC-O has none.
 - Single sign-on with the institution's own accounts by OpenID Connect (Microsoft Entra ID, Google Workspace, Keycloak), and two-factor sign-in with an authenticator app under the institution's policy.
 - Every action on a file kept as a PREMIS event, formats identified against PRONOM, and preservation metadata exported as PREMIS 3.0.
+- A Dropdown manager in which an institution words, orders and defaults the lists its forms offer, and adds its own terms to the open ones, without changing them for anyone else.
+- Display profiles by level of description for the public catalogue, browse settings for the institution and each account, and the browse list printed or downloaded as CSV.
 - DOIs for published units of description, registered at DataCite with the institution's own account and resolving to their persistent IRIs, minted by hand, in batches or on publishing.
 - A Help Center of 73 guides, searchable to the section, with help for the screen in hand, a system map and a system breakdown.
 - The institution's own public site: static pages in each language, articles with their files, related articles and comments, and landing pages built of blocks from what is published, the default one the catalogue's home; and each user's own dashboards.

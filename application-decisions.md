@@ -87,6 +87,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 4 Nov 2026 | Publishing and outreach (phase 20), on Dr Johan Pieterse's choices: Heratio's user guides copied and adapted for the Help Center, DOIs against DataCite's test service and off until an institution gives its own account, and four releases, 20a to 20d. 20a: the institution's public site, its static pages, articles and landing pages. Only what is published reaches it: an article's files are served only while the article is published, and a landing page's figures count only what the public may read. Nothing typed into a page runs in a visitor's browser. Heratio's marketing pages, AHG's own sales pages, are not carried (ADR 0024). |
 | 4 Nov 2026 | The Help Center (20b): once the size of Heratio's help library was known (494 articles), Dr Johan Pieterse chose to adapt the core guides now and to add each later phase's guides with it. 73 guides, each rewritten for the Workspace's screens and RiC terms and checked against its code, are kept as Markdown with the code and read in again whenever they change; help for the screen in hand comes from the routes each guide names (ADR 0024). |
 | 4 Nov 2026 | DOIs (20c): a published unit of description is given a DOI at DataCite with the institution's own account, test first, resolving to its persistent IRI, its metadata made from what the public reads; a unit must be published to be minted, since a DOI publishes it; the DOI becomes one of its identifiers, so it is in its RiC-O and its citations; usage is reported to DataCite only where the institution switches it on (ADR 0024). |
+| 4 Nov 2026 | Lists, display and the code reference (20d): the last lists kept as text, the publish gate outcomes and print page sizes and orientations, became vocabularies, and validation reads each vocabulary rather than a copy of its codes; an institution words, orders and defaults any bundled list for itself in the Dropdown manager, and adds and hides terms in the open ones, while every term keeps its IRI and RiC-O mapping; a list is open only where no code relies on its terms, which a test checks; display profiles by level of description choose what the public page shows; staff browse as the institution or the account sets; the code reference is read from the code (ADR 0024). |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -137,7 +138,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.125, 1,679 terms in 318 of the Workspace's 380 vocabularies are of this kind:
+As of v0.0.126, 1,708 terms in 326 of the Workspace's 388 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -161,6 +162,7 @@ As of v0.0.125, 1,679 terms in 318 of the Workspace's 380 vocabularies are of th
 | Interfaces | 2 | 9 | Webhook events and delivery statuses, as Heratio's `ahg-api` keeps them (ADR 0020) |
 | Public site | 4 | 35 | Whether an article is published, the kinds of file attached to it, whether a comment is shown, and the kinds of block a landing page is built of, as Heratio's `ahg-articles` and `ahg-landing-page` keep them (ADR 0024) |
 | DOIs | 6 | 52 | What is asked of DataCite and where it stands, DataCite's resource types, funder identifier schemes, and usage events, as Heratio's `ahg-doi-manage` keeps them (ADR 0024) |
+| Lists and display | 8 | 29 | What a publish gate found, print page sizes and orientations, the actions and picture sizes of a display profile, and how the browse list is shown and sorted, as Heratio's `ahg-workflow`, `ahg-research` and `ahg-display` keep them (ADR 0024) |
 | Intake and labels | 4 | 12 | What became of a file a watched folder or the scan API took in, and how labels are printed, as Heratio's `ahg-scan` and `ahg-label` keep them (ADR 0020) |
 | Security clearance | 4 | 14 | Clearance history and requests for access above one's clearance, as Heratio's `ahg-security-clearance` keeps them (ADR 0016) |
 | IIIF | 4 | 19 | IIIF Presentation 3 behaviours and resource types, and the checks of a manifest (ADR 0014) |
