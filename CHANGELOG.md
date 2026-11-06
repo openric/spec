@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.21 - 2026-11-06
+
+Workspace v0.0.134: staff notices on WhatsApp
+
+Approved by: Dr Johan Pieterse, 2026-11-06
+
 ## v0.57.20 - 2026-11-05
 
 Workspace v0.0.133: heritage at risk, its network and displaced heritage (phase 17d3)
