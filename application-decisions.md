@@ -37,6 +37,12 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | [0017](https://github.com/openric/workspace/blob/main/architecture/adr/0017-research-services.md) | 31 Oct 2026 | Research services: all of Heratio's `ahg-research` |
 | [0018](https://github.com/openric/workspace/blob/main/architecture/adr/0018-ric-o-relations-rules-and-exchange.md) | 2 Nov 2026 | Every relation in RiC-O, rules and mandates, and exchange without silent loss |
 | [0019](https://github.com/openric/workspace/blob/main/architecture/adr/0019-several-parents-functions-and-provenance.md) | 2 Nov 2026 | Several parents, functions, and the last V0.1 profiles |
+| [0020](https://github.com/openric/workspace/blob/main/architecture/adr/0020-remaining-heratio-services.md) | 3 Nov 2026 | The remaining Heratio services, intake first |
+| [0021](https://github.com/openric/workspace/blob/main/architecture/adr/0021-monitoring-and-operations.md) | 3 Nov 2026 | Monitoring and operations, single sign-on to follow |
+| [0022](https://github.com/openric/workspace/blob/main/architecture/adr/0022-preservation.md) | 4 Nov 2026 | Preservation, PREMIS events first, OCFL as the one store |
+| [0023](https://github.com/openric/workspace/blob/main/architecture/adr/0023-federation.md) | 4 Nov 2026 | Federation, signed search between catalogues, all of ahg-federation |
+| [0024](https://github.com/openric/workspace/blob/main/architecture/adr/0024-public-site.md) | 4 Nov 2026 | Publishing and outreach, the institution's public site and its help |
+| [0025](https://github.com/openric/workspace/blob/main/architecture/adr/0025-ai-assistance.md) | 5 Nov 2026 | AI assistance, through the gateway and only as proposals |
 
 : Architecture decision records of OpenRiC Workspace
 
@@ -98,6 +104,15 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 5 Nov 2026 | Staff notices on WhatsApp: a staff member may have the notices the Workspace mails them on WhatsApp too, as one Meta-approved template naming the institution, the subject and a link; the Workspace holds no WhatsApp credential and hands each notice to the estate's sender; researchers and the public are never sent anything there. |
 | 6 Nov 2026 | Languages, discoveries and research leads (17d4): the languages of a collection are read from its own language-tagged names, labels and page transcripts, and what people contribute appears once reviewed; a model looking for connections is shown only the public relationship graph around a published record, and its discoveries stay with staff until a curator publishes one as a research lead (ADR 0025). |
 | 6 Nov 2026 | Subjects suggested by Annif (17e): Annif runs behind the AI gateway only; each subject it suggests is a proposal of a concept of the institution's chosen vocabulary, accepted as the record's subject with the model's assertion, and its precision is tried on published records before it is relied on (ADR 0025). |
+| 6 Nov 2026 | An authority record is a record too: after Richard Williamson's answer on the Records in Contexts users list, an agent's ISAAR(CPF) control area is published as a `rico:Record` of the documentary form Authority record, resulting from the activity of describing the agent, beside the network of entities the agent already is; and the dataset description and federation protocol say which extension the data uses, so a consumer reading only RiC-O 1.1 knows what it misses (ADR 0019). |
+| 7 Nov 2026 | After an outside assessment of production readiness (ready for demonstrations, not for an institution's records; the gap is verification, not modules), the remaining modules and the hardening it asks for are interleaved: outside programs under limits, accessibility checked on every release, a capacity test, then the packs for an outside installer, archivist and security tester. |
+| 7 Nov 2026 | Offline catalogues (11c) are built after all, and of the other collecting domains (phase 21) only 3D objects, as a kind of file. |
+| 8 Nov 2026 | After a second outside audit: a release is deployed only when every one of its CI jobs passed on its exact commit and its tag's signature verifies, with the evidence kept; experimental modules are off until an installation names them (`MODULES.md`); RiC-CM 1.0.1 and RiC-O 1.1 are the normative model, and ISAD(G), ISAAR(CPF), ISDIAH, ISDF, EAD and EAC-CPF adapters and compatibility views only. |
+| 9 Nov 2026 | The other collecting domains of phase 21 (library, museum, gallery, digital assets, exhibitions, loans, heritage assets) are parked, kept for later and out of scope until then. |
+| 9 Nov 2026 | The working surface (phase 25), after docuteam context's: close-match and regular-expression search first, measured at 100,000 units; then drag and drop in the tree, with a keyboard Move beside it; then a grid over descriptions with Heratio's bulk edits, each row saved through the same checks as a form. |
+| 9 Nov 2026 | Capacity is tested on 100,000 units of description, 10,000 authority records and 2,000 places, made through the application's own services and kept for each later run. When the test found the public catalogue deciding what the public may read record by record, that moved into SQL, held by a test to the same answer for every rule. |
+| 9 Nov 2026 | The interface's translations come from PSIS and Heratio, Heratio's being the source, refreshed by a tool the release runs; a string translated by machine is listed as unreviewed until a person has read it. |
+| 9 Nov 2026 | Backup and restore, deferred until a pilot held real records, is brought forward with the installs: the Workspace from its git clone in one command, and in Docker, with a backup and a restore that proves itself by the audit chain, the object store and every file's digest. |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -148,7 +163,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.129, 1,739 terms in 331 of the Workspace's 393 vocabularies are of this kind:
+As of v0.0.146, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
@@ -173,7 +188,12 @@ As of v0.0.129, 1,739 terms in 331 of the Workspace's 393 vocabularies are of th
 | Public site | 4 | 35 | Whether an article is published, the kinds of file attached to it, whether a comment is shown, and the kinds of block a landing page is built of, as Heratio's `ahg-articles` and `ahg-landing-page` keep them (ADR 0024) |
 | DOIs | 6 | 52 | What is asked of DataCite and where it stands, DataCite's resource types, funder identifier schemes, and usage events, as Heratio's `ahg-doi-manage` keeps them (ADR 0024) |
 | Lists and display | 8 | 29 | What a publish gate found, print page sizes and orientations, the actions and picture sizes of a display profile, and how the browse list is shown and sorted, as Heratio's `ahg-workflow`, `ahg-research` and `ahg-display` keep them (ADR 0024) |
-| AI | 1 | 9 | What a model was asked to do through the AI gateway, kept with each call in the log of inferences, as Heratio's `ahg-provenance-ai` keeps it (ADR 0025) |
+| AI | 8 | 31 | What a model was asked to do through the AI gateway, kept with each call in the log of inferences; the register of the AI an institution uses, its risk classes, uses and life cycle; and the review of the catalogue assistant's answers, as Heratio's `ahg-provenance-ai`, `ahg-ai-compliance` and `ahg-ai-chatbot` keep them (ADR 0025) |
+| Heritage at risk | 6 | 27 | Risks, urgency, the kinds of hotspot and where a capture or a flag from a peer stands, as Heratio's heritage at risk keeps them (ADR 0025) |
+| Repatriation | 5 | 20 | A claim's status, its parties, the kinds and standing of community knowledge, and who sees a message, as Heratio keeps them; a claim is a documented request, never a legal determination (ADR 0025) |
+| Languages and research leads | 3 | 10 | What a community contributed about a language and where it stands, and where a research lead stands (ADR 0025) |
+| Offline catalogues | 1 | 3 | What an offline catalogue holds: everything, a repository, a unit with what is inside it, or the clipboard |
+| 3D objects | 1 | 2 | How a 3D model is placed in augmented reality |
 | Resolving names | 4 | 22 | Where the review of a mentioned name stands, what was decided, the outside authorities a new record is filled from with their licences, and the kinds of words of role, as Heratio's `ahg-authority-resolution` keeps them (ADR 0025) |
 | Intake and labels | 4 | 12 | What became of a file a watched folder or the scan API took in, and how labels are printed, as Heratio's `ahg-scan` and `ahg-label` keep them (ADR 0020) |
 | Security clearance | 4 | 14 | Clearance history and requests for access above one's clearance, as Heratio's `ahg-security-clearance` keeps them (ADR 0016) |

@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.136. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.146. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.136 of 6 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.146 of 9 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -46,7 +46,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Review and publication per value and per language, publish gates, and publish readiness.
 - The institution's own fields on its entities, and form templates that show only the fields a kind of work needs.
 - Duplicate descriptions found by rules, compared and merged.
-- An interface in English and Afrikaans; an institution offers any language that has a translation file.
+- An interface in English and Afrikaans, with French, Dutch, German, Portuguese, Spanish and the languages of Southern Africa in part, taken from PSIS's and Heratio's translations; an institution offers any language that has a translation file.
 
 ## Archival management
 
@@ -66,12 +66,15 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 
 - Files attached as instantiations, with checksums, derived copies, fixity checks, extracted text, embedded metadata, alternative text and watermarks.
 - Viewers for images, PDF, sound, video and 3D models; sound and video get viewing copies the public can play, and their length is read at upload; WebVTT caption tracks play with them and appear in the IIIF manifest.
+- 3D models kept as they came (GLB, glTF, OBJ, STL, PLY, USDZ), each given a GLB viewing copy and a picture, and viewed in the catalogue.
 - IIIF Presentation 3 manifests and collections, curated collections, Change Discovery, Content State, Content Search over transcripts, and the Authorization Flow for files available on request.
 
 ## Discovery and search
 
 - A public catalogue that needs no sign-in, with full-text search and facets, pages for every kind of entity, and the relationship graph around each in 2D or 3D, also given as a list for screen readers and keyboards.
+- A search that finds nothing shows the closest titles, said to be close matches, and a search may be a regular expression, under a time limit; both see only what the words would.
 - Staff search with saved searches and statistics.
+- An assistant in the catalogue that answers from published records only and cites them, and one for staff over what they may read and the help guides (AI, off until switched on).
 - Usage statistics that keep no visitor's address.
 - Access requests for restricted material, and email delivery that stops writing to addresses that bounced.
 
@@ -81,14 +84,16 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Import and export of EAD 2002, EAD3 and AtoM's CSV, with dry runs and reconciliation; spreadsheets with their columns mapped and mappings kept, ZIPs with the files their rows name, grid entry, undo, and every import as a BagIt bag.
 - Watched folders, an FTP or SFTP drop among them, that take in tables, BagIt bags and scans with their sidecars, and a scan API for capture stations.
 - Labels for records and containers, with Code 128 and QR codes drawn by the Workspace.
-- EAC-CPF and EAC-F, one file or a ZIP of files.
+- EAC-CPF and EAC-F, one file or a ZIP of files, each export saying what it leaves out.
+- Offline catalogues: everything published, a repository, a unit and what is inside it, or the clipboard, as a ZIP with a viewer that opens with no server.
 - Export to Dublin Core, MODS and METS.
 - RiC-O import and export (JSON-LD, Turtle, RDF/XML) in which every relation leaves and comes back, with a report of what an export does not carry.
 
 ## OpenRiC
 
 - A public read API that declares the Core Discovery, Export-Only, Portability, Governance, Authority & Context, Graph Traversal, Digital Object Linkage and Provenance & Event profiles, each tested against the specification's pinned schemas and SHACL shapes.
-- OAI-PMH, a dataset descriptor, a change feed, and deprecated IRIs that say what replaced them.
+- An agent's ISAAR(CPF) control area published as its authority record, a `rico:Record` of the documentary form Authority record, resulting from the activity of describing the agent.
+- OAI-PMH, a dataset descriptor that names the vocabularies its data uses and what the OpenRiC extension adds where RiC-O 1.1 stops, a change feed, and deprecated IRIs that say what replaced them.
 - An OpenAPI 3.1 description, read-only GraphQL, and places within a box or radius as GeoJSON.
 - Webhooks that tell another system what changed, signed and retried; sitemaps and an Atom feed of what was published.
 - API keys with scopes, limits and expiry; proposals made through the API wait for an archivist to review them.
@@ -112,8 +117,13 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 
 - Roles and permissions per entity, where a denial wins, and accounts that never act on another institution's records.
 - A test that tries every address naming an object as another institution's administrator and as an account with no role, run on every build.
-- A deployment check of the configuration before every release.
+- A deployment check of the configuration before every release, and a deploy that refuses a release unless every CI job passed on its exact commit and its tag is signed.
+- Every outside program (converters, format identification, text extraction) run under limits of time, memory and file size, and on a server without outside network.
+- Accessibility checked against WCAG 2.2 AA on seventeen public and staff pages, and the demonstration's main steps by keyboard alone, on every release.
+- Experimental modules off until an installation names them; what is supported is listed with why.
+- A register of the AI an institution uses, with each use's risk class and life cycle.
+- The public catalogue's lists decided and paged in the database, tested at 100,000 units of description.
 
 ## What it does not do yet
 
-V0.1 has not been reached. Before it, the Workspace still needs an installation run by someone other than its developers, the acceptance walkthrough with archivists, a backup restore drill and an accessibility review. Preservation, federation, monitoring, publishing and AI assistance are later phases of the [roadmap](https://github.com/openric/workspace/blob/main/ROADMAP.md). Up to and including V1.0 it covers archives only.
+V0.1 has not been reached. Before it, the Workspace still needs an installation run by someone other than its developers, the acceptance walkthrough with archivists, a backup restore drill and an accessibility review. Still to come in the [roadmap](https://github.com/openric/workspace/blob/main/ROADMAP.md) are a tested backup and restore with the installs, drag and drop in the tree and grid editing, the staff side at 100,000 units, adversarial security tests and content credentials (C2PA); the Heratio migration check and the other collecting domains are parked. Up to and including V1.0 it covers archives only.

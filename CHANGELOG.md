@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.24 - 2026-11-09
+
+Workspace v0.0.137 to v0.0.146: the decisions of 7 to 9 November, ADRs 0020 to 0025, the terms RiC-O has no term for recounted, and features and status up to v0.0.146
+
+Approved by: Dr Johan Pieterse, 2026-11-09
+
 ## v0.57.23 - 2026-11-06
 
 Workspace v0.0.136: subjects suggested by Annif (phase 17e)
