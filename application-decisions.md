@@ -113,6 +113,8 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 9 Nov 2026 | Capacity is tested on 100,000 units of description, 10,000 authority records and 2,000 places, made through the application's own services and kept for each later run. When the test found the public catalogue deciding what the public may read record by record, that moved into SQL, held by a test to the same answer for every rule. |
 | 9 Nov 2026 | The interface's translations come from PSIS and Heratio, Heratio's being the source, refreshed by a tool the release runs; a string translated by machine is listed as unreviewed until a person has read it. |
 | 9 Nov 2026 | Backup and restore, deferred until a pilot held real records, is brought forward with the installs: the Workspace from its git clone in one command, and in Docker, with a backup and a restore that proves itself by the audit chain, the object store and every file's digest. |
+| 9 Nov 2026 | A public demonstration shows its account on the sign-in page, with full administrator rights, as Heratio's demo does, and uses Heratio's demonstration sign-in. |
+| 10 Nov 2026 | The demonstration takes its baseline every afternoon at 16:00, so what is made during the working day, video recordings among it, is kept; at 02:00 the baseline is put back, undoing whatever visitors changed since. |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -155,6 +157,9 @@ These were chosen while building, because a choice had to be made and nobody had
 | 3 Nov 2026 | Records leave for a vendor only once the work is approved, insured and valued where its service asks it, and never while out with another vendor. A vendor's bank details are encrypted and kept out of the audit log. | ADR 0020 |
 | 3 Nov 2026 | Subjects will be suggested by Annif (National Library of Finland, Apache 2.0), trained on the institution's own indexed descriptions against its SKOS vocabularies, behind the AI gateway, each suggestion a proposed access point for review (phase 17). | Roadmap |
 | 3 Nov 2026 | The RiC-O export will give RiC-O 1.1's specific relations (rico:directlyIncludes, rico:hasOrHadDigitalInstantiation, rico:hasOrHadAnalogueInstantiation) beside the broad ones, and be checked against the Archives nationales de France's RiC-O converter on the same EAD and EAC-CPF files (step 12c). | Roadmap |
+| 9 Nov 2026 | The demonstration's public account cannot be changed, disabled or deleted, nor set up for two-factor sign-in, by anyone, so no visitor can take it from the next; a change a visitor makes before 16:00 becomes part of the next baseline. | `deploy/runbooks/restoring.md` |
+| 9 Nov 2026 | A backup holds `.env` and the audit signing key beside the database and files, so a restore needs nothing else; it is kept where those may be kept. A restore refuses a backup of a newer release, and migrates one of an older release up. | `deploy/runbooks/restoring.md` |
+| 9 Nov 2026 | The Docker install carries no virus scanner: uploads are kept as not scanned until ClamAV is run beside it; `bin/install` on a server installs it. | `docker/README.md` |
 | 3 Nov 2026 | The public catalogue will offer Sparnatural, as FranceArchives does, over a read-only SPARQL store of published RiC-O, configured from the Workspace's own SHACL shapes (phase 16). | Roadmap |
 
 : Assumptions made while building the Workspace, open to review
@@ -163,7 +168,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.146, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
+As of v0.0.147, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|

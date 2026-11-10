@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.146. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.147. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.146 of 9 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.147 of 10 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -123,7 +123,10 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Experimental modules off until an installation names them; what is supported is listed with why.
 - A register of the AI an institution uses, with each use's risk class and life cycle.
 - The public catalogue's lists decided and paged in the database, tested at 100,000 units of description.
+- An install on Ubuntu 24.04 from the git clone in one command, and an install in Docker beside PostgreSQL 16 with pgvector.
+- A backup of the database, the OCFL store, the audit signing key, `.env` and the branding with their digests, and a restore that fails unless the audit chain, the object store and every file's digest verify and the counts match; the restore drill passed on 9 November 2026, and CI builds, starts and backs up the Docker install on every release.
+- A public demonstration that shows its account on the sign-in page, keeps the account from being changed, and is put back each night to the afternoon's baseline.
 
 ## What it does not do yet
 
-V0.1 has not been reached. Before it, the Workspace still needs an installation run by someone other than its developers, the acceptance walkthrough with archivists, a backup restore drill and an accessibility review. Still to come in the [roadmap](https://github.com/openric/workspace/blob/main/ROADMAP.md) are a tested backup and restore with the installs, drag and drop in the tree and grid editing, the staff side at 100,000 units, adversarial security tests and content credentials (C2PA); the Heratio migration check and the other collecting domains are parked. Up to and including V1.0 it covers archives only.
+V0.1 has not been reached. Before it, the Workspace still needs an installation run by someone other than its developers, the acceptance walkthrough with archivists and an accessibility review. Still to come in the [roadmap](https://github.com/openric/workspace/blob/main/ROADMAP.md) are drag and drop in the tree and grid editing, the staff side at 100,000 units, adversarial security tests and content credentials (C2PA); the Heratio migration check and the other collecting domains are parked. Up to and including V1.0 it covers archives only.
