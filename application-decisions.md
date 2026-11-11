@@ -115,6 +115,8 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 9 Nov 2026 | Backup and restore, deferred until a pilot held real records, is brought forward with the installs: the Workspace from its git clone in one command, and in Docker, with a backup and a restore that proves itself by the audit chain, the object store and every file's digest. |
 | 9 Nov 2026 | A public demonstration shows its account on the sign-in page, with full administrator rights, as Heratio's demo does, and uses Heratio's demonstration sign-in. |
 | 10 Nov 2026 | The demonstration takes its baseline every afternoon at 16:00, so what is made during the working day, video recordings among it, is kept; at 02:00 the baseline is put back, undoing whatever visitors changed since. |
+| 11 Nov 2026 | AI is on for the public demonstration, under a limit of 500 calls a month, with the catalogue's assistant offered to visitors; every model is still reached through the AHG AI gateway, and what a model says is still only a proposal. |
+| 11 Nov 2026 | The text of a page goes where its reference copy goes: an embargo that withholds a record's files withholds its transcript too, from the API, the language pages and the catalogue's assistant. |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -168,7 +170,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.150, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
+As of v0.0.151, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
