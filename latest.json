@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-10T11:33:12Z",
+  "run_at": "2026-11-11T11:19:57Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "19ffe0e",
+  "probe_revision": "520541e",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:24:45Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:11:39Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -118,8 +118,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:23:26Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:10:22Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
@@ -288,8 +288,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:29:24Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:16:12Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -383,8 +383,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:32:01Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:18:47Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
@@ -522,7 +522,7 @@
         {
           "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.odPj8eH8kD/export.ttl has 7 triples, /tmp/tmp.odPj8"
+          "http": "/tmp/tmp.IjOUymoNSw/export.ttl has 7 triples, /tmp/tmp.IjOUy"
         },
         {
           "status": "PASS",
@@ -533,8 +533,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:28:09Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:14:59Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -633,8 +633,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:26:44Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:13:35Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -748,8 +748,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:30:33Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:17:21Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -828,8 +828,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-10T11:33:12Z",
-      "probe_revision": "19ffe0e",
+      "run_at": "2026-11-11T11:19:57Z",
+      "probe_revision": "520541e",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "sparql-access"
