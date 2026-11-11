@@ -170,7 +170,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.151, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
+As of v0.0.152, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|
