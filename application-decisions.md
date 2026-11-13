@@ -117,6 +117,7 @@ None of this binds the specification. The Workspace's choices of database, sign-
 | 10 Nov 2026 | The demonstration takes its baseline every afternoon at 16:00, so what is made during the working day, video recordings among it, is kept; at 02:00 the baseline is put back, undoing whatever visitors changed since. |
 | 11 Nov 2026 | AI is on for the public demonstration, under a limit of 500 calls a month, with the catalogue's assistant offered to visitors; every model is still reached through the AHG AI gateway, and what a model says is still only a proposal. |
 | 11 Nov 2026 | The text of a page goes where its reference copy goes: an embargo that withholds a record's files withholds its transcript too, from the API, the language pages and the catalogue's assistant. |
+| 12 Nov 2026 | The Workspace gets a design of its own (phase 26), from mock-ups approved first: The National Archives' patterns in the OpenRiC identity, links underlined and four kinds of button, a staff header on one row, a dashboard as home, and a public record page that answers what the records are, how big they are and whether they can be seen. An institution sets its footer and its catalogue's colour on the web, and the RiC-O term beside each field is shown by a switch, off until a reader turns it on. |
 
 : Decisions on the Workspace's scope and the order of its work
 
@@ -170,7 +171,7 @@ These were chosen while building, because a choice had to be made and nobody had
 
 RiC-O describes records and their contexts. An archive also runs an office: it takes in accessions, signs agreements with donors, keeps a reading room, routes work, registers how it processes personal information. The Workspace does that work as Heratio and AtoM do it, so it keeps values that RiC-O has no term for. It says so rather than hide it: each such value is a term of one of the Workspace's own vocabularies, and the term's scope note begins "Not a RiC-O term" and says where it is kept and why. Every data form shows, field by field, the RiC-O term a value is kept or exported as, or that there is none (ADR 0006, option C).
 
-As of v0.0.156, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
+As of v0.0.157, 1,833 terms in 355 of the Workspace's 417 vocabularies are of this kind:
 
 | Area | Vocabularies | Terms | Why it is there |
 |---|---|---|---|

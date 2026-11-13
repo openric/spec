@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Workspace features
-description: What OpenRiC Workspace does today, area by area, as released up to v0.0.156. In development; not yet released for use.
+description: What OpenRiC Workspace does today, area by area, as released up to v0.0.157. In development; not yet released for use.
 permalink: /application/features/
 kind: current
 ---
 
 # Workspace features
 
-<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.156 of 11 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
+<p class="callout"><strong>In development, not yet released for use.</strong> This page lists what OpenRiC Workspace does in its development releases, up to v0.0.157 of 13 November 2026, which run at <a href="https://workspace.openric.org/discover">workspace.openric.org</a>. It lists only what is built and released; what is still to come is in the <a href="https://github.com/openric/workspace/blob/main/ROADMAP.md">roadmap</a>, and why each part works as it does is under <a href="{{ '/application/decisions/' | relative_url }}">decisions and assumptions</a>.</p>
 
 Much of the Workspace copies what Heratio and AtoM-based systems already do, field for field, and rebuilds it on the RiC model. Where it departs from them, the decisions page says so.
 
@@ -18,7 +18,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Every relation is held through assertions that record who said it, on what evidence, with what certainty, and whether it is accepted, proposed or disputed. Relation types are data, each with its RiC-O class, property and inverse.
 - A unit has one parent, where it is arranged, and may also be in other record sets, each membership a `rico:Proxy` with its own order.
 - Dates, names, identifiers and places are entities of their own, with their dates of use; a name may be an authorised, parallel, standardised, other, historical or abbreviated form, and every title is published as its own `rico:Title`.
-- Vocabularies are the institution's own SKOS schemes, never fixed lists in code, and every field shows the RiC-O term it is kept or exported as, or that RiC-O has none.
+- Vocabularies are the institution's own SKOS schemes, never fixed lists in code, and every field can show, by a switch, the RiC-O term it is kept or exported as, or that RiC-O has none.
 - Single sign-on with the institution's own accounts by OpenID Connect (Microsoft Entra ID, Google Workspace, Keycloak), and two-factor sign-in with an authenticator app under the institution's policy.
 - Every action on a file kept as a PREMIS event, formats identified against PRONOM, and preservation metadata exported as PREMIS 3.0.
 - AI through the AHG AI gateway only, off until switched on, its every answer a proposal for review and every call a signed receipt in a chained log; printed pages read by a vision model checked against Tesseract; names found in descriptions and transcripts, summaries of pages, and condition read from pictures, each proposed for review; names resolved to authority records and places by ranked evidence, every decision kept as it was seen; descriptions translated by machine into 21 languages for review; and the interface worded by each institution in its own words; search by meaning as well as by the words, widened by the institution's vocabularies, with grounding for questions and ways into the public collection by theme, place, person, kind and decade; and repatriation claims with their dialogue, a shared record for the claimant, community knowledge and a virtual return; registers of heritage at risk, shared across the federation, and of displaced heritage; and the languages of the collection with their glossaries and transcriptions, and research leads a model finds and a curator publishes; and subjects suggested by Annif for review.
@@ -46,6 +46,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - Review and publication per value and per language, publish gates, and publish readiness.
 - The institution's own fields on its entities, and form templates that show only the fields a kind of work needs.
 - Duplicate descriptions found by rules, compared and merged.
+- A dashboard of the work waiting as staff home, status badges and a summary at the top of each record, and a footer and catalogue colour each institution sets on the web.
 - An interface in English and Afrikaans, with French, Dutch, German, Portuguese, Spanish and the languages of Southern Africa in part, taken from PSIS's and Heratio's translations; an institution offers any language that has a translation file.
 
 ## Archival management
