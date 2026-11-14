@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.57.31 - 2026-11-14
+
+Incremental spec update
+
+Approved by: Dr Johan Pieterse, 2026-11-14
+
 ## v0.57.30 - 2026-11-13
 
 Incremental spec update

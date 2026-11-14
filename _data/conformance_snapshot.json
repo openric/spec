@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-12T11:37:39Z",
+  "run_at": "2026-11-13T11:21:46Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "d97a570",
+  "probe_revision": "5a8b19f",
   "read_only": true,
   "runs": [
     {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:29:11Z",
+      "run_at": "2026-11-13T11:13:19Z",
       "results": []
     },
     {
@@ -113,7 +113,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:27:52Z",
+      "run_at": "2026-11-13T11:12:01Z",
       "results": [
         {
           "status": "FAIL (invalid)",
@@ -179,7 +179,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:33:50Z",
+      "run_at": "2026-11-13T11:17:58Z",
       "results": []
     },
     {
@@ -234,12 +234,12 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:36:28Z",
+      "run_at": "2026-11-13T11:20:35Z",
       "results": [
         {
           "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.ZX46tE5eax/export.ttl has 7 triples, /tmp/tmp.ZX46t"
+          "http": "/tmp/tmp.N7QwYP1IUW/export.ttl has 7 triples, /tmp/tmp.N7QwY"
         }
       ]
     },
@@ -295,7 +295,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:32:35Z",
+      "run_at": "2026-11-13T11:16:43Z",
       "results": []
     },
     {
@@ -350,7 +350,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:31:10Z",
+      "run_at": "2026-11-13T11:15:19Z",
       "results": [
         {
           "status": "FAIL",
@@ -431,7 +431,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:34:59Z",
+      "run_at": "2026-11-13T11:19:06Z",
       "results": [
         {
           "status": "SKIP",
@@ -492,7 +492,7 @@
           }
         ]
       },
-      "run_at": "2026-11-12T11:37:39Z",
+      "run_at": "2026-11-13T11:21:46Z",
       "results": []
     }
   ]
