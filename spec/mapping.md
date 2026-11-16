@@ -5,9 +5,9 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.55.0
+**Last revised in:** v0.58.0
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
-**Last updated:** 2026-10-20
+**Last updated:** 2026-11-16
 
 ---
 
@@ -311,6 +311,8 @@ Dates are emitted as `openricx:DateRange` objects:
 | 5.3.x Relationships | `isOrWas...Of` property family (e.g. `rico:isOrWasOwnerOf`, `rico:isOrWasHolderOf`) - see §8 |
 | 5.4.x Control area | See §7.5 |
 
+**Names as entities (from v0.58.0).** Each of the forms of name in 5.1.2 to 5.1.5 MAY also be sent as a `rico:AgentName` node by `rico:hasOrHadAgentName`, with `rico:textualValue` in its language and the dates the name was used, and its kind by `openricx:hasNameType` to a concept of the [name-type vocabulary](/vocab/name-type.html) (`authorised`, `parallel`, `standardised`, `other`). The same holds for `rico:PlaceName` and `rico:Title`. A name or title that translates another carries `openricx:isTranslationOf`, pointing to the one it translates; one without it is an original or of equal standing. The shortcut text properties stay for simple publication; consumers SHOULD read both, as ICA-EGAD advises ([#64](https://github.com/openric/spec/issues/64), [#74](https://github.com/openric/spec/issues/74)).
+
 ### 7.4 Repository (ISDIAH)
 
 | ISDIAH element | RiC predicate |
@@ -373,6 +375,17 @@ OpenRiC serves functions as `openricx:Function` (§6.4). RiC-AG maps ISDF to `ri
 | 5.2.4 Legislation | `rico:isOrWasRegulatedBy` → `rico:Rule` |
 | 5.3.x Related functions | `rico:isRelatedTo`, or `rico:followsInTime` / `rico:isOrWasPartOf` where the relation is known |
 | 5.4.x Control area | See §7.5 |
+
+### 7.7 The text of an instantiation (from v0.58.0)
+
+| Source | RiC predicate |
+|---|---|
+| A transcript or OCR text of a digital object (AtoM and Heratio `transcript`) | `openricx:transcript` on the `rico:Instantiation`, one language-tagged value per language ([#65](https://github.com/openric/spec/issues/65)) |
+| The alternative text of an image (WCAG 2.1, 1.1.1) | `openricx:alternativeText` on the `rico:Instantiation`, one language-tagged value per language ([#66](https://github.com/openric/spec/issues/66)) |
+
+: The text of an instantiation
+
+A transcript is what the carrier reads; alternative text is what it shows. Neither is `rico:generalDescription`, which describes the instantiation as a thing; an instantiation may carry all three.
 
 ## 8. Relationships
 
@@ -584,6 +597,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
+| v0.58.0 | 2026-11-16 | 7.3 Names as entities: the kind of a name by `openricx:hasNameType` and the name-type vocabulary, and a translation by `openricx:isTranslationOf`. 7.7 The text of an instantiation: `openricx:transcript` and `openricx:alternativeText`. |
 | v0.55.0 | 2026-10-20 | 6.6 Physical storage: a container is an `openricx:Container` with an `openricx:ContainerType`, what it holds points to it with `openricx:isOrWasStoredIn`, and it is placed in a `rico:Place` with `rico:hasOrHadLocation`; shelves, strongrooms and buildings are places. `rico:Thing` with `openric:localType` stays conformant. |
 | v0.54.0 | 2026-10-20 | 3.1.5 Extent: the text goes on `rico:textualValue` of a `rico:RecordResourceExtent`, and a counted extent on `rico:quantity` with `rico:hasUnitOfMeasurement`; a literal on `rico:hasExtentType`, an object property, is deprecated. |
 | v0.46.0 | 2026-10-15 | O-8 resolved: §7 rows follow RiC-AG with RiC-O 1.1 terms (scope and content, structure, notes, rules, physical characteristics, acquisition, date expansion, record set type); new §7.5 control areas and §7.6 ISDF. |

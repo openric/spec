@@ -7,11 +7,11 @@ description: The /graph endpoint and its relation + hierarchy companions. Where 
 # Graph Traversal Profile
 
 **Profile id:** `graph-traversal`
-**Profile version:** 0.6.0
-**Last revised in spec:** v0.51.0
+**Profile version:** 0.7.0
+**Last revised in spec:** v0.58.0
 **Status:** Normative
 **Dependencies:** None at the endpoint level; SHACL shapes assume a full-graph data source. See §5.
-**Last updated:** 2026-04-21
+**Last updated:** 2026-11-16
 
 ---
 
@@ -46,7 +46,7 @@ A conformant server MUST expose:
 
 | Parameter | Type | Rules |
 |---|---|---|
-| `uri` | string | **Required.** The @id of the root entity. Shape: `<base>/<type>/<id-or-slug>`. Known types: `informationobject`, `record`, `recordset`, `actor`, `person`, `corporatebody`, `family`, `place`, `rule`, `activity`, `instantiation`. Unknown types → HTTP 400. |
+| `uri` | string | **Required.** The `@id` of the root entity: any IRI the server serves as an entity, in whatever form it mints them ([Governance §3](governance.html)). A server answers 400 for a value that is not an IRI it could serve, and 404 for one of its own form that it does not know. The segments of the reference service (`informationobject`, `record`, `recordset`, `actor`, `person`, `corporatebody`, `family`, `place`, `rule`, `activity`, `instantiation`) are an example, not a list a server must use. |
 | `depth` | integer | Optional. Default `1`, maximum `3`. Depth `N` means: breadth-first walk out from root, following `rico:*` predicates up to `N` hops. |
 
 ### 2.3 Forbidden without additional profile claims
@@ -211,7 +211,7 @@ Graph Traversal ships two classes of SHACL shapes, both in `shapes/profiles/grap
 | `:UnlinkedAgentShape` | Every Person/CorporateBody/Family is linked via `hasCreator`, `hasAccumulator`, or `hasOrHadParticipant` (`sh:Info`) |
 | `:DuplicateIdentifierShape` | No two records share a `rico:identifier` value (`sh:Warning`) |
 
-Severity of each shape is calibrated for a working archive, not a polished demo: an archive with some orphan Instantiations or unlinked Agents is normal and the shapes reflect that - hence `sh:Warning` / `sh:Info` rather than `sh:Violation` for the SPARQL checks. Implementations MAY raise severity locally by re-declaring the shapes.
+Each SPARQL shape carries its `sh:severity` on the node shape, where SHACL reads it; inside the `sh:sparql` constraint it is ignored and every result becomes a violation (fixed in profile 0.7.0, openric/spec#68). Severity of each shape is calibrated for a working archive, not a polished demo: an archive with some orphan Instantiations or unlinked Agents is normal and the shapes reflect that - hence `sh:Warning` / `sh:Info` rather than `sh:Violation` for the SPARQL checks. Implementations MAY raise severity locally by re-declaring the shapes.
 
 ## 6. Conformance testing
 
@@ -296,6 +296,16 @@ Five questions were flagged during drafting; all five carry resolutions.
 **Rationale**: A server exposing the four endpoints correctly is useful even if its backing store has orphan records or unlinked agents - those are data-hygiene issues, not API-contract issues. Gating endpoint conformance on full-store validation would prevent incomplete archives from ever claiming the profile, which hurts ecosystem adoption. The SHACL shapes are published so that implementers can run them against their own dumps as a hygiene check, not as a profile-claim prerequisite. A future "graph-hygiene-certified" badge may layer on top, but is out of scope for this profile's initial cut.
 
 ## 10. Migration
+
+### From profile 0.6.0 to 0.7.0 (spec v0.58.0)
+
+Nothing breaks: each change relaxes a constraint or corrects a shape.
+
+| What changed | Servers | Clients |
+|---|---|---|
+| `id`, `subject_id`, `object_id`, `entity_id` and `target_id` in `relation-list`, `relations-for` and `hierarchy` may be integers or strings ([#67](https://github.com/openric/spec/issues/67)) | A server keyed by UUIDs or other strings conforms by sending them as strings. | Treat these ids as opaque; do not assume integers. |
+| `/graph?uri=` takes any IRI the server serves as an entity ([#69](https://github.com/openric/spec/issues/69)) | Accept your own IRIs; 400 only for a value you could not serve, 404 for one you do not know. | Pass the `@id` the API returned; do not build IRIs from type segments. |
+| The full-graph SPARQL shapes carry `sh:severity` on the node shape ([#68](https://github.com/openric/spec/issues/68)) | A graph with only orphaned records, unlinked agents, unlinked instantiations or duplicate identifiers no longer fails as a violation. | Read those results as Warning or Info, as the table in §5.2 says. |
 
 ### From profile 0.5.0 to 0.6.0 (spec v0.51.0)
 

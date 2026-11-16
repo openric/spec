@@ -16,6 +16,7 @@ Controlled vocabularies published by the OpenRiC project as SKOS ConceptSchemes.
 | [Rule Type](rule-type.html) | `https://openric.org/vocab/rule-type/` | 8 | `rico:hasOrHadRuleType` (per [mapping.md §9](/spec/mapping.html)) |
 | [Date Type](date-type.html) | `https://openric.org/vocab/date-type/` | 5 | `rico:hasDateType` (per [mapping.md §7.2](/spec/mapping.html#72-date-ranges)) |
 | [Role Type](role-type.html) | `https://openric.org/vocab/role-type/` | 11 | `openricx:relationHasAgentRole` and `rico:creationWithRole` |
+| [Name Type](name-type.html) | `https://openric.org/vocab/name-type/` | 4 | `openricx:hasNameType` on `rico:Name` (added in v0.58.0) |
 
 Each vocabulary is dereferenceable as Turtle (e.g. [`activity-type.ttl`](activity-type.ttl)) and described inline as a SKOS ConceptScheme. Concept IRIs follow the pattern `{scheme-IRI}{slug}` (e.g. `https://openric.org/vocab/activity-type/production`).
 

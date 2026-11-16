@@ -7,11 +7,11 @@ description: First-class Places, Rules, and Activities with reconciliation-frien
 # Authority & Context Profile
 
 **Profile id:** `authority-context`
-**Profile version:** 0.4.0
-**Last revised in spec:** v0.31.0
+**Profile version:** 0.5.0
+**Last revised in spec:** v0.58.0
 **Status:** Normative
 **Dependencies:** None - orthogonal to Core Discovery
-**Last updated:** 2026-04-21
+**Last updated:** 2026-11-16
 
 ---
 
@@ -79,8 +79,11 @@ A Place is a location or geographic entity. At minimum: `@id`, `@type: "rico:Pla
   "openricx:description": "Ancient Egypt, Nile Valley region.",
   "openricx:streetAddress": "Egypt, North Africa",
   "openric:localType": "country",
-  "rico:latitude":     30.0444196,
-  "rico:longitude":    31.2357116,
+  "rico:hasOrHadCoordinates": {
+    "@type":          "rico:Coordinates",
+    "rico:latitude":  30.0444196,
+    "rico:longitude": 31.2357116
+  },
   "owl:sameAs":        "https://www.geonames.org/357994/egypt.html"
 }
 ```
@@ -99,7 +102,8 @@ A Place is a location or geographic entity. At minimum: `@id`, `@type: "rico:Pla
 |---|---|
 | `openricx:description` | Free-form description |
 | `openricx:streetAddress` | Single-line address |
-| `rico:latitude`, `rico:longitude` | Decimal degrees, WGS84 |
+| `rico:hasOrHadCoordinates` | A `rico:Coordinates` node carrying `rico:latitude` and `rico:longitude` in decimal degrees (WGS84), and `rico:altitude` where known. In RiC-O 1.1 latitude and longitude have the domain `rico:Coordinates`, so written on the place itself they make a reasoner read the place as coordinates ([#72](https://github.com/openric/spec/issues/72)). |
+| `rico:latitude`, `rico:longitude` on the place | **Deprecated** in profile 0.5.0, to be removed at the next major version: a shorthand kept for existing clients. A server SHOULD send the `rico:hasOrHadCoordinates` node, and MAY send the flat pair beside it during the deprecation period. |
 | `openric:localType` | Implementation-specific tag (`country`, `city`, `site`, `region`, …) |
 | `owl:sameAs` | Authority URI - GeoNames, Wikidata, Getty TGN. **STRONGLY RECOMMENDED when the backing row has one.** |
 | `rico:isOrWasPartOf` | Parent Place, embedded as a stub with `@id`, `@type: "rico:Place"`, `rico:name` |
@@ -132,7 +136,7 @@ A Rule is a law, regulation, mandate, policy, or other governing instrument. At 
   "rico:title":         "Egyptian Antiquities Protection Law (Law 117/1983)",
   "rico:name":          "Egyptian Antiquities Protection Law (Law 117/1983)",
   "openricx:description":   "Egyptian law governing the protection and export of antiquities.",
-  "rico:hasOrHadRuleType":      "law",
+  "rico:hasOrHadRuleType":      { "@id": "https://openric.org/vocab/rule-type/law" },
   "openric:localType":  "law",
   "openric:jurisdiction": "Egypt",
   "openricx:descriptiveNote": "Law No. 117 of 1983, Arab Republic of Egypt. Amended 2010.",
@@ -147,7 +151,11 @@ A Rule is a law, regulation, mandate, policy, or other governing instrument. At 
 
 **Required:** `@id`, `@type: "rico:Rule"`, `rico:title`, AND either `openricx:descriptiveNote` or `rico:hasOrHadRuleType`.
 
-**Optional but normative when present:** `openricx:description`, `rico:hasOrHadRuleType` (`law`, `regulation`, `mandate`, `policy`, `custom`), `openric:jurisdiction`, `dcterms:source`, `owl:sameAs`, `openricx:hasDateRangeSet`.
+**Optional but normative when present:** `openricx:description`, `rico:hasOrHadRuleType`, `openric:jurisdiction`, `dcterms:source`, `owl:sameAs`, `openricx:hasDateRangeSet`.
+
+`rico:hasOrHadRuleType` is an object property in RiC-O 1.1, whose value is a `rico:RuleType`. Its value is therefore the IRI of a concept in the [rule-type vocabulary](/vocab/rule-type.html) (`law`, `regulation`, `mandate`, `policy`, `custom` and the rest) or of a local rule-type vocabulary, sent as `{"@id": ...}` or as a string the context declares `@type: @id`. A bare word such as `"law"` is a literal in RDF and links to nothing; it is deprecated in profile 0.5.0 ([#70](https://github.com/openric/spec/issues/70)).
+
+`openric:jurisdiction` is free text, such as `"Egypt"`; the profile's SHACL shape checks the same term ([#71](https://github.com/openric/spec/issues/71)). `openricx:jurisdiction` is deprecated and is not used. RiC-O 1.1's `rico:hasOrHadJurisdiction` cannot carry a rule's jurisdiction: its domain is `rico:Agent`. A link from a rule to a `rico:Place` for its jurisdiction is left to a later RiC-O release.
 
 ### 3.4 Activity - `GET /activities/{id}`
 
@@ -297,3 +305,16 @@ Four questions were flagged during drafting; all four carry resolutions. Any res
 **Resolution**: **Open strings, with five conventional values RECOMMENDED.**
 
 **Rationale**: `law`, `regulation`, `mandate`, `policy`, `custom` cover most archival usage and SHOULD be preferred when they fit. But rule types across jurisdictions are messier than any fixed list (e.g., "directive" vs "decree" vs "ordinance" vs "statute" vs "by-law"), and locking the vocabulary would bake anglosphere bias into the spec. Implementations that use a narrower local vocabulary MAY surface it via `openric:localType` alongside the broader `rico:hasOrHadRuleType`.
+
+## 10. Migration
+
+### From profile 0.4.0 to 0.5.0 (spec v0.58.0)
+
+Nothing breaks: the changes accept more, deprecate shorthands, and correct a shape.
+
+| What changed | Servers | Clients |
+|---|---|---|
+| A place's coordinates go on a `rico:Coordinates` node by `rico:hasOrHadCoordinates`; the flat `rico:latitude` and `rico:longitude` on the place are deprecated ([#72](https://github.com/openric/spec/issues/72)) | Send the node; keep the flat pair beside it until the next major version if clients read it. | Read the node first, the flat pair only as a fallback. |
+| `rico:hasOrHadRuleType` is the IRI of a rule-type concept; a bare word is deprecated ([#70](https://github.com/openric/spec/issues/70)) | Send `{"@id": "https://openric.org/vocab/rule-type/law"}`, or the IRI as a string with `@type: @id` in the context. | Accept an IRI in either form; treat a bare word as the rule-type concept of that slug. |
+| The rule shape checks `openric:jurisdiction`, the term the schema and every implementation use, not the deprecated `openricx:jurisdiction` ([#71](https://github.com/openric/spec/issues/71)) | No change if you already send `openric:jurisdiction`. | None. |
+

@@ -4,7 +4,7 @@
 # but NOT defined in canonical RiC-O 1.1.
 #
 # Namespace IRI: https://openric.org/ns/ext/v1#
-# Status:        Active; ontology version 1.7.0 (spec v0.57.0). Term IRIs stay
+# Status:        Active; ontology version 1.8.0 (spec v0.58.0). Term IRIs stay
 #                under /v1#; each release has its own owl:versionIRI.
 # Catalyst:      ICA-EGAD reviewer feedback, April 2026 (audit/ric-o-1.1-audit.html)
 # Licence:       CC-BY 4.0
@@ -45,10 +45,10 @@
                  <https://openric.org/audit/ric-o-1.1-audit.html> ;
     rdfs:seeAlso <https://www.ica.org/standards/RiC/ontology/1.1> ;
     dcterms:requires <https://www.ica.org/standards/RiC/ontology/1.1> ;
-    dcterms:modified "2026-11-04"^^xsd:date ;
-    owl:versionIRI <https://openric.org/ns/ext/v1.7.0> ;
-    owl:priorVersion <https://openric.org/ns/ext/v1.6.1> ;
-    owl:versionInfo "1.7.0" .
+    dcterms:modified "2026-11-16"^^xsd:date ;
+    owl:versionIRI <https://openric.org/ns/ext/v1.8.0> ;
+    owl:priorVersion <https://openric.org/ns/ext/v1.7.0> ;
+    owl:versionInfo "1.8.0" .
 
 # =====================================================================
 # 1. Classes
@@ -488,3 +488,28 @@ openricx:isOrWasSupersededBy a owl:ObjectProperty ; rdfs:label "is or was supers
     rdfs:domain rico:Rule ; rdfs:range rico:Rule ;
     owl:inverseOf openricx:supersedesOrSuperseded ;
     rdfs:comment "Inverse of openricx:supersedesOrSuperseded."@en .
+
+# 2.20 Names, titles and the text of instantiations (added 2026-11-16, ontology 1.8.0)
+# RiC-O 1.1 models names and titles as entities (rico:Name and its subclasses) but cannot say which kind of name
+# one is, nor that one translates another; and it has no property for what an instantiation reads or what an image
+# shows. Raised as openric/spec#64, #65, #66 and #74; candidates for upstream proposal to ICA-EGAD.
+
+openricx:hasNameType a owl:ObjectProperty ; rdfs:label "has name type"@en ;
+    rdfs:domain rico:Name ; rdfs:range skos:Concept ;
+    rdfs:seeAlso <https://openric.org/vocab/name-type/> , <https://github.com/openric/spec/issues/64> ;
+    rdfs:comment "The kind of a name or title, a concept from https://openric.org/vocab/name-type/ (authorised, parallel, standardised under other rules, other) or a local vocabulary matched to it: the distinction ISAAR(CPF) 5.1.2 to 5.1.5, ISDIAH 5.1.2 to 5.1.4 and ISDF 5.1.2 to 5.1.4 make. Used with the structured rico:AgentName, rico:PlaceName and rico:Title nodes, in place of the shortcut text properties openricx:alternativeForm, openricx:normalizedForm and openricx:otherName."@en .
+
+openricx:isTranslationOf a owl:ObjectProperty ; rdfs:label "is translation of"@en ;
+    rdfs:domain rico:Name ; rdfs:range rico:Name ;
+    rdfs:seeAlso <https://github.com/openric/spec/issues/74> ;
+    rdfs:comment "On a title or name that translates another, the one it translates. A title or name with none is an original, or of equal standing with the others, as in a country with more than one official language. Two language-tagged rico:title values cannot be read as one title in two languages (Richard Williamson, ICA-EGAD, Records in Contexts users list, 3 November 2026). No inverse is required. To be withdrawn in favour of a RiC-O property if ICA-EGAD adds one."@en .
+
+openricx:transcript a owl:DatatypeProperty ; rdfs:label "transcript"@en ;
+    rdfs:domain rico:Instantiation ; rdfs:range rdf:langString ;
+    rdfs:seeAlso <https://github.com/openric/spec/issues/65> ;
+    rdfs:comment "The text read from the carrier of an instantiation, by OCR or by a person transcribing it, in the language it is written in, one value per language. Not rico:generalDescription, which describes the instantiation as a thing; an instantiation may need both."@en .
+
+openricx:alternativeText a owl:DatatypeProperty ; rdfs:label "alternative text"@en ;
+    rdfs:domain rico:Instantiation ; rdfs:range rdf:langString ;
+    rdfs:seeAlso <https://github.com/openric/spec/issues/66> , <https://www.w3.org/TR/WCAG21/#non-text-content> ;
+    rdfs:comment "What an image shows, said in words for those who cannot see it: the alternative text WCAG 2.1 success criterion 1.1.1 asks of non-text content, one value per language. A transcript (openricx:transcript) is the text a carrier reads; alternative text is what it shows. Not schema:accessibilitySummary, which describes a resource's accessibility features, nor dcterms:description, which is as broad as rico:generalDescription."@en .

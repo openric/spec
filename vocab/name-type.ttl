@@ -1,0 +1,33 @@
+# OpenRiC Name-Type Vocabulary
+# ============================
+# SKOS ConceptScheme of name types referenced from openricx:hasNameType on rico:Name instances
+# (rico:AgentName, rico:PlaceName, rico:Title). Added in spec v0.58.0 (openric/spec#64).
+
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix nt:      <https://openric.org/vocab/name-type/> .
+
+nt: a skos:ConceptScheme ;
+    dcterms:title "OpenRiC Name-Type Vocabulary"@en ;
+    dcterms:description "The kinds of name or title that ISAAR(CPF), ISDIAH and ISDF distinguish, referenced from openricx:hasNameType on rico:Name instances. RiC-O 1.1 models names as entities but has no property for their kind."@en ;
+    dcterms:issued "2026-11-16"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    skos:hasTopConcept nt:authorised, nt:parallel, nt:standardised, nt:other .
+
+nt:authorised a skos:Concept ; skos:inScheme nt: ; skos:topConceptOf nt: ;
+    skos:prefLabel "Authorised form"@en ;
+    skos:definition "The standard form of name that identifies the entity, built by the rules the describing institution follows."@en ;
+    skos:scopeNote "ISAAR(CPF) 5.1.2; ISDIAH 5.1.2; ISDF 5.1.2; ISAD(G) 3.1.2 for a title."@en .
+nt:parallel a skos:Concept ; skos:inScheme nt: ; skos:topConceptOf nt: ;
+    skos:prefLabel "Parallel form"@en ;
+    skos:definition "The authorised form in another language or script, of equal standing."@en ;
+    skos:scopeNote "ISAAR(CPF) 5.1.3; ISDIAH 5.1.3; ISDF 5.1.3."@en .
+nt:standardised a skos:Concept ; skos:inScheme nt: ; skos:topConceptOf nt: ;
+    skos:prefLabel "Standardised form under other rules"@en ;
+    skos:definition "The name as it is constructed under rules other than those used for the authorised form, such as a library's."@en ;
+    skos:scopeNote "ISAAR(CPF) 5.1.4."@en .
+nt:other a skos:Concept ; skos:inScheme nt: ; skos:topConceptOf nt: ;
+    skos:prefLabel "Other form"@en ;
+    skos:definition "Any other name the entity was known by: an acronym, an earlier or later name, a variant."@en ;
+    skos:scopeNote "ISAAR(CPF) 5.1.5; ISDIAH 5.1.4; ISDF 5.1.4."@en .
