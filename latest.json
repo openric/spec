@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-16T11:49:45Z",
+  "run_at": "2026-11-17T12:11:30Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "5579d4c",
+  "probe_revision": "12c5586",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:41:29Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:03:20Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -118,8 +118,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:40:12Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:02:03Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
@@ -127,8 +127,8 @@
       "writes_attempted": false,
       "verdict": "fail",
       "counts": {
-        "pass": 20,
-        "fail": 2,
+        "pass": 21,
+        "fail": 1,
         "skip": 0
       },
       "service": {
@@ -255,9 +255,9 @@
           "http": "ok"
         },
         {
-          "status": "FAIL (invalid)",
+          "status": "PASS",
           "check": "schema autocomplete: GET /autocomplete?q=ab",
-          "http": "(root): {'0': {'id': 912167, 'label': 'Babsfontein', 'type':"
+          "http": "ok"
         },
         {
           "status": "PASS",
@@ -288,8 +288,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:46:01Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:07:48Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -383,8 +383,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:48:35Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:10:20Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
@@ -522,7 +522,7 @@
         {
           "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.PK22WDpDbp/export.ttl has 7 triples, /tmp/tmp.PK22W"
+          "http": "/tmp/tmp.QNr4VOUFUw/export.ttl has 7 triples, /tmp/tmp.QNr4V"
         },
         {
           "status": "PASS",
@@ -533,8 +533,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:44:47Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:06:35Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -633,8 +633,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:43:24Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:05:13Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -748,8 +748,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:47:09Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:08:56Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -828,8 +828,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-16T11:49:45Z",
-      "probe_revision": "5579d4c",
+      "run_at": "2026-11-17T12:11:30Z",
+      "probe_revision": "12c5586",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "sparql-access"
