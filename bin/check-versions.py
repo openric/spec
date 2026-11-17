@@ -113,7 +113,7 @@ RELATIVE_TIME = re.compile(
 )
 
 README_BANNER = re.compile(
-    r"^\*\*v(\d+\.\d+\.\d+)\*\* — (\d{4}-\d{2}-\d{2})\. The canonical", re.MULTILINE
+    r"^\*\*v(\d+\.\d+\.\d+)\*\* [-—] (\d{4}-\d{2}-\d{2})\. The canonical", re.MULTILINE
 )
 
 

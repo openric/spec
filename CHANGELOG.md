@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.58.2 - 2026-11-17
+
+v0.58.2: README brought up to date (Workspace in the repository table, service v0.17.27, 36 fixtures, the twelve profiles named, no long dashes); bin/release and the version check accept a hyphen in the banner
+
+Approved by: Dr Johan Pieterse, 2026-11-17
+
 ## v0.58.1 - 2026-11-16
 
 v0.58.1: known issue K-15 corrected: only a Record Part's author is a RiC-O 1.1 gap (tracked as RiC-O #177); a Place's history is not, since rico:history already applies to places (#73)

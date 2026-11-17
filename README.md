@@ -1,8 +1,8 @@
-# OpenRiC — Specification
+# OpenRiC Specification
 
-> **Records in Contexts, served over HTTP — implementation-neutral, IIIF-inspired.**
+> **Records in Contexts, served over HTTP: implementation-neutral, IIIF-inspired.**
 >
-> An open specification for how archival descriptions map to **RiC-CM / RiC-O**, how that data is served over HTTP for both reading and writing, and how graph-based interfaces can render it consistently across any conformant server. **Not a product — a contract anyone can implement.**
+> An open specification for how archival descriptions map to **RiC-CM / RiC-O**, how that data is served over HTTP for both reading and writing, and how graph-based interfaces can render it consistently across any conformant server. **Not a product - a contract anyone can implement.**
 
 **🌐 [openric.org](https://openric.org)**   ·   **📖 [Read the spec](https://openric.org/spec/)**   ·   **🧪 [Try the API](https://openric.org/api-explorer/)**   ·   **✅ [Conformance probe](https://openric.org/conformance/)**
 
@@ -10,19 +10,20 @@
 
 ## Current version
 
-**v0.58.1** — 2026-11-16. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
+**v0.58.2** - 2026-11-17. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
 
-The v0.43 governance line added five draft profiles ported from the Heratio reference implementation — Governance, Portability, Inferred-Provenance, Graph-Grounding — plus the `/help` centre. Twelve profiles now: seven normative, five draft. See [`CHANGELOG.md`](CHANGELOG.md).
+Twelve profiles: seven normative (Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only) and five draft (SPARQL Access, Governance, Portability, Inferred-Provenance, Graph-Grounding). See [`CHANGELOG.md`](CHANGELOG.md).
 
-Earlier, v0.37.0 — 2026-04-25. RiC-O 1.1 namespace remediation complete (all 5 phases A→E applied; zero genuine emit-context violations of unsupported `rico:*` terms remained, as far as that audit could tell; the v0.50.0 review later found literal values on RiC-O object properties, fixed in v0.50.0 — see [audit/ric-o-1.1-audit.md](audit/ric-o-1.1-audit.md)). All 7 profiles normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. New 8th profile **`sparql-access`** (Draft) for optional SPARQL 1.1 query access. New publication-layer infrastructure: openricx extension ontology at [`/ns/ext/v1.html`](https://openric.org/ns/ext/v1.html), SKOS vocabularies at [`/vocab/`](https://openric.org/vocab/), semantic URI policy + content-negotiation policy in viewing-api §3.1/§3.2, [Related Implementations page](https://openric.org/related-implementations.html) (Garance, ICA-EGAD, Heratio). See [`CHANGELOG.md`](CHANGELOG.md) for the full v0.37.0 entry.
+Earlier, v0.37.0 (2026-04-25). RiC-O 1.1 namespace remediation complete (all 5 phases A→E applied; zero genuine emit-context violations of unsupported `rico:*` terms remained, as far as that audit could tell; the v0.50.0 review later found literal values on RiC-O object properties, fixed in v0.50.0 - see [audit/ric-o-1.1-audit.md](audit/ric-o-1.1-audit.md)). All 7 profiles normative: Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only. New 8th profile **`sparql-access`** (Draft) for optional SPARQL 1.1 query access. New publication-layer infrastructure: openricx extension ontology at [`/ns/ext/v1.html`](https://openric.org/ns/ext/v1.html), SKOS vocabularies at [`/vocab/`](https://openric.org/vocab/), semantic URI policy + content-negotiation policy in viewing-api §3.1/§3.2, [Related Implementations page](https://openric.org/related-implementations.html) (Garance, ICA-EGAD, Heratio). See [`CHANGELOG.md`](CHANGELOG.md) for the full v0.37.0 entry.
 
 ## The OpenRiC ecosystem
 
 | Repository | Role | Licence |
 |---|---|---|
 | **[openric/spec](https://github.com/openric/spec)** (you are here) | The specification, schemas, shapes, fixtures, conformance probe, API explorer | CC-BY 4.0 (spec) / AGPL-3.0 (tools) |
-| **[openric/service](https://github.com/openric/service)** | Reference implementation — Laravel service, public. Carries its own version line (currently v0.17.0), deliberately independent of the spec version; see the [drift log](https://openric.org/drift-log.html) for where it lags | AGPL-3.0 |
-| **[openric/viewer](https://github.com/openric/viewer)** | `@openric/viewer` on npm — 2D + 3D graph rendering library | AGPL-3.0 |
+| **[openric/workspace](https://github.com/openric/workspace)** | OpenRiC Workspace, an archival management application on RiC that implements the profiles; demonstration at [workspace.openric.org](https://workspace.openric.org). In development | AGPL-3.0 |
+| **[openric/service](https://github.com/openric/service)** | Reference implementation, a Laravel service. Carries its own version line (currently v0.17.27), deliberately independent of the spec version; see the [drift log](https://openric.org/drift-log.html) for where it lags | AGPL-3.0 |
+| **[openric/viewer](https://github.com/openric/viewer)** | `@openric/viewer` on npm: a 2D and 3D graph rendering library | AGPL-3.0 |
 | **[openric/capture](https://github.com/openric/capture)** | Pure-browser data-entry client; talks to any conformant server | AGPL-3.0 |
 
 The reference implementation is **live at [ric.theahg.co.za](https://ric.theahg.co.za/api/ric/v1/health)**, with ~40 endpoints across read, write, graph walk, OAI-PMH, and file upload. It runs on the database of [Heratio](https://heratio.theahg.co.za), the maintainers' archival platform. Heratio can read from the public API, but it still writes through its own copy of the RiC routes on that shared database, so it is not independent evidence that the API alone is enough for production.
@@ -44,7 +45,7 @@ The reference implementation is **live at [ric.theahg.co.za](https://ric.theahg.
 │   └── conformance.md       - profiles, JSON Schemas, fixtures, the probe
 ├── schemas/                 - JSON Schema files
 ├── shapes/                  - SHACL shapes (openric.shacl.ttl + full-graph)
-├── fixtures/                - 27 end-to-end test cases
+├── fixtures/                - 36 end-to-end test cases
 ├── conformance/             - probe.sh + README (pure bash + jq)
 ├── api-explorer/            - Swagger UI over any OpenRiC server
 ├── demo/                    - live graph demo
@@ -67,7 +68,7 @@ open https://openric.org/spec/
 # Probe any OpenRiC server for conformance
 git clone https://github.com/openric/spec
 BASE=https://ric.theahg.co.za/api/ric/v1 bash spec/conformance/probe.sh
-# → 21 passing checks on the reference server
+# → a pass, fail or skip line per check, and a verdict per profile
 ```
 
 ## Conformance in one curl
@@ -75,13 +76,13 @@ BASE=https://ric.theahg.co.za/api/ric/v1 bash spec/conformance/probe.sh
 ```bash
 curl -s https://ric.theahg.co.za/api/ric/v1/openapi.json \
   | jq '{version: .info.version, paths: (.paths | keys | length)}'
-# → {"version": "1.0.0", "paths": 46}
+# → {"version": "0.17.27", "paths": 51} on 17 November 2026
 ```
 
 ## Licence
 
-- **Specification** (`spec/`, `schemas/`, `shapes/`, `fixtures/`, all Markdown): [**CC-BY 4.0**](LICENSE) — adapt, fork, translate freely, with attribution.
-- **Code** (`validator/`, `conformance/probe.sh`, `api-explorer/`, `demo/`): **AGPL-3.0-or-later** — per-file headers declare this; the separate ecosystem repos (`viewer`, `capture`, `service`) follow the same convention.
+- **Specification** (`spec/`, `schemas/`, `shapes/`, `fixtures/`, all Markdown): [**CC-BY 4.0**](LICENSE): adapt, fork and translate freely, with attribution.
+- **Code** (`validator/`, `conformance/probe.sh`, `api-explorer/`, `demo/`): **AGPL-3.0-or-later**; per-file headers declare this, and the separate ecosystem repos (`viewer`, `capture`, `service`) follow the same convention.
 
 ## Contributing
 
