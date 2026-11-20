@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-16T11:49:45Z",
+  "run_at": "2026-11-19T12:01:18Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "5579d4c",
+  "probe_revision": "12c5586",
   "read_only": true,
   "runs": [
     {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:41:29Z",
+      "run_at": "2026-11-19T11:53:07Z",
       "results": []
     },
     {
@@ -67,8 +67,8 @@
       ],
       "verdict": "fail",
       "counts": {
-        "pass": 20,
-        "fail": 2,
+        "pass": 21,
+        "fail": 1,
         "skip": 0
       },
       "service": {
@@ -113,13 +113,8 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:40:12Z",
+      "run_at": "2026-11-19T11:51:51Z",
       "results": [
-        {
-          "status": "FAIL (invalid)",
-          "check": "schema autocomplete: GET /autocomplete?q=ab",
-          "http": "(root): {'0': {'id': 912167, 'label': 'Babsfontein', 'type':"
-        },
         {
           "status": "FAIL (invalid)",
           "check": "shacl core-discovery: the entities above",
@@ -179,7 +174,7 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:46:01Z",
+      "run_at": "2026-11-19T11:57:36Z",
       "results": []
     },
     {
@@ -234,12 +229,12 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:48:35Z",
+      "run_at": "2026-11-19T12:00:08Z",
       "results": [
         {
           "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.PK22WDpDbp/export.ttl has 7 triples, /tmp/tmp.PK22W"
+          "http": "/tmp/tmp.jXGKthnabM/export.ttl has 7 triples, /tmp/tmp.jXGKt"
         }
       ]
     },
@@ -295,7 +290,7 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:44:47Z",
+      "run_at": "2026-11-19T11:56:22Z",
       "results": []
     },
     {
@@ -350,7 +345,7 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:43:24Z",
+      "run_at": "2026-11-19T11:55:01Z",
       "results": [
         {
           "status": "FAIL",
@@ -431,7 +426,7 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:47:09Z",
+      "run_at": "2026-11-19T11:58:44Z",
       "results": [
         {
           "status": "SKIP",
@@ -492,7 +487,7 @@
           }
         ]
       },
-      "run_at": "2026-11-16T11:49:45Z",
+      "run_at": "2026-11-19T12:01:18Z",
       "results": []
     }
   ]

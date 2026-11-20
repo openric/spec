@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.58.3 - 2026-11-20
+
+known issue K-15 closed: RiC-O #184, merged 19 November 2026, gives rico:hasAuthor the union of rico:Record and rico:RecordPart as its domain (RiC-O #177 closed 20 November)
+
+Approved by: Dr Johan Pieterse, 2026-11-20
+
 ## v0.58.2 - 2026-11-17
 
 v0.58.2: README brought up to date (Workspace in the repository table, service v0.17.27, 36 fixtures, the twelve profiles named, no long dashes); bin/release and the version check accept a hyphen in the banner
