@@ -1,0 +1,39 @@
+# OpenRiC Language-Use-Type Vocabulary
+# ===================================
+# SKOS ConceptScheme of language use types referenced from openricx:languageWithUsage
+# on a rico:Relation. Added in spec v0.59.0 (openric/service#8; RiC-O issue #146).
+
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix lut:     <https://openric.org/vocab/language-use-type/> .
+
+lut: a skos:ConceptScheme ;
+    dcterms:title "OpenRiC Language-Use-Type Vocabulary"@en ;
+    dcterms:description "How a language is used in the context of a relation, referenced from openricx:languageWithUsage. The concepts are those Sylvain Loiseau listed on RiC-O issue #146. Provisional, pending ICA-EGAD's decision on that issue."@en ;
+    dcterms:issued "2026-11-22"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:source <https://github.com/ICA-EGAD/RiC-O/issues/146> ;
+    skos:hasTopConcept lut:primary-text, lut:secondary, lut:commentary, lut:gloss, lut:transcription, lut:translation, lut:code-switching .
+
+lut:primary-text a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Primary text"@en ;
+    skos:definition "The main language of the text or of the activity: the language in which the record, or the performance, chiefly is."@en .
+lut:secondary a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Secondary language"@en ;
+    skos:definition "A language used alongside the primary one without being separable into its own part, for example for loanwords or a localised passage."@en .
+lut:commentary a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Commentary"@en ;
+    skos:definition "A language used to comment on the primary text or activity."@en .
+lut:gloss a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Gloss"@en ;
+    skos:definition "A language used for glosses: short explanations of words or passages of the primary text."@en .
+lut:transcription a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Transcription"@en ;
+    skos:definition "A language or script in which spoken or written content is transcribed."@en .
+lut:translation a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Translation"@en ;
+    skos:definition "A language into which the primary text or activity is translated, including live translation for part of an audience."@en .
+lut:code-switching a skos:Concept ; skos:inScheme lut: ; skos:topConceptOf lut: ;
+    skos:prefLabel "Code-switching"@en ;
+    skos:definition "A language a speaker or writer alternates with another within the same text or activity."@en .
