@@ -49,7 +49,36 @@ The collection: [General J.C. Smuts - death and funeral newspaper scrapbook, Sep
 
 ## 3. Events, dates and subjects
 
-To follow: the state funeral as an activity with its own events, dates as printed and as normalised, and the difference between a newspaper as a page's creator and Smuts as its subject. The scrapbook's relations to people, places and events are under review: each was proposed from the text and the research note, and only those a person has accepted are published. This example is written from the accepted relations once the review is done.
+**What there is.** Pages reporting a death on 11 September 1950 and the funeral that followed: the body lying in state in the Groote Kerk, the service and procession in Pretoria on 15 September, the train to Johannesburg and the cremation at Braamfontein, and later the scattering of the ashes on Smuts Koppie. Eight pages carry a printed dateline. Most carry none.
+
+**The decision.** The funeral is a `rico:Activity`, *State funeral of General J.C. Smuts*, with three published parts joined by `rico:hasOrHadSubevent`. The death is an activity of its own, outside the funeral. Each has its dates (`rico:isAssociatedWithDate`) and places (`rico:isAssociatedWithPlace`). The Union Defence Force performed the service and procession (`rico:isOrWasPerformedBy`), and five people named in press reports took part in it (`rico:hasOrHadParticipant`), among them Sir Evelyn Baring, the United Kingdom's High Commissioner.
+
+A page relates to these in two different ways. Page 1 has The Star as its creator (`rico:hasCreator`), and Smuts and his death as its subjects (`rico:hasOrHadSubject`). Smuts made nothing in this scrapbook; he is what it is about.
+
+Every page keeps the date it can honestly claim, in words and in a form a machine can compare:
+
+| What the page gives | Pages | Expressed as | Normalised |
+|---|---|---|---|
+| A printed dateline | 8 | Tuesday 12 September 1950 (printed dateline) | `1950-09-12` |
+| Only the events it shows | 35 | c. 15-18 September 1950 (dated from the events shown) | a range |
+| Neither | 2 | September 1950 | `1950-09-11/1950-09-30` |
+
+The wide date stays on all 45 pages beside any closer one.
+
+**Why.** Separate events let a reader ask which pages show the procession (17) or the cremation journey (14), which one long description of "the funeral" could not answer. Keeping the wording beside the normalised value shows how each date was reached: a dateline is evidence, and "dated from the events shown" is an inference, even when both end up as a day or two in September.
+
+Where the sources disagree, the description says so. They differ on whether the cremation was on the 15th or the 16th, so that event runs over both days and its note records the disagreement. The dates of the lying in state are not confirmed: it is given as 12 to 15 September, the span between the death and the funeral, and is expressed in those words.
+
+The scattering of the ashes shows the rule at its strictest. No source we hold dates it. OpenRiC's [Provenance and Event profile](/spec/profiles/provenance-event.html) requires every activity to carry a date, and we would not invent one, so it stays a draft. Two pages are about it, and the public record does not show that link until someone finds the date.
+
+**Where you might decide differently.**
+- The Star is recorded as the creator of page 1 because it is named there, but it created the *cutting*. Whoever pasted it in made the page, and that person is unknown. This sits awkwardly with example 1, which treats the page as the compiler's deliberate whole. Describing each cutting as its own Record would put the newspaper's authorship where it belongs.
+- You could publish the scattering with a broad date such as "after 16 September 1950". That is true, and it would make the event visible. We held back because the range would have no closing date to rest on.
+- The funeral's five named participants come from captions and reports. A stricter description would record each one's role, or cite the page that names them as evidence on the relation.
+
+**How far to trust these relations.** The 166 relations to people, places and events were proposed from the pages' text and a research note. For this demonstration they were accepted in two batches, 54 and then 112, and were not checked one by one against their sources. The Workspace shows them as accepted; read them as a worked illustration, and check a relation before you cite it.
+
+**Check it.** [The state funeral](https://workspace.openric.org/api/ric/v1/activities/01a1f4db-0889-7205-8683-81591e19c61e), [the service and procession](https://workspace.openric.org/api/ric/v1/activities/01a1f4db-07cc-7245-8556-2587f8011064), [the cremation journey](https://workspace.openric.org/api/ric/v1/activities/01a1f4db-080d-7165-8622-381e558aeac2), [the lying in state](https://workspace.openric.org/api/ric/v1/activities/01a1f4db-078e-7279-9831-8c10d8b7ddcf) and [the death](https://workspace.openric.org/api/ric/v1/activities/01a1f4db-075b-7297-abdb-3b3e48b174a0) as JSON-LD, and [page 1's RiC-O](https://workspace.openric.org/api/ric/v1/records/01a1f4da-cba3-739d-b65c-eced7038ee1a/export?format=turtle) for its creator, subjects and two dates.
 
 ## RiC-O 1.1 and the next version
 

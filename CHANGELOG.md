@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.60.2 - 2026-11-23
+
+Worked example 3: the Smuts funeral as events, dates as printed and as inferred, a newspaper as creator and Smuts as subject, with what the sources leave open and how far the demonstration's relations were checked
+
+Approved by: Dr Johan Pieterse, 2026-11-23
+
 ## v0.60.1 - 2026-11-23
 
 Worked example 2: the survey photography resulted in the 45 photographs, as Provenance and Event profile 0.9.0 allows; with what another archivist might decide and the activity to check against
