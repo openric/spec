@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.60.3 - 2026-11-23
+
+RiC-AG disposition table, first pass: the 107 crosswalk elements against the mapping at v0.60.2, with five defects and 28 rows left unresolved; the link checker reads permalinks declared in front matter, which had failed CI since v0.59.3
+
+Approved by: Dr Johan Pieterse, 2026-11-23
+
 ## v0.60.2 - 2026-11-23
 
 Worked example 3: the Smuts funeral as events, dates as printed and as inferred, a newspaper as creator and Smuts as subject, with what the sources leave open and how far the demonstration's relations were checked

@@ -30,10 +30,22 @@ SKIP_PARTS = {".venv", "validator", "docs", "node_modules", "_site", "vendor"}
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
 
-def resolves(md_file: pathlib.Path, target: str) -> bool:
+def permalinks(md_files) -> set:
+    """The addresses pages declare in their front matter, which have no file at that path."""
+    found = set()
+    for p in md_files:
+        m = re.match(r"---\n.*?^permalink:\s*(\S+)\s*$.*?^---", p.read_text(encoding="utf-8", errors="ignore"), re.M | re.S)
+        if m:
+            found.add(m.group(1).strip("\"'").rstrip("/"))
+    return found
+
+
+def resolves(md_file: pathlib.Path, target: str, declared: set = frozenset()) -> bool:
     if target.startswith(("http://", "https://", "mailto:", "tel:", "#")):
         return True
     if target == "" or "{{" in target or "}}" in target:
+        return True
+    if target.rstrip("/") in declared:
         return True
 
     if target.startswith("/"):
@@ -73,6 +85,7 @@ def main() -> int:
         p for p in list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.markdown"))
         if not SKIP_PARTS & set(p.relative_to(ROOT).parts)
     ]
+    declared = permalinks(md_files)
     broken = []
     for p in md_files:
         for m in LINK.finditer(p.read_text(encoding="utf-8", errors="ignore")):
@@ -80,7 +93,7 @@ def main() -> int:
             if not raw:
                 continue
             target = raw.split()[0].split("#")[0]  # drop "title" and #fragment
-            if not resolves(p, target):
+            if not resolves(p, target, declared):
                 broken.append(f"  {p.relative_to(ROOT)}: [{m.group(1)}] -> {target}")
 
     if broken:
