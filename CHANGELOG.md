@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.59.2 - 2026-11-23
+
+Workspace decisions: the record set explorer, name first (phase 27, 19 November 2026)
+
+Approved by: Dr Johan Pieterse, 2026-11-23
+
 ## v0.59.1 - 2026-11-23
 
 The standards baseline names RiC-CM 1.0.1, released by ICA-EGAD on 30 September 2026, with what it changed and what that means for OpenRiC, and links the draft RiC Application Guidelines (RiC-AG 0.1) as interpretive guidance, with no claim of full conformance; Learn and model opens with a Start here route through the free Records in Contexts course, and links the free courses on ISAD(G), ISAAR(CPF), ISDF, ISDIAH, EAD and EAC-CPF; the home page links the course
