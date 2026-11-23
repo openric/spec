@@ -41,7 +41,7 @@ The collection: [General J.C. Smuts - death and funeral newspaper scrapbook, Sep
 - that the transcript was derived from the photograph (`rico:hasOrHadDerivedInstantiation`, with a note that it is a machine transcription not yet proofread);
 - the photography as an activity of its own, *Survey photography of the Smuts funeral scrapbook*, dated 19 November 2026 and performed by The Archive and Heritage Digital Commons Group.
 
-**What it does not yet say.** That the photography *resulted in* the photographs (`rico:resultsOrResultedIn`). RiC-O 1.1 allows an activity to result in any thing, an instantiation included, but the Workspace's relation types allow it to result only in a record, so the link waits for that to be corrected.
+**What it does not yet say.** That the photography *resulted in* the photographs (`rico:resultsOrResultedIn`). RiC-O 1.1 allows an activity to result in any thing, an instantiation included. OpenRiC's [Provenance and Event profile](/spec/profiles/provenance-event.html) is narrower: its `:ResultTypeShape` accepts only a Record Set, Record or Record Part as what an activity resulted in, and the Workspace keeps to the profile. Whether the profile should also accept an instantiation is an open question for the specification; until it is settled, the activity's description says in words that the photographs came from it.
 
 **Check it.** [Page 1](https://workspace.openric.org/discover/records/01a1f4da-cba3-739d-b65c-eced7038ee1a), [its photograph](https://workspace.openric.org/api/ric/v1/instantiations/01a1f4da-cbe7-7050-862d-930cd98c6191) and [its transcript](https://workspace.openric.org/api/ric/v1/instantiations/01a1f4da-cd7a-726b-a861-7f8998783697) as JSON-LD.
 
