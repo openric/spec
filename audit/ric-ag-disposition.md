@@ -15,10 +15,10 @@ It replaces the figure of "55 of 107 mapped" from the [comparison of 15 October 
 
 | Classification | Elements | Meaning |
 |---|---|---|
-| Mapped | 69 | OpenRiC uses the RiC-O form of an option RiC-AG gives, or of the same reading. |
+| Mapped | 70 | OpenRiC uses the RiC-O form of an option RiC-AG gives, or of the same reading. |
 | Mapped, broader | 4 | Same meaning, through a broader property than RiC-AG offers. |
 | Extension | 13 | An `openricx:` term or API shape, with a stated reason. |
-| Unresolved | 21 | A defect, a choice that departs from RiC-AG without a written reason, or an element the mapping does not place. |
+| Unresolved | 20 | A defect, a choice that departs from RiC-AG without a written reason, or an element the mapping does not place. |
 | Deliberately outside scope | 0 | None is declared yet. That is a decision for the project, row by row. |
 
 "Mapped" means the terms exist in RiC-O 1.1 and each was tested against the property's domain in the ontology file. It describes the specification's mapping. Whether a given implementation emits each element is a separate question, answered only where a defect below says so.
@@ -27,13 +27,13 @@ The ISDF rows carry one caveat throughout: OpenRiC serves a function as the inte
 
 ## Defects found
 
-Four were corrected in spec v0.61.0. The old form of D-1, D-2 and D-3 is deprecated and implementations keep sending it beside the correct one for one further minor release, as [change control](../spec/change-control.html) requires, so those invalid statements leave the data only with that release.
+All five were corrected in spec v0.61.0. The old form of D-1, D-2 and D-3 is deprecated and implementations keep sending it beside the correct one for one further minor release, as [change control](../spec/change-control.html) requires, so those invalid statements leave the data only with that release.
 
 - **D-1. Conditions of access on a repository (ISDIAH 5.4.2). Corrected.** `rico:conditionsOfAccess` applies to a Record Resource or Instantiation. A repository's conditions are now a `rico:Rule` it is regulated by.
 - **D-2. Classification of a function (ISDF 5.1.5). Corrected.** `rico:classification` applies to a Record Resource. A function's classification is now a `rico:ActivityType` node.
 - **D-3. Mandates (ISAAR(CPF) 5.2.6, ISDIAH 5.3.3). Corrected.** `rico:authorizingMandate` is a text property; a Mandate entity is linked by `rico:authorizedBy`.
 - **D-4. Status (ISAAR(CPF) 5.4.4, ISDIAH 5.6.4, ISDF 5.4.4). Corrected.** The mapping said RiC-O 1.1 has no property for it. It has `rico:hasRecordState`.
-- **D-5. Contact persons (ISDIAH 5.2.3). Open.** The mapping reads as `rico:hasOrHadPosition` on a Person. That property runs from a Group to a Position.
+- **D-5. Contact persons (ISDIAH 5.2.3). Corrected.** `rico:hasOrHadPosition` runs from a Group to a Position, so the repository has the Position and the Person occupies it (`rico:isOrWasOccupiedBy`).
 
 ## Where RiC-AG bears on our own wording
 
@@ -108,7 +108,7 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 
 ## ISDIAH
 
-31 elements: 19 mapped, 1 mapped more broadly, 3 extensions, 8 unresolved.
+31 elements: 20 mapped, 1 mapped more broadly, 3 extensions, 7 unresolved.
 
 | Element | RiC-AG 0.1 (RiC-CM) | OpenRiC mapping | Classification | Rationale |
 |---|---|---|---|---|
@@ -119,7 +119,7 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 5.1.5 Type of institution with archival holdings | attr: Corporate Body Type; attr: Demographic Group; attr: Family Type; attr: Legal Status; attr: Occupation Type | openricx:institutionType | Unresolved | RiC-AG gives Corporate Body Type; RiC-O 1.1 has rico:hasOrHadCorporateBodyType. |
 | 5.2.1 Location and address(es) | attr: Location; rel: has or had location | rico:hasOrHadLocation to a rico:Place with openricx:streetAddress | Mapped | The street address is an extension on the Place. |
 | 5.2.2 Telephone, fax, email | entity: Corporate Body, Family, Group | openricx:contact to openricx:ContactPoint | Extension | RiC-O 1.1 has no contact details. |
-| 5.2.3 Contact persons | attr: Name; rel: had or has position | openricx:contact; a named person as rico:Person with rico:hasOrHadPosition | Unresolved | Defect (D-5): rico:hasOrHadPosition runs from a Group to a Position, so it cannot sit on a Person as the mapping reads. |
+| 5.2.3 Contact persons | attr: Name; rel: had or has position | rico:hasOrHadPosition to a rico:Position occupied by the rico:Person; a name with no post in openricx:contact | Mapped | Corrected in v0.61.0 (D-5). |
 | 5.3.1 History of the institution with archival holdings | attr: History | rico:history | Mapped |  |
 | 5.3.2 Geographical and cultural context | rel: is associated with place | openricx:generalContext | Unresolved | RiC-AG gives is associated with place, in RiC-O. |
 | 5.3.3 Mandates/Sources of authority | rel: authorized by | Text in rico:authorizingMandate; a rico:Mandate entity by rico:authorizedBy | Mapped | Corrected in v0.61.0 (D-3). |

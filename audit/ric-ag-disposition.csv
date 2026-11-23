@@ -59,7 +59,7 @@ ISDIAH,5.1.4,Other form(s) of name,attr: Name (the crosswalk leaves the attribut
 ISDIAH,5.1.5,Type of institution with archival holdings,attr: Corporate Body Type; attr: Demographic Group; attr: Family Type; attr: Legal Status; attr: Occupation Type,openricx:institutionType,Unresolved,RiC-AG gives Corporate Body Type; RiC-O 1.1 has rico:hasOrHadCorporateBodyType.
 ISDIAH,5.2.1,Location and address(es),attr: Location; rel: has or had location,rico:hasOrHadLocation to a rico:Place with openricx:streetAddress,Mapped,The street address is an extension on the Place.
 ISDIAH,5.2.2,"Telephone, fax, email","entity: Corporate Body, Family, Group",openricx:contact to openricx:ContactPoint,Extension,RiC-O 1.1 has no contact details.
-ISDIAH,5.2.3,Contact persons,attr: Name; rel: had or has position,openricx:contact; a named person as rico:Person with rico:hasOrHadPosition,Unresolved,"Defect (D-5): rico:hasOrHadPosition runs from a Group to a Position, so it cannot sit on a Person as the mapping reads."
+ISDIAH,5.2.3,Contact persons,attr: Name; rel: had or has position,rico:hasOrHadPosition to a rico:Position occupied by the rico:Person; a name with no post in openricx:contact,Mapped,Corrected in v0.61.0 (D-5).
 ISDIAH,5.3.1,History of the institution with archival holdings,attr: History,rico:history,Mapped,
 ISDIAH,5.3.2,Geographical and cultural context,rel: is associated with place,openricx:generalContext,Unresolved,"RiC-AG gives is associated with place, in RiC-O."
 ISDIAH,5.3.3,Mandates/Sources of authority,rel: authorized by,Text in rico:authorizingMandate; a rico:Mandate entity by rico:authorizedBy,Mapped,Corrected in v0.61.0 (D-3).
