@@ -2,6 +2,21 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.61.0 - 2026-11-23
+
+Five corrections from the RiC-AG disposition table: a repository's access conditions as a Rule, a function's classification as an Activity Type, a Mandate entity by rico:authorizedBy, status by rico:hasRecordState, a contact person through a Position; the old forms deprecated; design decision Q6 and worked example 2 say a copy being a new record depends on context
+
+Migration notes, for servers and clients:
+
+- A repository's access conditions: send rico:isOrWasRegulatedBy to a rico:Rule of type access-rule, the text in rico:generalDescription. rico:conditionsOfAccess on a repository is deprecated; servers keep sending it until the next minor release.
+- A function's classification: send rico:hasActivityType to a rico:ActivityType node with the code as rico:name. rico:classification on a function is deprecated, on the same terms.
+- A Mandate entity: link it by rico:authorizedBy. rico:authorizingMandate is a text property; a node on it is deprecated, on the same terms.
+- Status: rico:hasRecordState on the describing Record.
+- A contact person: the repository rico:hasOrHadPosition a rico:Position, which rico:isOrWasOccupiedBy the rico:Person.
+- Clients should read the correct forms now. Digital Object Linkage is 0.8.0 and Provenance and Event 0.10.0.
+
+Approved by: Dr Johan Pieterse, 2026-11-23
+
 ## v0.60.3 - 2026-11-23
 
 RiC-AG disposition table, first pass: the 107 crosswalk elements against the mapping at v0.60.2, with five defects and 28 rows left unresolved; the link checker reads permalinks declared in front matter, which had failed CI since v0.59.3
