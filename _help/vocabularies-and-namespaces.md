@@ -17,6 +17,8 @@ summary: The namespaces OpenRiC uses, the openricx extension ontology for terms 
 
 OpenRiC commits to **never minting new terms in the ICA `rico:` namespace** - anything RiC-O lacks lives in `openricx:`, documented in the [extension ontology](/ns/ext/v1.html) (machine-readable Turtle at [/ns/ext/v1.ttl](/ns/ext/v1.ttl)).
 
+A client that wants RiC-O 1.1 alone, with no `openricx:` term, asks for the `rico` profile; see [OpenRiC or plain RiC-O](/help/using-the-api/#openric-or-plain-ric-o).
+
 ## The vocabulary endpoints
 
 ```bash

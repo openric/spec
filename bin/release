@@ -37,6 +37,10 @@ for arg in "$@"; do
     fi
 done
 
+# The feature freeze (Dr Johan Pieterse, 23 November 2026): refused here, before anything changes.
+G=/usr/share/nginx/workbench/bin/release-freeze-check
+if [ -x "$G" ]; then "$G" openric "$TYPE" "$MSG" || exit 1; fi
+
 cd "$(dirname "$0")/.."
 REPO="openric/spec"
 VERSION_FILE="version.json"

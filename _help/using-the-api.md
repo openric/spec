@@ -53,6 +53,21 @@ curl -s "https://ric.theahg.co.za/api/ric/v1/relations-for/912150"
 curl -s "https://ric.theahg.co.za/api/ric/v1/hierarchy/912150"
 ```
 
+## OpenRiC or plain RiC-O
+
+Every answer is in the OpenRiC profile unless you ask for another: RiC-O 1.1 with the [`openricx:`](/help/vocabularies-and-namespaces/) terms beside it. A client that wants RiC-O 1.1 alone asks for the `rico` profile, and the JSON-LD comes without any `openricx:` term:
+
+```bash
+# By the query parameter (a token or the profile's URI)
+curl -s "https://ric.theahg.co.za/api/ric/v1/records?limit=1&_profile=rico"
+# Or by the header, with q-values if you accept more than one
+curl -s -H "Accept-Profile: <https://www.ica.org/standards/RiC/ontology>" "https://ric.theahg.co.za/api/ric/v1/records?limit=1"
+# The profiles on offer, each with its ontology, SHACL shapes and guidance
+curl -s "https://ric.theahg.co.za/api/ric/v1/records?_profile=alt"
+```
+
+The answer names the profile it gave in `Content-Profile`, and lists the other one in a `Link` header (`rel="alternate"`). Turtle and RDF/XML are given in the OpenRiC profile only, and say so.
+
 ## Pagination
 
 List endpoints accept `?page=` and `?limit=` (max 200). The response carries `ric:total` / `ric:page` / `ric:limit`.
