@@ -7,8 +7,8 @@ description: The full event model - Production, Accumulation, and generic Activi
 # Provenance & Event Profile
 
 **Profile id:** `provenance-event`
-**Profile version:** 0.9.0
-**Last revised in spec:** v0.60.0
+**Profile version:** 0.10.0
+**Last revised in spec:** v0.61.0
 **Status:** Normative
 **Dependencies:** **Authority & Context** (a server cannot claim Provenance & Event without also exposing Places, Rules, and Activities as first-class entities - this profile *tightens* authority-context's Activity shapes rather than redefining them).
 **Last updated:** 2026-11-23
@@ -108,7 +108,7 @@ A production-typed Activity response under Provenance & Event MUST include all t
 
 **Required when the source data has them**: all Authority & Context §3.4 fields (`@id`, `@type`, `rico:name`).
 
-**Optional**: `rico:hasOrHadLocation` (Place stub), `rico:authorizingMandate` → `rico:Mandate` (the legal/policy basis for the event, replaces the non-canonical `rico:hasReasonForExecution`), `rico:followsInTime` / `isOrWasPrecededBy` (event chaining).
+**Optional**: `rico:hasOrHadLocation` (Place stub), `rico:isOrWasRegulatedBy` → `rico:Mandate` (the legal/policy basis for the event, replaces the non-canonical `rico:hasReasonForExecution`), `rico:followsInTime` / `isOrWasPrecededBy` (event chaining).
 
 ### 3.2 Accumulation-typed Activity - full shape
 
@@ -245,4 +245,4 @@ Five questions were flagged during drafting and a sixth since; all carry resolut
 
 **Resolution**: **Yes. `:ResultTypeShape` accepts `rico:Instantiation` beside the three record resource classes.** Decided by Dr Johan Pieterse, 23 November 2026.
 
-**Rationale**: RiC-O 1.1 gives `rico:resultsOrResultedIn` the range `rico:Thing`; the profile had narrowed it to record resources, which left no way to say that a digitisation or a survey photography activity resulted in the photographs it made. Photographing a record makes instantiations of it, not new records, so the honest target is the instantiation. Agents and Places stay refused: those are mapping errors with their own predicates. The change relaxes a constraint, so every response valid under 0.8.0 stays valid. The first real case is the survey photography of the Smuts funeral scrapbook ([worked example 2](/learn/examples/#2-a-record-and-its-instantiations)).
+**Rationale**: RiC-O 1.1 gives `rico:resultsOrResultedIn` the range `rico:Thing`; the profile had narrowed it to record resources, which left no way to say that a digitisation or a survey photography activity resulted in the photographs it made. RiC-AG's digitisation example models exactly this, an Activity resulting in an Instantiation. Whether a derived copy is the same record or a new one depends on context, as RiC-AG's instantiation FAQ says: a plain photograph taken for reference is usually a further instantiation, while an annotated copy may become a record of its own, and a transcription is an in-between case. Where the copy is judged a new record, the result is that Record, which the profile always allowed. Agents and Places stay refused: those are mapping errors with their own predicates. The change relaxes a constraint, so every response valid under 0.8.0 stays valid. The first real case is the survey photography of the Smuts funeral scrapbook ([worked example 2](/learn/examples/#2-a-record-and-its-instantiations)).

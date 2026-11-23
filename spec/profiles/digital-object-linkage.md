@@ -7,11 +7,11 @@ description: rico:Instantiation carriers (files, images, PDFs) and openricx:Func
 # Digital Object Linkage Profile
 
 **Profile id:** `digital-object-linkage`
-**Profile version:** 0.7.0
-**Last revised in spec:** v0.54.0
+**Profile version:** 0.8.0
+**Last revised in spec:** v0.61.0
 **Status:** Normative
 **Dependencies:** None at the endpoint level. When combined with Graph Traversal, the `:InstantiationLinkedFromRecordShape` full-graph SHACL shape (defined there) additionally verifies that every Instantiation is referenced by at least one Record.
-**Last updated:** 2026-10-20
+**Last updated:** 2026-11-23
 
 ---
 
@@ -120,14 +120,14 @@ A Function is an ISDF business function - a recurring organisational activity-cl
   "@type":                "openricx:Function",
   "rico:name":            "Permit Administration",
   "rico:history":         "Established 1984 under Act 117/1983; moved from Ministry of Culture to Supreme Council of Antiquities in 2005.",
-  "rico:classification":  "isdf:5.2.1",
+  "rico:hasActivityType": { "@type": "rico:ActivityType", "rico:name": "isdf:5.2.1" },
   "openric:localType":    "administrative"
 }
 ```
 
 **Required:** `@id`, `@type: "openricx:Function"`, AND one of `rico:name` / `rico:hasOrHadName`.
 
-**Recommended (SHACL Info severity):** `rico:history`, `rico:classification` (ISDF §5.2 code). Functions without either are accepted but carry no actionable semantics.
+**Recommended (SHACL Info severity):** `rico:history`, `rico:hasActivityType` to a `rico:ActivityType` node carrying the ISDF classification code as `rico:name` (`rico:classification`, which RiC-O 1.1 allows only on a Record Resource, is deprecated here from spec v0.61.0). Functions without either are accepted but carry no actionable semantics.
 
 ### 3.3 List envelopes
 
