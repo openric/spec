@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.60.0 - 2026-11-23
+
+Provenance and Event profile 0.9.0: an activity may result in an instantiation as well as a Record Set, Record or Record Part, as RiC-O 1.1 allows; a relaxed constraint, so every response valid under 0.8.0 stays valid
+
+Approved by: Dr Johan Pieterse, 2026-11-23
+
 ## v0.59.5 - 2026-11-23
 
 Worked example 2 corrected: the photography's result is held back by OpenRiC's Provenance and Event profile, which accepts only a Record Set, Record or Record Part as an activity's result, not by the Workspace
