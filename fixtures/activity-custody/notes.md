@@ -13,4 +13,4 @@ Key differences from `:StrictProductionShape`:
 - `rico:isAssociatedWithDate` IS required (Violation) — an event without a date is effectively unplottable in a provenance timeline.
 - `rico:hasActivityType` is RECOMMENDED (Warning) — lets consumers dispatch on `custody` / `publication` / `reproduction` without parsing free text.
 
-When present, cross-entity link targets still validate against `:ParticipantTypeShape` (must be an Agent) and any `:ResultTypeShape` (must be a Record / RecordSet / RecordPart). Implementations that attach Places to activities use `rico:hasOrHadLocation`, as shown here — it is NOT constrained by a target-type shape in this profile because RiC-O's range for that predicate is already `rico:Place`.
+When present, cross-entity link targets still validate against `:ParticipantTypeShape` (must be an Agent) and any `:ResultTypeShape` (must be a Record / RecordSet / RecordPart / Instantiation). Implementations that attach Places to activities use `rico:hasOrHadLocation`, as shown here — it is NOT constrained by a target-type shape in this profile because RiC-O's range for that predicate is already `rico:Place`.

@@ -407,7 +407,7 @@ if in_profile "provenance-event"; then
       (if (kind | test("/accumulation$")) and ((results | length) == 0 or (dated | not)) then "3 \($id)" else empty end),
       (if dated | not then "4 \($id)" else empty end),
       (agents[] | select((types | length) == 0 or ((types - ["rico:Person","rico:CorporateBody","rico:Family","rico:Mechanism","rico:Agent"]) | length) > 0) | "5 \($id)"),
-      (results[] | select((types | length) == 0 or ((types - ["rico:RecordSet","rico:Record","rico:RecordPart"]) | length) > 0) | "6 \($id)")'
+      (results[] | select((types | length) == 0 or ((types - ["rico:RecordSet","rico:Record","rico:RecordPart","rico:Instantiation"]) | length) > 0) | "6 \($id)")'
   : >"$PE_DIR/broken"
   jq -r '(."openric:items" // ."ric:items" // [])[] | ."@id" as $id | [."@type" // empty] | flatten | select(. != ["rico:Activity"]) | "1 \($id) (list)"' \
     "$PE_DIR/list.json" >>"$PE_DIR/broken" 2>/dev/null
@@ -436,7 +436,7 @@ if in_profile "provenance-event"; then
     pe_rule 3 "accumulation: results and DateRange (§6.3)" accumulation
     pe_rule 4 "every activity has a DateRange (§6.4)"
     pe_rule 5 "participants are Agent types (§6.5)"
-    pe_rule 6 "results are Record types (§6.6)"
+    pe_rule 6 "results are record resources or instantiations (§6.6)"
   fi
   record "SKIP (needs a graph walk)" "activity reachable from a record (§6.7)" "--"
   rm -rf "$PE_DIR"

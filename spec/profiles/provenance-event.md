@@ -7,11 +7,11 @@ description: The full event model - Production, Accumulation, and generic Activi
 # Provenance & Event Profile
 
 **Profile id:** `provenance-event`
-**Profile version:** 0.8.0
-**Last revised in spec:** v0.35.0
+**Profile version:** 0.9.0
+**Last revised in spec:** v0.60.0
 **Status:** Normative
 **Dependencies:** **Authority & Context** (a server cannot claim Provenance & Event without also exposing Places, Rules, and Activities as first-class entities - this profile *tightens* authority-context's Activity shapes rather than redefining them).
-**Last updated:** 2026-04-21
+**Last updated:** 2026-11-23
 
 ---
 
@@ -23,7 +23,7 @@ In RiC-O 1.1 every event is the single class `rico:Activity` (the concrete subcl
 
 A server implementing this profile commits to three things, above and beyond what Authority & Context already requires:
 
-1. **Production-typed Activities** (`rico:hasActivityType <…/production>`) MUST carry `rico:resultsOrResultedIn` + `rico:hasOrHadParticipant` + `rico:isAssociatedWithDate` - the three invariants of a production event. Each cross-entity link MUST point at a resolvable entity of the correct RiC-O class (a Record for results, an Agent for participants).
+1. **Production-typed Activities** (`rico:hasActivityType <…/production>`) MUST carry `rico:resultsOrResultedIn` + `rico:hasOrHadParticipant` + `rico:isAssociatedWithDate` - the three invariants of a production event. Each cross-entity link MUST point at a resolvable entity of the correct RiC-O class (a record resource or an instantiation for results, an Agent for participants).
 2. **Accumulation-typed Activities** (`rico:hasActivityType <…/accumulation>`) MUST carry `rico:resultsOrResultedIn` + `rico:isAssociatedWithDate` - the accumulating agent is Warning-level, since many historical accumulations have no named actor.
 3. **Every generic `rico:Activity`** (custody, publication, reproduction, etc.) MUST carry a date - an event without a date is unplottable in a provenance timeline. Results and participants stay Warning-level for the generic fallback class.
 
@@ -102,7 +102,7 @@ A production-typed Activity response under Provenance & Event MUST include all t
 
 | Field | Cardinality | Notes |
 |---|---|---|
-| `rico:resultsOrResultedIn` | 1..* | Embedded stub `{@id, @type, rico:name}` of the produced Record(s). `@type` MUST resolve to `rico:RecordSet`, `rico:Record`, or `rico:RecordPart`. (RiC-O 1.1 also defines `rico:affectsOrAffected` as a more general Activity→RecordResource link; either is canonical, per Florence Clavaud / KM Q&A #27.) |
+| `rico:resultsOrResultedIn` | 1..* | Embedded stub `{@id, @type, rico:name}` of the produced Record(s). `@type` MUST resolve to `rico:RecordSet`, `rico:Record`, `rico:RecordPart` or `rico:Instantiation`. (RiC-O 1.1 also defines `rico:affectsOrAffected` as a more general Activity→RecordResource link; either is canonical, per Florence Clavaud / KM Q&A #27.) |
 | `rico:hasOrHadParticipant` | 1..* | Embedded stub of the creator Agent. `@type` MUST resolve to `rico:Person`, `rico:CorporateBody`, `rico:Family`, `rico:Mechanism`, or `rico:Agent`. (The inverse `rico:isOrWasPerformedBy` is also canonical and used interchangeably by ICA-EGAD examples; implementations MAY emit either.) |
 | `rico:isAssociatedWithDate` | 1 | A structured `openricx:DateRange` (not a bare `xsd:date` string). |
 
@@ -141,7 +141,7 @@ See the `activity-custody` fixture for the canonical generic-Activity example.
 
 ### 3.4 Cross-entity link typing
 
-Whenever `rico:hasOrHadParticipant` appears (on any Activity), its target MUST be an Agent subclass (`:ParticipantTypeShape`). Whenever `rico:resultsOrResultedIn` appears, its target MUST be a Record type (`:ResultTypeShape`). These shapes run on **any** subject carrying the predicate - including Activity subclasses that don't require the predicate. The rule: if you emit it, you emit it correctly.
+Whenever `rico:hasOrHadParticipant` appears (on any Activity), its target MUST be an Agent subclass (`:ParticipantTypeShape`). Whenever `rico:resultsOrResultedIn` appears, its target MUST be a record resource (Record Set, Record or Record Part) or an Instantiation (`:ResultTypeShape`). These shapes run on **any** subject carrying the predicate - including Activity subclasses that don't require the predicate. The rule: if you emit it, you emit it correctly.
 
 ## 4. Error handling
 
@@ -162,7 +162,7 @@ Responses validate against `shapes/profiles/provenance-event.shacl.ttl`:
 | `:StrictAccumulationShape` | `rico:Activity` where `hasActivityType = <…/accumulation>` (sh:SPARQLTarget) | `sh:Violation` on missing `resultsOrResultedIn` or date; `sh:Warning` on missing participant |
 | `:StrictActivityShape` | `rico:Activity` (all) | `sh:Violation` on missing date; `sh:Warning` on missing `hasActivityType` |
 | `:ParticipantTypeShape` | subjects of `rico:hasOrHadParticipant` | `sh:Violation` if target is not a Person / CorporateBody / Family / Agent |
-| `:ResultTypeShape` | subjects of `rico:resultsOrResultedIn` | `sh:Violation` if target is not a RecordSet / Record / RecordPart |
+| `:ResultTypeShape` | subjects of `rico:resultsOrResultedIn` | `sh:Violation` if target is not a RecordSet / Record / RecordPart / Instantiation |
 
 Shapes are **open** - unknown predicates do not cause failure. A server claiming both `authority-context` and `provenance-event` has both shape files applied; the stricter constraints dominate (SHACL shape accumulation).
 
@@ -175,7 +175,7 @@ A server claims `provenance-event` when, for every activity exposed under `/acti
 3. Accumulation-typed Activities validate against `:StrictAccumulationShape` at Violation severity.
 4. All Activities validate against `:StrictActivityShape` at Violation severity - date required.
 5. Every `rico:hasOrHadParticipant` target is an Agent subclass per `:ParticipantTypeShape`.
-6. Every `rico:resultsOrResultedIn` target is a Record type per `:ResultTypeShape`.
+6. Every `rico:resultsOrResultedIn` target is a record resource or an Instantiation per `:ResultTypeShape`.
 7. The activity can be linked to and walked from a Record's `rico:isOrWasSubjectOf` (verifiable when combined with Graph Traversal).
 
 Run the conformance probe with `--profile=provenance-event` to exercise these checks against a live server.
@@ -199,7 +199,7 @@ Fixtures `activity-production` and `activity-accumulation` remain tagged for **`
 - Generic Activities (custody, publication, etc.): include `rico:isAssociatedWithDate` - results + participants + location all optional
 - Embed cross-entity links as `{@id, @type, rico:name}` stubs - not bare URI strings
 - `@type` on participants always resolves to Person / CorporateBody / Family / Agent
-- `@type` on results always resolves to RecordSet / Record / RecordPart
+- `@type` on results always resolves to RecordSet / Record / RecordPart / Instantiation
 - `rico:hasActivityType` emitted on generic Activities so consumers can dispatch on `custody` / `publication` / `reproduction`
 - Add `provenance-event` to `openric_conformance.profiles` in `GET /` - only after `authority-context` is already declared
 - Run the conformance probe with `--profile=provenance-event` - both shipped fixtures pass
@@ -207,7 +207,7 @@ Fixtures `activity-production` and `activity-accumulation` remain tagged for **`
 
 ## 9. Design decisions
 
-Five questions were flagged during drafting; all five carry resolutions.
+Five questions were flagged during drafting and a sixth since; all carry resolutions.
 
 ### Q1 - Is `hasOrHadParticipant` Required on Accumulation, or only on Production?
 
@@ -240,3 +240,9 @@ Five questions were flagged during drafting; all five carry resolutions.
 **Rationale**: `RicSerializationService::serializeActivity()` (service v0.8.12) emits Production events with `@type`, name, date, and location - but no cross-entity links. This means the reference server at `ric.theahg.co.za` currently conforms to `authority-context` for its activities but **not** to `provenance-event`. Two options were weighed: (a) soften the profile to match current implementation behaviour, (b) freeze the stricter spec and file the impl gap as a known next-release task. Option (a) defeats the purpose of having Provenance & Event as a distinct profile - it would collapse into Authority & Context. Option (b) matches the pattern IIIF has followed since day one: spec first, impl chases. The gap is a dozen-line fix to the serializer's activity-composition logic (add a SELECT for linked records + participants, embed them as stubs) - planned for a future service release. Until then, no server currently claims `provenance-event` in its `openric_conformance.profiles`, and that is honest. A spec that reflects only what the reference already does is a description, not a specification.
 
 **Update (2026-10-15):** the serializer gap closed in service v0.8.13. What still stops the reference service claiming this profile is data: productions in the demonstration data that have no creator. See the [drift log](../../drift-log.html) and [known issue K-10](../known-issues.html).
+
+### Q6 - May an activity result in an instantiation, not only a record? (profile 0.9.0, spec v0.60.0)
+
+**Resolution**: **Yes. `:ResultTypeShape` accepts `rico:Instantiation` beside the three record resource classes.** Decided by Dr Johan Pieterse, 23 November 2026.
+
+**Rationale**: RiC-O 1.1 gives `rico:resultsOrResultedIn` the range `rico:Thing`; the profile had narrowed it to record resources, which left no way to say that a digitisation or a survey photography activity resulted in the photographs it made. Photographing a record makes instantiations of it, not new records, so the honest target is the instantiation. Agents and Places stay refused: those are mapping errors with their own predicates. The change relaxes a constraint, so every response valid under 0.8.0 stays valid. The first real case is the survey photography of the Smuts funeral scrapbook ([worked example 2](/learn/examples/#2-a-record-and-its-instantiations)).
