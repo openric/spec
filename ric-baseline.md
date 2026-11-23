@@ -2,12 +2,14 @@
 layout: default
 title: RiC baseline and conformance
 permalink: /ric-baseline.html
-description: The exact Records in Contexts standards OpenRiC targets - RiC-FAD 1.0, RiC-CM 1.0, RiC-O 1.1 and RiC-AG 0.1 - and how OpenRiC relates to each.
+description: The exact Records in Contexts standards OpenRiC targets - RiC-FAD 1.0, RiC-CM 1.0.1, RiC-O 1.1 and RiC-AG 0.1 - and how OpenRiC relates to each.
 ---
 
 # RiC baseline and conformance
 
 Records in Contexts is four documents, not one, and OpenRiC targets a specific version of each. This page names them. If you need to know in one minute what OpenRiC conforms to, this is the page.
+
+For how to apply RiC in practice, read ICA-EGAD's draft [RiC Application Guidelines (RiC-AG) 0.1](https://ica-egad.github.io/RiC-AG/index.html). OpenRiC uses them as interpretive guidance, not as a test suite, and does not claim full RiC-AG conformance.
 
 ## RiC and OpenRiC
 
@@ -29,11 +31,23 @@ They are easy to confuse, and they are different things made by different people
 | Standard | Version | What it is | How OpenRiC uses it |
 |---|---|---|---|
 | **RiC-FAD** | 1.0 | Foundational principles for archival description | Assumed. OpenRiC does not restate it. |
-| **RiC-CM** | 1.0 | The conceptual model - entities, attributes, relations | The model OpenRiC's [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/1.0) presents, and the vocabulary its user-facing labels map back to. |
+| **RiC-CM** | 1.0.1 | The conceptual model - entities, attributes, relations | The normative conceptual model, and the vocabulary OpenRiC's user-facing labels map back to. The [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/1.0) still presents the 1.0 text; see [what 1.0.1 changed](#ric-cm-101-what-changed) below. |
 | **RiC-O** | 1.1 | The OWL ontology - the normative RDF implementation target | **The normative target.** Every IRI OpenRiC emits is a RiC-O 1.1 term, or an [`openricx:`](/ns/ext/v1.html) term where RiC-O 1.1 has no equivalent. |
 | **RiC-AG** | 0.1 | Application guidelines, including crosswalks from the four legacy ICA standards | The upstream authority for the ISAD(G) / ISAAR(CPF) / ISDF / ISDIAH crosswalk. [`spec/mapping.md` §1.2](/spec/mapping.html) defers to it where the two agree. |
 
 OpenRiC itself is at **v{{ site.data.version.version }}** ({{ site.data.version.release_date }}). That version line describes the OpenRiC contract - the HTTP API, the profiles, the schemas and shapes - and moves independently of the RiC versions above.
+
+## RiC-CM 1.0.1: what changed
+
+ICA-EGAD released [RiC-CM 1.0.1](https://github.com/ICA-EGAD/RiC-CM/releases/tag/1.0.1) on 30 September 2026, a minor version prepared in August 2026; OpenRiC has taken it as its baseline since 8 November 2026. Its section 1.9 lists the changes. For OpenRiC they come to this:
+
+| Change in 1.0.1 | Effect on OpenRiC |
+|---|---|
+| RiC-R079 *has author* takes a Record or a Record Part, where 1.0 allowed only a Record; the inverse's range follows | RiC-O 1.1 still gives `rico:hasAuthor` the domain `rico:Record`, so a Record Part's author cannot yet be expressed in RiC-O 1.1 as released. Recorded as [known issue K-15](/spec/known-issues.html), closed when ICA-EGAD merged the change into the RiC-O development version on 19 November 2026; it takes effect for OpenRiC with the next RiC-O release. |
+| Inverse relations of RiC-R080 to RiC-R086 added to the list of relations (section 5.6) | None. They were already in RiC-CM 1.0's chart and relation specifications. |
+| Typographical errors and the links in the notes corrected; sections 1.7, 1.11 and appendix 7.1 updated | None. |
+
+The navigator is to be brought up to 1.0.1; until then, where it and RiC-CM 1.0.1 differ (RiC-R079's domain), the 1.0.1 text is authoritative.
 
 ## OpenRiC and the ICA
 

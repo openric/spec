@@ -39,7 +39,7 @@ Browse them all, with their attributes and relations, in the live **[RiC-CM navi
 - **RiC-CM** - the *conceptual model* (the entities and relations above).
 - **RiC-O** - the *ontology*: RiC-CM expressed in OWL/RDF so it can be published as linked data.
 
-OpenRiC targets **RiC-CM 1.0 / RiC-O 1.1**.
+OpenRiC targets **RiC-CM 1.0.1 / RiC-O 1.1**.
 
 ## Next
 

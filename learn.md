@@ -9,6 +9,17 @@ permalink: /learn.html
 
 Records in Contexts is a model, not a format. The hard part is rarely the syntax - it is deciding whether the thing in front of you is a record or a record set, an activity or a function, an agent or a corporate body.
 
+## Start here
+
+New to RiC? Take these steps in order:
+
+1. **What it is**: [RiC in plain language](/for-archivists.html), what changed from the four ICA standards and why.
+2. **The free course**: [Records in Contexts: from four standards to one model](https://learn.theahg.co.za/course/view.php?id=76), short videos, a guide, an exercise and a check in each module, with a certificate. Free to enrol.
+3. **One worked example**: [OpenRiC in five minutes](/five-minutes/) follows one object end to end, read live from the reference service.
+4. **Model your own**: the [wizard](/wizard/) below.
+
+The same site has free courses on [ISAD(G)](https://learn.theahg.co.za/course/view.php?id=78), [ISAAR(CPF)](https://learn.theahg.co.za/course/view.php?id=79), [ISDF](https://learn.theahg.co.za/course/view.php?id=80), [ISDIAH](https://learn.theahg.co.za/course/view.php?id=81) and [EAD and EAC-CPF](https://learn.theahg.co.za/course/view.php?id=82), and a beginner's course, [Archives from the Ground Up](https://learn.theahg.co.za/course/view.php?id=75).
+
 <div class="task-cards">
   <a class="task-card" href="{{ '/wizard/' | relative_url }}">
     <div class="task-card-icon">🧭</div>
@@ -46,7 +57,7 @@ The [model navigator](https://ric.theahg.co.za/reference/ric-cm/) carries the fo
 
 ## The standards underneath
 
-OpenRiC targets a specific version of each RiC document, and the [RiC baseline page](/ric-baseline.html) names all four in one place. In short: RiC-O 1.1 is the normative target, and RiC-AG 0.1 is the upstream authority for the crosswalks from the legacy standards.
+OpenRiC targets a specific version of each RiC document, and the [RiC baseline page](/ric-baseline.html) names all four in one place. In short: RiC-CM 1.0.1 is the conceptual model, RiC-O 1.1 is the normative target, and the draft [RiC-AG 0.1](https://ica-egad.github.io/RiC-AG/index.html) is the upstream authority for the crosswalks from the legacy standards.
 
 ## Once you have modelled something
 

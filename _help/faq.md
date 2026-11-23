@@ -12,7 +12,7 @@ No. It's an open *contract* (specification) plus a reference implementation. Any
 Nothing. Spec is CC-BY 4.0; reference implementation, viewer and capture are AGPL-3.0.
 
 **Which RiC version does it target?**
-RiC-CM 1.0 and RiC-O 1.1. The reference serializer emits zero non-canonical `rico:` terms; anything RiC-O lacks lives in the [`openricx:` extension namespace](/help/vocabularies-and-namespaces/).
+RiC-CM 1.0.1 and RiC-O 1.1. The reference serializer emits zero non-canonical `rico:` terms; anything RiC-O lacks lives in the [`openricx:` extension namespace](/help/vocabularies-and-namespaces/).
 
 **Do I have to implement everything?**
 No - pick a [profile](/help/profiles-tree/). Core Discovery (read-only) is the minimum useful claim.
