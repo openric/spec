@@ -15,7 +15,7 @@ New to RiC? Take these steps in order:
 
 1. **What it is**: [RiC in plain language](/for-archivists.html), what changed from the four ICA standards and why.
 2. **The free course**: [Records in Contexts: from four standards to one model](https://learn.theahg.co.za/course/view.php?id=76), short videos, a guide, an exercise and a check in each module, with a certificate. Free to enrol.
-3. **One worked example**: [OpenRiC in five minutes](/five-minutes/) follows one object end to end, read live from the reference service.
+3. **Worked examples**: [a 1950 newspaper scrapbook described in RiC](/learn/examples/), each decision explained and checkable against the live records; and [OpenRiC in five minutes](/five-minutes/), one object followed end to end through the reference service.
 4. **Model your own**: the [wizard](/wizard/) below.
 
 The same site has free courses on [ISAD(G)](https://learn.theahg.co.za/course/view.php?id=78), [ISAAR(CPF)](https://learn.theahg.co.za/course/view.php?id=79), [ISDF](https://learn.theahg.co.za/course/view.php?id=80), [ISDIAH](https://learn.theahg.co.za/course/view.php?id=81) and [EAD and EAC-CPF](https://learn.theahg.co.za/course/view.php?id=82), and a beginner's course, [Archives from the Ground Up](https://learn.theahg.co.za/course/view.php?id=75).

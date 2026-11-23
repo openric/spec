@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.59.3 - 2026-11-23
+
+Worked examples from a real collection, the 1950 Smuts funeral scrapbook at Smuts House Museum: a Record Set, its records and their instantiations, each decision explained with what another archivist might decide and what the description does not yet say, checkable against the live records; RiC-O 1.1 and what ICA-EGAD has merged towards the next version; Learn links them
+
+Approved by: Dr Johan Pieterse, 2026-11-23
+
 ## v0.59.2 - 2026-11-23
 
 Workspace decisions: the record set explorer, name first (phase 27, 19 November 2026)
