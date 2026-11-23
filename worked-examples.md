@@ -36,10 +36,12 @@ The collection: [General J.C. Smuts - death and funeral newspaper scrapbook, Sep
 
 **Why.** RiC-CM separates the intellectual record from each physical or digital manifestation of it. The photograph and the transcript carry the same record, with different properties: the photograph keeps the layout and the pictures, the transcript is searchable. Describing them as new records would double the collection and lose the fact that both are the same page. The quality of the transcript is said where a reader will see it, in the page's scope and content: machine transcription, not yet proofread.
 
-**What this description does not yet say.** Three things RiC can express, which an archivist would add before calling it complete:
-- The paper page itself as an instantiation, with its carrier (paper and paste) and where it is kept. Only the digital copies are described.
-- That the transcript was derived from the photograph (`rico:isOrWasDerivedFromInstantiation`).
-- The photography as an activity of its own (a `rico:Activity` on 19 November 2026, performed by The Archive and Heritage Digital Commons Group, resulting in the photographs), so that its date and purpose are data rather than a sentence. Today the date and the fact that these are survey photographs, not a preservation capture, are given only in the access conditions and the history note.
+**Three things added on 23 November 2026.** The first published description gave only the two digital copies, and this example listed what it left out. It now says:
+- the paper page itself, as a third instantiation of the record ("Scrapbook page 1 (original)"), on paper, kept by Smuts House Museum at Smuts House;
+- that the transcript was derived from the photograph (`rico:hasOrHadDerivedInstantiation`, with a note that it is a machine transcription not yet proofread);
+- the photography as an activity of its own, *Survey photography of the Smuts funeral scrapbook*, dated 19 November 2026 and performed by The Archive and Heritage Digital Commons Group.
+
+**What it does not yet say.** That the photography *resulted in* the photographs (`rico:resultsOrResultedIn`). RiC-O 1.1 allows an activity to result in any thing, an instantiation included, but the Workspace's relation types allow it to result only in a record, so the link waits for that to be corrected.
 
 **Check it.** [Page 1](https://workspace.openric.org/discover/records/01a1f4da-cba3-739d-b65c-eced7038ee1a), [its photograph](https://workspace.openric.org/api/ric/v1/instantiations/01a1f4da-cbe7-7050-862d-930cd98c6191) and [its transcript](https://workspace.openric.org/api/ric/v1/instantiations/01a1f4da-cd7a-726b-a861-7f8998783697) as JSON-LD.
 
