@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-22T11:48:08Z",
+  "run_at": "2026-11-24T14:04:13Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "7bf0f95",
+  "probe_revision": "fd480e0",
   "read_only": true,
   "runs": [
     {
@@ -18,7 +18,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:39:42Z",
+      "run_at": "2026-11-24T13:56:04Z",
       "results": []
     },
     {
@@ -73,7 +73,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -113,7 +113,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:38:23Z",
+      "run_at": "2026-11-24T13:54:48Z",
       "results": [
         {
           "status": "FAIL (invalid)",
@@ -134,7 +134,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -174,7 +174,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:44:20Z",
+      "run_at": "2026-11-24T14:00:32Z",
       "results": []
     },
     {
@@ -189,7 +189,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -229,12 +229,12 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:46:58Z",
+      "run_at": "2026-11-24T14:03:04Z",
       "results": [
         {
           "status": "FAIL (invalid)",
           "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.7hrf6tvu6x/export.ttl has 7 triples, /tmp/tmp.7hrf6"
+          "http": "/tmp/tmp.Deq35OXP5O/export.ttl has 7 triples, /tmp/tmp.Deq35"
         }
       ]
     },
@@ -250,7 +250,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -290,7 +290,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:43:05Z",
+      "run_at": "2026-11-24T13:59:19Z",
       "results": []
     },
     {
@@ -305,7 +305,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -345,7 +345,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:41:40Z",
+      "run_at": "2026-11-24T13:57:58Z",
       "results": [
         {
           "status": "FAIL",
@@ -386,7 +386,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -426,7 +426,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:45:29Z",
+      "run_at": "2026-11-24T14:01:40Z",
       "results": [
         {
           "status": "SKIP",
@@ -447,7 +447,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.17.27",
+        "version": "0.18.2",
         "spec_version": "0.52.0",
         "declared": [
           {
@@ -487,7 +487,7 @@
           }
         ]
       },
-      "run_at": "2026-11-22T11:48:08Z",
+      "run_at": "2026-11-24T14:04:13Z",
       "results": []
     }
   ]

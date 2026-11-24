@@ -7,7 +7,7 @@ kind: record
 
 # RiC-AG disposition table
 
-**Status: first pass, 23 November 2026, updated for v0.61.0.** Not yet reviewed by anyone outside the project. It compares the [OpenRiC mapping](../spec/mapping.html) at spec v0.61.0 with the crosswalk published with [RiC-AG 0.1](https://ica-egad.github.io/RiC-AG/mappings.html) (ICA-EGAD, October 2025). RiC-AG is draft guidance and not a test, so this table is not a claim of conformance. Download it as [CSV](ric-ag-disposition.csv).
+**Status: first pass, 23 November 2026, updated for v0.61.0; reasons written for eight rows on 24 November 2026.** Not yet reviewed by anyone outside the project. It compares the [OpenRiC mapping](../spec/mapping.html) at spec v0.61.0 with the crosswalk published with [RiC-AG 0.1](https://ica-egad.github.io/RiC-AG/mappings.html) (ICA-EGAD, October 2025). RiC-AG is draft guidance and not a test, so this table is not a claim of conformance. Download it as [CSV](ric-ag-disposition.csv).
 
 It replaces the figure of "55 of 107 mapped" from the [comparison of 15 October 2026](ric-ag-crosswalk-comparison.html), which records the mapping as it stood before that day's corrections.
 
@@ -15,10 +15,10 @@ It replaces the figure of "55 of 107 mapped" from the [comparison of 15 October 
 
 | Classification | Elements | Meaning |
 |---|---|---|
-| Mapped | 70 | OpenRiC uses the RiC-O form of an option RiC-AG gives, or of the same reading. |
+| Mapped | 71 | OpenRiC uses the RiC-O form of an option RiC-AG gives, or of the same reading. |
 | Mapped, broader | 4 | Same meaning, through a broader property than RiC-AG offers. |
-| Extension | 13 | An `openricx:` term or API shape, with a stated reason. |
-| Unresolved | 20 | A defect, a choice that departs from RiC-AG without a written reason, or an element the mapping does not place. |
+| Extension | 20 | An `openricx:` term or API shape, with a stated reason. |
+| Unresolved | 12 | A defect, a choice that departs from RiC-AG without a written reason, or an element the mapping does not place. |
 | Deliberately outside scope | 0 | None is declared yet. That is a decision for the project, row by row. |
 
 "Mapped" means the terms exist in RiC-O 1.1 and each was tested against the property's domain in the ontology file. It describes the specification's mapping. Whether a given implementation emits each element is a separate question, answered only where a defect below says so.
@@ -41,21 +41,21 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 
 ## ISAD(G)
 
-26 elements: 18 mapped, 1 mapped more broadly, 2 extensions, 5 unresolved.
+26 elements: 19 mapped, 1 mapped more broadly, 5 extensions, 1 unresolved.
 
 | Element | RiC-AG 0.1 (RiC-CM) | OpenRiC mapping | Classification | Rationale |
 |---|---|---|---|---|
 | 3.1.1 Reference code(s) | attr: Identifier | rico:identifier | Mapped |  |
 | 3.1.2 Title | attr: Name | rico:title | Mapped | RiC-O has the specific title property for RiC-CM Name. |
 | 3.1.3 Dates | rel: has beginning date; rel: has creation date; rel: has end date; rel: has modification date; rel: has or had all members with creation date date; rel: has or had most members with creation date; rel: has or had some members with creation date; rel: is associated with date | openricx:hasDateRangeSet, expanding in RDF to rico:hasCreationDate, hasBeginningDate, hasEndDate | Extension | A deliberate API shape (Provenance and Event Q4) with a stated expansion to RiC-O. |
-| 3.1.4 Level of description | attr: Record Set Type | Level drives the class; rico:hasRecordSetType on a RecordSet | Unresolved | The record set type agrees. A level deciding the class is a migration convention; RiC-AG treats Record, Record Set and Record Part as a contextual judgement. |
+| 3.1.4 Level of description | attr: Record Set Type | Level drives the class; rico:hasRecordSetType on a RecordSet | Mapped | The level goes out as rico:hasRecordSetType, RiC-AG's Record Set Type. Choosing Record, Record Set or Record Part from the level (section 6.1) is a default for data from ISAD(G) systems, which hold only a level; RiC-AG leaves the choice to context, and nothing in the mapping stops an implementation from making it otherwise. |
 | 3.1.5 Extent and medium of the unit | attr: Carrier Extent; attr: Carrier Type; attr: Instantiation Extent; attr: Physical Characteristics Note; attr: Structure | rico:hasExtent to rico:RecordResourceExtent | Mapped |  |
 | 3.2.1 Name of creator | attr: Name; rel: has accumulator; rel: has creator; rel: has provenance | rico:hasCreator | Mapped |  |
 | 3.2.2 Administrative/Biographical history | attr: History; rel: has creator; rel: is or was affected by | rico:history on the Agent | Mapped |  |
 | 3.2.3 Archival history | attr: History; rel: is or was affected by | rico:history on the Record | Mapped |  |
 | 3.2.4 Immediate source of acquisition | attr: Activity Type; attr: EventType; attr: History; rel: has or had participant; rel: is or was affected by; rel: is or was performed by; rel: results or resulted from | rico:isOrWasAffectedBy to a transfer Activity, with rico:hasOrHadParticipant | Mapped | Follows RiC-AG since v0.46.0. |
 | 3.3.1 Scope and content | attr: Scope and Content | rico:scopeAndContent | Mapped |  |
-| 3.3.2 Appraisal, destruction and scheduling | attr: Activity Type; attr: History; rel: is or was affected by; rel: is or was regulated by | openricx:hasAppraisalInformation | Unresolved | RiC-AG models appraisal as an Activity affecting the record, regulated by a Rule. RiC-O can say this, so the text note needs a reason or an activity form. |
+| 3.3.2 Appraisal, destruction and scheduling | attr: Activity Type; attr: History; rel: is or was affected by; rel: is or was regulated by | openricx:hasAppraisalInformation | Extension | Kept as text: ISAD(G) holds it as free text, and records migrated from ISAD(G), ISAAR(CPF) and ISDIAH systems carry no appraisal activity or rule to build RiC-AG's form from. openricx:hasAppraisalInformation is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. RiC-AG's appraisal Activity affecting the record, regulated by a Rule, is the form to move to when the data carries it. |
 | 3.3.3 Accruals | attr: Accruals | rico:accruals | Mapped |  |
 | 3.3.4 System of arrangement | attr: Structure | rico:structure | Mapped |  |
 | 3.4.1 Conditions governing access | attr: Conditions of Access; attr: Rule Type; rel: is or was regulated by | rico:conditionsOfAccess | Mapped |  |
@@ -66,15 +66,15 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 3.5.1 Existence and location of originals | rel: has genetic link to record resource; rel: has or had holder; rel: has original | rico:hasOrHadLocation | Unresolved | RiC-AG uses has original and has or had holder. A place does not identify the originals. |
 | 3.5.2 Existence and location of copies | rel: has copy; rel: has or had derived instantiation; rel: has or had holder; rel: migrated into | rico:hasOrHadInstantiation | Mapped, broader | RiC-AG offers has copy and has or had derived instantiation. |
 | 3.5.3 Related units of description | rel: has genetic link to record resource; rel: is record resource associated with record resource; rel: is related to | rico:isRelatedTo | Mapped |  |
-| 3.5.4 Publication note | rel: is or was described by; rel: is or was main subject of; rel: is or was subject of | openricx:publicationInformation | Unresolved | RiC-AG relates the record to the publication. RiC-O can say this; the note needs a reason or a relation form. |
+| 3.5.4 Publication note | rel: is or was described by; rel: is or was main subject of; rel: is or was subject of | openricx:publicationInformation | Extension | Kept as text: ISAD(G) holds it as free text, and records migrated from ISAD(G), ISAAR(CPF) and ISDIAH systems carry no publication as a described resource to build RiC-AG's form from. openricx:publicationInformation is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. A relation to the publication is the form to move to when the data carries it. |
 | 3.6.1 Note | attr: General Description | rico:generalDescription | Mapped |  |
-| 3.7.1 Archivist's note | attr: General Description; rel: is or was described by; rel: results or resulted from | openricx:descriptiveNote | Unresolved | RiC-AG gives General Description, which RiC-O has: OpenRiC mints extensions only where RiC-O has none. |
+| 3.7.1 Archivist's note | attr: General Description; rel: is or was described by; rel: results or resulted from | openricx:descriptiveNote | Extension | Kept apart from rico:generalDescription, which describes the record itself: the archivist's note is about the description, how and from what it was made. openricx:descriptiveNote is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. |
 | 3.7.2 Rules or conventions | rel: is or was regulated by; rel: results or resulted from | rico:isOrWasRegulatedBy to a rico:Rule | Mapped |  |
 | 3.7.3 Date(s) of descriptions | rel: has beginning date; rel: has end date; rel: results or resulted from | openricx:hasDateRangeSet (descriptive) | Extension | The same API shape as 3.1.3, for the description rule set. |
 
 ## ISAAR(CPF)
 
-27 elements: 16 mapped, 1 mapped more broadly, 6 extensions, 4 unresolved.
+27 elements: 16 mapped, 1 mapped more broadly, 7 extensions, 3 unresolved.
 
 | Element | RiC-AG 0.1 (RiC-CM) | OpenRiC mapping | Classification | Rationale |
 |---|---|---|---|---|
@@ -91,7 +91,7 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 5.2.5 Functions, occupations and activities | attr: Activity Type; attr: Date; attr: Description; attr: Occupation Type; rel: performs or performed | rico:performsOrPerformed to openricx:Function; rico:hasOrHadOccupationOfType for a person | Extension | RiC-AG targets an Activity; the interim openricx:Function class falls outside the property range (mapping 6.4). |
 | 5.2.6 Mandates/Sources of authority | attr: Date; attr: Description; attr: Mandate Type; rel: authorized by | Text in rico:authorizingMandate; a rico:Mandate entity by rico:authorizedBy | Mapped | Corrected in v0.61.0 (D-3). |
 | 5.2.7 Internal structures/Genealogy | attr: Date; attr: Description; attr: General Description; rel: has or had subdivision | openricx:hasInternalStructure | Unresolved | RiC-AG gives General Description and has or had subdivision, both in RiC-O. |
-| 5.2.8 General context | attr: Date; attr: Description; attr: General Description; rel: is associated with event | openricx:generalContext | Unresolved | RiC-AG gives General Description and is associated with event, both in RiC-O. |
+| 5.2.8 General context | attr: Date; attr: Description; attr: General Description; rel: is associated with event | openricx:generalContext | Extension | Kept as text: ISAAR(CPF) holds it as free text, and records migrated from ISAD(G), ISAAR(CPF) and ISDIAH systems carry no events to build RiC-AG's form from. openricx:generalContext is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. RiC-AG's General Description with is associated with event is the form to move to when the data carries it. |
 | 5.3.1 Identifiers of related corporate bodies, persons or families | attr: Identifier; attr: Name; rel: follows in time; rel: has ancestor; rel: has child; rel: has descendant; rel: has family association with; rel: has or had controller; rel: has or had correspondent; rel: has or had leader; rel: has or had member; rel: has or had spouse; rel: has or had student; rel: has or had subordinate; rel: has or had teacher; rel: has or had work relation with; rel: has sibling; rel: has successor; rel: is agent associated with agent; rel: is child of; rel: is or was controller of; rel: is or was leader of; rel: is or was member of; rel: is or was subordinate to; rel: is successor of; rel: known by; rel: knows; rel: knows of; rel: precedes in time | The target of a relation property (section 8) | Mapped | Section 8 gives the commonest relations and a qualified node; there is no element-level row. |
 | 5.3.2 Category of relationship | rel: has or had controller; rel: has or had subordinate; rel: has or had work relation with; rel: has successor; rel: is agent associated with agent; rel: is or was controller of; rel: is or was subordinate to; rel: is successor of | The choice of relation property (section 8) | Mapped | Section 8 gives the commonest relations and a qualified node; there is no element-level row. |
 | 5.3.3 Description of relationship | attr: Description; rel: has or had controller; rel: has or had subordinate; rel: has or had work relation with; rel: has successor; rel: is agent associated with agent; rel: is or was controller of; rel: is or was subordinate to; rel: is successor of | Not stated in section 8 | Unresolved | Section 8 does not say where a relation's description goes; RiC-O has rico:generalDescription on a Relation. |
@@ -103,12 +103,12 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 5.4.5 Level of detail | attr: General Description | rico:generalDescription | Mapped |  |
 | 5.4.6 Dates of creation, revision or deletion | rel: is or was performed by; rel: results or resulted from | rico:hasCreationDate and rico:hasModificationDate | Mapped |  |
 | 5.4.7 Language(s) and script(s) | attr: Language | rico:hasOrHadLanguage | Mapped |  |
-| 5.4.8 Sources | rel: is or was performed by; rel: results or resulted from | rico:generalDescription | Unresolved | RiC-O 1.1 has rico:recordResourceSourceOfInformation, more specific than a general note. |
+| 5.4.8 Sources | rel: is or was performed by; rel: results or resulted from | rico:generalDescription | Unresolved | RiC-O 1.1 has rico:recordResourceSourceOfInformation, but its domain is a Record Resource, so it can be stated only on the describing Record, not on the agent itself. Moving the sources there is still open. |
 | 5.4.9 Maintenance notes | rel: is or was performed by; rel: results or resulted from | rico:generalDescription | Mapped, broader | RiC-AG models maintenance as activities the record results from. |
 
 ## ISDIAH
 
-31 elements: 20 mapped, 1 mapped more broadly, 3 extensions, 7 unresolved.
+31 elements: 20 mapped, 1 mapped more broadly, 6 extensions, 4 unresolved.
 
 | Element | RiC-AG 0.1 (RiC-CM) | OpenRiC mapping | Classification | Rationale |
 |---|---|---|---|---|
@@ -121,16 +121,16 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 5.2.2 Telephone, fax, email | entity: Corporate Body, Family, Group | openricx:contact to openricx:ContactPoint | Extension | RiC-O 1.1 has no contact details. |
 | 5.2.3 Contact persons | attr: Name; rel: had or has position | rico:hasOrHadPosition to a rico:Position occupied by the rico:Person; a name with no post in openricx:contact | Mapped | Corrected in v0.61.0 (D-5). |
 | 5.3.1 History of the institution with archival holdings | attr: History | rico:history | Mapped |  |
-| 5.3.2 Geographical and cultural context | rel: is associated with place | openricx:generalContext | Unresolved | RiC-AG gives is associated with place, in RiC-O. |
+| 5.3.2 Geographical and cultural context | rel: is associated with place | openricx:generalContext | Extension | Kept as text: ISDIAH holds it as free text, and records migrated from ISAD(G), ISAAR(CPF) and ISDIAH systems carry no places to build RiC-AG's form from. openricx:generalContext is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. RiC-AG's is associated with place is the form to move to when the data carries it. |
 | 5.3.3 Mandates/Sources of authority | rel: authorized by | Text in rico:authorizingMandate; a rico:Mandate entity by rico:authorizedBy | Mapped | Corrected in v0.61.0 (D-3). |
 | 5.3.4 Administrative structure | attr: General Description | openricx:hasInternalStructure | Unresolved | RiC-AG gives General Description, in RiC-O. |
 | 5.3.5 Records management and collecting policies | rel: is or was regulated by | openricx:hasOrHadPolicy | Unresolved | RiC-AG gives is or was regulated by a Rule, in RiC-O. |
 | 5.3.6 Building(s) | attr: General Description; rel: has or had location | rico:hasOrHadLocation | Mapped |  |
 | 5.3.7 Archival and other holdings | attr: General Description | rico:isOrWasHolderOf | Mapped |  |
 | 5.3.8 Finding aids, guides and publications | rel: is or was described by | rico:isOrWasDescribedBy to a finding-aid Record | Mapped |  |
-| 5.4.1 Opening times | attr: General Description; rel: is or was regulated by; rel: performs or performed | openricx:openingHours | Unresolved | RiC-AG gives General Description or a Rule, in RiC-O. A structured value may justify the extension; the reason is not yet written. |
+| 5.4.1 Opening times | attr: General Description; rel: is or was regulated by; rel: performs or performed | openricx:openingHours | Extension | Kept as text: ISDIAH holds it as free text, and records migrated from ISAD(G), ISAAR(CPF) and ISDIAH systems carry no structured hours to build RiC-AG's form from. openricx:openingHours is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. RiC-AG's General Description or a Rule is the form to move to when the data carries it. |
 | 5.4.2 Conditions and requirements for access and use | attr: Rule Type; rel: is or was regulated by | rico:isOrWasRegulatedBy to a rico:Rule of type access-rule, the text in rico:generalDescription | Mapped | Corrected in v0.61.0 (D-1). The old rico:conditionsOfAccess on a repository is deprecated and still sent for one further minor release. |
-| 5.4.3 Accessibility | attr: Rule Type; rel: is or was regulated by | openricx:accessibility | Unresolved | RiC-AG gives a Rule regulating access, in RiC-O. |
+| 5.4.3 Accessibility | attr: Rule Type; rel: is or was regulated by | openricx:accessibility | Extension | Kept as text: ISDIAH holds it as free text, and records migrated from ISAD(G), ISAAR(CPF) and ISDIAH systems carry no access rules to build RiC-AG's form from. openricx:accessibility is a subproperty of rico:note, so a client that knows only RiC-O reads it as a note. RiC-AG's Rule regulating access is the form to move to when the data carries it. |
 | 5.5.1 Research services | rel: performs or performed | rico:performsOrPerformed to a rico:Activity, or text | Mapped |  |
 | 5.5.2 Reproduction service | entity: Corporate Body, Family, Group | As 5.5.1 | Mapped |  |
 | 5.5.3 Public areas | attr: General Description; rel: has or had location | rico:hasOrHadLocation with rico:generalDescription | Mapped |  |
@@ -141,7 +141,7 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 5.6.5 Level of detail | attr: General Description | rico:generalDescription | Mapped |  |
 | 5.6.6 Dates of creation, revision or deletion | attr: Activity; attr: is or was performed by; rel: Date of Relation; rel: results or resulted from | rico:hasCreationDate and rico:hasModificationDate | Mapped |  |
 | 5.6.7 Language(s) and script(s) | attr: Language | rico:hasOrHadLanguage | Mapped |  |
-| 5.6.8 Sources | attr: Activity; attr: is or was performed by; rel: Source of Relation; rel: results or resulted from | rico:generalDescription | Unresolved | RiC-O 1.1 has rico:recordResourceSourceOfInformation, more specific than a general note. |
+| 5.6.8 Sources | attr: Activity; attr: is or was performed by; rel: Source of Relation; rel: results or resulted from | rico:generalDescription | Unresolved | RiC-O 1.1 has rico:recordResourceSourceOfInformation, but its domain is a Record Resource, so it can be stated only on the describing Record, not on the repository itself. Moving the sources there is still open. |
 | 5.6.9 Maintenance notes | attr: Activity; attr: is or was performed by; rel: results or resulted from | rico:generalDescription | Mapped, broader | RiC-AG models maintenance as activities the record results from. |
 
 ## ISDF
@@ -171,5 +171,5 @@ RiC-AG's [digitisation example](https://ica-egad.github.io/RiC-AG/faq--how_to_de
 | 5.4.5 Level of detail | attr: General Description | rico:generalDescription | Mapped |  |
 | 5.4.6 Dates of creation, revision or deletion | attr: Date of Relation; rel: is or was performed by; rel: results or resulted from | rico:hasCreationDate and rico:hasModificationDate | Mapped |  |
 | 5.4.7 Language(s) and script(s) | attr: Language | rico:hasOrHadLanguage | Mapped |  |
-| 5.4.8 Sources | attr: Source of Relation; rel: is or was performed by; rel: results or resulted from | rico:generalDescription | Unresolved | RiC-O 1.1 has rico:recordResourceSourceOfInformation, more specific than a general note. |
+| 5.4.8 Sources | attr: Source of Relation; rel: is or was performed by; rel: results or resulted from | rico:generalDescription | Unresolved | RiC-O 1.1 has rico:recordResourceSourceOfInformation, but its domain is a Record Resource, so it can be stated only on the describing Record, not on the function itself. Moving the sources there is still open. |
 | 5.4.9 Maintenance notes | rel: is or was performed by; rel: results or resulted from | rico:generalDescription | Mapped, broader | RiC-AG models maintenance as activities the record results from. |
