@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-24T14:04:13Z",
+  "run_at": "2026-11-25T08:15:42Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "fd480e0",
+  "probe_revision": "76b6afd",
   "read_only": true,
   "runs": [
     {
@@ -18,27 +18,27 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -48,7 +48,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -58,42 +58,42 @@
           }
         ]
       },
-      "run_at": "2026-11-24T13:56:04Z",
+      "run_at": "2026-11-25T08:07:05Z",
       "results": []
     },
     {
       "profiles": [
         "core-discovery"
       ],
-      "verdict": "fail",
+      "verdict": "pass",
       "counts": {
-        "pass": 21,
-        "fail": 1,
+        "pass": 22,
+        "fail": 0,
         "skip": 0
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -103,7 +103,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -113,14 +113,8 @@
           }
         ]
       },
-      "run_at": "2026-11-24T13:54:48Z",
-      "results": [
-        {
-          "status": "FAIL (invalid)",
-          "check": "shacl core-discovery: the entities above",
-          "http": "Validation Report Conforms: False Results (2): Constraint Vi"
-        }
-      ]
+      "run_at": "2026-11-25T08:05:46Z",
+      "results": []
     },
     {
       "profiles": [
@@ -134,27 +128,27 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -164,7 +158,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -174,42 +168,42 @@
           }
         ]
       },
-      "run_at": "2026-11-24T14:00:32Z",
+      "run_at": "2026-11-25T08:11:50Z",
       "results": []
     },
     {
       "profiles": [
         "export-only"
       ],
-      "verdict": "fail",
+      "verdict": "pass",
       "counts": {
-        "pass": 17,
-        "fail": 1,
+        "pass": 18,
+        "fail": 0,
         "skip": 0
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -219,7 +213,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -229,14 +223,8 @@
           }
         ]
       },
-      "run_at": "2026-11-24T14:03:04Z",
-      "results": [
-        {
-          "status": "FAIL (invalid)",
-          "check": "export: one triple set in the three formats",
-          "http": "/tmp/tmp.Deq35OXP5O/export.ttl has 7 triples, /tmp/tmp.Deq35"
-        }
-      ]
+      "run_at": "2026-11-25T08:14:30Z",
+      "results": []
     },
     {
       "profiles": [
@@ -250,27 +238,27 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -280,7 +268,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -290,7 +278,7 @@
           }
         ]
       },
-      "run_at": "2026-11-24T13:59:19Z",
+      "run_at": "2026-11-25T08:10:35Z",
       "results": []
     },
     {
@@ -305,27 +293,27 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -335,7 +323,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -345,7 +333,7 @@
           }
         ]
       },
-      "run_at": "2026-11-24T13:57:58Z",
+      "run_at": "2026-11-25T08:09:06Z",
       "results": [
         {
           "status": "FAIL",
@@ -386,27 +374,27 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -416,7 +404,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -426,7 +414,7 @@
           }
         ]
       },
-      "run_at": "2026-11-24T14:01:40Z",
+      "run_at": "2026-11-25T08:12:59Z",
       "results": [
         {
           "status": "SKIP",
@@ -447,27 +435,27 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.2",
-        "spec_version": "0.52.0",
+        "version": "0.18.4",
+        "spec_version": "0.61.2",
         "declared": [
           {
             "id": "core-discovery",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "authority-context",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "conformance": "full"
           },
           {
             "id": "graph-traversal",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "conformance": "full"
           },
           {
             "id": "digital-object-linkage",
-            "version": "0.6.0",
+            "version": "0.8.0",
             "conformance": "full"
           },
           {
@@ -477,7 +465,7 @@
           },
           {
             "id": "export-only",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "conformance": "full"
           },
           {
@@ -487,7 +475,7 @@
           }
         ]
       },
-      "run_at": "2026-11-24T14:04:13Z",
+      "run_at": "2026-11-25T08:15:42Z",
       "results": []
     }
   ]
