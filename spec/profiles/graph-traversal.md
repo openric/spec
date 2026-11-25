@@ -7,8 +7,8 @@ description: The /graph endpoint and its relation + hierarchy companions. Where 
 # Graph Traversal Profile
 
 **Profile id:** `graph-traversal`
-**Profile version:** 0.7.0
-**Last revised in spec:** v0.58.0
+**Profile version:** 0.7.1
+**Last revised in spec:** v0.61.2
 **Status:** Normative
 **Dependencies:** None at the endpoint level; SHACL shapes assume a full-graph data source. See §5.
 **Last updated:** 2026-11-16
@@ -199,7 +199,7 @@ Graph Traversal ships two classes of SHACL shapes, both in `shapes/profiles/grap
 
 | Shape | Check |
 |---|---|
-| `:RelationConsistencyShape` | Parent of `rico:isOrWasPartOf` is a `rico:RecordSet` (`sh:Warning`) |
+| `:RelationConsistencyShape` | A record's or record set's parent, by `rico:isOrWasIncludedIn` (or `rico:isOrWasPartOf`), is a `rico:RecordSet` (`sh:Warning`). A place's parent is a place and is not checked here |
 | `:CreatorLinkShape` | `rico:hasCreator` target is a `rico:Person`, `rico:CorporateBody`, or `rico:Family` (`sh:Violation`) |
 
 ### 5.2 Full-graph SPARQL shapes (expensive)
@@ -207,8 +207,8 @@ Graph Traversal ships two classes of SHACL shapes, both in `shapes/profiles/grap
 | Shape | Check |
 |---|---|
 | `:InstantiationLinkedFromRecordShape` | Every `rico:Instantiation` is referenced by at least one `rico:Record` via `rico:hasOrHadInstantiation` (`sh:Warning`) |
-| `:OrphanedRecordShape` | Every `rico:Record` has a `rico:isOrWasPartOf` parent, unless it is a top-level fonds (`sh:Warning`) |
-| `:UnlinkedAgentShape` | Every Person/CorporateBody/Family is linked via `hasCreator`, `hasAccumulator`, or `hasOrHadParticipant` (`sh:Info`) |
+| `:OrphanedRecordShape` | Every `rico:Record` has a parent, by `rico:isOrWasIncludedIn`, by `rico:includesOrIncluded` from the parent's side, or by `rico:isOrWasPartOf`, unless it is a top-level fonds (`sh:Warning`) |
+| `:UnlinkedAgentShape` | Every Person/CorporateBody/Family is linked, by any RiC-O property in either direction, to a record resource, an instantiation or an activity: as creator, accumulator, participant, performer, holder or subject (`sh:Info`) |
 | `:DuplicateIdentifierShape` | No two records share a `rico:identifier` value (`sh:Warning`) |
 
 Each SPARQL shape carries its `sh:severity` on the node shape, where SHACL reads it; inside the `sh:sparql` constraint it is ignored and every result becomes a violation (fixed in profile 0.7.0, openric/spec#68). Severity of each shape is calibrated for a working archive, not a polished demo: an archive with some orphan Instantiations or unlinked Agents is normal and the shapes reflect that - hence `sh:Warning` / `sh:Info` rather than `sh:Violation` for the SPARQL checks. Implementations MAY raise severity locally by re-declaring the shapes.
@@ -296,6 +296,16 @@ Five questions were flagged during drafting; all five carry resolutions.
 **Rationale**: A server exposing the four endpoints correctly is useful even if its backing store has orphan records or unlinked agents - those are data-hygiene issues, not API-contract issues. Gating endpoint conformance on full-store validation would prevent incomplete archives from ever claiming the profile, which hurts ecosystem adoption. The SHACL shapes are published so that implementers can run them against their own dumps as a hygiene check, not as a profile-claim prerequisite. A future "graph-hygiene-certified" badge may layer on top, but is out of scope for this profile's initial cut.
 
 ## 10. Migration
+
+### From profile 0.7.0 to 0.7.1 (spec v0.61.2)
+
+Nothing breaks: the shapes stop reporting data that follows the mapping. No MUST changed.
+
+| What changed | Servers | Clients |
+|---|---|---|
+| `:OrphanedRecordShape` and `:RelationConsistencyShape` read a record's parent as the mapping gives it, `rico:isOrWasIncludedIn` (or `rico:includesOrIncluded` from the parent), and still count `rico:isOrWasPartOf` ([#79](https://github.com/openric/spec/issues/79)) | Send `rico:isOrWasIncludedIn`, as the mapping says. `rico:isOrWasPartOf` for a record's parent is still counted; moving off it is for a later minor release. | Read either. |
+| `:RelationConsistencyShape` checks records and record sets only | A nested place, which has a place as its `rico:isOrWasPartOf` parent, is no longer told its parent should be a record set. | None. |
+| `:UnlinkedAgentShape` counts any RiC-O link to a record resource, instantiation or activity ([#76](https://github.com/openric/spec/issues/76)) | A repository linked only as holder, a performer linked by `rico:isOrWasPerformedBy` (as Provenance and Event allows), and an agent that is a subject are no longer reported as unlinked. | Read the Info as meaning the agent has no such link at all. |
 
 ### From profile 0.6.0 to 0.7.0 (spec v0.58.0)
 

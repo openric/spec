@@ -73,6 +73,11 @@ jobs:
           sys.exit(1 if errors else 0)
           "
 
+      - name: Check the hierarchy and agent-link shapes against their cases
+        run: |
+          pip install --quiet pyshacl
+          python bin/check-shapes.py
+
       - name: Check every openric and openricx term in use is defined and bound
         run: python bin/check-vocab.py
 

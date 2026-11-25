@@ -55,7 +55,11 @@
         sh:select """
             SELECT $this WHERE {
                 $this a rico:Record .
-                FILTER NOT EXISTS { $this rico:isOrWasPartOf ?parent }
+                FILTER NOT EXISTS {
+                    { $this rico:isOrWasIncludedIn ?parent } UNION
+                    { ?parent rico:includesOrIncluded $this } UNION
+                    { $this rico:isOrWasPartOf ?parent }
+                }
             }
         """
     ] .
@@ -72,12 +76,13 @@
                 { $this a rico:Person } UNION
                 { $this a rico:CorporateBody } UNION
                 { $this a rico:Family }
+                # Linked by any RiC-O property, either way, to a record resource, an instantiation or an
+                # activity: as holder, performer or subject too (openric/spec#76).
                 FILTER NOT EXISTS {
-                    { ?record rico:hasCreator $this }
-                    UNION
-                    { ?record rico:hasAccumulator $this }
-                    UNION
-                    { ?activity rico:hasOrHadParticipant $this }
+                    { ?x ?p $this } UNION { $this ?p ?x }
+                    FILTER (STRSTARTS(STR(?p), "https://www.ica.org/standards/RiC/ontology#"))
+                    { ?x a rico:RecordSet } UNION { ?x a rico:Record } UNION { ?x a rico:RecordPart }
+                    UNION { ?x a rico:Instantiation } UNION { ?x a rico:Activity }
                 }
             }
         """

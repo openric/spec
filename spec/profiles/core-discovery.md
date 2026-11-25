@@ -7,8 +7,8 @@ description: The minimum-viable OpenRiC conformance target. Read-only Records, A
 # Core Discovery Profile
 
 **Profile id:** `core-discovery`
-**Profile version:** 0.7.0
-**Last revised in spec:** v0.54.0
+**Profile version:** 0.7.1
+**Last revised in spec:** v0.61.2
 **Status:** Normative
 **Dependencies:** None
 **Last updated:** 2026-10-20
@@ -374,6 +374,14 @@ A server implementer works through:
 - Validate responses against `shapes/profiles/core-discovery.shacl.ttl`
 
 ## 9. Migration
+
+### From profile 0.7.0 to 0.7.1 (spec v0.61.2)
+
+Nothing breaks: a Warning stops reporting data that follows the mapping. No MUST changed.
+
+| What changed | Servers | Clients |
+|---|---|---|
+| `:RecordShape`'s Warning, now "Record should be included in a RecordSet", counts a parent given by `rico:isOrWasIncludedIn` or by `rico:includesOrIncluded` from the parent's side, as the mapping gives it, and still `rico:isOrWasPartOf`; the record set's parent check reads the same ([#79](https://github.com/openric/spec/issues/79)) | A record with `rico:isOrWasIncludedIn` no longer gets the Warning. | None. |
 
 ### From profile 0.6.0 to 0.7.0 (spec v0.54.0)
 

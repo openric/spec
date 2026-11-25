@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.61.2 - 2026-11-25
+
+The hierarchy and agent-link shapes stop reporting data that follows the mapping: a record's parent by rico:isOrWasIncludedIn or rico:includesOrIncluded counts (rico:isOrWasPartOf still does), a nested place is not told its parent should be a record set, and an agent linked as holder, performer or subject is not unlinked (openric/spec#76, #79 part 1); Core Discovery and Graph Traversal 0.7.1; bin/check-shapes.py runs the cases in CI
+
+Approved by: Dr Johan Pieterse, 2026-11-25
+
 ## v0.61.1 - 2026-11-24
 
 v0.61.1: The RiC-AG disposition table gives a reason for eight rows kept as text notes or as the level of description (now 71 mapped, 20 extensions, 12 unresolved), and corrects the Sources rationale: rico:recordResourceSourceOfInformation applies only on the describing Record; the decisions page records the Workspace following spec v0.61.0 from v0.0.169

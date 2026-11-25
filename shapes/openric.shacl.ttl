@@ -72,7 +72,7 @@
     ] ;
 
     sh:property [
-        sh:path rico:isOrWasPartOf ;
+        sh:path [ sh:alternativePath ( rico:isOrWasIncludedIn rico:isOrWasPartOf ) ] ;
         sh:class rico:RecordSet ;
         sh:severity sh:Info ;
         sh:message "Parent should be a RecordSet"
@@ -99,11 +99,13 @@
         sh:message "Record must have a title"
     ] ;
 
+    # The parent as the mapping gives it (rico:isOrWasIncludedIn, or rico:includesOrIncluded from the parent's
+    # side); rico:isOrWasPartOf is still counted until it is deprecated (openric/spec#79).
     sh:property [
-        sh:path rico:isOrWasPartOf ;
+        sh:path [ sh:alternativePath ( rico:isOrWasIncludedIn [ sh:inversePath rico:includesOrIncluded ] rico:isOrWasPartOf ) ] ;
         sh:minCount 1 ;
         sh:severity sh:Warning ;
-        sh:message "Record should be part of a RecordSet"
+        sh:message "Record should be included in a RecordSet"
     ] .
 
 
@@ -441,15 +443,16 @@
 # RELATION VALIDATION
 # ============================================================================
 
+# Records and record sets only: a place's parent is a place, by rico:isOrWasPartOf (Authority and Context 3.2).
 :RelationConsistencyShape a sh:NodeShape ;
-    sh:targetSubjectsOf rico:isOrWasPartOf ;
+    sh:targetClass rico:Record, rico:RecordSet ;
     sh:name "Hierarchy Consistency" ;
 
     sh:property [
-        sh:path rico:isOrWasPartOf ;
+        sh:path [ sh:alternativePath ( rico:isOrWasIncludedIn rico:isOrWasPartOf ) ] ;
         sh:class rico:RecordSet ;
         sh:severity sh:Warning ;
-        sh:message "Parent (isOrWasPartOf target) should be a RecordSet"
+        sh:message "Parent (rico:isOrWasIncludedIn target) should be a RecordSet"
     ] .
 
 
