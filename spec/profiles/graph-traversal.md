@@ -200,7 +200,8 @@ Graph Traversal ships two classes of SHACL shapes, both in `shapes/profiles/grap
 | Shape | Check |
 |---|---|
 | `:RelationConsistencyShape` | Parent of `rico:isOrWasPartOf` is a `rico:RecordSet` (`sh:Warning`) |
-| `:CreatorLinkShape` | `rico:hasCreator` target is a `rico:Person`, `rico:CorporateBody`, or `rico:Family` (`sh:Violation`) |
+| `:CreatorLinkShape` | `rico:hasCreator` target is an agent: a `rico:Person`, `rico:CorporateBody`, `rico:Family` or `rico:Mechanism`, or `rico:Agent` when its kind is not known (`sh:Violation`) |
+| `:CreatorKindShape` | A creator typed only `rico:Agent` is asked for its kind where it is known (`sh:Info`) |
 
 ### 5.2 Full-graph SPARQL shapes (expensive)
 

@@ -246,7 +246,7 @@ A server that emits a container as `rico:Thing` with `openric:localType`, as thi
 | 3.1.3 Date(s) | `openricx:hasDateRangeSet` → `openricx:DateRange` | See §7.2. The API shape; in RDF it expands to `rico:hasCreationDate`, `rico:hasBeginningDate` and `rico:hasEndDate` → `rico:Date` (RiC-AG) |
 | 3.1.4 Level of description | *(drives class, see §6.1)*, and `rico:hasRecordSetType` → `rico:RecordSetType` on a RecordSet | The class alone loses the level name; RiC-AG §5.3.1 |
 | 3.1.5 Extent and medium | `rico:hasExtent` → `rico:RecordResourceExtent` (a `rico:Extent`), the text on `rico:textualValue`; a counted extent carries `rico:quantity` and `rico:hasUnitOfMeasurement` → `rico:UnitOfMeasurement` | `rico:hasExtentType` is an object property (Extent to `rico:ExtentType`); until v0.54.0 the extent text was sent on it as a literal, which is deprecated and may be sent beside `rico:textualValue` until v0.55.0 |
-| 3.2.1 Name of creator(s) | `rico:hasCreator` → `rico:Agent` | |
+| 3.2.1 Name of creator(s) | `rico:hasCreator` → a `rico:Person`, `rico:CorporateBody` or `rico:Family`; `rico:Agent` when the kind is not known | The shapes accept a plain `rico:Agent` and ask for the kind (openric/spec#79) |
 | 3.2.2 Administrative / biographical history | `rico:history` | On the Agent, not the Record |
 | 3.2.3 Archival history | `rico:history` on the Record | Free-text |
 | 3.2.4 Immediate source of acquisition | `rico:isOrWasAffectedBy` → `rico:Activity` (activity type `transfer`) with `rico:hasOrHadParticipant` → the source `rico:Agent` | Was `rico:hasOrganicProvenance`, which names the creator or accumulator, not the source (RiC-AG) |

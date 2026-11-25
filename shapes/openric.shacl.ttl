@@ -457,14 +457,35 @@
     sh:targetSubjectsOf rico:hasCreator ;
     sh:name "Creator Link Validation" ;
 
+    # The agent classes Provenance and Event accepts; rico:Agent alone when the kind is not known (openric/spec#79).
     sh:property [
         sh:path rico:hasCreator ;
         sh:or (
             [ sh:class rico:Person ]
             [ sh:class rico:CorporateBody ]
             [ sh:class rico:Family ]
+            [ sh:class rico:Mechanism ]
+            [ sh:class rico:Agent ]
         ) ;
-        sh:message "Creator must be a Person, CorporateBody, or Family"
+        sh:message "Creator must be an Agent: rico:Person, rico:CorporateBody, rico:Family, rico:Mechanism or rico:Agent"
+    ] .
+
+
+:CreatorKindShape a sh:NodeShape ;
+    sh:targetObjectsOf rico:hasCreator ;
+    sh:name "Creator Kind" ;
+    sh:severity sh:Info ;
+    sh:sparql [
+        sh:message "Creator is typed only rico:Agent; give its kind (Person, CorporateBody or Family) where it is known" ;
+        sh:select """
+            SELECT $this WHERE {
+                $this a rico:Agent .
+                FILTER NOT EXISTS {
+                    { $this a rico:Person } UNION { $this a rico:CorporateBody } UNION
+                    { $this a rico:Family } UNION { $this a rico:Mechanism }
+                }
+            }
+        """
     ] .
 
 
