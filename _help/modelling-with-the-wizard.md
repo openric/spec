@@ -31,7 +31,7 @@ Because per-track creators are relations on each Record Part, the tape carries g
 
 ## Describe your own material (AI-assisted)
 
-The wizard has a **"describe your material"** box. Type something like *"a parish baptism register, 1881-1899, with hundreds of entries"* and it proposes a RiC model - every entity code and relation is **checked against RiC-CM 1.0 before it's shown**, so it never uses a code that does not exist; whether the model fits your material is still yours to judge. It proposes; you review it. (Expect ~30s while the model thinks.) Each step and the result carry a note that the model was suggested by an AI and is not a curated scenario. Email addresses and long numbers, such as phone and ID numbers, are masked before your description goes to the model; names are not, so leave out anything private. The server allows a fixed number of suggestions a day; when they are used up, pick a scenario instead.
+The wizard has a **"describe your material"** box. Type something like *"a parish baptism register, 1881-1899, with hundreds of entries"* and it proposes a RiC model - every entity code and relation is **checked against RiC-CM 1.0.1 before it's shown**, so it never uses a code that does not exist; whether the model fits your material is still yours to judge. It proposes; you review it. (Expect ~30s while the model thinks.) Each step and the result carry a note that the model was suggested by an AI and is not a curated scenario. Email addresses and long numbers, such as phone and ID numbers, are masked before your description goes to the model; names are not, so leave out anything private. The server allows a fixed number of suggestions a day; when they are used up, pick a scenario instead.
 
 ## Sample capture (what a step sends)
 

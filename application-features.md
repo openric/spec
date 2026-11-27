@@ -75,7 +75,7 @@ Much of the Workspace copies what Heratio and AtoM-based systems already do, fie
 - A public catalogue that needs no sign-in, with full-text search and facets, pages for every kind of entity, and the relationship graph around each in 2D or 3D, also given as a list for screen readers and keyboards.
 - A search that finds nothing shows the closest titles, said to be close matches, and a search may be a regular expression, under a time limit; both see only what the words would.
 - Staff search with saved searches and statistics.
-- An assistant in the catalogue that answers from published records only and cites them, and one for staff over what they may read and the help guides (AI, off until switched on).
+- An assistant in the catalogue that answers from published records only and cites them, and one for staff over what they may read and the help guides (AI, off until switched on). It refuses questions that try to change it, and the public one has a daily limit the institution sets.
 - Usage statistics that keep no visitor's address.
 - Access requests for restricted material, and email delivery that stops writing to addresses that bounced.
 

@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.61.5 - 2026-11-27
+
+Mapping section 1.3 cites RiC-CM 1.0.1, the baseline named since 8 November, with no row changed; the wizard and its help say 1.0.1; the decisions and features pages record Workspace v0.0.170, the catalogue assistant's hardening
+
+Approved by: Dr Johan Pieterse, 2026-11-27
+
 ## v0.61.4 - 2026-11-27
 
 Wizard: a model-written scenario says it was suggested by an AI model on every step and on the result; the help says what is checked against RiC-CM 1.0 and what is masked before the model sees a description

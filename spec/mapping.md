@@ -5,7 +5,7 @@ title: OpenRiC Mapping Specification
 
 # OpenRiC Mapping Specification
 
-**Last revised in:** v0.61.0
+**Last revised in:** v0.61.5
 **Status:** Active - cross-referenced with RiC-AG (Application Guidelines) v0.1
 **Last updated:** 2026-11-16
 
@@ -23,7 +23,7 @@ The remaining `rico:*` tokens that appear in this document are exclusively in **
 
 ## 1. Purpose
 
-This specification defines a deterministic mapping from the traditional archival-description standards - **ISAD(G)**, **ISAAR(CPF)**, **ISDIAH**, **ISDF** - to the ICA's **Records in Contexts** conceptual model ([RiC-CM v1.0](https://www.ica.org/app/uploads/2023/12/RiC-CM-1.0.pdf)) and its ontology ([RiC-O v1.1, 2025-05-22](https://www.ica.org/standards/RiC/ontology/1.1)).
+This specification defines a deterministic mapping from the traditional archival-description standards - **ISAD(G)**, **ISAAR(CPF)**, **ISDIAH**, **ISDF** - to the ICA's **Records in Contexts** conceptual model ([RiC-CM 1.0.1](https://github.com/ICA-EGAD/RiC-CM/releases/tag/1.0.1)) and its ontology ([RiC-O v1.1, 2025-05-22](https://www.ica.org/standards/RiC/ontology/1.1)).
 
 Given a conforming input description, exactly one conforming RiC graph SHALL result. The mapping is total: every entity in the input has a defined target class in RiC, and every normatively-required ISAD(G)/ISAAR(CPF)/ISDIAH element has a defined target predicate.
 
@@ -62,7 +62,7 @@ Every mapping row in this document is made against these editions. A newer editi
 | ISAAR(CPF) | Second edition, ICA, 2004 | Source standard, §7.3 |
 | ISDIAH | First edition, ICA, 2008 | Source standard, §7.4 |
 | ISDF | First edition, ICA, 2007 | Source standard, §6.4 |
-| RiC-CM | [1.0](https://www.ica.org/app/uploads/2023/12/RiC-CM-1.0.pdf), ICA EGAD, 2023 | Target conceptual model |
+| RiC-CM | [1.0.1](https://github.com/ICA-EGAD/RiC-CM/releases/tag/1.0.1), ICA EGAD, 30 September 2026 (1.0, 2023, with corrections) | Target conceptual model. 1.0.1 changes no row here: RiC-R079 has author, widened to a Record Part, is mapped by no row and RiC-O 1.1 cannot yet carry it (known issue K-15); the inverses of RiC-R080 to RiC-R086 were already in 1.0's relation specifications |
 | RiC-O | [1.1](https://www.ica.org/standards/RiC/ontology/1.1), 2025-05-22 | Target ontology; every `rico:` term emitted as data |
 | RiC-AG | [0.1](https://ica-egad.github.io/RiC-AG/), ICA EGAD, October 2025 | Upstream crosswalk, authoritative where it covers a field (§1.2) |
 | RiC-O Converter | [3.0](https://github.com/ArchivesNationalesFR/rico-converter), Sparna and AnF Lab, March 2025 | Alignment reference (§1.1); not a dependency |
@@ -597,6 +597,7 @@ This pattern keeps the OpenRiC HTTP/API layer cleanly separated from the canonic
 
 | Version | Date | Notes |
 |---|---|---|
+| v0.61.5 | 2026-11-27 | §1.3 cites RiC-CM 1.0.1, the baseline named on the [RiC baseline page](../ric-baseline.html) since 8 November 2026, where the table still said 1.0. Checked change by change: no row changes (RiC-R079's wider domain is mapped by no row and is known issue K-15; the inverses of RiC-R080 to RiC-R086 were already specified). |
 | v0.58.0 | 2026-11-16 | 7.3 Names as entities: the kind of a name by `openricx:hasNameType` and the name-type vocabulary, and a translation by `openricx:isTranslationOf`. 7.7 The text of an instantiation: `openricx:transcript` and `openricx:alternativeText`. |
 | v0.55.0 | 2026-10-20 | 6.6 Physical storage: a container is an `openricx:Container` with an `openricx:ContainerType`, what it holds points to it with `openricx:isOrWasStoredIn`, and it is placed in a `rico:Place` with `rico:hasOrHadLocation`; shelves, strongrooms and buildings are places. `rico:Thing` with `openric:localType` stays conformant. |
 | v0.54.0 | 2026-10-20 | 3.1.5 Extent: the text goes on `rico:textualValue` of a `rico:RecordResourceExtent`, and a counted extent on `rico:quantity` with `rico:hasUnitOfMeasurement`; a literal on `rico:hasExtentType`, an object property, is deprecated. |
