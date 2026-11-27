@@ -302,7 +302,16 @@
     ]));
   }
 
-  function swap(node) { var h = document.getElementById("wiz-stage"); h.innerHTML = ""; h.appendChild(node); }
+  // A model-written scenario says so on every step and on the outcome, so it is never taken for a curated one (AHG-AIIA-004, 27 Nov 2026).
+  function generatedNotice() {
+    return el("div", { class: "wiz-generated", role: "note",
+      text: "Suggested by an AI model from your description. It is not a curated scenario: check each choice against RiC-CM 1.0 before you rely on it." });
+  }
+  function swap(node) {
+    var h = document.getElementById("wiz-stage"); h.innerHTML = "";
+    if (state.scenario && state.scenario.generated === true) h.appendChild(generatedNotice());
+    h.appendChild(node);
+  }
 
   function restart() { state.captured = {}; state.trail = []; goTo(state.scenario.steps[0].id); }
   function start() {

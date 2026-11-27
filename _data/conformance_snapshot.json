@@ -1,9 +1,9 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-25T08:15:42Z",
+  "run_at": "2026-11-26T12:58:28Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "76b6afd",
+  "probe_revision": "e669fca",
   "read_only": true,
   "runs": [
     {
@@ -18,7 +18,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -58,7 +58,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:07:05Z",
+      "run_at": "2026-11-26T12:50:10Z",
       "results": []
     },
     {
@@ -73,7 +73,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -113,7 +113,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:05:46Z",
+      "run_at": "2026-11-26T12:48:52Z",
       "results": []
     },
     {
@@ -128,7 +128,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -168,7 +168,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:11:50Z",
+      "run_at": "2026-11-26T12:54:43Z",
       "results": []
     },
     {
@@ -183,7 +183,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -223,7 +223,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:14:30Z",
+      "run_at": "2026-11-26T12:57:18Z",
       "results": []
     },
     {
@@ -238,7 +238,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -278,7 +278,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:10:35Z",
+      "run_at": "2026-11-26T12:53:29Z",
       "results": []
     },
     {
@@ -293,7 +293,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -333,7 +333,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:09:06Z",
+      "run_at": "2026-11-26T12:52:06Z",
       "results": [
         {
           "status": "FAIL",
@@ -374,7 +374,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -414,7 +414,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:12:59Z",
+      "run_at": "2026-11-26T12:55:52Z",
       "results": [
         {
           "status": "SKIP",
@@ -435,7 +435,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.4",
+        "version": "0.18.8",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -475,7 +475,7 @@
           }
         ]
       },
-      "run_at": "2026-11-25T08:15:42Z",
+      "run_at": "2026-11-26T12:58:28Z",
       "results": []
     }
   ]

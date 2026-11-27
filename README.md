@@ -10,7 +10,7 @@
 
 ## Current version
 
-**v0.61.3** - 2026-11-25. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
+**v0.61.4** - 2026-11-27. The canonical value lives in [`version.json`](version.json); the site renders every version badge from it, and CI fails the build if this line drifts from it.
 
 Twelve profiles: seven normative (Core Discovery, Authority & Context, Graph Traversal, Digital Object Linkage, Round-Trip Editing, Provenance & Event, Export-Only) and five draft (SPARQL Access, Governance, Portability, Inferred-Provenance, Graph-Grounding). See [`CHANGELOG.md`](CHANGELOG.md).
 
