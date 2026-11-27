@@ -1,15 +1,15 @@
 {
   "schema": "openric-conformance-run/1",
-  "run_at": "2026-11-26T12:58:28Z",
+  "run_at": "2026-11-27T12:52:46Z",
   "implementation": "OpenRiC reference service",
   "base": "https://ric.theahg.co.za/api/ric/v1",
-  "probe_revision": "e669fca",
+  "probe_revision": "84939fe",
   "read_only": true,
   "runs": [
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:50:10Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:43:59Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "authority-context"
@@ -23,7 +23,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -118,8 +118,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:48:52Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:42:39Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "core-discovery"
@@ -127,13 +127,13 @@
       "writes_attempted": false,
       "verdict": "pass",
       "counts": {
-        "pass": 22,
+        "pass": 28,
         "fail": 0,
         "skip": 0
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -281,6 +281,36 @@
         },
         {
           "status": "PASS",
+          "check": "a listed record @id dereferences to itself",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "a listed record @id opens in a browser (advisory)",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "a listed agent @id dereferences to itself",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "a listed agent @id opens in a browser (advisory)",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "a listed repository @id dereferences to itself",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "a listed repository @id opens in a browser (advisory)",
+          "http": "200"
+        },
+        {
+          "status": "PASS",
           "check": "shacl core-discovery: the entities above",
           "http": "ok"
         }
@@ -288,8 +318,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:54:43Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:48:43Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "digital-object-linkage"
@@ -303,7 +333,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -383,8 +413,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:57:18Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:51:22Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "export-only"
@@ -398,7 +428,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -533,8 +563,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:53:29Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:47:27Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "graph-traversal"
@@ -548,7 +578,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -633,8 +663,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:52:06Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:46:00Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "provenance-event"
@@ -648,7 +678,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -748,8 +778,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:55:52Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:49:52Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "round-trip-editing"
@@ -763,7 +793,7 @@
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -828,8 +858,8 @@
     },
     {
       "schema": "openric-probe-result/1",
-      "run_at": "2026-11-26T12:58:28Z",
-      "probe_revision": "e669fca",
+      "run_at": "2026-11-27T12:52:46Z",
+      "probe_revision": "84939fe",
       "base": "https://ric.theahg.co.za/api/ric/v1",
       "profiles": [
         "sparql-access"
@@ -837,13 +867,13 @@
       "writes_attempted": false,
       "verdict": "pass",
       "counts": {
-        "pass": 5,
+        "pass": 6,
         "fail": 0,
         "skip": 0
       },
       "service": {
         "name": "RIC-O Linked Data API",
-        "version": "0.18.8",
+        "version": "0.18.12",
         "spec_version": "0.61.2",
         "declared": [
           {
@@ -908,6 +938,11 @@
           "status": "PASS",
           "check": "GET /sparql/info",
           "http": "200"
+        },
+        {
+          "status": "PASS",
+          "check": "listed entities are in the SPARQL dataset (advisory)",
+          "http": "10 of 10"
         }
       ]
     }
