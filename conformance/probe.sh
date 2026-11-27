@@ -357,6 +357,24 @@ if in_profile "core-discovery"; then
       CD_DOCS+=("$CD_DIR/one-${list}.json")
     fi
   done
+  # Mapping "Every emitted RiC entity MUST have a stable, dereferenceable @id" (core-discovery.md: @id
+  # dereferenceable, SHOULD answer by content negotiation). The first record, agent and repository listed: their
+  # @id, fetched as JSON-LD (redirects followed), describes itself by the same @id. Fetched as a browser would,
+  # it should not be 404; that part is advisory (a SHOULD), shown without failing the run (27 Nov 2026).
+  for list in records agents repositories; do
+    one=${list%s}; [[ "$list" == repositories ]] && one=repository
+    iri=$(jq -r '(."openric:items" // ."ric:items" // [])[0]["@id"] // empty' "$CD_DIR/_${list}.json" 2>/dev/null)
+    if [[ -z "$iri" ]]; then
+      record "SKIP (list empty)" "a listed ${one} @id dereferences to itself" "--"; continue
+    fi
+    out=$(curl -s -L --max-time 15 -w '\n%{http_code}' -H 'Accept: application/ld+json' "$iri" 2>/dev/null || true)
+    got=$(printf '%s' "${out%$'\n'*}" | jq -r '."@id" // empty' 2>/dev/null || true)
+    [[ "$got" == "$iri" ]] && record PASS "a listed ${one} @id dereferences to itself" "${out##*$'\n'}" \
+                           || record FAIL "a listed ${one} @id dereferences to itself" "${iri} -> ${got:-no @id} (${out##*$'\n'})"
+    html=$(curl -s -o /dev/null -L --max-time 15 -w '%{http_code}' -H 'Accept: text/html' "$iri" 2>/dev/null || true)
+    [[ "$html" =~ ^2 ]] && record PASS "a listed ${one} @id opens in a browser (advisory)" "$html" \
+                        || record "SKIP (advisory: ${html})" "a listed ${one} @id opens in a browser (advisory)" "$html"
+  done
   if [[ ${#CD_DOCS[@]} -gt 0 ]]; then
     check_validate "shacl core-discovery: the entities above" shacl "${SPEC_DIR}/shapes/profiles/core-discovery.shacl.ttl" "${CD_DOCS[@]}"
   else
@@ -452,7 +470,9 @@ fi
 
 # ---- §4 Graph Traversal — graph, relation-types ----
 if in_profile "graph-traversal"; then
-  probe "relation-types" required GET "/relation-types" '.items | type == "array"'
+  # /relation-types is defined by the Viewing API (viewing-api.md), not named by the Graph Traversal profile, so a
+  # server without it is not failed here (openric/spec#75, 27 Nov 2026). Its shape is still checked where it exists.
+  probe "relation-types" optional GET "/relation-types" '.items | type == "array"'
 
   # Discover a seed URI for the graph probe. Uses the first place returned
   # (requires Authority & Context on the server to produce a seed; falls back
@@ -560,6 +580,26 @@ if in_profile "sparql-access"; then
 
   # SPARQL dataset description: the void:Dataset endpoint at /sparql/info.
   probe "sparql-info" "$SPARQL_LEVEL" GET "/sparql/info"                '.'
+
+  # Advisory (27 Nov 2026): the first five records and agents the API lists are subjects in the SPARQL dataset. The
+  # profile has no MUST that the dataset matches the API, so a miss is shown, not failed; it is how a graph that has
+  # stopped being rebuilt shows up. Proposed as a SHOULD for the first minor release after the freeze.
+  SP_MISS=0; SP_ASKED=0
+  for list in records agents; do
+    for iri in $(curl -s --max-time 15 "${BASE}/${list}?limit=5" | jq -r '(."openric:items" // ."ric:items" // [])[]["@id"] // empty' 2>/dev/null || true); do
+      q=$(printf 'ASK { <%s> ?p ?o }' "$iri" | jq -sRr @uri)
+      ans=$(curl -s --max-time 15 -H 'Accept: application/sparql-results+json' "${BASE}/sparql?query=${q}" | jq -r '.boolean // empty' 2>/dev/null || true)
+      [[ -z "$ans" ]] && continue
+      SP_ASKED=$((SP_ASKED+1)); [[ "$ans" == "true" ]] || SP_MISS=$((SP_MISS+1))
+    done
+  done
+  if (( SP_ASKED == 0 )); then
+    record "SKIP (no SPARQL answer)" "listed entities are in the SPARQL dataset (advisory)" "--"
+  elif (( SP_MISS == 0 )); then
+    record PASS "listed entities are in the SPARQL dataset (advisory)" "${SP_ASKED} of ${SP_ASKED}"
+  else
+    record "SKIP (advisory: ${SP_MISS} of ${SP_ASKED} missing)" "listed entities are in the SPARQL dataset (advisory)" "${SP_MISS} missing"
+  fi
 fi
 
 # ---- §5 Export-Only (OAI-PMH) ----
@@ -720,7 +760,10 @@ if [[ -n "$KEY" ]] && in_profile "round-trip-editing"; then
   rtype=$(curl -s --max-time 15 "${BASE}/relation-types" | jq -r '(.items // ."openric:items" // .) as $all
     | ([$all[] | select((.metadata // "{}" | fromjson? // {}) as $m | $m.domain == "Record" and $m.range == "Agent")] + $all)[0]
     | (.code // .id // empty)' 2>/dev/null)
-  if [[ -n "$s_id" && -n "$o_id" && -n "$rtype" ]]; then
+  if [[ -n "$s_id" && -n "$o_id" && -z "$rtype" ]]; then
+    # No /relation-types catalogue to choose a type from (openric/spec#75): the profile names no fallback type.
+    record "SKIP (no /relation-types catalogue)" "set up a relation between a new record and agent (§6.5)" "--"
+  elif [[ -n "$s_id" && -n "$o_id" && -n "$rtype" ]]; then
     rte_cycle relations "{\"subject_id\":${s_id},\"object_id\":${o_id},\"relation_type\":\"${rtype}\"}" evidence
   else
     record "FAIL" "set up a relation between a new record and agent (§6.5)" "--"

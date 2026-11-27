@@ -2,6 +2,12 @@
 
 Newest first. From the release after v0.43.14, `bin/release` writes each entry, with the line naming who approved it; see [change control](spec/change-control.md). The entries for v0.43.11 to v0.43.14 were backfilled from their tags on 2026-10-15.
 
+## v0.61.6 - 2026-11-27
+
+The probe checks that a listed record, agent and repository @id dereferences to itself (an existing MUST), shows as advisory whether it opens in a browser and whether the SPARQL dataset holds what the API lists, and no longer requires /relation-types for Graph Traversal (#75); namespace and vocabulary pages link their Turtle as an alternate, so a data client that lands on the HTML finds it; the RiC baseline page and the FAQ say the RiC-CM navigator presents 1.0.1 from reference service v0.18.12; the decisions page says the assistant keeps conversations 90 days by default, a default the operator can change (Workspace v0.0.171)
+
+Approved by: Dr Johan Pieterse, 2026-11-27
+
 ## v0.61.5 - 2026-11-27
 
 Mapping section 1.3 cites RiC-CM 1.0.1, the baseline named since 8 November, with no row changed; the wizard and its help say 1.0.1; the decisions and features pages record Workspace v0.0.170, the catalogue assistant's hardening

@@ -67,12 +67,12 @@ the matching tags plus the always-on service-description + health checks.
 | Profile id | Endpoints |
 |---|---|
 | _always-on_ | `/`, `/health` |
-| `core-discovery` | `/vocabulary`, `/autocomplete`, `/records` + `/records/{key}`, `/agents` + `/agents/{key}`, `/repositories` + `/repositories/{key}` |
+| `core-discovery` | `/vocabulary`, `/autocomplete`, `/records` + `/records/{key}`, `/agents` + `/agents/{key}`, `/repositories` + `/repositories/{key}`; the first listed record, agent and repository `@id` each dereference, as JSON-LD, to a document with the same `@id` (opening it as a browser would is advisory) |
 | `authority-context` | `/places`, `/rules`, `/activities`, `/places/flat` |
 | `digital-object-linkage` | `/instantiations`, `/functions` |
-| `graph-traversal` | `/relation-types`, `/graph` |
+| `graph-traversal` | `/graph`; `/relation-types` where the server has it (optional: the Viewing API defines it, the profile does not name it, openric/spec#75) |
 | `provenance-event` | Each activity in `/activities` (up to `PE_MAX`, default 25) read back and checked for results, participants and dates |
-| `sparql-access` (draft) | `/sparql`, `/sparql/info`: required when asked for by name, optional in a full run |
+| `sparql-access` (draft) | `/sparql`, `/sparql/info`: required when asked for by name, optional in a full run; and, advisory, whether the first five records and agents listed are in the SPARQL dataset |
 | `export-only` | OAI-PMH — `Identify`, `ListMetadataFormats`, `ListSets`, `ListIdentifiers`, `ListRecords` |
 | `round-trip-editing` (needs `KEY`) | Create, read, update and delete for every entity type and for relations; 422 on a missing required field; 409 on deleting a record that has children; scope enforcement via `READ_KEY` |
 
@@ -90,6 +90,7 @@ Each probe checks **both** the HTTP status code **and** the JSON shape
 - **PASS** — endpoint works and returns the expected shape.
 - **SKIP (404)** — endpoint is marked `optional` in the spec and the server
   returns 404 for it. Allowed.
+- **SKIP (advisory: ...)** — a check of something the specification recommends but does not require, such as an `@id` opening in a browser, or the SPARQL dataset holding what the API lists. Shown so it can be fixed; it does not fail the run.
 - **SKIP (no key)** — the probe needs `X-API-Key` and you didn't set one.
   Not a conformance failure on its own.
 - **FAIL (shape)** — endpoint returned 200 but the JSON doesn't match

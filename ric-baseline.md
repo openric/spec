@@ -31,7 +31,7 @@ They are easy to confuse, and they are different things made by different people
 | Standard | Version | What it is | How OpenRiC uses it |
 |---|---|---|---|
 | **RiC-FAD** | 1.0 | Foundational principles for archival description | Assumed. OpenRiC does not restate it. |
-| **RiC-CM** | 1.0.1 | The conceptual model - entities, attributes, relations | The normative conceptual model, and the vocabulary OpenRiC's user-facing labels map back to. The [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/1.0) still presents the 1.0 text; see [what 1.0.1 changed](#ric-cm-101-what-changed) below. |
+| **RiC-CM** | 1.0.1 | The conceptual model - entities, attributes, relations | The normative conceptual model, and the vocabulary OpenRiC's user-facing labels map back to. The [RiC-CM navigator](https://ric.theahg.co.za/reference/ric-cm/1.0.1) presents 1.0.1 from reference service v0.18.12 (27 November 2026); see [what 1.0.1 changed](#ric-cm-101-what-changed) below. |
 | **RiC-O** | 1.1 | The OWL ontology - the normative RDF implementation target | **The normative target.** Every IRI OpenRiC emits is a RiC-O 1.1 term, or an [`openricx:`](/ns/ext/v1.html) term where RiC-O 1.1 has no equivalent. |
 | **RiC-AG** | 0.1 | Application guidelines, including crosswalks from the four legacy ICA standards | The upstream authority for the ISAD(G) / ISAAR(CPF) / ISDF / ISDIAH crosswalk. [`spec/mapping.md` §1.2](/spec/mapping.html) defers to it where the two agree. |
 
@@ -47,7 +47,7 @@ ICA-EGAD released [RiC-CM 1.0.1](https://github.com/ICA-EGAD/RiC-CM/releases/tag
 | Inverse relations of RiC-R080 to RiC-R086 added to the list of relations (section 5.6) | None. They were already in RiC-CM 1.0's chart and relation specifications. |
 | Typographical errors and the links in the notes corrected; sections 1.7, 1.11 and appendix 7.1 updated | None. |
 
-The navigator is to be brought up to 1.0.1; until then, where it and RiC-CM 1.0.1 differ (RiC-R079's domain), the 1.0.1 text is authoritative.
+The navigator presents 1.0.1 from reference service v0.18.12 (27 November 2026). It is read from RiC-O 1.1, so on RiC-R079 has author and its inverse it notes the wider domain and range that RiC-O 1.1 does not yet declare. Its 1.0 addresses still work, for anything that cites them.
 
 ## OpenRiC and the ICA
 

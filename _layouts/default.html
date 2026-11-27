@@ -6,6 +6,14 @@
   <title>{{ page.title | default: site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {%- comment -%} A namespace or vocabulary page names its Turtle, so a data client that lands on the HTML can find
+  the machine-readable form (GitHub Pages cannot negotiate content; identifier sweep, 27 Nov 2026). {%- endcomment -%}
+  {%- assign ttl_path = page.url | replace: '.html', '.ttl' -%}
+  {%- assign ttl_file = site.static_files | where: 'path', ttl_path | first -%}
+  {%- unless ttl_file -%}{%- assign seg = page.url | split: '/' -%}{%- if seg[1] == 'vocab' and seg.size > 3 -%}{%- assign ttl_path = '/vocab/' | append: seg[2] | append: '.ttl' -%}{%- assign ttl_file = site.static_files | where: 'path', ttl_path | first -%}{%- endif -%}{%- endunless -%}
+  {%- if ttl_file %}
+  <link rel="alternate" type="text/turtle" href="{{ ttl_path | absolute_url }}">
+  {%- endif %}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
